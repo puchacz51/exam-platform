@@ -1,0 +1,14 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true, // Tell VSCode to format files on save
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Tell VSCode to use Prettier as its default formatter
+  "css.lint.unknownAtRules": "ignore", // Tell VSCode to ignore unknown at-rules in CSS files
+  "prettier.configPath": ".prettierrc.json", // Tell VSCode to use the Prettier configuration file in the root of the project
+  "files.eol": "\n",
+  "liveServer.settings.port": 5501,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
