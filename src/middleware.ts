@@ -1,16 +1,13 @@
 import createMiddleware from 'next-intl/middleware';
 
+import { locales, pathnames } from '@/config/i18n/pathnames';
+
 export default createMiddleware({
-  locales: ['en', 'pl'],
+  locales: locales,
   defaultLocale: 'pl',
   localePrefix: 'never',
   localeDetection: true,
-  pathnames: {
-    '/': {
-      en: '/home',
-      pl: '/strona-glowna',
-    },
-  },
+  pathnames: pathnames,
 });
 
 export const config = {
