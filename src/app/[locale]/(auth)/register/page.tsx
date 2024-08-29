@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
 
-import LoginForm from '@/app/[locale]/(auth)/components/loginForm';
+import RegistrationForm from '@/app/[locale]/(auth)/components/RegisterForm';
 
 const LoginPage: NextPage = () => {
   return (
     <div>
-      <LoginForm />
+      <RegistrationForm />
     </div>
   );
 };

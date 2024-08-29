@@ -3,6 +3,8 @@
 import { FC } from 'react';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,10 +18,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-type LoginForm = {
-  email: string;
-  password: string;
-};
+const loginSchema = z.object({
+  email: z.string().email('Nieprawidłowy adres email'),
+  password: z.string().min(1, 'Hasło jest wymagane'),
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
 
 const defaultValues: LoginForm = {
   email: '',
@@ -27,7 +31,8 @@ const defaultValues: LoginForm = {
 };
 
 const LoginForm: FC = () => {
-  const form = useForm({
+  const form = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
     defaultValues,
   });
 
@@ -70,6 +75,7 @@ const LoginForm: FC = () => {
                     <FormControl>
                       <Input
                         placeholder="twoj@email.com"
+                        type="email"
                         {...field}
                       />
                     </FormControl>

@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 
-import { locales, pathnames } from '@/config/i18n/pathnames';
+import { locales, pathnames } from '@/i18n/pathnames';
 
 export default createMiddleware({
   locales: locales,
