@@ -1,1 +1,14 @@
-{}
+{
+    "email": {
+        "confirmation": {
+            "greeting": "Witaj {name}!",
+            "thankYou": "Dziękujemy za utworzenie konta w naszym serwisie.",
+            "activationInstructions": "Aby rozpocząć korzystanie z konta, prosimy o jego aktywację klikając w poniższy przycisk:",
+            "activateButton": "Aktywuj Swoje Konto",
+            "activationWarning": "Jeśli nie zakładałeś tego konta, prosimy zignorować tę wiadomość.",
+            "welcomeSubject": "Aktywuj Swoje Konto",
+            "accountCreated": "Konto utworzone i email aktywacyjny wysłany",
+            "error": "Wystąpił błąd podczas tworzenia konta lub wysyłania emaila"
+        }
+    }
+}

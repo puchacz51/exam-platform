@@ -1,1 +1,14 @@
-{}
+{
+    "email": {
+        "confirmation": {
+            "greeting": "Hello {name}!",
+            "thankYou": "Thank you for creating an account with us.",
+            "activationInstructions": "To start using your account, please activate it by clicking the button below:",
+            "activateButton": "Activate Your Account",
+            "activationWarning": "If you did not create this account, please ignore this email.",
+            "welcomeSubject": "Activate Your Account",
+            "accountCreated": "Account created and activation email sent",
+            "error": "An error occurred while creating the account or sending the email"
+        }
+    }
+}

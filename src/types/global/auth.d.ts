@@ -1,16 +1,18 @@
+import { DefaultUser } from 'next-auth';
+
 declare module 'next-auth' {
   /**
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
    */
-  interface User {
-    userID: string;
-    firstname: string;
-    lastname: string;
+  interface User extends DefaultUser {
     email: string;
+    userID: number;
+    firstname: string | null;
+    lastname: string | null;
     passwordHash: string;
-    authProvider: string;
-    createdAt: string;
+    authProvider: string | null;
+    createdAt: Date | null;
   }
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,

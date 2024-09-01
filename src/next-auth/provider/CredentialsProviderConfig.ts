@@ -1,25 +1,26 @@
 import Credentials from 'next-auth/providers/credentials';
+import { User } from 'next-auth';
 
-import db from '@/app/lib/db';
+import db from '@/lib/db';
 
 import { usersTable } from '../../../schema/users';
 
 export const credentialsProvider = Credentials({
   credentials: {
-    email: { label: 'Email', type: 'email' },
-    password: { label: 'Password', type: 'password' },
+    email: {},
+    password: {},
   },
-  async authorize(credentials, req) {
+  async authorize(credentials) {
     if (!credentials?.email || !credentials?.password) {
       throw new Error('Missing credentials');
     }
 
-    const userExists = await db.select().from(usersTable);
+    const user = await db.select().from(usersTable);
 
-    if (!userExists) {
+    if (!user) {
       throw new Error('Invalid credentials');
     }
 
-    return userExists;
+    return user as unknown as User;
   },
 });

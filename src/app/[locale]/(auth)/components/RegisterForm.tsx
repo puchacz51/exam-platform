@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signIn } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/form';
 
 import AlternativeSignUpMethods from './AlternativeSignUpMethods';
+import { registerUser } from '../../../../../acttions/account/createAccount';
 
 const registrationSchema = z
   .object({
@@ -50,11 +50,19 @@ const RegistrationForm: FC = () => {
   });
 
   const onSubmit = async (data: RegistrationForm) => {
-    signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      callbackUrl: '/dashboard',
+    const formdata = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formdata.append(key, value);
     });
+    const result = await registerUser(formdata);
+
+    if ('error' in result) {
+      form.setError('email', {
+        type: 'manual',
+        message: result.error,
+      });
+      return;
+    }
   };
 
   return (
