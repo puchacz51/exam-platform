@@ -57,10 +57,9 @@ export async function registerUser(formData: FormData) {
       .values(newUser)
       .returning();
 
-    await sendConfirmationEmail({
-      email,
+    sendConfirmationEmail({
+      ...insertedUser,
       locale: 'pl',
-      name: `${firstname} ${lastname}`,
     });
 
     return { success: true, userId: insertedUser.id };

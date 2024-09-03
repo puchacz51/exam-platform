@@ -1,4 +1,5 @@
 export const locales = ['en', 'pl'] as const;
+export const defaultLocale = 'en' as const;
 
 export const pathnames = {
   '/': '/',
@@ -9,6 +10,10 @@ export const pathnames = {
   '/register': {
     en: '/register',
     pl: '/rejestracja',
+  },
+  '/verify-email': {
+    en: '/verify-email',
+    pl: '/weryfikacja-email',
   },
 } as const;
 

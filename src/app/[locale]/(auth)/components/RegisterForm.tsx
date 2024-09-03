@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { useRouter } from '@/i18n/routing';
 
 import AlternativeSignUpMethods from './AlternativeSignUpMethods';
 import { registerUser } from '../../../../../acttions/account/createAccount';
@@ -48,6 +49,7 @@ const RegistrationForm: FC = () => {
     resolver: zodResolver(registrationSchema),
     defaultValues,
   });
+  const { push } = useRouter();
 
   const onSubmit = async (data: RegistrationForm) => {
     const formdata = new FormData();
@@ -62,6 +64,10 @@ const RegistrationForm: FC = () => {
         message: result.error,
       });
       return;
+    }
+
+    if (result.success) {
+      push({ pathname: '/verify-email', query: { email: data.email } });
     }
   };
 

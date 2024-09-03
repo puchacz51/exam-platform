@@ -1,23 +1,24 @@
 import { render } from '@react-email/render';
 
 import { mailTransporter } from '@/lib/email/tranasporter';
-
-import EmailTemplate from '../../email-templates/ConfirmationEmailTemplate';
 import { getEmailMessages } from '@/lib/email/getEmailMessages';
 
-interface SendConfirmationEmailProps {
-  email: string;
+import EmailTemplate from '../../email-templates/ConfirmationEmailTemplate';
+import { generateEmailVerificationToken } from './generateEmailVerificationToken';
+import { SelectUser } from '../../schema/users';
+
+interface SendConfirmationEmailProps extends SelectUser {
   locale: string;
-  name: string;
 }
 
 export const sendConfirmationEmail = async ({
   email,
   locale,
-  name,
+  firstname,
+  lastname,
 }: SendConfirmationEmailProps) => {
   try {
-    const token = 'test';
+    const token = await generateEmailVerificationToken(email);
     const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/confirm-email?token=${token}`;
 
     const emailMessages = await getEmailMessages(locale);
@@ -26,8 +27,9 @@ export const sendConfirmationEmail = async ({
       <EmailTemplate
         activationLink={confirmUrl}
         locale={locale}
-        name={name}
+        name={`${firstname} ${lastname}`}
         translations={emailMessages}
+        verificationCode={token}
       />,
       {
         pretty: true,

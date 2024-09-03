@@ -14,6 +14,7 @@ interface WelcomeTemplateProps {
   name: string;
   locale: string;
   activationLink: string;
+  verificationCode: string;
   translations: IntlMessages['email'];
 }
 
