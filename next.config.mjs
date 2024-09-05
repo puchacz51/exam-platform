@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import createNextIntlPlugin from 'next-intl/plugin';
 
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin('./src/i18n/i18n.ts');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: { serverComponentsExternalPackages: ['react-dom/server'] },
+};
+
+export default withNextIntl(nextConfig);
