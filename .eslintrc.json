@@ -43,11 +43,12 @@
         "pathGroups": [
           {
             "pattern": "react",
-            "group": "external",
+            "group": "builtin",
             "position": "before"
           }
         ],
-        "newlines-between": "always"
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["react"]
       }
     ],
     "jsx-quotes": ["error", "prefer-double"],

@@ -1,10 +1,12 @@
 'use client';
 
 import { FC } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
+import { registerUser } from '@actions/account/createAccount';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,9 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useRouter } from '@/i18n/routing';
-
-import AlternativeSignUpMethods from './AlternativeSignUpMethods';
-import { registerUser } from '../../../../../acttions/account/createAccount';
+import AlternativeSignUpMethods from '@/app/[locale]/(auth)/components/AlternativeSignUpMethods';
 
 const registrationSchema = z
   .object({
@@ -72,114 +72,112 @@ const RegistrationForm: FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">
-            Zarejestruj nowe konto
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-center text-2xl font-bold">
+          Zarejestruj nowe konto
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Imię</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Jan"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nazwisko</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Kowalski"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="twoj@email.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Potwierdź hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              className="w-full"
             >
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Imię</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Jan"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nazwisko</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Kowalski"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="twoj@email.com"
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hasło</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Potwierdź hasło</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="w-full"
-              >
-                Zarejestruj się
-              </Button>
-            </form>
-          </Form>
-          <AlternativeSignUpMethods />
-        </CardContent>
-      </Card>
-    </div>
+              Zarejestruj się
+            </Button>
+          </form>
+        </Form>
+        <AlternativeSignUpMethods />
+      </CardContent>
+    </Card>
   );
 };
 

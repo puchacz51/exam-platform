@@ -15,7 +15,7 @@ export const mailTransporter = nodemailer.createTransport({
 });
 
 // Test the connection
-mailTransporter.verify(function (error, success) {
+mailTransporter.verify(function (error) {
   if (error) {
     console.log('SMTP connection error:', error);
   } else {

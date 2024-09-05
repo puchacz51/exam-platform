@@ -3,11 +3,10 @@
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
+import { InsertUser, usersTable } from '@schemas/users';
+import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 
 import db from '@/lib/db';
-
-import { InsertUser, usersTable } from '../../schema/users';
-import { sendConfirmationEmail } from './sendConfirmationEmail';
 
 const registrationSchema = z.object({
   firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),

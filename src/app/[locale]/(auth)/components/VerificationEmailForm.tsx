@@ -1,9 +1,11 @@
 'use client';
 
 import React, { ChangeEvent, ClipboardEvent } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
 
+import { verifyEmailToken } from '@actions/account/verifyEmailToken';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,8 +18,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useRouter } from '@/i18n/routing';
-
-import { verifyEmailToken } from '../../../../../acttions/account/verifyEmailToken';
 
 type VerifyTokenFormData = {
   token: [string, string, string, string, string, string, string, string];

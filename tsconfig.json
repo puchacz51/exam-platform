@@ -19,8 +19,12 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/config/*": ["./config/*"],
-      "@/middlewares/*": ["./middlewares/*"]
+      "@config/*": ["./config/*"],
+      "@middlewares/*": ["./middlewares/*"],
+      "@schemas/*": ["./schemas/*"],
+      "@actions/*": ["./actions/*"],
+      "@emial-templates/*": ["./email-templates/*"],
+
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

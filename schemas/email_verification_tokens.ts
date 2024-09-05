@@ -1,6 +1,5 @@
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
-
-import { usersTable } from './users'; // Assuming the users table is in a separate file
+import { usersTable } from '@schemas/users';
 
 export const emailVerificationTokensTable = pgTable(
   'email_verification_tokens',

@@ -1,5 +1,8 @@
+import { Pathnames } from 'next-intl/routing';
+
 export const locales = ['en', 'pl'] as const;
-export const defaultLocale = 'en' as const;
+export type Locale = (typeof locales)[number];
+export const defaultLocale: Locale = 'en';
 
 export const pathnames = {
   '/': '/',
@@ -13,10 +16,6 @@ export const pathnames = {
   },
   '/verify-email': {
     en: '/verify-email',
-    pl: '/weryfikacja-email',
+    pl: '/zweryfikuj-email',
   },
-} as const;
-
-export type Locale = (typeof locales)[number];
-
-export type Pathname = keyof typeof pathnames;
+} satisfies Pathnames<typeof locales>;

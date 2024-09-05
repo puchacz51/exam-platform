@@ -1,9 +1,9 @@
-import db from '@/lib/db';
-
 import {
   emailVerificationTokensTable,
   InsertEmailVerificationToken,
-} from '../../schema/email_verification_tokens';
+} from '@schemas/email_verification_tokens';
+
+import db from '@/lib/db';
 
 const TOKEN_EXPIRATION_HOURS = 24;
 const TOKEN_LENGTH = 8;

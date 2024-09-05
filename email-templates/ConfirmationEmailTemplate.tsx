@@ -95,4 +95,5 @@ const footerStyle = {
   fontSize: '12px',
   color: '#8898aa',
 };
+
 export default EmailTemplate;

@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 
 import '@/app/[locale]/globals.css';
 import Header from '@/app/[locale]/(auth)/components/layout/Header';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,7 +13,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, 'flex min-h-screen flex-col')}>
         <Header />
         {children}
       </body>

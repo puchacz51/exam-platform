@@ -1,9 +1,8 @@
 import Credentials from 'next-auth/providers/credentials';
 import { User } from 'next-auth';
 
+import { usersTable } from '@schemas/users';
 import db from '@/lib/db';
-
-import { usersTable } from '../../../schema/users';
 
 export const credentialsProvider = Credentials({
   credentials: {

@@ -4,8 +4,8 @@ import { and, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
 
-import { emailVerificationTokensTable } from '../../schema/email_verification_tokens';
-import { usersTable } from '../../schema/users';
+import { emailVerificationTokensTable } from '../../schemas/email_verification_tokens';
+import { usersTable } from '../../schemas/users';
 
 export async function verifyEmailToken(
   token: string,
@@ -29,7 +29,6 @@ export async function verifyEmailToken(
   const verificationToken = result[0];
 
   if (verificationToken.expiresAt < new Date()) {
-    console.log('here1');
     await db
       .delete(emailVerificationTokensTable)
       .where(
@@ -41,7 +40,6 @@ export async function verifyEmailToken(
 
     return false;
   }
-  console.log('here');
   await db
     .update(usersTable)
     .set({ emailConfirmed: new Date() })
