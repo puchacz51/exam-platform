@@ -13,6 +13,8 @@ declare module 'next-auth' {
     passwordHash: string;
     authProvider: string | null;
     createdAt: Date | null;
+    emailConfirmed: Date | null;
+    profileNeedsCompletion: boolean;
   }
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,

@@ -1,4 +1,10 @@
-import { pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  pgTable,
+  serial,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -9,6 +15,9 @@ export const usersTable = pgTable('users', {
   authProvider: varchar('auth_provider', { length: 256 }),
   createdAt: timestamp('created_at'),
   emailConfirmed: timestamp('email_confirmed'),
+  profileNeedsCompletion: boolean('profile_needs_completion')
+    .notNull()
+    .default(false),
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;
