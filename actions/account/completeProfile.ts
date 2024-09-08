@@ -1,12 +1,11 @@
 'use server';
 
-import {} from 'next-auth/next';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
+import { usersTable } from '@schema/users';
 
 import db from '@/lib/db';
-import { usersTable } from '@schemas/users';
 import { auth } from '@/next-auth/auth';
 
 const profileSchema = z.object({
@@ -14,7 +13,7 @@ const profileSchema = z.object({
   lastname: z.string().min(2, 'Nazwisko musi mieć co najmniej 2 znaki'),
 });
 
-export async function completeProfile(formData: FormData) {
+export async function completeProfile(data: z.infer<typeof profileSchema>) {
   const session = await auth();
 
   if (!session) {
@@ -29,13 +28,10 @@ export async function completeProfile(formData: FormData) {
     return { error: 'Invalid session' };
   }
 
-  const validatedFields = profileSchema.safeParse({
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-  });
+  const validatedFields = profileSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return { error: 'Invalid data' };
+    return { error: validatedFields.error };
   }
 
   const { firstname, lastname } = validatedFields.data;

@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
 import EmailTemplate from '@emial-templates/ConfirmationEmailTemplate';
 import { generateEmailVerificationToken } from '@actions/account/generateEmailVerificationToken';
-import { SelectUser } from '@schemas/users';
+import { SelectUser } from '@schema/users';
 
 import { mailTransporter } from '@/lib/email/tranasporter';
 import { getEmailMessages } from '@/lib/email/getEmailMessages';

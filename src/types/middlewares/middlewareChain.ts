@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Session } from 'next-auth';
+import { Locale } from '@/i18n/pathnames';
 
 export type MiddlewareContext = {
-  req: NextRequest;
+  req: NextRequest & { auth?: Session };
   res: NextResponse | null;
-  locale: string | null;
+  locale: Locale | null;
   auth: Session | null;
 };
 

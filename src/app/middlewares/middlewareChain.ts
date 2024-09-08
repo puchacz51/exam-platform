@@ -17,10 +17,8 @@ export const chainMiddleware = (...middlewares: MiddlewareWithPattern[]) => {
     };
 
     for (const [middleware, pattern] of middlewares) {
-      // If there's no pattern, or the pattern matches the request pathname, run the middleware
       if (!pattern || pattern.test(req.nextUrl.pathname)) {
         context = await middleware(context);
-        if (context.res) return context.res; // Exit early if a response is already set
       }
     }
 

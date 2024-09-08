@@ -10,11 +10,12 @@ declare module 'next-auth' {
     userID: number;
     firstname: string | null;
     lastname: string | null;
-    passwordHash: string;
     authProvider: string | null;
     createdAt: Date | null;
     emailConfirmed: Date | null;
     profileNeedsCompletion: boolean;
+    accessToken?: string;
+    refreshToken?: string;
   }
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,
@@ -25,7 +26,11 @@ declare module 'next-auth' {
   /**
    * Returned by `useSession`, `auth`, contains information about the active session.
    */
-  interface Session {}
+  interface Session {
+    user: User & {
+      accessToken?: string;
+    };
+  }
 }
 
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
@@ -35,5 +40,17 @@ declare module 'next-auth/jwt' {
   interface JWT {
     /** OpenID ID Token */
     idToken?: string;
+    user: {
+      email: string;
+      userID: number;
+      firstname: string | null;
+      lastname: string | null;
+      authProvider: string | null;
+      profileNeedsCompletion: boolean;
+      emailConfirmed: Date | null;
+      createdAt: Date | null;
+      accessToken?: string;
+      refreshToken?: string;
+    };
   }
 }

@@ -1,9 +1,9 @@
 import Credentials from 'next-auth/providers/credentials';
 import { User } from 'next-auth';
 import { eq } from 'drizzle-orm';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import { usersTable } from '@schema/users';
 
-import { usersTable } from '@schemas/users';
 import db from '@/lib/db';
 
 export const CredentialsProvider = Credentials({
@@ -34,7 +34,16 @@ export const CredentialsProvider = Credentials({
         throw new Error('Invalid credentials');
       }
 
-      return user as unknown as User;
+      return {
+        email: user.email,
+        authProvider: user.authProvider,
+        userID: user.id,
+        profileNeedsCompletion: user.profileNeedsCompletion,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        createdAt: user.createdAt,
+        emailConfirmed: user.emailConfirmed,
+      };
     } catch (e) {
       console.log(e);
 

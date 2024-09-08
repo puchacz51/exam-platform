@@ -1,16 +1,17 @@
 import AzureAD from 'next-auth/providers/azure-ad';
 import { User } from 'next-auth';
 import { eq } from 'drizzle-orm';
+import { usersTable } from '@schema/users';
 
-import { usersTable } from '@schemas/users';
 import db from '@/lib/db';
 
 export const AzureADProvider = AzureAD({
   clientId: process.env.AZURE_AD_CLIENT_ID,
   clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
   tenantId: process.env.AZURE_AD_TENANT_ID,
-  authorization: { params: { scope: 'openid profile email' } },
-  profile: async (profile) => {
+  authorization: { params: { scope: 'openid profile email offline_access' } },
+  profile: async (profile, tokens) => {
+
     const email = profile.email ?? profile.preferred_username;
     const [existingUser] = await db
       .select()
@@ -19,19 +20,43 @@ export const AzureADProvider = AzureAD({
       .execute();
 
     if (!existingUser) {
-      const newUser = await db
+      const [newUser] = await db
         .insert(usersTable)
         .values({
           email: email,
           passwordHash: '',
           profileNeedsCompletion: true,
+          authProvider: 'azure-ad',
+          emailConfirmed: new Date(),
         })
         .returning()
         .execute();
 
-      return { ...newUser[0], profileNeedsCompletion: true } as unknown as User;
+      return {
+        authProvider: 'azure-ad',
+        createdAt: newUser.createdAt,
+        emailConfirmed: newUser.emailConfirmed,
+        email: newUser.email,
+        firstname: '',
+        lastname: '',
+        profileNeedsCompletion: newUser.profileNeedsCompletion,
+        userID: newUser.id,
+        accessToken: tokens['access_token'] as string,
+        refreshToken: tokens['refresh_token'] as string,
+      };
     }
 
-    return existingUser as unknown as User;
+    return {
+      authProvider: 'azure-ad',
+      createdAt: existingUser.createdAt,
+      emailConfirmed: existingUser.emailConfirmed,
+      email: existingUser.email,
+      firstname: existingUser.firstname,
+      lastname: existingUser.lastname,
+      profileNeedsCompletion: existingUser.profileNeedsCompletion,
+      userID: existingUser.id,
+      accessToken: tokens['access_token'] as string,
+      refreshToken: tokens['refresh_token'] as string,
+    };
   },
 });

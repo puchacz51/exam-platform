@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 
-import { locales, pathnames } from '@/i18n/pathnames';
+import { Locale, locales, pathnames } from '@/i18n/pathnames';
 import {
   Middleware,
   MiddlewareContext,
@@ -16,8 +16,15 @@ const createNextIntlMiddleware = (): Middleware => {
   });
 
   return async (context: MiddlewareContext) => {
-    const res = await intlMiddleware(context.req);
-    return { ...context, res, locale: res.headers.get('x-next-intl-locale') };
+    const res = intlMiddleware(context.req);
+    const locale = res.headers.get(
+      'x-middleware-request-x-next-intl-locale'
+    ) as Locale;
+    return {
+      ...context,
+      res,
+      locale,
+    };
   };
 };
 

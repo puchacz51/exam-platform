@@ -1,7 +1,7 @@
 import {
   emailVerificationTokensTable,
   InsertEmailVerificationToken,
-} from '@schemas/email_verification_tokens';
+} from '@schema/email_verification_tokens';
 
 import db from '@/lib/db';
 

@@ -1,11 +1,11 @@
 'use server';
 
 import { z } from 'zod';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
-import { InsertUser, usersTable } from '@schemas/users';
-import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
+import { InsertUser, usersTable } from '@schema/users';
 
+import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 import db from '@/lib/db';
 
 const registrationSchema = z.object({

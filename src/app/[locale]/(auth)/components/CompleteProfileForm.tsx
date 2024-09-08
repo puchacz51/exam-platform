@@ -1,10 +1,11 @@
+'use client';
+
 import { FC } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,11 +17,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { completeProfile } from '@actions/account/completeProfile';
+import { useRouter } from '@/i18n/routing';
 
 const profileSchema = z.object({
-  firstName: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
-  lastName: z.string().min(2, 'Nazwisko musi mieć co najmniej 2 znaki'),
-  // Dodaj więcej pól według potrzeb
+  firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
+  lastname: z.string().min(2, 'Nazwisko musi mieć co najmniej 2 znaki'),
 });
 
 type ProfileForm = z.infer<typeof profileSchema>;
@@ -31,26 +33,16 @@ const CompleteProfileForm: FC = () => {
   const form = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: session?.user?.lastname ?? '',
-      lastName: session?.user?.firstname ?? '',
+      firstname: session?.user?.lastname ?? '',
+      lastname: session?.user?.firstname ?? '',
     },
   });
 
   const onSubmit = async (data: ProfileForm) => {
     try {
-      const response = await fetch('/api/complete-profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        await update({ profileNeedsCompletion: false });
-        router.push('/dashboard');
-        return;
-      }
-
-      console.error('Failed to update profile');
+      await completeProfile(data);
+      await update({ trigger: 'update' });
+      router.replace('/');
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -64,7 +56,7 @@ const CompleteProfileForm: FC = () => {
       >
         <FormField
           control={form.control}
-          name="firstName"
+          name="firstname"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Imię</FormLabel>
@@ -80,7 +72,7 @@ const CompleteProfileForm: FC = () => {
         />
         <FormField
           control={form.control}
-          name="lastName"
+          name="lastname"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nazwisko</FormLabel>
