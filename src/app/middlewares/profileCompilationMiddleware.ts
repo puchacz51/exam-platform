@@ -9,10 +9,16 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
     href: '/complete-registration',
   });
 
-  if (!context.auth?.user?.profileNeedsCompletion) return context;
+//   if (!context.auth?.user?.profileNeedsCompletion) {
+//     if (context.req.nextUrl.pathname.endsWith(completeProfileUrl)) {
+//       const url = context.req.nextUrl.clone();
+//       url.pathname = '/';
+//       return { ...context, res: NextResponse.redirect(url) };
+//     }
+//     return context;
+//   }
 
-  if (context.req.nextUrl.pathname.endsWith(completeProfileUrl))
-    return context;
+  if (context.req.nextUrl.pathname.endsWith(completeProfileUrl)) return context;
 
   const url = context.req.nextUrl.clone();
 

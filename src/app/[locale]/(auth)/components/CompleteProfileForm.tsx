@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { completeProfile } from '@actions/account/completeProfile';
 import { useRouter } from '@/i18n/routing';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const profileSchema = z.object({
   firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
@@ -49,46 +50,55 @@ const CompleteProfileForm: FC = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
-        <FormField
-          control={form.control}
-          name="firstname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Imię</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Jan"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lastname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nazwisko</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Kowalski"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Zaktualizuj profil</Button>
-      </form>
-    </Form>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-center text-2xl font-bold">
+          Uzupełnij profil
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="firstname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Imię</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Jan"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nazwisko</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Kowalski"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Zaktualizuj profil</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 

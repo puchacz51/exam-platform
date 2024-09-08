@@ -1,5 +1,4 @@
 import Credentials from 'next-auth/providers/credentials';
-import { User } from 'next-auth';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import { usersTable } from '@schema/users';

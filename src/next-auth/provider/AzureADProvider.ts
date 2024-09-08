@@ -1,5 +1,4 @@
 import AzureAD from 'next-auth/providers/azure-ad';
-import { User } from 'next-auth';
 import { eq } from 'drizzle-orm';
 import { usersTable } from '@schema/users';
 

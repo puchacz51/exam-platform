@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import CompleteProfileForm from '../components/CompleteProfileForm';
+import CompleteProfileForm from '@/app/[locale]/(auth)/components/CompleteProfileForm';
 
 const CompleteRegistrationPage: NextPage = () => {
   return (
