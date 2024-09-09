@@ -18,4 +18,11 @@ export const pathnames = {
     en: '/verify-email',
     pl: '/zweryfikuj-email',
   },
+  '/complete-registration': {
+    en: '/complete-registration',
+    pl: '/zakoncz-rejestracje',
+  },
 } satisfies Pathnames<typeof locales>;
+
+export type Pathname = keyof typeof pathnames;
+export type Path = (typeof pathnames)[Pathname][];

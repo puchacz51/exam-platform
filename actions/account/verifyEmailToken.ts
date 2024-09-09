@@ -3,9 +3,8 @@
 import { and, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-
-import { emailVerificationTokensTable } from '../../schemas/email_verification_tokens';
-import { usersTable } from '../../schemas/users';
+import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
+import { usersTable } from '@schema/users';
 
 export async function verifyEmailToken(
   token: string,

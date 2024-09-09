@@ -1,5 +1,5 @@
 import { pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
-import { usersTable } from '@schemas/users';
+import { usersTable } from '@schema/users';
 
 export const emailVerificationTokensTable = pgTable(
   'email_verification_tokens',
@@ -7,7 +7,7 @@ export const emailVerificationTokensTable = pgTable(
     token: varchar('token', { length: 64 }).primaryKey(),
     userEmail: varchar('user_email')
       .notNull()
-      .references(() => usersTable.id),
+      .references(() => usersTable.email),
     expiresAt: timestamp('expires_at').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   }
