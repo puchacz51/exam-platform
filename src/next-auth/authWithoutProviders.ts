@@ -8,7 +8,7 @@ export const authConfigWithProviders: NextAuthConfig = {
     error: '/auth/error',
   },
   callbacks: {
-    async session({ session, token, trigger }) {
+    async session({ session, token }) {
       if (token) {
         session.user = {
           authProvider: token.user.authProvider,

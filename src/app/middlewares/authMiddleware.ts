@@ -1,6 +1,7 @@
+import NextAuth from 'next-auth';
+
 import { authConfigWithProviders } from '@/next-auth/authWithoutProviders';
 import { Middleware } from '@/types/middlewares/middlewareChain';
-import NextAuth from 'next-auth';
 
 const { auth } = NextAuth(authConfigWithProviders);
 

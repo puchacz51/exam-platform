@@ -1,8 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { usePathname } from '@/i18n/routing';
+import { cn } from '@/lib/utils';
 
 const AuthHeader = () => {
+  const pathname = usePathname();
   return (
     <header className="bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -19,12 +24,14 @@ const AuthHeader = () => {
             <Button
               variant="ghost"
               asChild
+              className={cn('hidden', pathname === '/register' && 'block')}
             >
               <Link href="/login">Logowanie</Link>
             </Button>
             <Button
               variant="ghost"
               asChild
+              className={cn('hidden', pathname === '/login' && 'block')}
             >
               <Link href="/register">Rejestracja</Link>
             </Button>
