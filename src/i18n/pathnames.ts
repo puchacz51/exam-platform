@@ -22,6 +22,10 @@ export const pathnames = {
     en: '/complete-registration',
     pl: '/zakoncz-rejestracje',
   },
+  '/dashboard': {
+    en: '/dashboard',
+    pl: '/panel',
+  },
 } satisfies Pathnames<typeof locales>;
 
 export type Pathname = keyof typeof pathnames;
