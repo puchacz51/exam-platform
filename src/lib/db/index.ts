@@ -1,5 +1,6 @@
 import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+
 import { schema } from '@schema/index';
 
 const { DATABASE_URL = '' } = process.env;

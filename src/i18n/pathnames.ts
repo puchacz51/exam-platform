@@ -4,8 +4,7 @@ export const locales = ['en', 'pl'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
-export const pathnames = {
-  '/': '/',
+const authPathnames = {
   '/login': {
     en: '/login',
     pl: '/logowanie',
@@ -22,10 +21,27 @@ export const pathnames = {
     en: '/complete-registration',
     pl: '/zakoncz-rejestracje',
   },
+} as const;
+
+const dashboardPathnames = {
   '/dashboard': {
     en: '/dashboard',
     pl: '/panel',
   },
+  '/test-creator': {
+    en: '/test-creator',
+    pl: '/tworzenie-testu',
+  },
+} as const;
+
+const publicPathnames = {
+  '/': '/',
+} as const;
+
+export const pathnames = {
+  ...authPathnames,
+  ...dashboardPathnames,
+  ...publicPathnames,
 } satisfies Pathnames<typeof locales>;
 
 export type Pathname = keyof typeof pathnames;

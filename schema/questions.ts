@@ -6,6 +6,7 @@ import {
   serial,
   text,
 } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
 import { questionGroupsTable } from './questionGroups';
 import { categoriesTable } from './categories';
@@ -28,6 +29,10 @@ export const questionsTable = pgTable('questions', {
   isPublic: boolean('is_public'),
   categoryID: integer('category_id').references(() => categoriesTable.id),
 });
+
+export const questionRelations = relations(questionsTable, ({ many }) => ({
+  questions: many(questionsTable),
+}));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;
 export type SelectQuestion = typeof questionsTable.$inferSelect;
