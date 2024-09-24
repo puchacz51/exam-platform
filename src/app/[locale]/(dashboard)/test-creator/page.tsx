@@ -2,8 +2,8 @@ import { NextPage } from 'next';
 
 import { getTestConfiguration } from '@actions/test/getTestConfiguration';
 
-import TestCreatorForm from './components/TestCreatorTestForm';
 import TestContextProvider from './store/storeContext';
+import TestCreator from './components/TestCreator';
 
 const TestCreatorPage: NextPage = async () => {
   const testConfigurationData = await getTestConfiguration();
@@ -13,7 +13,7 @@ const TestCreatorPage: NextPage = async () => {
       <TestContextProvider
         initProps={{ testConfiguration: testConfigurationData }}
       >
-        <TestCreatorForm />
+        <TestCreator />
       </TestContextProvider>
     </div>
   );

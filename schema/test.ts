@@ -7,11 +7,9 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
 
 import { usersTable } from './users';
 import { categoriesTable } from './categories';
-import { questionsTable } from './questions';
 
 export const accessTypeEnum = pgEnum('access_type', [
   'public',
@@ -33,17 +31,17 @@ export const testsTable = pgTable('tests', {
   createdAt: timestamp('created_at'),
 });
 
-export const testsRelations = relations(testsTable, ({ many, one }) => ({
-  questions: many(questionsTable),
-  creator: one(usersTable, {
-    fields: [testsTable.creatorID],
-    references: [usersTable.id],
-  }),
-  category: one(categoriesTable, {
-    fields: [testsTable.categoryID],
-    references: [categoriesTable.id],
-  }),
-}));
+// export const testsRelations = relations(testsTable, ({ many, one }) => ({
+//   questionsGroups: many(questionGroupsTable),
+//   creator: one(usersTable, {
+//     fields: [testsTable.creatorID],
+//     references: [usersTable.id],
+//   }),
+//   category: one(categoriesTable, {
+//     fields: [testsTable.categoryID],
+//     references: [categoriesTable.id],
+//   }),
+// }));
 
 export type InsertTest = typeof testsTable.$inferInsert;
 export type SelectTest = typeof testsTable.$inferSelect;

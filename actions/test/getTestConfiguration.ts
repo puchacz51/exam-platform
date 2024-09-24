@@ -1,10 +1,8 @@
 import db from '@/lib/db';
 import { categoriesTable, SelectCategory } from '@schema/categories';
-import { questionTypesTable, SelectQuestionType } from '@schema/questionTypes';
 
 export async function getTestConfiguration() {
   try {
-    // Pobierz kategorie
     const categories = await db
       .select({
         id: categoriesTable.id,
@@ -13,17 +11,8 @@ export async function getTestConfiguration() {
       })
       .from(categoriesTable);
 
-    const questionTypes = await db
-      .select({
-        id: questionTypesTable.id,
-        name: questionTypesTable.name,
-        description: questionTypesTable.description,
-      })
-      .from(questionTypesTable);
-
     return {
       categories,
-      questionTypes,
     };
   } catch (error) {
     console.error('Błąd podczas pobierania danych testu:', error);
@@ -33,5 +22,4 @@ export async function getTestConfiguration() {
 
 export interface TestConfiguration {
   categories: SelectCategory[];
-  questionTypes: SelectQuestionType[];
 }
