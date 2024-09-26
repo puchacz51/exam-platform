@@ -13,12 +13,12 @@ import { categoriesTable } from './categories';
 import { answersTable } from './answers';
 
 export const questionTypeEnum = pgEnum('question_type', [
-  'open',
-  'closed',
-  'scale',
-  'matrix',
-  'order',
-  'boolean',
+  'OPEN',
+  'SINGLE_CHOICE',
+  'MULTIPLE_CHOICE',
+  'ORDER',
+  'BOOLEAN',
+  'NUMERIC',
 ]);
 
 export const questionsTable = pgTable('questions', {

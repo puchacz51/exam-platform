@@ -2,6 +2,7 @@ import { integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from './test';
+import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: serial('id').primaryKey(),
@@ -17,7 +18,7 @@ export const questionGroupRelations = relations(
       fields: [questionGroupsTable.testID],
       references: [testsTable.id],
     }),
-    questions: many(questionGroupsTable),
+    questions: many(questionsTable),
   })
 );
 
