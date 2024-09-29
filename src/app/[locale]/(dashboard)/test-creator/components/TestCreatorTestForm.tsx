@@ -1,9 +1,9 @@
-'use client';
-import React, { FC } from 'react';
+import React, { FC, HTMLAttributes } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +25,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { accessTypeEnum } from '@schema/test';
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 import { useTestContext } from '../store/storeContext';
 
@@ -35,7 +37,7 @@ const formSchema = z.object({
     .max(256, 'Tytuł musi mieć maksymalnie 256 znaków'),
   description: z.string().optional(),
   categoryId: z.string().min(1, 'Kategoria jest wymagana'),
-  accessType: z.string(),
+  accessType: z.enum(accessTypeEnum.enumValues),
   accessCode: z
     .string()
     .optional()
@@ -52,168 +54,196 @@ const formSchema = z.object({
     ),
 });
 
-interface TestCreatorFormProps {
-  onSubmit: (data: z.infer<typeof formSchema>) => void;
-}
+export type TestFormData = z.infer<typeof formSchema>;
 
-const TestCreatorForm: FC<TestCreatorFormProps> = ({ onSubmit }) => {
+interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
+
+const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const { categories } = useTestContext((state) => state.testConfiguration);
-  const form = useForm({
+  const setTest = useTestContext((state) => state.setTest);
+  const openQuestion = useTestContext((state) => state.openQuestion);
+  const isTestConfiguratorOpen = useTestContext(
+    (state) => state.isTestConfiguratorOpen
+  );
+  const setTestConfiguratorOpen = useTestContext(
+    (state) => state.setIsTestConfiguratorOpen
+  );
+  const setIsQuestionConfiguratorOpen = useTestContext(
+    (state) => state.setIsQuestionConfiguratorOpen
+  );
+  const form = useForm<TestFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      categoryId: '',
-      accessType: 'public',
+      title: 'test',
+      description: 'test test',
+      categoryId: '2',
+      accessType: 'PUBLIC',
       accessCode: '',
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    onSubmit(data);
+  const handleSubmit = (data: TestFormData) => {
+    setTest(data);
+    openQuestion();
+    setTestConfiguratorOpen(false);
+    setIsQuestionConfiguratorOpen(true);
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tytuł testu</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Wprowadź tytuł testu"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>To jest tytuł twojego testu.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <Card className={cn('p-4', className)}>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Formularz tworzenia testu</h2>
+        <Button
+          onClick={() => setTestConfiguratorOpen(!isTestConfiguratorOpen)}
+          variant="ghost"
+          size="sm"
+        >
+          {isTestConfiguratorOpen ? <ChevronUp /> : <ChevronDown />}
+        </Button>
+      </div>
+      {isTestConfiguratorOpen && (
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-8"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tytuł testu</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Wprowadź tytuł testu"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    To jest tytuł twojego testu.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Opis</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Wprowadź opis testu"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Podaj krótki opis twojego testu.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Opis</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Wprowadź opis testu"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Podaj krótki opis twojego testu.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Kategoria</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Wybierz kategorię" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem
-                      key={category.id}
-                      value={category.id.toString()}
-                    >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                Wybierz kategorię dla swojego testu.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kategoria</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Wybierz kategorię" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={category.id.toString()}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Wybierz kategorię dla swojego testu.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="accessType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Typ dostępu</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={
-                  field.value as (typeof accessTypeEnum.enumValues)[0]
-                }
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Wybierz typ dostępu" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {accessTypeEnum.enumValues.map((type) => (
-                    <SelectItem
-                      key={type}
-                      value={type}
-                    >
-                      {type}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                Wybierz, w jaki sposób użytkownicy mogą uzyskać dostęp do
-                twojego testu.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="accessType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Typ dostępu</FormLabel>
+                  <Select
+                    onValueChange={field.onChange as (value: string) => void}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Wybierz typ dostępu" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {accessTypeEnum.enumValues.map((type) => (
+                        <SelectItem
+                          key={type}
+                          value={type}
+                        >
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Wybierz, w jaki sposób użytkownicy mogą uzyskać dostęp do
+                    twojego testu.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {form.watch('accessType') === 'code' && (
-          <FormField
-            control={form.control}
-            name="accessCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kod dostępu</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Wprowadź kod dostępu"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Podaj kod dostępu do twojego testu.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
+            {form.watch('accessType') === 'CODE' && (
+              <FormField
+                control={form.control}
+                name="accessCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kod dostępu</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Wprowadź kod dostępu"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Podaj kod dostępu do twojego testu.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
-          />
-        )}
 
-        <Button type="submit">Utwórz test</Button>
-      </form>
-    </Form>
+            <Button type="submit">Utwórz test</Button>
+          </form>
+        </Form>
+      )}
+    </Card>
   );
 };
 

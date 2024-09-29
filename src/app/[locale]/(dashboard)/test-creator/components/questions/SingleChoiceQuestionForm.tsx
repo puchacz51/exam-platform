@@ -18,20 +18,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
 
-const singleChoiceSchema = z.object({
-  text: z.string().min(1, 'Treść pytania jest wymagana'),
-  answers: z
-    .array(
-      z.object({
-        text: z.string().min(1, 'Treść odpowiedzi jest wymagana'),
-      })
-    )
-    .min(2, 'Wymagane są co najmniej dwie odpowiedzi'),
-  correctAnswerIndex: z.number().min(0, 'Wybierz poprawną odpowiedź'),
-});
+import { useTestContext } from '../../store/storeContext';
+import { QuestionType } from './TestCreatorQuestionsForm';
 
 export const SingleChoiceQuestionForm = () => {
-  const form = useFormContext();
+  const addQuestion = useTestContext((state) => state.addQuestion);
+  const form = useFormContext<QuestionType>();
   const { control, handleSubmit } = form;
 
   const { fields, append, remove } = useFieldArray({
@@ -39,8 +31,21 @@ export const SingleChoiceQuestionForm = () => {
     name: 'answers',
   });
 
-  const saveQuestion = (data) => {
-    console.log(data);
+  const saveQuestion = (data: QuestionType) => {
+    const correctAnswerId = data.correctAnswerIndex;
+    
+    if (typeof correctAnswerId === 'number') {
+      const answers = data.answers.map((answer, index) => ({
+        ...answer,
+        isCorrect: index === correctAnswerId,
+      }));
+      const formattedQuestion = {
+        ...data,
+        answers,
+      };
+      addQuestion(formattedQuestion);
+      form.reset();
+    }
   };
 
   return (
@@ -70,7 +75,6 @@ export const SingleChoiceQuestionForm = () => {
             />
           </CardContent>
         </Card>
-
         <Card>
           <CardContent className="pt-6">
             <FormLabel className="mb-4 block">Odpowiedzi</FormLabel>

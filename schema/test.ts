@@ -12,9 +12,9 @@ import { usersTable } from './users';
 import { categoriesTable } from './categories';
 
 export const accessTypeEnum = pgEnum('access_type', [
-  'public',
-  'code',
-  'restricted',
+  'PUBLIC',
+  'CODE',
+  'RESTRICTED',
 ]);
 
 export type TestAccessType =
