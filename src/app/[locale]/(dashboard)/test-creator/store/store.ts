@@ -9,42 +9,64 @@ import { TestConfiguration } from '@actions/test/getTestConfiguration';
 export type TestCreatorQuestion = InsertQuestion & {
   answers: Omit<InsertAnswer, 'questionID'>[];
 };
-type Test = InsertTest & { questions: TestCreatorQuestion[] };
+
+export type QuestionGroup = {
+  id: string;
+  name: string;
+  order: number;
+  maxQuestionPerPage: number;
+  questions: TestCreatorQuestion[];
+};
+
+type Test = InsertTest;
 
 export interface TestProps {
   testConfiguration: TestConfiguration;
   test: Test;
+  questionGroups: QuestionGroup[];
   currentQuestion: TestCreatorQuestion | null | EmptyObject;
+  currentQuestionGroup: QuestionGroup | null;
   isTestConfiguratorOpen: boolean;
   isQuestionConfiguratorOpen: boolean;
+  isQuestionGroupConfiguratorOpen: boolean;
 }
 
 export interface TestState extends TestProps {
   setTest: (test: Omit<Test, 'questions'>) => void;
-  addQuestion: (question: TestCreatorQuestion) => void;
+  addQuestionGroup: (group: Omit<QuestionGroup, 'questions'>) => void;
+  updateQuestionGroup: (groupId: string, group: Partial<QuestionGroup>) => void;
+  removeQuestionGroup: (groupId: string) => void;
+  addQuestion: (groupId: string, question: TestCreatorQuestion) => void;
   updateQuestion: (
-    index: number,
+    groupId: string,
+    questionId: string,
     question: Partial<TestCreatorQuestion>
   ) => void;
-  removeQuestion: (index: number) => void;
+  removeQuestion: (groupId: string, questionId: string) => void;
   resetTest: () => void;
   openQuestion: () => void;
   setIsTestConfiguratorOpen: (isOpen: boolean) => void;
   setIsQuestionConfiguratorOpen: (isOpen: boolean) => void;
+  setIsQuestionGroupConfiguratorOpen: (isOpen: boolean) => void;
+  setCurrentQuestion: (groupId: string, questionId: string) => void;
+  setCurrentQuestionGroup: (groupId: string) => void;
 }
 
 const DEFAULT_PROPS: TestProps = {
   testConfiguration: { categories: [] },
   test: {
+    id: '',
     title: '',
     description: '',
     categoryID: null,
     accessType: 'PUBLIC',
-    questions: [],
   },
+  questionGroups: [],
   currentQuestion: null,
+  currentQuestionGroup: null,
   isTestConfiguratorOpen: true,
   isQuestionConfiguratorOpen: false,
+  isQuestionGroupConfiguratorOpen: false,
 };
 
 const createTestStore = (initProps: Partial<TestProps> = {}) =>
@@ -58,32 +80,72 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
           ...newTestData,
         },
       })),
-    addQuestion: (question) =>
+    addQuestionGroup: (group) =>
       set((state) => ({
-        test: { ...state.test, questions: [...state.test.questions, question] },
+        questionGroups: [...state.questionGroups, { ...group, questions: [] }],
       })),
-    updateQuestion: (index, question) =>
+    updateQuestionGroup: (groupId, group) =>
       set((state) => ({
-        test: {
-          ...state.test,
-          questions: state.test.questions.map((q, i) =>
-            i === index ? { ...q, ...question } : q
-          ),
-        },
+        questionGroups: state.questionGroups.map((g) =>
+          g.id === groupId ? { ...g, ...group } : g
+        ),
       })),
-    removeQuestion: (index) =>
+    removeQuestionGroup: (groupId) =>
       set((state) => ({
-        test: {
-          ...state.test,
-          questions: state.test.questions.filter((_, i) => i !== index),
-        },
+        questionGroups: state.questionGroups.filter((g) => g.id !== groupId),
       })),
-    resetTest: () => set({ test: DEFAULT_PROPS.test }),
+    addQuestion: (groupId, question) =>
+      set((state) => ({
+        questionGroups: state.questionGroups.map((g) =>
+          g.id === groupId ? { ...g, questions: [...g.questions, question] } : g
+        ),
+      })),
+    updateQuestion: (groupId, questionId, question) =>
+      set((state) => ({
+        questionGroups: state.questionGroups.map((g) =>
+          g.id === groupId
+            ? {
+                ...g,
+                questions: g.questions.map((q) =>
+                  q.id === questionId ? { ...q, ...question } : q
+                ),
+              }
+            : g
+        ),
+      })),
+    removeQuestion: (groupId, questionId) =>
+      set((state) => ({
+        questionGroups: state.questionGroups.map((g) =>
+          g.id === groupId
+            ? {
+                ...g,
+                questions: g.questions.filter((q) => q.id !== questionId),
+              }
+            : g
+        ),
+      })),
+    resetTest: () => set({ test: DEFAULT_PROPS.test, questionGroups: [] }),
     openQuestion: () => set({ currentQuestion: {} }),
     setIsTestConfiguratorOpen: (isOpen) =>
       set({ isTestConfiguratorOpen: isOpen }),
     setIsQuestionConfiguratorOpen: (isOpen) =>
       set({ isQuestionConfiguratorOpen: isOpen }),
+    setIsQuestionGroupConfiguratorOpen: (isOpen) =>
+      set({ isQuestionGroupConfiguratorOpen: isOpen }),
+    setCurrentQuestion: (groupId, questionId) =>
+      set((state) => ({
+        currentQuestion:
+          state.questionGroups
+            .find((g) => g.id === groupId)
+            ?.questions.find((q) => q.id === questionId) || null,
+        currentQuestionGroup:
+          state.questionGroups.find((g) => g.id === groupId) || null,
+      })),
+    setCurrentQuestionGroup: (groupId) =>
+      set((state) => ({
+        currentQuestionGroup:
+          state.questionGroups.find((g) => g.id === groupId) || null,
+      })),
   }));
 
 export type TestStore = ReturnType<typeof createTestStore>;

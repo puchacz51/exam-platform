@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import * as z from 'zod';
 import { Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -30,10 +29,11 @@ export const SingleChoiceQuestionForm = () => {
     control: control,
     name: 'answers',
   });
+  console.log(form.formState.errors);
 
   const saveQuestion = (data: QuestionType) => {
     const correctAnswerId = data.correctAnswerIndex;
-    
+    console.log(data);
     if (typeof correctAnswerId === 'number') {
       const answers = data.answers.map((answer, index) => ({
         ...answer,
@@ -43,6 +43,7 @@ export const SingleChoiceQuestionForm = () => {
         ...data,
         answers,
       };
+
       addQuestion(formattedQuestion);
       form.reset();
     }
@@ -54,27 +55,23 @@ export const SingleChoiceQuestionForm = () => {
         onSubmit={handleSubmit(saveQuestion)}
         className="space-y-6"
       >
-        <Card>
-          <CardContent className="pt-6">
-            <FormField
-              control={control}
-              name="text"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Treść pytania</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Wprowadź treść pytania"
-                      className="min-h-[100px]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+        <FormField
+          control={control}
+          name="text"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Treść pytania</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  placeholder="Wprowadź treść pytania"
+                  className="min-h-[100px]"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Card>
           <CardContent className="pt-6">
             <FormLabel className="mb-4 block">Odpowiedzi</FormLabel>
@@ -140,13 +137,6 @@ export const SingleChoiceQuestionForm = () => {
             </Button>
           </CardContent>
         </Card>
-
-        <Button
-          type="submit"
-          className="w-full"
-        >
-          Zapisz pytanie
-        </Button>
       </form>
     </Form>
   );

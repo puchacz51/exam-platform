@@ -1,6 +1,8 @@
 'use client';
 import React, { FC, HTMLAttributes } from 'react';
 
+import { randomUUID } from 'crypto';
+
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -36,7 +39,7 @@ const questionTypeSchema = z.object({
   text: z.string().nonempty(),
   questionType: z.enum(questionTypeEnum.enumValues),
   isPublic: z.boolean(),
-  categoryID: z.number().nullable(),
+  categoryId: z.string().min(1, 'Kategoria jest wymagana'),
   answers: z
     .array(
       z.object({
@@ -45,7 +48,7 @@ const questionTypeSchema = z.object({
       })
     )
     .min(2, 'Wymagane są co najmniej dwie odpowiedzi'),
-    correctAnswerIndex: z.number().optional(),
+  correctAnswerIndex: z.number().optional(),
 });
 export type QuestionType = z.infer<typeof questionTypeSchema>;
 
@@ -62,6 +65,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     (state) => state.setIsQuestionConfiguratorOpen
   );
   const addQuestion = useTestContext((state) => state.addQuestion);
+  const { categories } = useTestContext((state) => state.testConfiguration);
   const form = useForm<QuestionType>({
     resolver: zodResolver(questionTypeSchema),
     defaultValues: {
@@ -75,7 +79,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   const handleQuestionTypeSubmit = (
     data: z.infer<typeof questionTypeSchema>
   ) => {
-    addQuestion(data);
+    const questionId = randomUUID();
+    const questionWithId = {
+      ...data,
+      id: questionId,
+    };
+    addQuestion(questionWithId);
     form.reset();
   };
 
@@ -161,13 +170,54 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="categoryId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kategoria</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Wybierz kategorię" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem
+                            key={category.id}
+                            value={category.id.toString()}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Wybierz kategorię dla swojego testu.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {questionType && (
+                <div className="mt-6">
+                  <FormProvider {...form}>
+                    {<SelectedQuestionForm />}
+                  </FormProvider>
+                </div>
+              )}
             </form>
+            <Button
+              type="submit"
+              className="w-full"
+            >
+              Zapisz pytanie
+            </Button>
           </Form>
-          {questionType && (
-            <div className="mt-6">
-              <FormProvider {...form}>{<SelectedQuestionForm />}</FormProvider>
-            </div>
-          )}
         </>
       )}
     </Card>

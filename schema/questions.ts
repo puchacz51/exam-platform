@@ -3,14 +3,15 @@ import {
   integer,
   pgEnum,
   pgTable,
-  serial,
   text,
+  uuid,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { questionGroupsTable } from './questionGroups';
 import { categoriesTable } from './categories';
 import { answersTable } from './answers';
+import { questionOnQuestionGroup } from './questionOnQuestionGroup';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',
@@ -22,25 +23,26 @@ export const questionTypeEnum = pgEnum('question_type', [
 ]);
 
 export const questionsTable = pgTable('questions', {
-  id: serial('id').primaryKey(),
-  groupID: integer('group_id').references(() => questionGroupsTable.id),
+  id: uuid('id').primaryKey(),
+  groupId: integer('group_id').references(() => questionGroupsTable.id),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),
   order: integer('order'),
   isPublic: boolean('is_public').default(false),
-  categoryID: integer('category_id').references(() => categoriesTable.id),
+  categoryId: integer('category_id').references(() => categoriesTable.id),
 });
 
 export const questionRelations = relations(questionsTable, ({ one, many }) => ({
   group: one(questionGroupsTable, {
-    fields: [questionsTable.groupID],
+    fields: [questionsTable.groupId],
     references: [questionGroupsTable.id],
   }),
   category: one(categoriesTable, {
-    fields: [questionsTable.categoryID],
+    fields: [questionsTable.categoryId],
     references: [categoriesTable.id],
   }),
   answers: many(answersTable),
+  questionOnQuestionGroup: many(questionOnQuestionGroup),
 }));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;

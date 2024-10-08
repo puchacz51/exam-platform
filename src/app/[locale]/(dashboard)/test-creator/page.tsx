@@ -11,7 +11,16 @@ const TestCreatorPage: NextPage = async () => {
   return (
     <div>
       <TestContextProvider
-        initProps={{ testConfiguration: testConfigurationData }}
+        initProps={{
+          testConfiguration: testConfigurationData,
+          test: {
+            title: 'test',
+            description: 'test test',
+            categoryId: '2',
+            accessType: 'PUBLIC',
+            accessCode: '',
+          },
+        }}
       >
         <TestCreator />
       </TestContextProvider>

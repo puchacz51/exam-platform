@@ -2,9 +2,9 @@ import {
   integer,
   pgEnum,
   pgTable,
-  serial,
   text,
   timestamp,
+  uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
 
@@ -21,11 +21,11 @@ export type TestAccessType =
   (typeof accessTypeEnum)[keyof typeof accessTypeEnum];
 
 export const testsTable = pgTable('tests', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey(),
   title: varchar('title', { length: 256 }),
   description: text('description'),
-  creatorID: integer('creator_id').references(() => usersTable.id),
-  categoryID: integer('category_id').references(() => categoriesTable.id),
+  creatorId: integer('creator_id').references(() => usersTable.id),
+  categoryId: integer('category_id').references(() => categoriesTable.id),
   accessType: accessTypeEnum('access_type').notNull(),
   accessCode: varchar('access_code', { length: 20 }),
   createdAt: timestamp('created_at'),

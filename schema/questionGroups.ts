@@ -1,21 +1,22 @@
-import { integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from './test';
 import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
-  id: serial('id').primaryKey(),
-  testID: integer('test_id').references(() => testsTable.id),
+  id: uuid('id').primaryKey(),
+  testId: integer('test_id').references(() => testsTable.id),
   name: varchar('name', { length: 256 }),
   order: integer('order'),
+  maxQuestionPerPage: integer('max_question_per_page'),
 });
 
 export const questionGroupRelations = relations(
   questionGroupsTable,
   ({ one, many }) => ({
     test: one(testsTable, {
-      fields: [questionGroupsTable.testID],
+      fields: [questionGroupsTable.testId],
       references: [testsTable.id],
     }),
     questions: many(questionsTable),
