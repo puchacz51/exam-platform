@@ -4,7 +4,7 @@ import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { questionsTable } from './questions';
 
 export const categoriesTable = pgTable('categories', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 100 }).notNull().unique(),
   description: text('description'),
 });

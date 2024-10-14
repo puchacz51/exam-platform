@@ -1,4 +1,10 @@
-import { pgTable, primaryKey, unique, varchar } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  primaryKey,
+  unique,
+  uuid,
+  varchar,
+} from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { questionsTable } from './questions';
@@ -7,10 +13,12 @@ import { questionGroupsTable } from './questionGroups';
 export const questionOnQuestionGroup = pgTable(
   'question_on_question_group',
   {
-    questionId: varchar('question_id').references(() => questionsTable.id),
-    questionGroupId: varchar('question_group_id').references(
-      () => questionGroupsTable.id
-    ),
+    questionId: uuid('question_id')
+      .notNull()
+      .references(() => questionsTable.id),
+    questionGroupId: uuid('question_group_id')
+      .notNull()
+      .references(() => questionGroupsTable.id),
     order: varchar('order'),
   },
   (table) => ({

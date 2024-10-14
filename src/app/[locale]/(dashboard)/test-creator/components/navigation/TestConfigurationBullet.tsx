@@ -16,7 +16,7 @@ const TestConfigurationBullet: FC = () => {
       disabled={!test.title}
       className={cn('h-4 w-4')}
     >
-      <GrDocumentConfig className="h-4 w-4" />
+      <GrDocumentConfig className="h-4 w-4 text-white" />
     </Button>
   );
 };

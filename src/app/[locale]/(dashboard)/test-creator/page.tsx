@@ -13,13 +13,6 @@ const TestCreatorPage: NextPage = async () => {
       <TestContextProvider
         initProps={{
           testConfiguration: testConfigurationData,
-          test: {
-            title: 'test',
-            description: 'test test',
-            categoryId: '2',
-            accessType: 'PUBLIC',
-            accessCode: '',
-          },
         }}
       >
         <TestCreator />

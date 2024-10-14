@@ -1,11 +1,11 @@
-import { boolean, integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { questionsTable } from './questions';
 
 export const answersTable = pgTable('answers', {
-  id: serial('id').primaryKey(),
-  questionID: integer('question_id')
+  id: uuid('id').primaryKey(),
+  questionId: uuid('question_id')
     .notNull()
     .references(() => questionsTable.id),
   text: text('text').notNull(),
@@ -15,7 +15,7 @@ export const answersTable = pgTable('answers', {
 
 export const answerRelations = relations(answersTable, ({ one }) => ({
   question: one(questionsTable, {
-    fields: [answersTable.questionID],
+    fields: [answersTable.questionId],
     references: [questionsTable.id],
   }),
 }));

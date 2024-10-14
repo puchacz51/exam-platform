@@ -61,7 +61,7 @@ interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
 const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const { categories } = useTestContext((state) => state.testConfiguration);
   const setTest = useTestContext((state) => state.setTest);
-  const openQuestion = useTestContext((state) => state.openQuestion);
+  const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
   const isTestConfiguratorOpen = useTestContext(
     (state) => state.isTestConfiguratorOpen
   );
@@ -76,7 +76,7 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
     defaultValues: {
       title: 'test',
       description: 'test test',
-      categoryId: '2',
+      categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
       accessType: 'PUBLIC',
       accessCode: '',
     },
@@ -84,9 +84,8 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
 
   const handleSubmit = (data: TestFormData) => {
     setTest(data);
-    openQuestion();
-    setTestConfiguratorOpen(false);
     setIsQuestionConfiguratorOpen(true);
+    addQuestionGroup();
   };
 
   return (

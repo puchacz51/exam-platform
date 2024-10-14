@@ -3,11 +3,15 @@ import { EmptyObject } from 'react-hook-form';
 
 import { InsertQuestion } from '@schema/questions';
 import { InsertTest } from '@schema/test';
-import { InsertAnswer } from '@schema/answers';
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
 
+export type TestCreatorAnswer = {
+  text: string;
+  isCorrect?: boolean;
+};
+
 export type TestCreatorQuestion = InsertQuestion & {
-  answers: Omit<InsertAnswer, 'questionID'>[];
+  answers: TestCreatorAnswer[];
 };
 
 export type QuestionGroup = {
@@ -18,7 +22,7 @@ export type QuestionGroup = {
   questions: TestCreatorQuestion[];
 };
 
-type Test = InsertTest;
+type Test = Omit<InsertTest, 'questions' | 'id'>;
 
 export interface TestProps {
   testConfiguration: TestConfiguration;
@@ -33,10 +37,10 @@ export interface TestProps {
 
 export interface TestState extends TestProps {
   setTest: (test: Omit<Test, 'questions'>) => void;
-  addQuestionGroup: (group: Omit<QuestionGroup, 'questions'>) => void;
+  addQuestionGroup: () => void;
   updateQuestionGroup: (groupId: string, group: Partial<QuestionGroup>) => void;
   removeQuestionGroup: (groupId: string) => void;
-  addQuestion: (groupId: string, question: TestCreatorQuestion) => void;
+  addQuestion: (question: TestCreatorQuestion, groupId?: string | null) => void;
   updateQuestion: (
     groupId: string,
     questionId: string,
@@ -44,7 +48,6 @@ export interface TestState extends TestProps {
   ) => void;
   removeQuestion: (groupId: string, questionId: string) => void;
   resetTest: () => void;
-  openQuestion: () => void;
   setIsTestConfiguratorOpen: (isOpen: boolean) => void;
   setIsQuestionConfiguratorOpen: (isOpen: boolean) => void;
   setIsQuestionGroupConfiguratorOpen: (isOpen: boolean) => void;
@@ -55,10 +58,8 @@ export interface TestState extends TestProps {
 const DEFAULT_PROPS: TestProps = {
   testConfiguration: { categories: [] },
   test: {
-    id: '',
     title: '',
     description: '',
-    categoryID: null,
     accessType: 'PUBLIC',
   },
   questionGroups: [],
@@ -80,10 +81,21 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
           ...newTestData,
         },
       })),
-    addQuestionGroup: (group) =>
-      set((state) => ({
-        questionGroups: [...state.questionGroups, { ...group, questions: [] }],
-      })),
+    addQuestionGroup: () =>
+      set((state) => {
+        const newGroup = {
+          id: `group-${Date.now()}`,
+          name: 'test',
+          order: state.questionGroups.length + 1,
+          maxQuestionPerPage: 1,
+          questions: [],
+        };
+
+        return {
+          questionGroups: [...state.questionGroups, newGroup],
+          currentQuestionGroup: newGroup,
+        };
+      }),
     updateQuestionGroup: (groupId, group) =>
       set((state) => ({
         questionGroups: state.questionGroups.map((g) =>
@@ -94,12 +106,31 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
       set((state) => ({
         questionGroups: state.questionGroups.filter((g) => g.id !== groupId),
       })),
-    addQuestion: (groupId, question) =>
-      set((state) => ({
-        questionGroups: state.questionGroups.map((g) =>
-          g.id === groupId ? { ...g, questions: [...g.questions, question] } : g
-        ),
-      })),
+    addQuestion: (question, groupId = null) =>
+      set((state) => {
+        if (state.questionGroups.length === 0) {
+          return {
+            questionGroups: [
+              {
+                id: `group-${Date.now()}`,
+                name: 'test',
+                order: state.questionGroups.length + 1,
+                maxQuestionPerPage: 1,
+                questions: [question],
+              },
+            ],
+          };
+        }
+
+        return {
+          questionGroups: state.questionGroups.map((g) =>
+            g.id === groupId
+              ? { ...g, questions: [...g.questions, question] }
+              : g
+          ),
+          currentQuestion: question,
+        };
+      }),
     updateQuestion: (groupId, questionId, question) =>
       set((state) => ({
         questionGroups: state.questionGroups.map((g) =>
@@ -125,7 +156,6 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         ),
       })),
     resetTest: () => set({ test: DEFAULT_PROPS.test, questionGroups: [] }),
-    openQuestion: () => set({ currentQuestion: {} }),
     setIsTestConfiguratorOpen: (isOpen) =>
       set({ isTestConfiguratorOpen: isOpen }),
     setIsQuestionConfiguratorOpen: (isOpen) =>

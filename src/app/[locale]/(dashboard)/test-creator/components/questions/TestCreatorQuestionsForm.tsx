@@ -34,6 +34,7 @@ import { SingleChoiceQuestionForm } from './SingleChoiceQuestionForm';
 import { OpenEndedQuestionForm } from './OpenQuestionForm';
 import NumericQuestionForm from './NumericQuestionForm';
 import { useTestContext } from '../../store/storeContext';
+import { TestCreatorQuestion } from '../../store/store';
 
 const questionTypeSchema = z.object({
   text: z.string().nonempty(),
@@ -48,7 +49,6 @@ const questionTypeSchema = z.object({
       })
     )
     .min(2, 'Wymagane są co najmniej dwie odpowiedzi'),
-  correctAnswerIndex: z.number().optional(),
 });
 export type QuestionType = z.infer<typeof questionTypeSchema>;
 
@@ -63,6 +63,9 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   );
   const setIsQuestionConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionConfiguratorOpen
+  );
+  const currentQuestionGroup = useTestContext(
+    (state) => state.currentQuestionGroup
   );
   const addQuestion = useTestContext((state) => state.addQuestion);
   const { categories } = useTestContext((state) => state.testConfiguration);
@@ -80,11 +83,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     data: z.infer<typeof questionTypeSchema>
   ) => {
     const questionId = randomUUID();
-    const questionWithId = {
+    const questionWithId: TestCreatorQuestion = {
       ...data,
       id: questionId,
+      groupId: currentQuestionGroup?.id,
     };
-    addQuestion(questionWithId);
+    addQuestion(questionWithId, currentQuestionGroup?.id);
     form.reset();
   };
 

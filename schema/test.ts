@@ -1,5 +1,4 @@
 import {
-  integer,
   pgEnum,
   pgTable,
   text,
@@ -24,8 +23,8 @@ export const testsTable = pgTable('tests', {
   id: uuid('id').primaryKey(),
   title: varchar('title', { length: 256 }),
   description: text('description'),
-  creatorId: integer('creator_id').references(() => usersTable.id),
-  categoryId: integer('category_id').references(() => categoriesTable.id),
+  creatorId: uuid('creator_id').references(() => usersTable.id),
+  categoryId: uuid('category_id').references(() => categoriesTable.id),
   accessType: accessTypeEnum('access_type').notNull(),
   accessCode: varchar('access_code', { length: 20 }),
   createdAt: timestamp('created_at'),

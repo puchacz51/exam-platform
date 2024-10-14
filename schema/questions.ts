@@ -24,12 +24,12 @@ export const questionTypeEnum = pgEnum('question_type', [
 
 export const questionsTable = pgTable('questions', {
   id: uuid('id').primaryKey(),
-  groupId: integer('group_id').references(() => questionGroupsTable.id),
+  groupId: uuid('group_id').references(() => questionGroupsTable.id),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),
   order: integer('order'),
   isPublic: boolean('is_public').default(false),
-  categoryId: integer('category_id').references(() => categoriesTable.id),
+  categoryId: uuid('category_id').references(() => categoriesTable.id),
 });
 
 export const questionRelations = relations(questionsTable, ({ one, many }) => ({

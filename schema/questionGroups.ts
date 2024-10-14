@@ -6,7 +6,7 @@ import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: uuid('id').primaryKey(),
-  testId: integer('test_id').references(() => testsTable.id),
+  testId: uuid('test_id').references(() => testsTable.id),
   name: varchar('name', { length: 256 }),
   order: integer('order'),
   maxQuestionPerPage: integer('max_question_per_page'),
