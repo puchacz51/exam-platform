@@ -1,7 +1,7 @@
 'use client';
 import React, { FC, HTMLAttributes } from 'react';
 
-import { randomUUID } from 'crypto';
+import { randomBytes } from 'crypto';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,22 +34,9 @@ import { SingleChoiceQuestionForm } from './SingleChoiceQuestionForm';
 import { OpenEndedQuestionForm } from './OpenQuestionForm';
 import NumericQuestionForm from './NumericQuestionForm';
 import { useTestContext } from '../../store/storeContext';
-import { TestCreatorQuestion } from '../../store/store';
+import { questionTypeSchema } from '../../schemas/questionTypeSchema';
+import { TestCreatorQuestion } from '../../types/question';
 
-const questionTypeSchema = z.object({
-  text: z.string().nonempty(),
-  questionType: z.enum(questionTypeEnum.enumValues),
-  isPublic: z.boolean(),
-  categoryId: z.string().min(1, 'Kategoria jest wymagana'),
-  answers: z
-    .array(
-      z.object({
-        text: z.string().min(1, 'Treść odpowiedzi jest wymagana'),
-        isCorrect: z.boolean().optional(),
-      })
-    )
-    .min(2, 'Wymagane są co najmniej dwie odpowiedzi'),
-});
 export type QuestionType = z.infer<typeof questionTypeSchema>;
 
 interface TestCreatorQuestionsFormProps
@@ -82,13 +69,15 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   const handleQuestionTypeSubmit = (
     data: z.infer<typeof questionTypeSchema>
   ) => {
-    const questionId = randomUUID();
+    const questionId = randomBytes(16).toString('hex');
     const questionWithId: TestCreatorQuestion = {
       ...data,
       id: questionId,
       groupId: currentQuestionGroup?.id,
     };
+
     addQuestion(questionWithId, currentQuestionGroup?.id);
+
     form.reset();
   };
 
@@ -170,7 +159,11 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Publiczne</FormLabel>
+                      <FormDescription>
+                        Zaznacz, jeśli pytanie ma być publiczne.
+                      </FormDescription>
                     </div>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -210,17 +203,17 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
               {questionType && (
                 <div className="mt-6">
                   <FormProvider {...form}>
-                    {<SelectedQuestionForm />}
+                    <SelectedQuestionForm />
                   </FormProvider>
                 </div>
               )}
+              <Button
+                type="submit"
+                className="w-full"
+              >
+                Zapisz pytanie
+              </Button>
             </form>
-            <Button
-              type="submit"
-              className="w-full"
-            >
-              Zapisz pytanie
-            </Button>
           </Form>
         </>
       )}

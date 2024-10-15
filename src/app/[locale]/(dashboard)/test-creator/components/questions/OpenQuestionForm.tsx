@@ -30,7 +30,6 @@ export const OpenEndedQuestionForm = () => {
     defaultValues: {
       text: '',
       correctAnswer: '',
-      
     },
   });
 

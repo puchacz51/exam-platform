@@ -1,17 +1,14 @@
 import { create } from 'zustand';
 import { EmptyObject } from 'react-hook-form';
 
-import { InsertQuestion } from '@schema/questions';
 import { InsertTest } from '@schema/test';
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
+
+import { TestCreatorQuestion } from '../types/question';
 
 export type TestCreatorAnswer = {
   text: string;
   isCorrect?: boolean;
-};
-
-export type TestCreatorQuestion = InsertQuestion & {
-  answers: TestCreatorAnswer[];
 };
 
 export type QuestionGroup = {
@@ -106,7 +103,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
       set((state) => ({
         questionGroups: state.questionGroups.filter((g) => g.id !== groupId),
       })),
-    addQuestion: (question, groupId = null) =>
+    addQuestion: (question) =>
       set((state) => {
         if (state.questionGroups.length === 0) {
           return {
@@ -124,7 +121,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
 
         return {
           questionGroups: state.questionGroups.map((g) =>
-            g.id === groupId
+            g.id === question.groupId
               ? { ...g, questions: [...g.questions, question] }
               : g
           ),

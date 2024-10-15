@@ -23,30 +23,16 @@ import { QuestionType } from './TestCreatorQuestionsForm';
 export const SingleChoiceQuestionForm = () => {
   const addQuestion = useTestContext((state) => state.addQuestion);
   const form = useFormContext<QuestionType>();
-  const { control, handleSubmit } = form;
+  const { control, handleSubmit, setValue, getValues } = form;
 
   const { fields, append, remove } = useFieldArray({
     control: control,
     name: 'answers',
   });
-  console.log(form.formState.errors);
 
   const saveQuestion = (data: QuestionType) => {
-    const correctAnswerId = data.correctAnswerIndex;
-    console.log(data);
-    if (typeof correctAnswerId === 'number') {
-      const answers = data.answers.map((answer, index) => ({
-        ...answer,
-        isCorrect: index === correctAnswerId,
-      }));
-      const formattedQuestion = {
-        ...data,
-        answers,
-      };
-
-      addQuestion(formattedQuestion);
-      form.reset();
-    }
+    addQuestion(data);
+    form.reset();
   };
 
   return (
@@ -97,20 +83,25 @@ export const SingleChoiceQuestionForm = () => {
                     )}
                   />
                   <FormField
+                    name={`answers.${index}.isCorrect`}
                     control={control}
-                    name="correctAnswerIndex"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={(value) =>
-                              field.onChange(parseInt(value))
-                            }
-                            value={field.value?.toString()}
+                            onValueChange={(value) => {
+                              getValues().answers.forEach((_, i) => {
+                                setValue(`answers.${i}.isCorrect`, false);
+                              });
+
+                              setValue(`answers.${index}.isCorrect`, !!value);
+                            }}
+                            value={field.value ? 'true' : 'false'}
                           >
-                            <RadioGroupItem value={index.toString()} />
+                            <RadioGroupItem value="true" />
                           </RadioGroup>
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -130,13 +121,22 @@ export const SingleChoiceQuestionForm = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => append({ text: '' })}
+              onClick={() => append({ text: '', isCorrect: false })}
               className="mt-4"
             >
               <Plus className="mr-2 h-4 w-4" /> Dodaj odpowiedź
             </Button>
           </CardContent>
         </Card>
+        <FormField
+          name="answers"
+          control={control}
+          render={() => (
+            <FormItem>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
