@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 
 import { useTestContext } from '../store/storeContext';
 import TestCreatorForm from './TestCreatorTestForm';
-import TestCreatorQuestionsForm from './questions/TestCreatorQuestionsForm';
 import BulletBar from './navigation/BulletBar';
+import TestCreatorQuestionsForm from './TestCreatorQuestionsForm';
 
 const TestCreator: FC = () => {
   const test = useTestContext((state) => state.test);
@@ -14,7 +14,6 @@ const TestCreator: FC = () => {
   const currentQuestionGroup = useTestContext(
     (state) => state.currentQuestionGroup
   );
-
   const handleFinishTest = useCallback(() => {
     console.log('Test creation finished');
   }, []);
@@ -35,7 +34,7 @@ const TestCreator: FC = () => {
               )}
             </div>
           ))}
-          {questionGroups.some((group) => group.questions.length > 0) && (
+          {questionGroups.some((group) => !!group?.questions?.length) && (
             <Button
               className="mt-4"
               onClick={handleFinishTest}

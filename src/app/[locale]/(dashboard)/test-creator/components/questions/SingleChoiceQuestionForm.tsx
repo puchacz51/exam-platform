@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Plus, Trash2 } from 'lucide-react';
@@ -17,30 +17,26 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { useTestContext } from '../../store/storeContext';
-import { QuestionType } from './TestCreatorQuestionsForm';
+import { TestCreatorQuestion } from '../../types/question';
 
 export const SingleChoiceQuestionForm = () => {
-  const addQuestion = useTestContext((state) => state.addQuestion);
-  const form = useFormContext<QuestionType>();
-  const { control, handleSubmit, setValue, getValues } = form;
+  const form = useFormContext<TestCreatorQuestion>();
+  const { control, setValue, getValues } = form;
 
   const { fields, append, remove } = useFieldArray({
     control: control,
     name: 'answers',
   });
 
-  const saveQuestion = (data: QuestionType) => {
-    addQuestion(data);
-    form.reset();
-  };
+  useEffect(() => {
+    if (!fields.length) {
+      append({ text: '', isCorrect: false });
+    }
+  }, []);
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(saveQuestion)}
-        className="space-y-6"
-      >
+      <div className="space-y-6">
         <FormField
           control={control}
           name="text"
@@ -90,7 +86,7 @@ export const SingleChoiceQuestionForm = () => {
                         <FormControl>
                           <RadioGroup
                             onValueChange={(value) => {
-                              getValues().answers.forEach((_, i) => {
+                              getValues()?.answers?.forEach((_, i) => {
                                 setValue(`answers.${i}.isCorrect`, false);
                               });
 
@@ -137,7 +133,7 @@ export const SingleChoiceQuestionForm = () => {
             </FormItem>
           )}
         />
-      </form>
+      </div>
     </Form>
   );
 };

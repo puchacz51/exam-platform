@@ -5,10 +5,9 @@ import { questionBaseSchema } from './questionSchema';
 
 export const questionOpenSchema = questionBaseSchema.extend({
   questionType: literal('OPEN'),
-  answers: array(answerSchema).max(
-    0,
-    'Pytanie otwarte nie powinno mieć odpowiedzi'
-  ),
+  answers: array(answerSchema)
+    .max(1, 'Pytanie otwarte może mieć tylko jedną odpowiedź')
+    .optional(),
 });
 
 export const questionSingleChoiceSchema = questionBaseSchema.extend({

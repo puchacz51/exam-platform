@@ -6,7 +6,7 @@ import { randomBytes } from 'crypto';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Save } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,13 +29,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { questionTypeEnum } from '@schema/questions';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { SingleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/SingleChoiceQuestionForm';
+import NumericQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericQuestionForm';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 
-import { SingleChoiceQuestionForm } from './SingleChoiceQuestionForm';
-import { OpenEndedQuestionForm } from './OpenQuestionForm';
-import NumericQuestionForm from './NumericQuestionForm';
-import { useTestContext } from '../../store/storeContext';
-import { questionTypeSchema } from '../../schemas/questionTypeSchema';
-import { TestCreatorQuestion } from '../../types/question';
+import OpenEndedQuestionForm from './questions/OpenQuestionForm';
 
 export type QuestionType = z.infer<typeof questionTypeSchema>;
 
@@ -62,10 +62,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
       text: '',
       isPublic: false,
     },
+    shouldUnregister: true,
   });
   const { control, watch } = form;
   const { questionType } = watch();
 
+  console.log(form.formState.errors);
   const handleQuestionTypeSubmit = (
     data: z.infer<typeof questionTypeSchema>
   ) => {
@@ -211,7 +213,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                 type="submit"
                 className="w-full"
               >
-                Zapisz pytanie
+                <Save className="mr-2 h-4 w-4" /> Zapisz pytanie
               </Button>
             </form>
           </Form>

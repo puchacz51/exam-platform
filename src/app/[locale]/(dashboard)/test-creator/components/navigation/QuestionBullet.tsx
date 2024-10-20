@@ -1,18 +1,25 @@
-import { FC } from 'react';
+// QuestionBullet.tsx
+import React, { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-
-import { useTestContext } from '../../store/storeContext';
 
 interface QuestionBulletProps {
   questionNumber: number;
   isActive: boolean;
 }
 
-const QuestionBullet: FC = () => {
-  const questions = useTestContext((state) => state.questions);
-
-  return <Button>{questionNumber}</Button>;
+const QuestionBullet: FC<QuestionBulletProps> = ({
+  questionNumber,
+  isActive,
+}) => {
+  return (
+    <Button
+      variant={isActive ? 'default' : 'outline'}
+      size="sm"
+    >
+      {questionNumber}
+    </Button>
+  );
 };
 
 export default QuestionBullet;

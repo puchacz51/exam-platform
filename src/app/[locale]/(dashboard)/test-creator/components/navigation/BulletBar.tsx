@@ -1,34 +1,34 @@
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
+import { DragDropContext } from 'react-beautiful-dnd';
+
+import { cn } from '@/lib/utils';
 
 import { useTestContext } from '../../store/storeContext';
-import TestConfigurationBullet from './TestConfigurationBullet';
-import QuestionGroupBullet from './QuestionGroupBullet';
+import TestCreatorQuestionGroupForm from '../TestCreatorQuestionsGroupForm';
+import { useDragEndHandler } from '../../hooks/useDragEndHandler';
+import GroupList from './GroupList';
+import QuestionList from './QuestionList';
 
 const BulletBar = () => {
-  const questionGroups = useTestContext((state) => state.questionGroups);
+  const { currentQuestionGroup, isQuestionGroupConfiguratorOpen } =
+    useTestContext((state) => state);
 
-  const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
+  const onDragEnd = useDragEndHandler();
 
   return (
-    <div className="my-4 flex items-center space-x-2">
-      <TestConfigurationBullet />
-      {questionGroups.map((group) => (
-        <QuestionGroupBullet
-          key={group.id}
-          questionGroup={group}
-        />
-      ))}
-      {questionGroups.length > 0 && (
-        <Button
-          className="mb-2 mt-4"
-          onClick={addQuestionGroup}
-        >
-          Add Group
-        </Button>
-      )}
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        className={cn(
+          'grid gap-6',
+          isQuestionGroupConfiguratorOpen && 'md:grid-cols-2'
+        )}
+      >
+        <GroupList />
+        {currentQuestionGroup && <QuestionList />}
+        {isQuestionGroupConfiguratorOpen && <TestCreatorQuestionGroupForm />}
+      </div>
+    </DragDropContext>
   );
 };
 

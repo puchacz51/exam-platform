@@ -2,7 +2,6 @@ import React, { FC, HTMLAttributes } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -29,32 +28,8 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 import { useTestContext } from '../store/storeContext';
-
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(1, 'Tytuł jest wymagany')
-    .max(256, 'Tytuł musi mieć maksymalnie 256 znaków'),
-  description: z.string().optional(),
-  categoryId: z.string().min(1, 'Kategoria jest wymagana'),
-  accessType: z.enum(accessTypeEnum.enumValues),
-  accessCode: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (val === 'code' && (!val || val.length === 0)) {
-          return false;
-        }
-        return true;
-      },
-      {
-        message: 'Kod dostępu jest wymagany',
-      }
-    ),
-});
-
-export type TestFormData = z.infer<typeof formSchema>;
+import { TestCreatorTest } from '../types/test';
+import { testSchema } from '../schemas/testSchema';
 
 interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -71,8 +46,8 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const setIsQuestionConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionConfiguratorOpen
   );
-  const form = useForm<TestFormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<TestCreatorTest>({
+    resolver: zodResolver(testSchema),
     defaultValues: {
       title: 'test',
       description: 'test test',
@@ -82,7 +57,7 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
     },
   });
 
-  const handleSubmit = (data: TestFormData) => {
+  const handleSubmit = (data: TestCreatorTest) => {
     setTest(data);
     setIsQuestionConfiguratorOpen(true);
     addQuestionGroup();
