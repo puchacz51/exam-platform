@@ -26,15 +26,18 @@ interface TestCreatorQuestionGroupFormProps
 export const TestCreatorQuestionGroupForm: FC<
   TestCreatorQuestionGroupFormProps
 > = ({ className }) => {
-  const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroup
+  const currentQuestionGroupId = useTestContext(
+    (state) => state.currentQuestionGroupId
   );
-  console.log(currentQuestionGroup);
+  const questionGroups = useTestContext((state) => state.questionGroups);
   const updateQuestionGroup = useTestContext(
     (state) => state.updateQuestionGroup
   );
   const setIsQuestionGroupConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionGroupConfiguratorOpen
+  );
+  const currentQuestionGroup = questionGroups.find(
+    (group) => group.id === currentQuestionGroupId
   );
 
   const form = useForm<TestCreatorQuestionGroup>({

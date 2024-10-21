@@ -19,8 +19,8 @@ export interface TestProps {
   test: Test;
   questionGroups: TestCreatorQuestionGroup[];
   currentQuestion: TestCreatorQuestion | null | EmptyObject;
-  currentQuestionGroup: TestCreatorQuestionGroup | null;
-  isTestConfiguratorOpen: boolean;
+  currentQuestionGroupId: string | null;
+  isTestConfiguratorShowed: boolean;
   isQuestionConfiguratorOpen: boolean;
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
@@ -39,7 +39,7 @@ export interface TestState extends TestProps {
   ) => void;
   removeQuestion: (groupId: string, questionId: string) => void;
   resetTest: () => void;
-  setIsTestConfiguratorOpen: (isOpen: boolean) => void;
+  setIsTestConfiguratorShowed: (isOpen: boolean) => void;
   setIsQuestionConfiguratorOpen: (isOpen: boolean) => void;
   setIsQuestionGroupConfiguratorOpen: (isOpen: boolean) => void;
   setCurrentQuestion: (groupId: string, questionId: string) => void;
@@ -56,8 +56,8 @@ const DEFAULT_PROPS: TestProps = {
   },
   questionGroups: [],
   currentQuestion: null,
-  currentQuestionGroup: null,
-  isTestConfiguratorOpen: true,
+  currentQuestionGroupId: null,
+  isTestConfiguratorShowed: true,
   isQuestionConfiguratorOpen: false,
   isQuestionGroupConfiguratorOpen: false,
   isAddedGeneralConfiguration: false,
@@ -87,7 +87,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
 
         return {
           questionGroups: [...state.questionGroups, newGroup],
-          currentQuestionGroup: newGroup,
+          currentQuestionGroupId: newGroup.id,
         };
       }),
     updateQuestionGroup: (group) => {
@@ -152,8 +152,8 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         ),
       })),
     resetTest: () => set({ test: DEFAULT_PROPS.test, questionGroups: [] }),
-    setIsTestConfiguratorOpen: (isOpen) =>
-      set({ isTestConfiguratorOpen: isOpen }),
+    setIsTestConfiguratorShowed: (isOpen) =>
+      set({ isTestConfiguratorShowed: isOpen }),
     setIsQuestionConfiguratorOpen: (isOpen) =>
       set({ isQuestionConfiguratorOpen: isOpen }),
     setIsQuestionGroupConfiguratorOpen: (isOpen) =>
@@ -164,13 +164,13 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
           state.questionGroups
             ?.find((g) => g.id === groupId)
             ?.questions?.find((q) => q.id === questionId) || null,
-        currentQuestionGroup:
-          state.questionGroups.find((g) => g.id === groupId) || null,
+        currentQuestionGroupId:
+          state.questionGroups.find((g) => g.id === groupId)?.id || null,
       })),
     setCurrentQuestionGroup: (groupId) =>
       set((state) => ({
-        currentQuestionGroup:
-          state.questionGroups.find((g) => g.id === groupId) || null,
+        currentQuestionGroupId:
+          state.questionGroups.find((g) => g.id === groupId)?.id || null,
       })),
     setQuestionGroups: (questionGroups) => set({ questionGroups }),
   }));

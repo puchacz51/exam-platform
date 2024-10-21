@@ -11,10 +11,13 @@ import GroupList from './GroupList';
 import QuestionList from './QuestionList';
 
 const BulletBar = () => {
-  const { currentQuestionGroup, isQuestionGroupConfiguratorOpen } =
-    useTestContext((state) => state);
+  const {
+    currentQuestionGroupId: currentQuestionGroup,
+    isQuestionGroupConfiguratorOpen,
+  } = useTestContext((state) => state);
 
   const onDragEnd = useDragEndHandler();
+  console.log(currentQuestionGroup);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

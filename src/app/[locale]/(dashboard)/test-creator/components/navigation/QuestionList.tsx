@@ -8,14 +8,17 @@ import { useTestContext } from '../../store/storeContext';
 import QuestionBullet from './QuestionBullet';
 import { TestCreatorQuestion } from '../../types/question';
 
-const QuestionList = ({}) => {
-  const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroup
+const QuestionList = () => {
+  const currentQuestionGroupId = useTestContext(
+    (state) => state.currentQuestionGroupId
   );
   const isQuestionGroupConfiguratorOpen = useTestContext(
     (state) => state.isQuestionGroupConfiguratorOpen
   );
-
+  const questionGroups = useTestContext((state) => state.questionGroups);
+  const currentQuestionGroup = questionGroups.find(
+    (group) => group.id === currentQuestionGroupId
+  );
   const hasQuestions = (currentQuestionGroup?.questions?.length || 0) > 0;
 
   return (
@@ -33,7 +36,7 @@ const QuestionList = ({}) => {
           ref={provided.innerRef}
         >
           {!hasQuestions ? (
-            <p className="text-gray-500">Grupa pytań jest pusta.</p>
+            <p className="text-gray-500">Lista pytań jest pusta</p>
           ) : (
             currentQuestionGroup?.questions?.map((question, index) => (
               <DraggableQuestionItem

@@ -6,7 +6,7 @@ type UseDragEndHandler = () => (result: DropResult) => void;
 
 export const useDragEndHandler: UseDragEndHandler = () => {
   const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroup
+    (state) => state.currentQuestionGroupId
   );
   const questionGroups = useTestContext((state) => state.questionGroups);
   const setQuestionGroups = useTestContext((state) => state.setQuestionGroups);

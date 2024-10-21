@@ -12,9 +12,10 @@ interface QuestionGroupBulletProps {
 const QuestionGroupBullet: FC<QuestionGroupBulletProps> = ({
   questionGroup,
 }) => {
-  const { currentQuestionGroup, setCurrentQuestionGroup } = useTestContext(
-    (state) => state
-  );
+  const {
+    currentQuestionGroupId: currentQuestionGroup,
+    setCurrentQuestionGroup,
+  } = useTestContext((state) => state);
   const setIsQuestionGroupConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionGroupConfiguratorOpen
   );

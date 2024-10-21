@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes } from 'react';
+import React, { FC, HTMLAttributes, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,18 +34,20 @@ import { testSchema } from '../schemas/testSchema';
 interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
+  const [isOpen, setIsOpen] = useState(true);
   const { categories } = useTestContext((state) => state.testConfiguration);
   const setTest = useTestContext((state) => state.setTest);
   const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
-  const isTestConfiguratorOpen = useTestContext(
-    (state) => state.isTestConfiguratorOpen
+  const isTestConfiguratorShowed = useTestContext(
+    (state) => state.isTestConfiguratorShowed
   );
-  const setTestConfiguratorOpen = useTestContext(
-    (state) => state.setIsTestConfiguratorOpen
+  const setTestConfiguratorShowed = useTestContext(
+    (state) => state.setIsTestConfiguratorShowed
   );
   const setIsQuestionConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionConfiguratorOpen
   );
+
   const form = useForm<TestCreatorTest>({
     resolver: zodResolver(testSchema),
     defaultValues: {
@@ -60,22 +62,25 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const handleSubmit = (data: TestCreatorTest) => {
     setTest(data);
     setIsQuestionConfiguratorOpen(true);
+    setTestConfiguratorShowed(false);
     addQuestionGroup();
   };
+
+  if (!isTestConfiguratorShowed) return null;
 
   return (
     <Card className={cn('p-4', className)}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Formularz tworzenia testu</h2>
         <Button
-          onClick={() => setTestConfiguratorOpen(!isTestConfiguratorOpen)}
+          onClick={() => setIsOpen((prev) => !prev)}
           variant="ghost"
           size="sm"
         >
-          {isTestConfiguratorOpen ? <ChevronUp /> : <ChevronDown />}
+          {isTestConfiguratorShowed ? <ChevronUp /> : <ChevronDown />}
         </Button>
       </div>
-      {isTestConfiguratorOpen && (
+      {isOpen && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

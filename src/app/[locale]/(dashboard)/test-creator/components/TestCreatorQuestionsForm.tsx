@@ -51,8 +51,8 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   const setIsQuestionConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionConfiguratorOpen
   );
-  const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroup
+  const currentQuestionGroupId = useTestContext(
+    (state) => state.currentQuestionGroupId
   );
   const addQuestion = useTestContext((state) => state.addQuestion);
   const { categories } = useTestContext((state) => state.testConfiguration);
@@ -67,18 +67,19 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   const { control, watch } = form;
   const { questionType } = watch();
 
-  console.log(form.formState.errors);
   const handleQuestionTypeSubmit = (
     data: z.infer<typeof questionTypeSchema>
   ) => {
+    if (!currentQuestionGroupId) return;
+
     const questionId = randomBytes(16).toString('hex');
     const questionWithId: TestCreatorQuestion = {
       ...data,
       id: questionId,
-      groupId: currentQuestionGroup?.id,
+      groupId: currentQuestionGroupId,
     };
 
-    addQuestion(questionWithId, currentQuestionGroup?.id);
+    addQuestion(questionWithId, currentQuestionGroupId);
 
     form.reset();
   };
@@ -124,8 +125,10 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   <FormItem>
                     <FormLabel>Typ pytania</FormLabel>
                     <Select
-                      onValueChange={field.onChange}
+                      key={`${!!field.value}`}
+                      value={field.value}
                       defaultValue={field.value}
+                      onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -176,6 +179,8 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   <FormItem>
                     <FormLabel>Kategoria</FormLabel>
                     <Select
+                      key={`${!!field.value}`}
+                      value={field.value}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >

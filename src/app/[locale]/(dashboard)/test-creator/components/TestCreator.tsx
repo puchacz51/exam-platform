@@ -9,10 +9,17 @@ import BulletBar from './navigation/BulletBar';
 import TestCreatorQuestionsForm from './TestCreatorQuestionsForm';
 
 const TestCreator: FC = () => {
-  const test = useTestContext((state) => state.test);
+  const isInitialConfig = useTestContext(
+    (state) => state.isAddedGeneralConfiguration
+  );
   const questionGroups = useTestContext((state) => state.questionGroups);
   const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroup
+    (state) => state.currentQuestionGroupId
+  );
+  const { test } = useTestContext((state) => state);
+
+  const isTestConfiguratorShowed = useTestContext(
+    (state) => state.isTestConfiguratorShowed
   );
   const handleFinishTest = useCallback(() => {
     console.log('Test creation finished');
@@ -21,15 +28,15 @@ const TestCreator: FC = () => {
   return (
     <div className="container mx-auto p-4">
       <BulletBar />
-      <TestCreatorForm />
-      {test.title && (
+      {isTestConfiguratorShowed && <TestCreatorForm />}
+      {isInitialConfig && (
         <>
           {questionGroups.map((group) => (
             <div
               key={group.id}
               className="mt-6"
             >
-              {currentQuestionGroup?.id === group.id && (
+              {currentQuestionGroup === group.id && (
                 <TestCreatorQuestionsForm className="mt-4" />
               )}
             </div>
