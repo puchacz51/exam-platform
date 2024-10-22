@@ -6,27 +6,16 @@ import { useTestContext } from '../../store/storeContext';
 import { TestCreatorQuestionGroup } from '../../types/questionGroup';
 
 interface QuestionGroupBulletProps {
-  questionGroup: TestCreatorQuestionGroup;
+  group: TestCreatorQuestionGroup;
 }
 
-const QuestionGroupBullet: FC<QuestionGroupBulletProps> = ({
-  questionGroup,
-}) => {
-  const {
-    currentQuestionGroupId: currentQuestionGroup,
-    setCurrentQuestionGroup,
-  } = useTestContext((state) => state);
-  const setIsQuestionGroupConfiguratorOpen = useTestContext(
-    (state) => state.setIsQuestionGroupConfiguratorOpen
+const QuestionGroupBullet: FC<QuestionGroupBulletProps> = ({ group }) => {
+  const { currentQuestionGroupId, setCurrentQuestionGroup } = useTestContext(
+    (state) => state
   );
 
   const handleClick = () => {
-    if (currentQuestionGroup?.id === questionGroup.id) {
-      setIsQuestionGroupConfiguratorOpen(true);
-      return;
-    }
-
-    setCurrentQuestionGroup(questionGroup.id);
+    setCurrentQuestionGroup(group.id);
   };
 
   return (
@@ -34,20 +23,17 @@ const QuestionGroupBullet: FC<QuestionGroupBulletProps> = ({
       variant="outline"
       onClick={handleClick}
       className={`flex items-center space-x-2 rounded-full px-4 py-2 transition-colors duration-200 ease-in-out ${
-        currentQuestionGroup?.id === questionGroup.id
+        currentQuestionGroupId === group.id
           ? 'bg-green-500 text-white'
           : 'bg-gray-200 text-black hover:bg-gray-300'
       }`}
-      aria-label={`Select question group: ${questionGroup.name}`}
     >
       <span
         className={`h-3 w-3 rounded-full transition-colors duration-200 ease-in-out ${
-          currentQuestionGroup?.id === questionGroup.id
-            ? 'bg-white'
-            : 'bg-gray-400'
+          currentQuestionGroupId === group.id ? 'bg-white' : 'bg-gray-400'
         }`}
       />
-      <span>{questionGroup.name}</span>
+      <span>{group.name}</span>
     </Button>
   );
 };

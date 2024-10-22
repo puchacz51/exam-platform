@@ -1,24 +1,18 @@
-// QuestionBullet.tsx
 import React, { FC } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { TestCreatorQuestion } from '../../types/question';
 
 interface QuestionBulletProps {
-  questionNumber: number;
-  isActive: boolean;
+  question: TestCreatorQuestion;
+  index: number;
 }
 
-const QuestionBullet: FC<QuestionBulletProps> = ({
-  questionNumber,
-  isActive,
-}) => {
+const QuestionBullet: FC<QuestionBulletProps> = ({ question, index }) => {
   return (
-    <Button
-      variant={isActive ? 'default' : 'outline'}
-      size="sm"
-    >
-      {questionNumber}
-    </Button>
+    <div className="flex items-center space-x-2 rounded bg-gray-100 p-2">
+      <span className="font-bold">{index + 1}.</span>
+      <span>{question.text}</span>
+    </div>
   );
 };
 

@@ -31,7 +31,7 @@ export interface TestState extends TestProps {
   addQuestionGroup: () => void;
   updateQuestionGroup: (group: TestCreatorQuestionGroup) => void;
   removeQuestionGroup: (groupId: string) => void;
-  addQuestion: (question: TestCreatorQuestion, groupId?: string | null) => void;
+  addQuestion: (question: TestCreatorQuestion) => void;
   updateQuestion: (
     groupId: string,
     questionId: string,

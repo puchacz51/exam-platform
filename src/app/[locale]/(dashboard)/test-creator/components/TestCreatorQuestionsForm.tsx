@@ -79,7 +79,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
       groupId: currentQuestionGroupId,
     };
 
-    addQuestion(questionWithId, currentQuestionGroupId);
+    addQuestion(questionWithId);
 
     form.reset();
   };
@@ -150,7 +150,6 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={control}
                 name="isPublic"
