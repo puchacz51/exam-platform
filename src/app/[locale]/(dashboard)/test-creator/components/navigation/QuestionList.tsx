@@ -20,7 +20,7 @@ const QuestionList: FC = () => {
   return (
     <div
       className={cn(
-        'flex flex-col space-y-4',
+        'flex min-h-[60px] items-center space-x-4',
         isQuestionGroupConfiguratorOpen && 'col-start-1'
       )}
     >

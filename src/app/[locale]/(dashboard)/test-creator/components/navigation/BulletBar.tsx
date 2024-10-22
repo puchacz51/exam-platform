@@ -4,6 +4,7 @@ import { useTestContext } from '../../store/storeContext';
 import TestCreatorQuestionGroupForm from '../TestCreatorQuestionsGroupForm';
 import GroupList from './GroupList';
 import QuestionList from './QuestionList';
+import DragDropQuestionGroups from './drag-and-drop/DragDropQuestionGroups';
 
 const BulletBar = () => {
   const { currentQuestionGroupId, isQuestionGroupConfiguratorOpen } =
@@ -19,6 +20,7 @@ const BulletBar = () => {
       <GroupList />
       {currentQuestionGroupId && <QuestionList />}
       {isQuestionGroupConfiguratorOpen && <TestCreatorQuestionGroupForm />}
+      <DragDropQuestionGroups />
     </div>
   );
 };
