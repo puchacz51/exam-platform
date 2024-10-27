@@ -47,6 +47,9 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const setIsQuestionConfiguratorOpen = useTestContext(
     (state) => state.setIsQuestionConfiguratorOpen
   );
+  const setIsAddedGeneralConfiguration = useTestContext(
+    (state) => state.setIsAddedGeneralConfiguration
+  );
 
   const form = useForm<TestCreatorTest>({
     resolver: zodResolver(testSchema),
@@ -63,6 +66,7 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
     setTest(data);
     setIsQuestionConfiguratorOpen(true);
     setTestConfiguratorShowed(false);
+    setIsAddedGeneralConfiguration(true);
     addQuestionGroup();
   };
 

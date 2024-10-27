@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 
@@ -12,31 +12,10 @@ export interface Question {
 
 export interface QuestionGroupData {
   name: string;
-  items: Question[];
+  questions: Question[];
 }
 
-const initialItems: Record<string, QuestionGroupData> = {
-  'group-1': {
-    name: 'Group 1',
-    items: [
-      { id: 'q1', text: 'Question 1' },
-      { id: 'q2', text: 'Question 2' },
-    ],
-  },
-  'group-2': {
-    name: 'Group 2',
-    items: [
-      { id: 'q3', text: 'Question 3' },
-      { id: 'q4', text: 'Question 4' },
-    ],
-  },
-  'group-3': {
-    name: 'Group 3',
-    items: [],
-  },
-};
-
-const DragDropQuestionGroups: React.FC = () => {
+const DragDropQuestionGroups: FC = () => {
   const {
     items,
     activeId,
@@ -45,14 +24,12 @@ const DragDropQuestionGroups: React.FC = () => {
     handleDragStart,
     handleDragOver,
     handleDragEnd,
-  } = useDragDrop({ initialItems });
+  } = useDragDrop();
 
   const findContainer = (id: string) => {
-    if (id in items) return id;
-    for (const [groupId, group] of Object.entries(items)) {
-      if (group.items.some((item) => item.id === id)) return groupId;
-    }
-    return null;
+    return items.findIndex((group) =>
+      group.questions.some((question) => question.id === id)
+    );
   };
 
   return (
@@ -63,14 +40,14 @@ const DragDropQuestionGroups: React.FC = () => {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-6 p-4">
-        {Object.entries(items).map(([groupId, group]) => (
+      <div className="flex w-full gap-6 overflow-y-auto p-4">
+        {items.map(({ id, name, questions }) => (
           <QuestionGroup
-            key={groupId}
-            id={groupId}
-            name={group.name}
-            items={group.items}
-            isOver={groupId === activeGroup}
+            key={id}
+            id={id}
+            name={name}
+            items={questions}
+            isOver={id === activeGroup}
           />
         ))}
       </div>
@@ -78,7 +55,7 @@ const DragDropQuestionGroups: React.FC = () => {
         {activeId ? (
           <div className="scale-105 transform rounded border bg-white p-4 shadow-lg">
             {
-              items[findContainer(activeId)]?.items.find(
+              items[findContainer(activeId)]?.questions.find(
                 (item) => item.id === activeId
               )?.text
             }

@@ -7,8 +7,11 @@ import QuestionList from './QuestionList';
 import DragDropQuestionGroups from './drag-and-drop/DragDropQuestionGroups';
 
 const BulletBar = () => {
-  const { currentQuestionGroupId, isQuestionGroupConfiguratorOpen } =
-    useTestContext((state) => state);
+  const {
+    currentQuestionGroupId,
+    isQuestionGroupConfiguratorOpen,
+    isSortFormOpen,
+  } = useTestContext((state) => state);
 
   return (
     <div
@@ -20,7 +23,7 @@ const BulletBar = () => {
       <GroupList />
       {currentQuestionGroupId && <QuestionList />}
       {isQuestionGroupConfiguratorOpen && <TestCreatorQuestionGroupForm />}
-      <DragDropQuestionGroups />
+      {isSortFormOpen && <DragDropQuestionGroups />}
     </div>
   );
 };

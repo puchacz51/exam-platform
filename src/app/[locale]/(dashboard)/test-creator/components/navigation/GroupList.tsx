@@ -13,6 +13,7 @@ const GroupList: FC = () => {
     isQuestionGroupConfiguratorOpen,
     isAddedGeneralConfiguration,
     addQuestionGroup,
+    setIsSortFormOpen,
   } = useTestContext((state) => state);
 
   const isSingleGroup = questionGroups.length <= 1;
@@ -33,12 +34,20 @@ const GroupList: FC = () => {
           />
         ))}
       {isAddedGeneralConfiguration && (
-        <Button
-          className="cursor-pointer whitespace-nowrap"
-          onClick={addQuestionGroup}
-        >
-          {isSingleGroup ? 'Podziel test na grupy' : 'Dodaj Grupę Pytań'}
-        </Button>
+        <>
+          <Button
+            className="cursor-pointer whitespace-nowrap"
+            onClick={addQuestionGroup}
+          >
+            {isSingleGroup ? 'Podziel test na grupy' : 'Dodaj Grupę Pytań'}
+          </Button>
+          <Button
+            className="cursor-pointer whitespace-nowrap"
+            onClick={() => setIsSortFormOpen(true)}
+          >
+            Zmień ułożenie
+          </Button>
+        </>
       )}
     </div>
   );

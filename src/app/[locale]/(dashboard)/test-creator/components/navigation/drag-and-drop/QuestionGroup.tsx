@@ -2,6 +2,8 @@ import { FC } from 'react';
 
 import { SortableContext } from '@dnd-kit/sortable';
 
+import { cn } from '@/lib/utils';
+
 import SortableItem from './SortableItem';
 import DroppableContainer from './DroppableContainer';
 
@@ -20,7 +22,10 @@ interface QuestionGroupProps {
 const QuestionGroup: FC<QuestionGroupProps> = ({ id, name, items, isOver }) => {
   return (
     <div
-      className={`w-64 rounded-lg p-4 ${isOver ? 'border-2 border-blue-300 bg-blue-50' : 'bg-gray-100'}`}
+      className={cn(
+        'w-64 rounded-lg p-4',
+        isOver ? 'border-2 border-blue-300 bg-blue-50' : 'bg-gray-100'
+      )}
     >
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-bold">{name}</h3>

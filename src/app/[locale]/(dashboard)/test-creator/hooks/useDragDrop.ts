@@ -1,7 +1,9 @@
-// useDragDrop.ts
 import { useState } from 'react';
 
 import {
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -9,106 +11,117 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 
+import { useTestContext } from '../store/storeContext';
+
 export interface Question {
   id: string;
   text: string;
 }
 
-export interface QuestionGroupData {
-  name: string;
-  items: Question[];
+export interface QuestionGroup {
+  id: string;
+  title: string;
+  questions: Question[];
 }
 
-interface UseDragDropProps {
-  initialItems: Record<string, QuestionGroupData>;
-}
-
-const useDragDrop = ({ initialItems }: UseDragDropProps) => {
-  const [items, setItems] =
-    useState<Record<string, QuestionGroupData>>(initialItems);
+const useDragDrop = () => {
+  const questionGroups = useTestContext((state) => state.questionGroups);
+  const setQuestionGroups = useTestContext((state) => state.setQuestionGroups);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
     useSensor(KeyboardSensor)
   );
 
-  const findContainer = (id: string) => {
-    if (id in items) return id;
-    for (const [groupId, group] of Object.entries(items)) {
-      if (group.items.some((item) => item.id === id)) return groupId;
+  const findContainer = (id: string): string | null => {
+    if (questionGroups.some((group) => group.id === id)) {
+      return id;
     }
-    return null;
+    return (
+      questionGroups.find((group) =>
+        group.questions.some((question) => question.id === id)
+      )?.id || null
+    );
   };
 
-  const handleDragStart = ({ active }: { active: { id: string } }) => {
-    setActiveId(active.id);
-    setActiveGroup(findContainer(active.id));
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    setActiveId(active.id as string);
+    setActiveGroup(findContainer(active.id as string));
   };
 
-  const handleDragOver = ({
-    active,
-    over,
-  }: {
-    active: { id: string };
-    over: { id: string } | null;
-  }) => {
+  const handleDragOver = ({ active, over }: DragOverEvent) => {
     if (!over) return;
 
-    const overId = over.id;
-    const activeContainer = findContainer(active.id);
-    const overContainer = findContainer(overId) || overId;
+    const activeContainer = findContainer(active.id as string);
+    const overContainer = findContainer(over.id as string) || over.id;
 
-    if (!overContainer || !activeContainer || activeContainer === overContainer)
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
       return;
+    }
 
-    setItems((prev) => {
-      const activeItems = [...prev[activeContainer].items];
-      const overItems = [...prev[overContainer].items];
-      const activeIndex = activeItems.findIndex(
-        (item) => item.id === active.id
+    setQuestionGroups((prev) => {
+      const activeGroupIndex = prev.findIndex((g) => g.id === activeContainer);
+      const overGroupIndex = prev.findIndex((g) => g.id === overContainer);
+
+      if (activeGroupIndex === -1 || overGroupIndex === -1) return prev;
+
+      const newGroups = [...prev];
+      const activeGroup = { ...newGroups[activeGroupIndex] };
+      const overGroup = { ...newGroups[overGroupIndex] };
+
+      const activeQuestionIndex = activeGroup.questions.findIndex(
+        (q) => q.id === active.id
       );
-      const overIndex = overItems.findIndex((item) => item.id === overId);
 
-      const item = activeItems[activeIndex];
-      activeItems.splice(activeIndex, 1);
+      if (activeQuestionIndex === -1) return prev;
 
-      if (overId in prev) {
-        overItems.push(item);
+      const [movedQuestion] = activeGroup.questions.splice(
+        activeQuestionIndex,
+        1
+      );
+
+      if (over.id === overContainer && overGroup.questions.length === 0) {
+        overGroup.questions.push(movedQuestion);
       } else {
-        overItems.splice(
-          overIndex >= 0 ? overIndex : overItems.length,
+        const overQuestionIndex = overGroup.questions.findIndex(
+          (q) => q.id === over.id
+        );
+
+        overGroup.questions.splice(
+          overQuestionIndex >= 0
+            ? overQuestionIndex
+            : overGroup.questions.length,
           0,
-          item
+          movedQuestion
         );
       }
 
-      return {
-        ...prev,
-        [activeContainer]: { ...prev[activeContainer], items: activeItems },
-        [overContainer]: { ...prev[overContainer], items: overItems },
-      };
+      newGroups[activeGroupIndex] = activeGroup;
+      newGroups[overGroupIndex] = overGroup;
+
+      return newGroups;
     });
 
     setActiveGroup(overContainer);
   };
 
-  const handleDragEnd = ({
-    active,
-    over,
-  }: {
-    active: { id: string };
-    over: { id: string } | null;
-  }) => {
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over) {
       setActiveId(null);
       setActiveGroup(null);
       return;
     }
 
-    const activeContainer = findContainer(active.id);
-    const overContainer = findContainer(over.id) || over.id;
+    const activeContainer = findContainer(active.id as string);
+    const overContainer = findContainer(over.id as string) || over.id;
 
     if (!activeContainer || !overContainer) {
       setActiveId(null);
@@ -117,21 +130,55 @@ const useDragDrop = ({ initialItems }: UseDragDropProps) => {
     }
 
     if (activeContainer === overContainer) {
-      const containerItems = items[activeContainer].items;
-      const oldIndex = containerItems.findIndex(
-        (item) => item.id === active.id
-      );
-      const newIndex = containerItems.findIndex((item) => item.id === over.id);
+      setQuestionGroups((prev) => {
+        const groupIndex = prev.findIndex((g) => g.id === activeContainer);
+        if (groupIndex === -1) return prev;
 
-      if (oldIndex !== newIndex && newIndex !== -1) {
-        setItems((prev) => ({
-          ...prev,
-          [activeContainer]: {
-            ...prev[activeContainer],
-            items: arrayMove(containerItems, oldIndex, newIndex),
-          },
-        }));
-      }
+        const newGroups = [...prev];
+        const group = { ...newGroups[groupIndex] };
+        const questions = [...group.questions];
+
+        const oldIndex = questions.findIndex((q) => q.id === active.id);
+        const newIndex = questions.findIndex((q) => q.id === over.id);
+
+        if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+          group.questions = arrayMove(questions, oldIndex, newIndex);
+          newGroups[groupIndex] = group;
+          return newGroups;
+        }
+
+        return prev;
+      });
+    } else {
+      setQuestionGroups((prev) => {
+        const activeGroupIndex = prev.findIndex(
+          (g) => g.id === activeContainer
+        );
+        const overGroupIndex = prev.findIndex((g) => g.id === overContainer);
+
+        if (activeGroupIndex === -1 || overGroupIndex === -1) return prev;
+
+        const newGroups = [...prev];
+        const activeGroup = { ...newGroups[activeGroupIndex] };
+        const overGroup = { ...newGroups[overGroupIndex] };
+
+        const activeQuestionIndex = activeGroup.questions.findIndex(
+          (q) => q.id === active.id
+        );
+
+        if (activeQuestionIndex === -1) return prev;
+
+        const [movedQuestion] = activeGroup.questions.splice(
+          activeQuestionIndex,
+          1
+        );
+        overGroup.questions.push(movedQuestion);
+
+        newGroups[activeGroupIndex] = activeGroup;
+        newGroups[overGroupIndex] = overGroup;
+
+        return newGroups;
+      });
     }
 
     setActiveId(null);
@@ -139,7 +186,7 @@ const useDragDrop = ({ initialItems }: UseDragDropProps) => {
   };
 
   return {
-    items,
+    items: questionGroups,
     activeId,
     activeGroup,
     sensors,
