@@ -20,9 +20,11 @@ const BulletBar = () => {
         isQuestionGroupConfiguratorOpen && 'md:grid-cols-2'
       )}
     >
-      <GroupList />
+      {!isSortFormOpen && <GroupList />}
       {currentQuestionGroupId && <QuestionList />}
-      {isQuestionGroupConfiguratorOpen && <TestCreatorQuestionGroupForm />}
+      {isQuestionGroupConfiguratorOpen && !isSortFormOpen && (
+        <TestCreatorQuestionGroupForm />
+      )}
       {isSortFormOpen && <DragDropQuestionGroups />}
     </div>
   );

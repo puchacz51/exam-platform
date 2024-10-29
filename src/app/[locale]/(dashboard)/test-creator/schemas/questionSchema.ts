@@ -18,5 +18,5 @@ export const questionBaseSchema = object({
   questionType: z.enum(questionTypeEnum.enumValues),
   isPublic: boolean(),
   categoryId: string().min(1, 'Kategoria jest wymagana'),
+  points: z.number().min(0, 'Punkty muszą być nieujemne'),
 });
-

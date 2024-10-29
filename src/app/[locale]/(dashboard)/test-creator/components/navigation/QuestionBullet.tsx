@@ -1,19 +1,35 @@
 import React, { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 import { TestCreatorQuestion } from '../../types/question';
+import { useTestContext } from '../../store/storeContext';
 
 interface QuestionBulletProps {
   question: TestCreatorQuestion;
+  questionGroupId: string;
   index: number;
 }
 
-const QuestionBullet: FC<QuestionBulletProps> = ({ question, index }) => {
+const QuestionBullet: FC<QuestionBulletProps> = ({
+  question,
+  index,
+  questionGroupId,
+}) => {
+  const setCurrentQuestion = useTestContext(
+    (state) => state.setCurrentQuestion
+  );
+  const currentQuestion = useTestContext((state) => state.currentQuestion);
+
   return (
     <Button
+      onClick={() => setCurrentQuestion(questionGroupId, question.id)}
       variant="outline"
-      className="relative flex items-center space-x-2 rounded-full bg-gray-200 px-4 py-2 text-black transition-colors duration-200 ease-in-out hover:bg-gray-300"
+      className={cn(
+        '"relative hover:bg-gray-300" flex items-center space-x-2 rounded-full bg-gray-200 px-4 py-2 text-black transition-colors duration-200 ease-in-out',
+        currentQuestion?.id === question.id && 'bg-green-500 text-white'
+      )}
     >
       <span className="font-bold">{index + 1}.</span>
       <span className="max-w-[150px] overflow-hidden truncate whitespace-nowrap">

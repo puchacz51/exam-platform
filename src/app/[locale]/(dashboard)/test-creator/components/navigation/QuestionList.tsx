@@ -31,6 +31,7 @@ const QuestionList: FC = () => {
           <QuestionBullet
             key={question.id}
             question={question}
+            questionGroupId={currentQuestionGroupId || ''}
             index={index}
           />
         ))

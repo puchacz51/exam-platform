@@ -1,11 +1,9 @@
 import { Inter } from 'next/font/google';
-
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 
 import { cn } from '@/lib/utils';
 import { auth } from '@/next-auth/auth';
-import { authConfigWithProviders } from '@/next-auth/authWithoutProviders';
 
 import DashboardHeader from './components/DashboardHeader';
 // import DashboardNavbar from './components/DashboardNavbar'

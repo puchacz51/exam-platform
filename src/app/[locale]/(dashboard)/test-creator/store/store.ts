@@ -39,7 +39,6 @@ export interface TestState extends TestProps {
     questionId: string,
     question: TestCreatorQuestion
   ) => void;
-  removeQuestion: (groupId: string, questionId: string) => void;
   resetTest: () => void;
   setIsAddedGeneralConfiguration: (isAdded: Updater<boolean>) => void;
   setIsTestConfiguratorShowed: (isOpen: Updater<boolean>) => void;
@@ -75,6 +74,7 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'SINGLE_CHOICE',
           isPublic: false,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 5,
           answers: [
             { text: 'London', isCorrect: false },
             { text: 'Paris', isCorrect: true },
@@ -88,6 +88,7 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'OPEN',
           isPublic: false,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 10,
           groupId: 'group-1730041489794',
         },
         {
@@ -96,11 +97,23 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 5,
           answers: [
             { text: 'Earth', isCorrect: false },
             { text: 'Jupiter', isCorrect: true },
             { text: 'Mars', isCorrect: false },
           ],
+          groupId: 'group-1730041489794',
+        },
+        {
+          id: 'q7',
+          text: 'Calculate the square root of 16.',
+          questionType: 'NUMERIC',
+          isPublic: true,
+          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 3,
+          correctAnswer: 4,
+          tolerance: 0.1,
           groupId: 'group-1730041489794',
         },
       ],
@@ -117,6 +130,7 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 5,
           answers: [
             { text: '100°C', isCorrect: true },
             { text: '50°C', isCorrect: false },
@@ -130,6 +144,7 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'OPEN',
           isPublic: true,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 7,
           groupId: 'group-1730041490000',
         },
         {
@@ -138,10 +153,26 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 5,
           answers: [
             { text: 'O', isCorrect: true },
             { text: 'H', isCorrect: false },
             { text: 'N', isCorrect: false },
+          ],
+          groupId: 'group-1730041490000',
+        },
+        {
+          id: 'q8',
+          text: 'Arrange the planets by distance from the sun, starting with the closest.',
+          questionType: 'ORDER',
+          isPublic: true,
+          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 4,
+          orderItems: [
+            { text: 'Mercury', order: 1 },
+            { text: 'Venus', order: 2 },
+            { text: 'Earth', order: 3 },
+            { text: 'Mars', order: 4 },
           ],
           groupId: 'group-1730041490000',
         },
@@ -159,6 +190,7 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'SINGLE_CHOICE',
           isPublic: false,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 5,
           answers: [
             { text: '3.14', isCorrect: true },
             { text: '3.15', isCorrect: false },
@@ -172,6 +204,33 @@ const DEFAULT_PROPS: TestProps = {
           questionType: 'OPEN',
           isPublic: false,
           categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 10,
+          groupId: 'group-1730041490100',
+        },
+        {
+          id: 'q9',
+          text: 'What is 12 times 12?',
+          questionType: 'NUMERIC',
+          isPublic: false,
+          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 3,
+          correctAnswer: 144,
+          tolerance: 0,
+          groupId: 'group-1730041490100',
+        },
+        {
+          id: 'q10',
+          text: 'Order the numbers from smallest to largest: 8, 1, 7, 3.',
+          questionType: 'ORDER',
+          isPublic: false,
+          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          points: 4,
+          orderItems: [
+            { text: '1', order: 1 },
+            { text: '3', order: 2 },
+            { text: '7', order: 3 },
+            { text: '8', order: 4 },
+          ],
           groupId: 'group-1730041490100',
         },
       ],
@@ -264,19 +323,6 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
                 questions: g.questions.map((q) =>
                   q.id === questionId ? { ...q, ...question } : q
                 ),
-              }
-            : g
-        ),
-      })),
-
-    removeQuestion: (groupId, questionId) =>
-      set((prev) => ({
-        ...prev,
-        questionGroups: prev.questionGroups.map((g) =>
-          g.id === groupId
-            ? {
-                ...g,
-                questions: g.questions.filter((q) => q.id !== questionId),
               }
             : g
         ),

@@ -3,6 +3,7 @@ import {
   integer,
   pgEnum,
   pgTable,
+  real,
   text,
   uuid,
 } from 'drizzle-orm/pg-core';
@@ -30,6 +31,7 @@ export const questionsTable = pgTable('questions', {
   order: integer('order'),
   isPublic: boolean('is_public').default(false),
   categoryId: uuid('category_id').references(() => categoriesTable.id),
+  points: real('points').notNull().default(1),
 });
 
 export const questionRelations = relations(questionsTable, ({ one, many }) => ({

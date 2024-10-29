@@ -1,5 +1,4 @@
 import { Inter } from 'next/font/google';
-
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 

@@ -1,14 +1,13 @@
-'use client';
-import React, { FC, HTMLAttributes } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { randomBytes } from 'crypto';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { z } from 'zod';
 import { ChevronDown, ChevronUp, Save } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -18,6 +17,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -25,22 +27,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { questionTypeEnum } from '@schema/questions';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { SingleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/SingleChoiceQuestionForm';
-import NumericQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericQuestionForm';
-import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { Input } from '@/components/ui/input';
 
+import { questionTypeEnum } from '../schemas/questionSchema';
+import { useTestContext } from '../store/storeContext';
+import {
+  QuestionType,
+  questionTypeSchema,
+} from '../schemas/questionTypeSchema';
+import SingleChoiceQuestionForm from './questions/SingleChoiceQuestionForm';
 import OpenEndedQuestionForm from './questions/OpenQuestionForm';
+import NumericQuestionForm from './questions/NumericQuestionForm';
+import MultipleChoiceQuestionForm from './questions/MultipleChoiceQuestionForm';
+import BooleanQuestionForm from './questions/BooleanQuestionForm';
+import { TestCreatorQuestion } from '../types/question';
+import OrderQuestionForm from './questions/OrderQuestionForm';
 
-export type QuestionType = z.infer<typeof questionTypeSchema>;
-
+const initialQuestion = {
+  text: '',
+  isPublic: false,
+  points: 1, // Default value for points
+};
 interface TestCreatorQuestionsFormProps
-  extends HTMLAttributes<HTMLDivElement> {}
+  extends React.HTMLAttributes<HTMLDivElement> {}
 
 const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   className,
@@ -54,23 +63,36 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
+  const currentQuestion = useTestContext((state) => state.currentQuestion);
   const addQuestion = useTestContext((state) => state.addQuestion);
   const { categories } = useTestContext((state) => state.testConfiguration);
+  const updateQuestion = useTestContext((state) => state.updateQuestion);
+
   const form = useForm<QuestionType>({
     resolver: zodResolver(questionTypeSchema),
-    defaultValues: {
-      text: '',
-      isPublic: false,
-    },
+    defaultValues: currentQuestion ? currentQuestion : { ...initialQuestion },
     shouldUnregister: true,
   });
+
   const { control, watch } = form;
   const { questionType } = watch();
+
+  useEffect(() => {
+    if (currentQuestion) {
+      form.reset(currentQuestion);
+    }
+  }, [currentQuestion]);
 
   const handleQuestionTypeSubmit = (
     data: z.infer<typeof questionTypeSchema>
   ) => {
     if (!currentQuestionGroupId) return;
+
+    if (currentQuestion) {
+      updateQuestion(currentQuestionGroupId, currentQuestion.id, data);
+      form.reset({ ...initialQuestion });
+      return;
+    }
 
     const questionId = randomBytes(16).toString('hex');
     const questionWithId: TestCreatorQuestion = {
@@ -80,8 +102,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     };
 
     addQuestion(questionWithId);
-
-    form.reset();
+    form.reset({ ...initialQuestion });
   };
 
   const SelectedQuestionForm = (() => {
@@ -92,6 +113,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
         return OpenEndedQuestionForm;
       case 'NUMERIC':
         return NumericQuestionForm;
+      case 'MULTIPLE_CHOICE':
+        return MultipleChoiceQuestionForm;
+      case 'BOOLEAN':
+        return BooleanQuestionForm;
+      case 'ORDER':
+        return OrderQuestionForm;
       default:
         return React.Fragment;
     }
@@ -150,6 +177,31 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={control}
+                name="points"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Punkty</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        min={0}
+                        step={1}
+                        placeholder="Liczba punktów"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Określ liczbę punktów za poprawną odpowiedź
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={control}
                 name="isPublic"
@@ -171,6 +223,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="categoryId"
@@ -206,6 +259,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormItem>
                 )}
               />
+
               {questionType && (
                 <div className="mt-6">
                   <FormProvider {...form}>
@@ -213,6 +267,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   </FormProvider>
                 </div>
               )}
+
               <Button
                 type="submit"
                 className="w-full"
