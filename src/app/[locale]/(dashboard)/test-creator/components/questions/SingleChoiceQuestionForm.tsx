@@ -25,27 +25,36 @@ export const SingleChoiceQuestionForm = () => {
     control,
     setValue,
     getValues,
+    handleSubmit,
     formState: { errors },
   } = form;
-
   const { fields, append, remove } = useFieldArray({
-    control: control,
+    control,
     name: 'answers',
   });
 
+  const handleCorrectAnswerSelection = (index: number) => {
+    getValues().answers?.forEach((_, i) => {
+      setValue(`answers.${i}.isCorrect`, i === index, { shouldValidate: true });
+    });
+  };
+
   useEffect(() => {
-    if (!fields.length) {
+    if (fields.length === 0) {
       append({ text: '', isCorrect: false });
       append({ text: '', isCorrect: false });
     }
-  }, [append, fields.length]);
+  }, []);
 
-  const correctAnswerCount = fields.filter((field) => field.isCorrect).length;
-  const hasMinimumAnswers = fields.length >= 2;
-  const hasOneCorrectAnswer = correctAnswerCount === 1;
+  const onSubmit = (data: OpenQuestion) => {
+    console.log(data);
+  };
 
   return (
-    <div className="space-y-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6"
+    >
       <FormField
         control={control}
         name="text"
@@ -66,9 +75,9 @@ export const SingleChoiceQuestionForm = () => {
 
       <Card>
         <CardContent className="pt-6">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4">
             <FormLabel>Odpowiedzi</FormLabel>
-            {!hasMinimumAnswers && (
+            {fields.length < 2 && (
               <Alert
                 variant="destructive"
                 className="mt-2"
@@ -79,14 +88,15 @@ export const SingleChoiceQuestionForm = () => {
                 </AlertDescription>
               </Alert>
             )}
-            {!hasOneCorrectAnswer && fields.length >= 2 && (
-              <Alert className="mt-2">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Wybierz dokładnie jedną poprawną odpowiedź
-                </AlertDescription>
-              </Alert>
-            )}
+            {fields.filter((field) => field.isCorrect).length !== 1 &&
+              fields.length >= 2 && (
+                <Alert className="mt-2">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    Wybierz dokładnie jedną poprawną odpowiedź
+                  </AlertDescription>
+                </Alert>
+              )}
           </div>
 
           <div className="space-y-4">
@@ -118,23 +128,10 @@ export const SingleChoiceQuestionForm = () => {
                     <FormItem>
                       <FormControl>
                         <RadioGroup
-                          onValueChange={(value) => {
-                            // Clear all other correct answers
-                            getValues()?.answers?.forEach((_, i) => {
-                              setValue(`answers.${i}.isCorrect`, false, {
-                                shouldValidate: true,
-                              });
-                            });
-                            // Set new correct answer
-                            setValue(
-                              `answers.${index}.isCorrect`,
-                              value === 'true',
-                              {
-                                shouldValidate: true,
-                              }
-                            );
-                          }}
                           value={field.value ? 'true' : 'false'}
+                          onValueChange={() =>
+                            handleCorrectAnswerSelection(index)
+                          }
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem
@@ -194,7 +191,7 @@ export const SingleChoiceQuestionForm = () => {
           )}
         />
       )}
-    </div>
+    </form>
   );
 };
 

@@ -5,7 +5,7 @@ import { testsTable } from './test';
 import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   testId: uuid('test_id').references(() => testsTable.id),
   name: varchar('name', { length: 256 }),
   order: integer('order'),

@@ -111,8 +111,8 @@ export const questionTypeSchema = discriminatedUnion('questionType', [
   questionBooleanSchema,
   questionNumericSchema,
   questionMatchingSchema,
-  questionBooleanGroupSchema,
-  questionNumericGroupSchema,
+  // questionBooleanGroupSchema,
+  // questionNumericGroupSchema,
 ]);
 
 export type QuestionType = z.infer<typeof questionTypeSchema>;
@@ -155,9 +155,9 @@ export type NumericQuestion = BaseQuestion<'NUMERIC'> & {
   tolerance?: number;
 };
 
-// export type MatchingQuestion = BaseQuestion<'MATCHING'> & {
-//   matchingPairs: Array<z.infer<typeof matchingPairSchema>>;
-// };
+export type MatchingQuestion = BaseQuestion<'MATCHING'> & {
+  matchingPairs: Array<z.infer<typeof matchingPairSchema>>;
+};
 
 // export type BooleanGroupQuestion = BaseQuestion<'BOOLEAN_GROUP'> & {
 //   subQuestions: Array<z.infer<typeof booleanSubQuestionSchema>>;
@@ -173,4 +173,5 @@ export type Question =
   | MultipleChoiceQuestion
   | OrderQuestion
   | BooleanQuestion
-  | NumericQuestion;
+  | NumericQuestion
+  | MatchingQuestion;

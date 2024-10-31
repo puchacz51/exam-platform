@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, real, serial } from 'drizzle-orm/pg-core';
+import { pgTable, real, uuid } from 'drizzle-orm/pg-core';
 
 import { questionsTable } from './questions';
 
 export const numericQuestionsTable = pgTable('numeric_questions', {
-  id: serial('id').primaryKey(),
-  questionId: integer('question_id')
+  id: uuid('id').primaryKey().defaultRandom(),
+  questionId: uuid('question_id')
     .references(() => questionsTable.id)
     .notNull(),
   correctAnswer: real('correct_answer').notNull(),
@@ -13,7 +13,7 @@ export const numericQuestionsTable = pgTable('numeric_questions', {
 });
 
 export const numericQuestionsRelations = relations(
-    numericQuestionsTable,
+  numericQuestionsTable,
   ({ one }) => ({
     question: one(questionsTable, {
       fields: [numericQuestionsTable.questionId],

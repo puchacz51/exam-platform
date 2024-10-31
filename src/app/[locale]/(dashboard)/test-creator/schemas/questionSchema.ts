@@ -10,6 +10,7 @@ export const questionTypeEnum = pgEnum('question_type', [
   'ORDER',
   'BOOLEAN',
   'NUMERIC',
+  'MATCHING',
 ]);
 
 export const questionBaseSchema = object({

@@ -20,7 +20,7 @@ export type TestAccessType =
   (typeof accessTypeEnum)[keyof typeof accessTypeEnum];
 
 export const testsTable = pgTable('tests', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   title: varchar('title', { length: 256 }),
   description: text('description'),
   creatorId: uuid('creator_id').references(() => usersTable.id),
@@ -29,18 +29,6 @@ export const testsTable = pgTable('tests', {
   accessCode: varchar('access_code', { length: 20 }),
   createdAt: timestamp('created_at'),
 });
-
-// export const testsRelations = relations(testsTable, ({ many, one }) => ({
-//   questionsGroups: many(questionGroupsTable),
-//   creator: one(usersTable, {
-//     fields: [testsTable.creatorID],
-//     references: [usersTable.id],
-//   }),
-//   category: one(categoriesTable, {
-//     fields: [testsTable.categoryID],
-//     references: [categoriesTable.id],
-//   }),
-// }));
 
 export type InsertTest = typeof testsTable.$inferInsert;
 export type SelectTest = typeof testsTable.$inferSelect;

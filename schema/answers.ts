@@ -4,7 +4,7 @@ import { relations } from 'drizzle-orm';
 import { questionsTable } from './questions';
 
 export const answersTable = pgTable('answers', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   questionId: uuid('question_id')
     .notNull()
     .references(() => questionsTable.id),

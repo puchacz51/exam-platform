@@ -21,10 +21,12 @@ export const questionTypeEnum = pgEnum('question_type', [
   'ORDER',
   'BOOLEAN',
   'NUMERIC',
+  'MATCHING',
+
 ]);
 
 export const questionsTable = pgTable('questions', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   groupId: uuid('group_id').references(() => questionGroupsTable.id),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),

@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable,  serial, text } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 
 import { questionsTable } from './questions';
 
 export const orderItemsTable = pgTable('order_items', {
-  id: serial('id').primaryKey(),
-  questionId: integer('question_id')
+  id: uuid('id').primaryKey().defaultRandom(),
+  questionId: uuid('question_id')
     .references(() => questionsTable.id)
     .notNull(),
   text: text('text').notNull(),

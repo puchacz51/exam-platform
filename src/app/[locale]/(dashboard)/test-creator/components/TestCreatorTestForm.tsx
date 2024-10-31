@@ -36,6 +36,7 @@ interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
 const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { categories } = useTestContext((state) => state.testConfiguration);
+  const test = useTestContext((state) => state.test);
   const setTest = useTestContext((state) => state.setTest);
   const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
   const isTestConfiguratorShowed = useTestContext(
@@ -53,13 +54,7 @@ const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
 
   const form = useForm<TestCreatorTest>({
     resolver: zodResolver(testSchema),
-    defaultValues: {
-      title: 'test',
-      description: 'test test',
-      categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
-      accessType: 'PUBLIC',
-      accessCode: '',
-    },
+    defaultValues: { ...test },
   });
 
   const handleSubmit = (data: TestCreatorTest) => {
