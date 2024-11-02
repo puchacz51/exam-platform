@@ -10,7 +10,7 @@ import { relations } from 'drizzle-orm';
 import { questionsTable } from './questions';
 import { questionGroupsTable } from './questionGroups';
 
-export const questionOnQuestionGroup = pgTable(
+export const questionOnQuestionGroupTable = pgTable(
   'question_on_question_group',
   {
     questionId: uuid('question_id')
@@ -28,19 +28,19 @@ export const questionOnQuestionGroup = pgTable(
 );
 
 export type InsertQuestionOnQuestionGroup =
-  typeof questionOnQuestionGroup.$inferInsert;
+  typeof questionOnQuestionGroupTable.$inferInsert;
 export type SelectQuestionOnQuestionGroup =
-  typeof questionOnQuestionGroup.$inferSelect;
+  typeof questionOnQuestionGroupTable.$inferSelect;
 
 export const questionOnQuestionGroupRelations = relations(
-  questionOnQuestionGroup,
+  questionOnQuestionGroupTable,
   ({ one }) => ({
     question: one(questionsTable, {
-      fields: [questionOnQuestionGroup.questionId],
+      fields: [questionOnQuestionGroupTable.questionId],
       references: [questionsTable.id],
     }),
     questionGroup: one(questionGroupsTable, {
-      fields: [questionOnQuestionGroup.questionGroupId],
+      fields: [questionOnQuestionGroupTable.questionGroupId],
       references: [questionGroupsTable.id],
     }),
   })

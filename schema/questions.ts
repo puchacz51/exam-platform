@@ -12,7 +12,8 @@ import { relations } from 'drizzle-orm';
 import { questionGroupsTable } from './questionGroups';
 import { categoriesTable } from './categories';
 import { answersTable } from './answers';
-import { questionOnQuestionGroup } from './questionOnQuestionGroup';
+import { questionOnQuestionGroupTable } from './questionOnQuestionGroup';
+import { orderItemsTable } from './orderItems';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',
@@ -22,7 +23,6 @@ export const questionTypeEnum = pgEnum('question_type', [
   'BOOLEAN',
   'NUMERIC',
   'MATCHING',
-
 ]);
 
 export const questionsTable = pgTable('questions', {
@@ -46,7 +46,8 @@ export const questionRelations = relations(questionsTable, ({ one, many }) => ({
     references: [categoriesTable.id],
   }),
   answers: many(answersTable),
-  questionOnQuestionGroup: many(questionOnQuestionGroup),
+  questionOnQuestionGroup: many(questionOnQuestionGroupTable),
+  orderItems: many(orderItemsTable),
 }));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;

@@ -1,18 +1,19 @@
 import { create } from 'zustand';
 import { EmptyObject } from 'react-hook-form';
+import { z } from 'zod';
 
-import { InsertTest } from '@schema/test';
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
 
 import { TestCreatorQuestion } from '../types/question';
 import { TestCreatorQuestionGroup } from '../types/questionGroup';
+import { testSchema } from '../schemas/testSchema';
 
 export type TestCreatorAnswer = {
   text: string;
   isCorrect?: boolean;
 };
 
-type Test = Omit<InsertTest, 'questions' | 'id'>;
+type Test = z.infer<typeof testSchema>;
 
 export interface TestProps {
   testConfiguration: TestConfiguration;
@@ -58,7 +59,7 @@ const DEFAULT_PROPS: TestProps = {
     title: 'Sample Test',
     description: 'A test to assess knowledge on various subjects.',
     accessType: 'PUBLIC',
-    categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+    categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
     accessCode: '',
   },
   questionGroups: [
@@ -73,7 +74,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is the capital of France?',
           questionType: 'SINGLE_CHOICE',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 5,
           answers: [
             { text: 'London', isCorrect: false },
@@ -87,7 +88,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Describe the process of photosynthesis.',
           questionType: 'OPEN',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 10,
           groupId: 'group-1730041489794',
         },
@@ -96,7 +97,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is the largest planet in our Solar System?',
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 5,
           answers: [
             { text: 'Earth', isCorrect: false },
@@ -110,7 +111,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Calculate the square root of 16.',
           questionType: 'NUMERIC',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 3,
           correctAnswer: 4,
           tolerance: 0.1,
@@ -129,7 +130,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is the boiling point of water at sea level?',
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 5,
           answers: [
             { text: '100°C', isCorrect: true },
@@ -143,7 +144,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Define gravity.',
           questionType: 'OPEN',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 7,
           groupId: 'group-1730041490000',
         },
@@ -152,7 +153,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is the symbol for the element oxygen?',
           questionType: 'SINGLE_CHOICE',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 5,
           answers: [
             { text: 'O', isCorrect: true },
@@ -166,7 +167,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Arrange the planets by distance from the sun, starting with the closest.',
           questionType: 'ORDER',
           isPublic: true,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 4,
           orderItems: [
             { text: 'Mercury', order: 1 },
@@ -189,7 +190,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is the value of π (pi) rounded to two decimal places?',
           questionType: 'SINGLE_CHOICE',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 5,
           answers: [
             { text: '3.14', isCorrect: true },
@@ -203,7 +204,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Explain the Pythagorean theorem.',
           questionType: 'OPEN',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 10,
           groupId: 'group-1730041490100',
         },
@@ -212,7 +213,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'What is 12 times 12?',
           questionType: 'NUMERIC',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 3,
           correctAnswer: 144,
           tolerance: 0,
@@ -223,7 +224,7 @@ const DEFAULT_PROPS: TestProps = {
           text: 'Order the numbers from smallest to largest: 8, 1, 7, 3.',
           questionType: 'ORDER',
           isPublic: false,
-          categoryId: 'dbdc4f84-7217-4c1a-9908-a6410130d9c7',
+          categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
           points: 4,
           orderItems: [
             { text: '1', order: 1 },

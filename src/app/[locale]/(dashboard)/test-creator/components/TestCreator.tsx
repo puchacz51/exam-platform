@@ -2,6 +2,7 @@
 import { FC, useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { createTestAction } from '@actions/test/createTest';
 
 import { useTestContext } from '../store/storeContext';
 import TestCreatorForm from './TestCreatorTestForm';
@@ -16,12 +17,13 @@ const TestCreator: FC = () => {
   const currentQuestionGroup = useTestContext(
     (state) => state.currentQuestionGroupId
   );
-  const { test } = useTestContext((state) => state);
+  const test = useTestContext((state) => state.test);
 
   const isTestConfiguratorShowed = useTestContext(
     (state) => state.isTestConfiguratorShowed
   );
   const handleFinishTest = useCallback(() => {
+    createTestAction(test, questionGroups);
     console.log('Test creation finished');
   }, []);
 

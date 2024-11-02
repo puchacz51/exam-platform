@@ -18,6 +18,9 @@ import { questionsTable } from '@schema/questions';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
 import { numericQuestionsTable } from '@schema/numericQuestion';
+import { auth } from '@/next-auth/auth';
+
+import { validateTestSubmission } from './validateTest';
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 type Tx = Parameters<TransactionFunction>[0];
@@ -27,6 +30,14 @@ async function createTest(
   questionGroups: TestCreatorQuestionGroup[],
   userId: string
 ) {
+  const { success, errors } = await validateTestSubmission({
+    test,
+    questionGroups,
+  });
+  if (!success) {
+    return { success: false, errors };
+  }
+
   return await db.transaction(async (tx) => {
     const [createdTest] = await tx
       .insert(testsTable)
@@ -175,8 +186,17 @@ export async function createTestAction(
   questionGroups: TestCreatorQuestionGroup[]
 ) {
   try {
-    const userId = 'current-user-id';
+    const session = await auth();
+    console.log('session', session);
+    if (!session?.user?.userID) {
+      return {
+        success: false,
+        error: 'Unauthorized access. Please log in.',
+      };
+    }
 
+    const userId = session.user.userID;
+    console.log('userId', userId);
     const result = await createTest(test, questionGroups, userId);
     return { success: true, data: result };
   } catch (error) {

@@ -9,6 +9,8 @@ import {
 
 import { usersTable } from './users';
 import { categoriesTable } from './categories';
+import { relations } from 'drizzle-orm';
+import { questionGroupsTable } from './questionGroups';
 
 export const accessTypeEnum = pgEnum('access_type', [
   'PUBLIC',
@@ -29,6 +31,18 @@ export const testsTable = pgTable('tests', {
   accessCode: varchar('access_code', { length: 20 }),
   createdAt: timestamp('created_at'),
 });
+
+export const testsRelations = relations(testsTable, ({ one, many }) => ({
+  creator: one(usersTable, {
+    fields: [testsTable.creatorId],
+    references: [usersTable.id],
+  }),
+  category: one(categoriesTable, {
+    fields: [testsTable.categoryId],
+    references: [categoriesTable.id],
+  }),
+  questionGroups: many(questionGroupsTable),
+}));
 
 export type InsertTest = typeof testsTable.$inferInsert;
 export type SelectTest = typeof testsTable.$inferSelect;

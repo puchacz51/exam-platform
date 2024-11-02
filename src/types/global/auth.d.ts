@@ -7,7 +7,7 @@ declare module 'next-auth' {
    */
   interface User extends DefaultUser {
     email: string;
-    userID: number;
+    userID: string;
     firstname: string | null;
     lastname: string | null;
     authProvider: string | null;
@@ -42,7 +42,7 @@ declare module 'next-auth/jwt' {
     idToken?: string;
     user: {
       email: string;
-      userID: number;
+      userID: string;
       firstname: string | null;
       lastname: string | null;
       authProvider: string | null;
