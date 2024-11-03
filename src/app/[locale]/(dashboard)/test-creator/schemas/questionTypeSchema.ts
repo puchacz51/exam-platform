@@ -15,18 +15,17 @@ import { questionBaseSchema } from './questionSchema';
 const matchingPairSchema = object({
   key: string().min(1, 'Klucz jest wymagany'),
   value: string().min(1, 'Wartość jest wymagana'),
-  order: number().optional(),
 });
 
 const booleanSubQuestionSchema = object({
   text: string().min(1, 'Treść podpytania jest wymagana'),
-  booleanAnswer: boolean(),
+  correctAnswer: boolean(),
   order: number().optional(),
 });
 
 const numericSubQuestionSchema = object({
   text: string().min(1, 'Treść podpytania jest wymagana'),
-  numericAnswer: number(),
+  correctAnswer: number(),
   numericTolerance: number().optional(),
   order: number().optional(),
 });
@@ -111,14 +110,14 @@ export const questionTypeSchema = discriminatedUnion('questionType', [
   questionBooleanSchema,
   questionNumericSchema,
   questionMatchingSchema,
-  // questionBooleanGroupSchema,
-  // questionNumericGroupSchema,
+  questionBooleanGroupSchema,
+  questionNumericGroupSchema,
 ]);
 
 export type QuestionType = z.infer<typeof questionTypeSchema>;
 export type MatchingPair = z.infer<typeof matchingPairSchema>;
-// export type BooleanSubQuestion = z.infer<typeof booleanSubQuestionSchema>;
-// export type NumericSubQuestion = z.infer<typeof numericSubQuestionSchema>;
+export type BooleanSubQuestion = z.infer<typeof booleanSubQuestionSchema>;
+export type NumericSubQuestion = z.infer<typeof numericSubQuestionSchema>;
 
 export type BaseQuestion<T extends string> = z.infer<
   typeof questionBaseSchema
@@ -159,13 +158,13 @@ export type MatchingQuestion = BaseQuestion<'MATCHING'> & {
   matchingPairs: Array<z.infer<typeof matchingPairSchema>>;
 };
 
-// export type BooleanGroupQuestion = BaseQuestion<'BOOLEAN_GROUP'> & {
-//   subQuestions: Array<z.infer<typeof booleanSubQuestionSchema>>;
-// };
+export type BooleanGroupQuestion = BaseQuestion<'BOOLEAN_GROUP'> & {
+  subQuestions: Array<z.infer<typeof booleanSubQuestionSchema>>;
+};
 
-// export type NumericGroupQuestion = BaseQuestion<'NUMERIC_GROUP'> & {
-//   subQuestions: Array<z.infer<typeof numericSubQuestionSchema>>;
-// };
+export type NumericGroupQuestion = BaseQuestion<'NUMERIC_GROUP'> & {
+  subQuestions: Array<z.infer<typeof numericSubQuestionSchema>>;
+};
 
 export type Question =
   | OpenQuestion
@@ -174,4 +173,6 @@ export type Question =
   | OrderQuestion
   | BooleanQuestion
   | NumericQuestion
-  | MatchingQuestion;
+  | MatchingQuestion
+  | BooleanGroupQuestion
+  | NumericGroupQuestion;

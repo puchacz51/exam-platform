@@ -3,8 +3,10 @@
 import db from '@/lib/db';
 import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 import {
+  BooleanGroupQuestion,
   BooleanQuestion,
   MultipleChoiceQuestion,
+  NumericGroupQuestion,
   NumericQuestion,
   OpenQuestion,
   OrderQuestion,
@@ -21,6 +23,8 @@ import { numericQuestionsTable } from '@schema/numericQuestion';
 import { auth } from '@/next-auth/auth';
 
 import { validateTestSubmission } from './validateTest';
+import { booleanGroupSubQuestionsTable } from '@schema/booleanGroupQuestion';
+import { numericGroupSubQuestionsTable } from '@schema/numericGroupQuestion';
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 type Tx = Parameters<TransactionFunction>[0];
@@ -111,6 +115,20 @@ async function createQuestionTypeSpecificData(
     case 'NUMERIC':
       await handleNumericQuestion(tx, question as NumericQuestion, questionId);
       break;
+    case 'BOOLEAN_GROUP':
+      await handleBooleanGroupQuestion(
+        tx,
+        question as BooleanGroupQuestion,
+        questionId
+      );
+      break;
+    case 'NUMERIC_GROUP':
+      await handleNumericGroupQuestion(
+        tx,
+        question as NumericGroupQuestion,
+        questionId
+      );
+      break;
   }
 }
 
@@ -179,6 +197,41 @@ async function handleNumericQuestion(
     correctAnswer: question.correctAnswer,
     tolerance: question.tolerance,
   });
+}
+
+async function handleBooleanGroupQuestion(
+  tx: Tx,
+  question: BooleanGroupQuestion,
+  questionId: string
+) {
+  const subQuestionsToInsert = question.subQuestions.map(
+    (subQuestion, index) => ({
+      questionId,
+      text: subQuestion.text,
+      correctAnswer: subQuestion.correctAnswer,
+      order: subQuestion.order ?? index,
+    })
+  );
+
+  await tx.insert(booleanGroupSubQuestionsTable).values(subQuestionsToInsert);
+}
+
+async function handleNumericGroupQuestion(
+  tx: Tx,
+  question: NumericGroupQuestion,
+  questionId: string
+) {
+  const subQuestionsToInsert = question.subQuestions.map(
+    (subQuestion, index) => ({
+      questionId,
+      text: subQuestion.text,
+      correctAnswer: subQuestion.correctAnswer,
+      numericTolerance: subQuestion.numericTolerance,
+      order: subQuestion.order ?? index,
+    })
+  );
+
+  await tx.insert(numericGroupSubQuestionsTable).values(subQuestionsToInsert);
 }
 
 export async function createTestAction(

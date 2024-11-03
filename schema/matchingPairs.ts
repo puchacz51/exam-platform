@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 
 import { questionsTable } from './questions';
 
@@ -10,7 +10,6 @@ export const matchingPairsTable = pgTable('matching_pairs', {
     .notNull(),
   key: varchar('key').notNull(),
   value: varchar('value').notNull(),
-  order: integer('order'),
 });
 
 export const matchingPairsRelations = relations(

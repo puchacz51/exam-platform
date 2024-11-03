@@ -1,8 +1,14 @@
 import { usersTable } from '@schema/users';
 import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
 
-import { matchingPairsRelations, matchingPairsTable } from '@schema/matchingPairs';
-import { questionGroupRelations, questionGroupsTable } from '@schema/questionGroups';
+import {
+  matchingPairsRelations,
+  matchingPairsTable,
+} from '@schema/matchingPairs';
+import {
+  questionGroupRelations,
+  questionGroupsTable,
+} from '@schema/questionGroups';
 import { orderItemsRelations, orderItemsTable } from '@schema/orderItems';
 import {
   numericQuestionsRelations,
@@ -16,6 +22,11 @@ import {
   questionOnQuestionGroupRelations,
   questionOnQuestionGroupTable,
 } from '@schema/questionOnQuestionGroup';
+import {
+  booleanGroupSubQuestionsRelations,
+  booleanGroupSubQuestionsTable,
+} from './booleanGroupQuestion';
+import { numericGroupSubQuestionsRelations } from './numericGroupQuestion';
 
 export const schema = {
   users: usersTable,
@@ -29,6 +40,8 @@ export const schema = {
   orderItems: orderItemsTable,
   numericQuestions: numericQuestionsTable,
   questionOnQuestionGroup: questionOnQuestionGroupTable,
+  booleanGroupSubQuestionsTable,
+  numericQuestionsTable,
   testsRelations,
   matchingPairsRelations,
   questionGroupRelations,
@@ -38,4 +51,6 @@ export const schema = {
   questionRelations,
   categoriesRelations,
   questionOnQuestionGroupRelations,
+  booleanGroupSubQuestionsRelations,
+  numericGroupSubQuestionsRelations,
 };

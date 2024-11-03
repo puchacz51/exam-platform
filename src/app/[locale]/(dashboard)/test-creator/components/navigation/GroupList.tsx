@@ -26,13 +26,12 @@ const GroupList: FC = () => {
       )}
     >
       <TestConfigurationBullet />
-      {!isSingleGroup &&
-        questionGroups.map((group) => (
-          <QuestionGroupBullet
-            key={group.id}
-            group={group}
-          />
-        ))}
+      {questionGroups.map((group) => (
+        <QuestionGroupBullet
+          key={group.id}
+          group={group}
+        />
+      ))}
       {isAddedGeneralConfiguration && (
         <>
           <Button

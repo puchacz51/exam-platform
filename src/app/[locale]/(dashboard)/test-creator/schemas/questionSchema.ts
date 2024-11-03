@@ -11,6 +11,8 @@ export const questionTypeEnum = pgEnum('question_type', [
   'BOOLEAN',
   'NUMERIC',
   'MATCHING',
+  'BOOLEAN_GROUP',
+  'NUMERIC_GROUP',
 ]);
 
 export const questionBaseSchema = object({
