@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { useTestContext } from '../../store/storeContext';
-import { TestCreatorQuestionGroup } from '../../types/questionGroup';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 
 interface QuestionGroupBulletProps {
   group: TestCreatorQuestionGroup;

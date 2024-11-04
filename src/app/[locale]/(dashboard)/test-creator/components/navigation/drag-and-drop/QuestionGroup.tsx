@@ -3,9 +3,8 @@ import { FC } from 'react';
 import { SortableContext } from '@dnd-kit/sortable';
 
 import { cn } from '@/lib/utils';
-
-import SortableItem from './SortableItem';
-import DroppableContainer from './DroppableContainer';
+import SortableItem from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/SortableItem';
+import DroppableContainer from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/DroppableContainer';
 
 interface Question {
   id: string;

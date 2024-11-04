@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { AlertCircle, Plus, Trash2, ArrowRightLeft } from 'lucide-react';
+import { AlertCircle, ArrowRightLeft, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { MatchingQuestion } from '../../schemas/questionTypeSchema';
+import { MatchingQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 const MatchingQuestionForm = () => {
   const form = useFormContext<MatchingQuestion>();

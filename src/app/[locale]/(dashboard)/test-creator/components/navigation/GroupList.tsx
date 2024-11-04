@@ -2,10 +2,9 @@ import React, { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
-import TestConfigurationBullet from './TestConfigurationBullet';
-import QuestionGroupBullet from './QuestionGroupBullet';
-import { useTestContext } from '../../store/storeContext';
+import TestConfigurationBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/TestConfigurationBullet';
+import QuestionGroupBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionGroupBullet';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 const GroupList: FC = () => {
   const {

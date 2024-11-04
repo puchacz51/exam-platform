@@ -27,9 +27,9 @@ import { accessTypeEnum } from '@schema/test';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import { useTestContext } from '../store/storeContext';
-import { TestCreatorTest } from '../types/test';
-import { testSchema } from '../schemas/testSchema';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 
 interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
 

@@ -4,10 +4,10 @@ import { FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { createTestAction } from '@actions/test/createTest';
 
-import { useTestContext } from '../store/storeContext';
-import TestCreatorForm from './TestCreatorTestForm';
-import BulletBar from './navigation/BulletBar';
-import TestCreatorQuestionsForm from './TestCreatorQuestionsForm';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
+import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/navigation/BulletBar';
+import TestCreatorQuestionsForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsForm';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(

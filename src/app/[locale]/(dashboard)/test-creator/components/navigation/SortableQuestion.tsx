@@ -3,7 +3,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { TestCreatorQuestion } from '../../types/question';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 
 interface SortableQuestionProps {
   question: TestCreatorQuestion;

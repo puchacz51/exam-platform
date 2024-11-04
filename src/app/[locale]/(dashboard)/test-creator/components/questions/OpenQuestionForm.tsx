@@ -13,7 +13,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { TestCreatorQuestion } from '../../types/question';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 
 const OpenEndedQuestionForm = () => {
   const form = useFormContext<TestCreatorQuestion>();

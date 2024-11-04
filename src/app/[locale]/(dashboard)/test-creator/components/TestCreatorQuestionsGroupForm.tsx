@@ -15,10 +15,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-
-import { questionGroupSchema } from '../schemas/questionsGroup';
-import { TestCreatorQuestionGroup } from '../types/questionGroup';
-import { useTestContext } from '../store/storeContext';
+import { questionGroupSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionsGroup';
+import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface TestCreatorQuestionGroupFormProps
   extends HTMLAttributes<HTMLDivElement> {}

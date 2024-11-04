@@ -16,8 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-
-import { OpenQuestion } from '../../schemas/questionTypeSchema';
+import { OpenQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 export const SingleChoiceQuestionForm = () => {
   const form = useFormContext<OpenQuestion>();

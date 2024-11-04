@@ -15,7 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { NumericGroupQuestion } from '../../schemas/questionTypeSchema';
+import { NumericGroupQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 const NumericGroupQuestionForm = () => {
   const form = useFormContext<NumericGroupQuestion>();

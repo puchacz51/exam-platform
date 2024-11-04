@@ -28,6 +28,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { questionTypeEnum } from '../schemas/questionSchema';
 import { useTestContext } from '../store/storeContext';
@@ -45,12 +51,6 @@ import OrderQuestionForm from './questions/OrderQuestionForm';
 import MatchingQuestionForm from './questions/MatchingQuestionForm';
 import BooleanGroupQuestionForm from './questions/BooleanGroupQuestionForm';
 import NumericGroupQuestionForm from './questions/NumericGroupQuestionForm';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 const initialQuestion = {
   text: '',
@@ -73,9 +73,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     (state) => state.currentQuestionGroupId
   );
   const currentQuestion = useTestContext((state) => state.currentQuestion);
-  const setCurrentQuestion = useTestContext(
-    (state) => state.setCurrentQuestion
-  );
+
   const addQuestion = useTestContext((state) => state.addQuestion);
   const { categories } = useTestContext((state) => state.testConfiguration);
   const updateQuestion = useTestContext((state) => state.updateQuestion);
@@ -114,7 +112,6 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     };
 
     addQuestion(questionWithId);
-    // setCurrentQuestion(currentQuestionGroupId, null);
     form.reset({ ...initialQuestion });
   };
 

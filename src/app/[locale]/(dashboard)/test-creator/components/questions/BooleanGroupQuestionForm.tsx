@@ -16,7 +16,7 @@ import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { BooleanGroupQuestion } from '../../schemas/questionTypeSchema';
+import { BooleanGroupQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 const BooleanGroupQuestionForm = () => {
   const form = useFormContext<BooleanGroupQuestion>();

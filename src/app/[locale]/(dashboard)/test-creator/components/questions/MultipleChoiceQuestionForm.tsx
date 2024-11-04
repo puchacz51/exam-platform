@@ -16,8 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { TestCreatorQuestion } from '../../types/question';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 
 export const MultipleChoiceQuestionForm = () => {
   const form = useFormContext<TestCreatorQuestion>();

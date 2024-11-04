@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 
-import QuestionGroup from './QuestionGroup';
-import useDragDrop from '../../../hooks/useDragDrop';
+import useDragDrop from '@/app/[locale]/(dashboard)/test-creator/hooks/useDragDrop';
+import QuestionGroup from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/QuestionGroup';
 
 export interface Question {
   id: string;

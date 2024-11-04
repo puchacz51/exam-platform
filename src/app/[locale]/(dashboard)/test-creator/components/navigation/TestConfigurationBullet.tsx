@@ -6,7 +6,7 @@ import { GrDocumentConfig } from 'react-icons/gr';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-import { useTestContext } from '../../store/storeContext';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 const TestConfigurationBullet: FC = () => {
   const isInitialTestConfig = useTestContext(

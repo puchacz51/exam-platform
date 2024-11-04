@@ -3,10 +3,9 @@ import { EmptyObject } from 'react-hook-form';
 import { z } from 'zod';
 
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
-
-import { TestCreatorQuestion } from '../types/question';
-import { TestCreatorQuestionGroup } from '../types/questionGroup';
-import { testSchema } from '../schemas/testSchema';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 
 export type TestCreatorAnswer = {
   text: string;

@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-import { TestCreatorQuestion } from '../../types/question';
-import { useTestContext } from '../../store/storeContext';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface QuestionBulletProps {
   question: TestCreatorQuestion;
@@ -20,11 +20,19 @@ const QuestionBullet: FC<QuestionBulletProps> = ({
   const setCurrentQuestion = useTestContext(
     (state) => state.setCurrentQuestion
   );
+  const setIsQuestionConfiguratorOpen = useTestContext(
+    (state) => state.setIsQuestionConfiguratorOpen
+  );
   const currentQuestion = useTestContext((state) => state.currentQuestion);
+
+  const handleSelectQuestion = () => {
+    setCurrentQuestion(questionGroupId, question.id);
+    setIsQuestionConfiguratorOpen(true);
+  };
 
   return (
     <Button
-      onClick={() => setCurrentQuestion(questionGroupId, question.id)}
+      onClick={handleSelectQuestion}
       variant="outline"
       className={cn(
         '"relative hover:bg-gray-300" flex items-center space-x-2 rounded-full bg-gray-200 px-4 py-2 text-black transition-colors duration-200 ease-in-out',

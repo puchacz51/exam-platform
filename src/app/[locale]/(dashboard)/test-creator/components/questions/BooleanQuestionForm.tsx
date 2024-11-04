@@ -13,8 +13,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { TestCreatorQuestion } from '../../types/question';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 
 export const BooleanQuestionForm = () => {
   const form = useFormContext<TestCreatorQuestion>();

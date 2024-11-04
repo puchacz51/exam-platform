@@ -4,7 +4,11 @@ import { createContext, memo, ReactNode, useContext, useMemo } from 'react';
 
 import { useStore } from 'zustand';
 
-import createTestStore, { TestProps, TestState, TestStore } from './store';
+import createTestStore, {
+  TestProps,
+  TestState,
+  TestStore,
+} from '@/app/[locale]/(dashboard)/test-creator/store/store';
 
 const TestContext = createContext<TestStore | null>(null);
 

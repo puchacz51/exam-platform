@@ -9,8 +9,8 @@ import {
   z,
 } from 'zod';
 
-import { answerSchema } from './answerSchema';
-import { questionBaseSchema } from './questionSchema';
+import { answerSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/answerSchema';
+import { questionBaseSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionSchema';
 
 const matchingPairSchema = object({
   key: string().min(1, 'Klucz jest wymagany'),
