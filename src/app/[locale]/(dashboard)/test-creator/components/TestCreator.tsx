@@ -1,59 +1,64 @@
 'use client';
+
 import { FC, useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { createTestAction } from '@actions/test/createTest';
-
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
-import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/navigation/BulletBar';
-import TestCreatorQuestionsForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsForm';
+
+import BulletBar from './navigation/BulletBar';
+import TestCreatorForm from './TestCreatorTestForm';
+import TestCreatorQuestionsForm from './TestCreatorQuestionsForm';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
     (state) => state.isAddedGeneralConfiguration
   );
   const questionGroups = useTestContext((state) => state.questionGroups);
-  const currentQuestionGroup = useTestContext(
-    (state) => state.currentQuestionGroupId
-  );
+
   const test = useTestContext((state) => state.test);
 
   const isTestConfiguratorShowed = useTestContext(
     (state) => state.isTestConfiguratorShowed
   );
+  const currentQuestionGroupId = useTestContext(
+    (state) => state.currentQuestionGroupId
+  );
+
+  const hasQuestions = questionGroups.some(
+    (group) => !!group?.questions?.length
+  );
+
   const handleFinishTest = useCallback(() => {
     createTestAction(test, questionGroups);
-    console.log('Test creation finished');
-  }, []);
+  }, [test, questionGroups]);
 
   return (
     <div className="container mx-auto p-4">
       <BulletBar />
-      {isTestConfiguratorShowed && <TestCreatorForm />}
-      {isInitialConfig && (
-        <>
-          {questionGroups.map((group) => (
-            <div
-              key={group.id}
-              className="mt-6"
-            >
-              {currentQuestionGroup === group.id && (
-                <TestCreatorQuestionsForm className="mt-4" />
-              )}
-            </div>
-          ))}
-          {questionGroups.some((group) => !!group?.questions?.length) && (
-            <Button
-              className="mt-4"
-              onClick={handleFinishTest}
-            >
-              Zakończ tworzenie testu
-            </Button>
-          )}
-        </>
+
+      {isTestConfiguratorShowed && (
+        <div className="mb-6">
+          <TestCreatorForm />
+        </div>
       )}
-      {JSON.stringify({ test, questionGroups }, null, 2)}
+
+      {isInitialConfig && (
+        <div className="space-y-6">
+          {questionGroups.map(
+            (group) =>
+              currentQuestionGroupId === group.id && (
+                <div key={group.id}>
+                  <TestCreatorQuestionsForm className="mt-4" />
+                </div>
+              )
+          )}
+
+          {hasQuestions && (
+            <Button onClick={handleFinishTest}>Zakończ tworzenie testu</Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -27,6 +27,7 @@ import {
   booleanGroupSubQuestionsTable,
 } from './booleanGroupQuestion';
 import { numericGroupSubQuestionsRelations } from './numericGroupQuestion';
+import { testSettingsRelations, testSettingsTable } from './testSettings';
 
 export const schema = {
   users: usersTable,
@@ -40,6 +41,7 @@ export const schema = {
   orderItems: orderItemsTable,
   numericQuestions: numericQuestionsTable,
   questionOnQuestionGroup: questionOnQuestionGroupTable,
+  testSettings: testSettingsTable,
   booleanGroupSubQuestionsTable,
   numericQuestionsTable,
   testsRelations,
@@ -53,4 +55,5 @@ export const schema = {
   questionOnQuestionGroupRelations,
   booleanGroupSubQuestionsRelations,
   numericGroupSubQuestionsRelations,
+  testSettingsRelations,
 };

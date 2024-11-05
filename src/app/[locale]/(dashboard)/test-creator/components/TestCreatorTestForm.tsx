@@ -1,225 +1,173 @@
 import React, { FC, HTMLAttributes, useState } from 'react';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Form, FormProvider, useForm } from 'react-hook-form';
+import {
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  Layout,
+  LockKeyhole,
+  Medal,
+  Save,
+  Settings2,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { accessTypeEnum } from '@schema/test';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import TestCreatorTestScoring from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestScoring';
+import TestCreatorTestBasic from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestBasic';
+import TestCreatorTestAccess from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestAccess';
+import TestCreatorTestNavigation from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestNavigation';
+import TestCreatorTestDisplay from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestDisplay';
+import TestCreatorTestResults from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestResults';
 
-import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
-import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
-
-interface TestCreatorFormProps extends HTMLAttributes<HTMLDivElement> {}
-
-const TestCreatorForm: FC<TestCreatorFormProps> = ({ className }) => {
+const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
+  const [activeTab, setActiveTab] = useState('basic');
   const [isOpen, setIsOpen] = useState(true);
-  const { categories } = useTestContext((state) => state.testConfiguration);
-  const test = useTestContext((state) => state.test);
-  const setTest = useTestContext((state) => state.setTest);
-  const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
-  const isTestConfiguratorShowed = useTestContext(
-    (state) => state.isTestConfiguratorShowed
-  );
-  const setTestConfiguratorShowed = useTestContext(
-    (state) => state.setIsTestConfiguratorShowed
-  );
-  const setIsQuestionConfiguratorOpen = useTestContext(
-    (state) => state.setIsQuestionConfiguratorOpen
-  );
-  const setIsAddedGeneralConfiguration = useTestContext(
-    (state) => state.setIsAddedGeneralConfiguration
-  );
 
-  const form = useForm<TestCreatorTest>({
-    resolver: zodResolver(testSchema),
-    defaultValues: { ...test },
+  const form = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      categoryId: '',
+
+      accessType: 'CODE',
+      accessCode: '',
+
+      navigationMode: 'FREE',
+      allowGoBack: true,
+      confirmBeforeGroupChange: true,
+
+      scoringSystem: 'STANDARD',
+      allowPartialPoints: true,
+      minimumPointsPerQuestion: 0,
+      negativePointsPercentage: 0,
+      roundingPrecision: 2,
+
+      questionDisplayMode: 'ALL',
+      questionsPerPage: 1,
+      shuffleQuestionsInGroup: false,
+      shuffleAnswers: false,
+
+      showProgressBar: true,
+      showTimeRemaining: true,
+      showQuestionPoints: true,
+      allowQuestionFlagging: true,
+      autosaveInterval: 60,
+
+      showPartialResults: false,
+      showCorrectAnswers: false,
+      showPointsPerQuestion: true,
+      showFinalScore: true,
+    },
   });
 
-  const handleSubmit = (data: TestCreatorTest) => {
-    setTest(data);
-    setIsQuestionConfiguratorOpen(true);
-    setTestConfiguratorShowed(false);
-    setIsAddedGeneralConfiguration(true);
-    addQuestionGroup();
+  const handleSubmit = (data: any) => {
+    console.log(data);
   };
 
-  if (!isTestConfiguratorShowed) return null;
-
   return (
-    <Card className={cn('p-4', className)}>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Formularz tworzenia testu</h2>
-        <Button
-          onClick={() => setIsOpen((prev) => !prev)}
-          variant="ghost"
-          size="sm"
-        >
-          {isTestConfiguratorShowed ? <ChevronUp /> : <ChevronDown />}
-        </Button>
-      </div>
-      {isOpen && (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-8"
+    <Card className={cn('bg-white shadow-lg', className)}>
+      <CardHeader className="border-b">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Settings2 className="h-5 w-5 text-primary" />
+            <CardTitle>Konfiguracja testu</CardTitle>
+          </div>
+          <Button
+            onClick={() => setIsOpen((prev) => !prev)}
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
           >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tytuł testu</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Wprowadź tytuł testu"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    To jest tytuł twojego testu.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Opis</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Wprowadź opis testu"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Podaj krótki opis twojego testu.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Kategoria</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Wybierz kategorię" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem
-                          key={category.id}
-                          value={category.id.toString()}
-                        >
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Wybierz kategorię dla swojego testu.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="accessType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Typ dostępu</FormLabel>
-                  <Select
-                    onValueChange={field.onChange as (value: string) => void}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Wybierz typ dostępu" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {accessTypeEnum.enumValues.map((type) => (
-                        <SelectItem
-                          key={type}
-                          value={type}
-                        >
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Wybierz, w jaki sposób użytkownicy mogą uzyskać dostęp do
-                    twojego testu.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.watch('accessType') === 'CODE' && (
-              <FormField
-                control={form.control}
-                name="accessCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kod dostępu</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Wprowadź kod dostępu"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Podaj kod dostępu do twojego testu.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {isOpen ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
             )}
+          </Button>
+        </div>
+      </CardHeader>
 
-            <Button type="submit">Utwórz test</Button>
-          </form>
-        </Form>
+      {isOpen && (
+        <CardContent className="p-6">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="mb-6 grid w-full grid-cols-6">
+              <TabsTrigger
+                value="basic"
+                className="flex items-center gap-2"
+              >
+                <Settings2 className="h-4 w-4" />
+                Podstawowe
+              </TabsTrigger>
+              <TabsTrigger
+                value="access"
+                className="flex items-center gap-2"
+              >
+                <LockKeyhole className="h-4 w-4" />
+                Dostęp
+              </TabsTrigger>
+              <TabsTrigger
+                value="navigation"
+                className="flex items-center gap-2"
+              >
+                <Layout className="h-4 w-4" />
+                Nawigacja
+              </TabsTrigger>
+              <TabsTrigger
+                value="scoring"
+                className="flex items-center gap-2"
+              >
+                <Medal className="h-4 w-4" />
+                Punktacja
+              </TabsTrigger>
+              <TabsTrigger
+                value="display"
+                className="flex items-center gap-2"
+              >
+                <Eye className="h-4 w-4" />
+                Wyświetlanie
+              </TabsTrigger>
+              <TabsTrigger
+                value="results"
+                className="flex items-center gap-2"
+              >
+                <Save className="h-4 w-4" />
+                Wyniki
+              </TabsTrigger>
+            </TabsList>
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="space-y-6"
+              >
+                <FormProvider {...form}>
+                  <TestCreatorTestBasic />
+                  <TestCreatorTestAccess />
+                  <TestCreatorTestNavigation />
+                  <TestCreatorTestScoring />
+                  <TestCreatorTestDisplay />
+                  <TestCreatorTestResults />
+                </FormProvider>
+                <div className="flex justify-end border-t pt-6">
+                  <Button
+                    type="submit"
+                    className="w-full sm:w-auto"
+                  >
+                    Zapisz konfigurację
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </Tabs>
+        </CardContent>
       )}
     </Card>
   );

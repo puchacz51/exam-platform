@@ -1,7 +1,6 @@
 import { boolean, integer, pgTable, real, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { testsTable } from './test';
 import { questionGroupsTable } from './questionGroups';
 import { testSettingsTable } from './testSettings';
 
@@ -36,15 +35,5 @@ export const groupSettingsRelations = relations(
   })
 );
 
-export const testSettingsRelations = relations(
-  testSettingsTable,
-  ({ one, many }) => ({
-    test: one(testsTable, {
-      fields: [testSettingsTable.testId],
-      references: [testsTable.id],
-    }),
-    groupSettings: many(groupSettingsTable),
-  })
-);
 export type InsertGroupSettings = typeof groupSettingsTable.$inferInsert;
 export type SelectGroupSettings = typeof groupSettingsTable.$inferSelect;

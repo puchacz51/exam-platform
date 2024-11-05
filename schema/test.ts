@@ -6,10 +6,10 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
 import { usersTable } from './users';
 import { categoriesTable } from './categories';
-import { relations } from 'drizzle-orm';
 import { questionGroupsTable } from './questionGroups';
 
 export const accessTypeEnum = pgEnum('access_type', [

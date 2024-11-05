@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { ListX, Plus } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -28,13 +30,29 @@ const QuestionList: FC = () => {
   return (
     <div
       className={cn(
-        'grid min-h-[60px] grid-cols-[1fr_max-content] items-center space-x-4',
+        'flex flex-col gap-4 rounded-lg bg-white p-4 shadow-sm',
         isQuestionGroupConfiguratorOpen && 'col-start-1'
       )}
     >
-      <div className="flex flex-nowrap gap-x-2 overflow-y-auto">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Lista pytań</h3>
+        <Button
+          className="flex items-center gap-2"
+          onClick={handleAddNewQuestion}
+          variant="default"
+        >
+          <Plus className="h-4 w-4" />
+          Dodaj pytanie
+        </Button>
+      </div>
+
+      <div className="flex min-h-[100px] flex-wrap gap-2 rounded-md bg-gray-50 p-4">
         {!hasQuestions ? (
-          <p className="text-gray-500">Lista pytań jest pusta</p>
+          <div className="flex w-full flex-col items-center justify-center gap-2 text-gray-500">
+            <ListX className="h-8 w-8" />
+            <p>Lista pytań jest pusta</p>
+            <p className="text-sm">Kliknij "Dodaj pytanie" aby rozpocząć</p>
+          </div>
         ) : (
           currentQuestionGroup?.questions?.map((question, index) => (
             <QuestionBullet
@@ -46,12 +64,6 @@ const QuestionList: FC = () => {
           ))
         )}
       </div>
-      <Button
-        className="cursor-pointer whitespace-nowrap"
-        onClick={handleAddNewQuestion}
-      >
-        Dodaj pytanie
-      </Button>
     </div>
   );
 };
