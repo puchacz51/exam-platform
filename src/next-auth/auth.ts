@@ -1,17 +1,18 @@
 import NextAuth, { NextAuthConfig } from 'next-auth';
+import { eq } from 'drizzle-orm';
+
+import { usersTable } from '@schema/users';
+import db from '@/lib/db';
 
 import { CredentialsProvider } from './provider/CredentialsProvider';
 import { AzureADProvider } from './provider/AzureADProvider';
 import { authConfigWithProviders } from './authWithoutProviders';
-import { usersTable } from '@schema/users';
-import { eq } from 'drizzle-orm';
-import db from '@/lib/db';
 
 export const authConfig: NextAuthConfig = {
   ...authConfigWithProviders,
   providers: [AzureADProvider, CredentialsProvider],
   callbacks: {
-    async session({ session, token, trigger }) {
+    async session({ session, token }) {
       if (token) {
         session.user = {
           authProvider: token.user.authProvider,

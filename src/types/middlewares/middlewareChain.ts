@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Session } from 'next-auth';
+
 import { Locale } from '@/i18n/pathnames';
 
 export type MiddlewareContext = {

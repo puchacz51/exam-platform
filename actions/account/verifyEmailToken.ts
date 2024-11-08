@@ -20,7 +20,6 @@ export async function verifyEmailToken(
       )
     )
     .limit(1);
-  console.log(result);
   if (result.length === 0) {
     return false;
   }
