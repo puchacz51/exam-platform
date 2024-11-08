@@ -34,23 +34,22 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-
-import { questionTypeEnum } from '../schemas/questionSchema';
-import { useTestContext } from '../store/storeContext';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 import {
   QuestionType,
   questionTypeSchema,
-} from '../schemas/questionTypeSchema';
-import SingleChoiceQuestionForm from './questions/SingleChoiceQuestionForm';
-import OpenEndedQuestionForm from './questions/OpenQuestionForm';
-import NumericQuestionForm from './questions/NumericQuestionForm';
-import MultipleChoiceQuestionForm from './questions/MultipleChoiceQuestionForm';
-import BooleanQuestionForm from './questions/BooleanQuestionForm';
-import { TestCreatorQuestion } from '../types/question';
-import OrderQuestionForm from './questions/OrderQuestionForm';
-import MatchingQuestionForm from './questions/MatchingQuestionForm';
-import BooleanGroupQuestionForm from './questions/BooleanGroupQuestionForm';
-import NumericGroupQuestionForm from './questions/NumericGroupQuestionForm';
+} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { SingleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/SingleChoiceQuestionForm';
+import { NumericQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericQuestionForm';
+import { MultipleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/MultipleChoiceQuestionForm';
+import { BooleanQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanQuestionForm';
+import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { OrderQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/OrderQuestionForm';
+import MatchingQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/MatchingQuestionForm';
+import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
+import BooleanGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanGroupQuestionForm';
+import NumericGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericGroupQuestionForm';
+import { questionTypeEnum } from '@schema/questions';
 
 const initialQuestion = {
   text: '',

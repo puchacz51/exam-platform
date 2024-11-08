@@ -30,7 +30,7 @@ interface QuestionBulletProps {
   index: number;
 }
 
-const questionTypeIcons = {
+export const questionTypeIcons = {
   OPEN: Type,
   SINGLE_CHOICE: RadioButton,
   MULTIPLE_CHOICE: CheckSquare,
@@ -40,9 +40,9 @@ const questionTypeIcons = {
   MATCHING: GitMerge,
   BOOLEAN_GROUP: CheckSquare,
   NUMERIC_GROUP: Calculator,
-};
+} as const;
 
-const questionTypeColors = {
+export const questionTypeColors = {
   OPEN: 'hover:bg-blue-100 bg-blue-50',
   SINGLE_CHOICE: 'hover:bg-green-100 bg-green-50',
   MULTIPLE_CHOICE: 'hover:bg-purple-100 bg-purple-50',
@@ -52,7 +52,7 @@ const questionTypeColors = {
   MATCHING: 'hover:bg-indigo-100 bg-indigo-50',
   BOOLEAN_GROUP: 'hover:bg-teal-100 bg-teal-50',
   NUMERIC_GROUP: 'hover:bg-pink-100 bg-pink-50',
-};
+} as const;
 
 const QuestionBullet: FC<QuestionBulletProps> = ({
   question,

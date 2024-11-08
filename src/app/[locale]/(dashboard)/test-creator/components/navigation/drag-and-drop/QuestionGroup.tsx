@@ -5,11 +5,7 @@ import { SortableContext } from '@dnd-kit/sortable';
 import { cn } from '@/lib/utils';
 import SortableItem from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/SortableItem';
 import DroppableContainer from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/DroppableContainer';
-
-interface Question {
-  id: string;
-  text: string;
-}
+import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 interface QuestionGroupProps {
   id: string;
@@ -37,6 +33,7 @@ const QuestionGroup: FC<QuestionGroupProps> = ({ id, name, items, isOver }) => {
                 key={item.id}
                 id={item.id}
                 text={item.text}
+                type={item.questionType}
               />
             ))}
             {items.length === 0 && (

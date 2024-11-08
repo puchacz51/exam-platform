@@ -1,7 +1,9 @@
+import { FC } from 'react';
+
+import { Checkbox } from '@radix-ui/react-checkbox';
+
 import { Label } from '@/components/ui/label';
 import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { FC } from 'react';
-import { Checkbox } from '@radix-ui/react-checkbox';
 
 const MultipleChoiceQuestion: FC<{ question: QuestionType }> = ({
   question,

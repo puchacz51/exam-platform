@@ -1,6 +1,7 @@
+import { FC } from 'react';
+
 import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Input } from '@/components/ui/input';
-import { FC } from 'react';
 
 const NumericQuestion: FC<{ question: QuestionType }> = ({ question }) => {
   return (

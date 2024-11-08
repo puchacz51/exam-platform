@@ -13,10 +13,10 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { BooleanQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 export const BooleanQuestionForm = () => {
-  const form = useFormContext<TestCreatorQuestion>();
+  const form = useFormContext<BooleanQuestion>();
   const { control } = form;
 
   return (
@@ -50,7 +50,6 @@ export const BooleanQuestionForm = () => {
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
                       className="flex space-x-4"
                     >
                       <div className="flex items-center space-x-2">

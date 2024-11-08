@@ -27,8 +27,6 @@ export const testsTable = pgTable('tests', {
   description: text('description'),
   creatorId: uuid('creator_id').references(() => usersTable.id),
   categoryId: uuid('category_id').references(() => categoriesTable.id),
-  accessType: accessTypeEnum('access_type').notNull(),
-  accessCode: varchar('access_code', { length: 20 }),
   createdAt: timestamp('created_at'),
 });
 

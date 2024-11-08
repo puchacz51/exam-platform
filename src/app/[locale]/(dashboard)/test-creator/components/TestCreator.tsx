@@ -5,10 +5,9 @@ import { FC, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { createTestAction } from '@actions/test/createTest';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-
-import BulletBar from './navigation/BulletBar';
-import TestCreatorForm from './TestCreatorTestForm';
-import TestCreatorQuestionsForm from './TestCreatorQuestionsForm';
+import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/navigation/BulletBar';
+import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
+import TestCreatorQuestionsForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsForm';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
@@ -18,8 +17,8 @@ const TestCreator: FC = () => {
 
   const test = useTestContext((state) => state.test);
 
-  const isTestConfiguratorShowed = useTestContext(
-    (state) => state.isTestConfiguratorShowed
+  const isTestConfiguratorOpen = useTestContext(
+    (state) => state.isTestConfiguratorOpen
   );
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
@@ -37,8 +36,8 @@ const TestCreator: FC = () => {
     <div className="container mx-auto p-4">
       <BulletBar />
 
-      {isTestConfiguratorShowed && (
-        <div className="mb-6">
+      {isTestConfiguratorOpen && (
+        <div className="mt-6">
           <TestCreatorForm />
         </div>
       )}

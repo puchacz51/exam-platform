@@ -23,9 +23,10 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { scoringSystemEnum } from '@schema/testSettings';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 const TestCreatorTestScoring: FC = () => {
-  const form = useFormContext();
+  const form = useFormContext<TestCreatorTest>();
 
   return (
     <TabsContent
@@ -34,7 +35,7 @@ const TestCreatorTestScoring: FC = () => {
     >
       <FormField
         control={form.control}
-        name="scoringSystem"
+        name="settings.scoringSystem"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="font-semibold">System punktacji</FormLabel>
@@ -68,7 +69,7 @@ const TestCreatorTestScoring: FC = () => {
 
       <FormField
         control={form.control}
-        name="allowPartialPoints"
+        name="settings.allowPartialPoints"
         render={({ field }) => (
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
@@ -91,7 +92,7 @@ const TestCreatorTestScoring: FC = () => {
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="minimumPointsPerQuestion"
+          name="settings.minimumPointsPerQuestion"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">
@@ -114,7 +115,7 @@ const TestCreatorTestScoring: FC = () => {
 
         <FormField
           control={form.control}
-          name="roundingPrecision"
+          name="settings.roundingPrecision"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">

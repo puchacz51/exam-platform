@@ -1,4 +1,5 @@
 import { Clock } from 'lucide-react';
+
 import { Progress } from '@/components/ui/progress';
 
 interface TestProgressProps {

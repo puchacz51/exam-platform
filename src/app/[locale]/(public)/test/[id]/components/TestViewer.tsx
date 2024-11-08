@@ -1,18 +1,20 @@
-'use client'
+'use client';
 import { useState } from 'react';
+
 import { AlertCircle } from 'lucide-react';
+
 import {
   Card,
   CardContent,
-  CardHeader,
   CardFooter,
+  CardHeader,
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { TestNavigation } from '../components/TestNavigation';
 import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGetTest';
-import { TestHeader } from './TestHeader';
-import TestProgress from './TestProgress';
-import { QuestionGroup } from './Questions/QuestionGroup';
+import { TestHeader } from '@/app/[locale]/(public)/test/[id]/components/TestHeader';
+import TestProgress from '@/app/[locale]/(public)/test/[id]/components/TestProgress';
+import QuestionGroup from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/QuestionGroup';
+import { TestNavigation } from '@/app/[locale]/(public)/test/[id]/components/TestNavigation';
 
 interface TestViewerProps {
   testId: string;
@@ -20,8 +22,7 @@ interface TestViewerProps {
 
 const TestViewer = ({ testId }: TestViewerProps) => {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const { test, loading, error } = useGetTest(testId);
+  const { test } = useGetTest(testId);
 
   const testSettings = {
     changeable: true,
@@ -48,8 +49,8 @@ const TestViewer = ({ testId }: TestViewerProps) => {
 
   const handleNextGroup = () => {
     if (testSettings.requireAllAnswers) {
-      const currentQuestions = currentGroup.questions || [];
-      const answeredQuestions = currentQuestions.filter((q) => answers[q.id]);
+      // const currentQuestions = currentGroup.questions || [];
+      // const answeredQuestions = currentQuestions.filter((q) => answers[q.id]);
     }
 
     if (currentGroupIndex < totalGroups - 1) {

@@ -24,9 +24,11 @@ import { TabsContent } from '@/components/ui/tabs';
 import { questionDisplayModeEnum } from '@schema/testSettings';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 const TestCreatorTestDisplay: FC = () => {
-  const form = useFormContext();
+  const form = useFormContext<TestCreatorTest>();
+  const questionDisplayMode = form.watch('settings.questionDisplayMode');
 
   return (
     <TabsContent
@@ -35,7 +37,7 @@ const TestCreatorTestDisplay: FC = () => {
     >
       <FormField
         control={form.control}
-        name="questionDisplayMode"
+        name="settings.questionDisplayMode"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="font-semibold">
@@ -68,35 +70,36 @@ const TestCreatorTestDisplay: FC = () => {
           </FormItem>
         )}
       />
-
-      <FormField
-        control={form.control}
-        name="questionsPerPage"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-semibold">
-              Liczba pytań na stronę
-            </FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                min="1"
-                className="border-gray-200"
-                {...field}
-              />
-            </FormControl>
-            <FormDescription>
-              Ile pytań ma być wyświetlanych jednocześnie
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {questionDisplayMode === 'CUSTOM' && (
+        <FormField
+          control={form.control}
+          name="settings.questionsPerPage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-semibold">
+                Liczba pytań na stronę
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  min="1"
+                  className="border-gray-200"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Ile pytań ma być wyświetlanych jednocześnie
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
 
       <div className="space-y-4">
         <FormField
           control={form.control}
-          name="shuffleQuestionsInGroup"
+          name="settings.shuffleQuestionsInGroup"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -119,7 +122,7 @@ const TestCreatorTestDisplay: FC = () => {
 
         <FormField
           control={form.control}
-          name="shuffleAnswers"
+          name="settings.shuffleAnswers"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -146,7 +149,7 @@ const TestCreatorTestDisplay: FC = () => {
       <div className="space-y-4">
         <FormField
           control={form.control}
-          name="showProgressBar"
+          name="settings.showProgressBar"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -169,7 +172,7 @@ const TestCreatorTestDisplay: FC = () => {
 
         <FormField
           control={form.control}
-          name="showTimeRemaining"
+          name="settings.showTimeRemaining"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -192,7 +195,7 @@ const TestCreatorTestDisplay: FC = () => {
 
         <FormField
           control={form.control}
-          name="showQuestionPoints"
+          name="settings.showQuestionPoints"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -215,7 +218,7 @@ const TestCreatorTestDisplay: FC = () => {
 
         <FormField
           control={form.control}
-          name="autosaveInterval"
+          name="settings.autosaveInterval"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">

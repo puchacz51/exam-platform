@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 import { useFormContext } from 'react-hook-form';
 
+import { cn } from '@/lib/utils';
 import {
   FormControl,
   FormDescription,
@@ -15,17 +16,25 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { TabsContent } from '@/components/ui/tabs';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 const TestCreatorTestBasic: FC = () => {
-  const form = useFormContext();
+  const {
+    formState: { errors },
+    control,
+  } = useFormContext<TestCreatorTest>();
 
   return (
     <TabsContent
       value="basic"
-      className="space-y-6"
+      className={cn(
+        'space-y-6',
+        (errors.title || errors.description) &&
+          'rounded-lg p-4 ring-2 ring-destructive/20'
+      )}
     >
       <FormField
-        control={form.control}
+        control={control}
         name="title"
         render={({ field }) => (
           <FormItem>
@@ -46,7 +55,7 @@ const TestCreatorTestBasic: FC = () => {
       />
 
       <FormField
-        control={form.control}
+        control={control}
         name="description"
         render={({ field }) => (
           <FormItem>

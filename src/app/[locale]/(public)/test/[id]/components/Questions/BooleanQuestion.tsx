@@ -1,7 +1,8 @@
+import { FC } from 'react';
+
 import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { FC } from 'react';
 
 const BooleanQuestion: FC<{ question: QuestionType }> = ({ question }) => {
   return (

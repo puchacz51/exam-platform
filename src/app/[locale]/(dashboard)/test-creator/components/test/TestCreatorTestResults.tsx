@@ -13,9 +13,10 @@ import {
 } from '@/components/ui/form';
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 const TestCreatorTestResults: FC = () => {
-  const form = useFormContext();
+  const form = useFormContext<TestCreatorTest>();
 
   return (
     <TabsContent
@@ -25,7 +26,7 @@ const TestCreatorTestResults: FC = () => {
       <div className="space-y-4">
         <FormField
           control={form.control}
-          name="showPartialResults"
+          name="settings.showPartialResults"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -48,7 +49,7 @@ const TestCreatorTestResults: FC = () => {
 
         <FormField
           control={form.control}
-          name="showCorrectAnswers"
+          name="settings.showCorrectAnswers"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -71,7 +72,7 @@ const TestCreatorTestResults: FC = () => {
 
         <FormField
           control={form.control}
-          name="showPointsPerQuestion"
+          name="settings.showPointsPerQuestion"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
@@ -94,7 +95,7 @@ const TestCreatorTestResults: FC = () => {
 
         <FormField
           control={form.control}
-          name="showFinalScore"
+          name="settings.showFinalScore"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">

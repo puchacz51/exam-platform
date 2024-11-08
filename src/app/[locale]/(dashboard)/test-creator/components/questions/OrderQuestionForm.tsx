@@ -14,8 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { QuestionType } from '../../schemas/questionTypeSchema';
+import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 export const OrderQuestionForm = () => {
   const form = useFormContext<QuestionType>();

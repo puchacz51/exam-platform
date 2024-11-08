@@ -128,6 +128,7 @@ export type BaseQuestion<T extends string> = z.infer<
 // Typy dla każdego rodzaju pytania, używając generycznego typu bazowego
 export type OpenQuestion = BaseQuestion<'OPEN'> & {
   answers?: Array<z.infer<typeof answerSchema>>;
+  correctAnswer?: string;
 };
 
 export type SingleChoiceQuestion = BaseQuestion<'SINGLE_CHOICE'> & {

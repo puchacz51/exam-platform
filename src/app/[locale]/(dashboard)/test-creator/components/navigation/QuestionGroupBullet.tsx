@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { CheckCircle, Circle } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 
@@ -18,22 +19,24 @@ const QuestionGroupBullet: FC<QuestionGroupBulletProps> = ({ group }) => {
     setCurrentQuestionGroup(group.id);
   };
 
+  const isActive = currentQuestionGroupId === group.id;
+
   return (
     <Button
       variant="outline"
       onClick={handleClick}
-      className={`flex items-center space-x-2 rounded-full px-4 py-2 transition-colors duration-200 ease-in-out ${
-        currentQuestionGroupId === group.id
-          ? 'bg-green-500 text-white'
+      className={`flex items-center space-x-3 rounded-full px-5 py-3 transition-all duration-300 ease-in-out ${
+        isActive
+          ? 'bg-gradient-to-r from-green-400 to-green-600 text-white shadow-lg'
           : 'bg-gray-200 text-black hover:bg-gray-300'
       }`}
     >
-      <span
-        className={`h-3 w-3 rounded-full transition-colors duration-200 ease-in-out ${
-          currentQuestionGroupId === group.id ? 'bg-white' : 'bg-gray-400'
-        }`}
-      />
-      <span>{group.name}</span>
+      {isActive ? (
+        <CheckCircle className="h-5 w-5 text-white" />
+      ) : (
+        <Circle className="h-5 w-5 text-gray-400" />
+      )}
+      <span className="font-semibold">{group.name}</span>
     </Button>
   );
 };

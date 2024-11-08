@@ -1,4 +1,4 @@
-const mathTest = {
+export const mathTest = {
   title: 'Matematyka Podstawowa',
   description: 'Test sprawdzający podstawową wiedzę z matematyki.',
   categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',

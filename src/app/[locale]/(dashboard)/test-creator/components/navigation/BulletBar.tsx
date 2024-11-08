@@ -15,12 +15,12 @@ const BulletBar = () => {
   return (
     <div
       className={cn(
-        'grid gap-6',
+        'grid gap-2',
         isQuestionGroupConfiguratorOpen && 'md:grid-cols-2'
       )}
     >
       {!isSortFormOpen && <GroupList />}
-      {currentQuestionGroupId && <QuestionList />}
+      {currentQuestionGroupId && !isSortFormOpen && <QuestionList />}
       {isQuestionGroupConfiguratorOpen && !isSortFormOpen && (
         <TestCreatorQuestionGroupForm />
       )}

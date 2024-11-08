@@ -20,7 +20,7 @@ export interface TestProps {
   questionGroups: TestCreatorQuestionGroup[];
   currentQuestion: TestCreatorQuestion | null | EmptyObject;
   currentQuestionGroupId: string | null;
-  isTestConfiguratorShowed: boolean;
+  isTestConfiguratorOpen: boolean;
   isQuestionConfiguratorOpen: boolean;
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
@@ -41,7 +41,7 @@ export interface TestState extends TestProps {
   ) => void;
   resetTest: () => void;
   setIsAddedGeneralConfiguration: (isAdded: Updater<boolean>) => void;
-  setIsTestConfiguratorShowed: (isOpen: Updater<boolean>) => void;
+  setIsTestConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionGroupConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setCurrentQuestion: (groupId: string, questionId: string) => void;
@@ -57,9 +57,29 @@ const DEFAULT_PROPS: TestProps = {
   test: {
     title: 'Sample Test',
     description: 'A test to assess knowledge on various subjects.',
-    accessType: 'PUBLIC',
     categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
-    accessCode: '',
+    settings: {
+      navigationMode: 'ANSWER_LOCK',
+      allowGoBack: true,
+      confirmBeforeGroupChange: true,
+      scoringSystem: 'NEGATIVE',
+      allowPartialPoints: true,
+      minimumPointsPerQuestion: 0,
+      negativePointsPercentage: 0,
+      roundingPrecision: 2,
+      questionDisplayMode: 'GROUP',
+      shuffleQuestionsInGroup: false,
+      shuffleAnswers: false,
+      showProgressBar: true,
+      showTimeRemaining: true,
+      showQuestionPoints: true,
+      allowQuestionFlagging: true,
+      autosaveInterval: 60,
+      showPartialResults: false,
+      showCorrectAnswers: false,
+      showPointsPerQuestion: true,
+      showFinalScore: true,
+    },
   },
   questionGroups: [
     {
@@ -149,7 +169,7 @@ const DEFAULT_PROPS: TestProps = {
   ],
   currentQuestion: null,
   currentQuestionGroupId: 'group-1730041489822',
-  isTestConfiguratorShowed: false,
+  isTestConfiguratorOpen: false,
   isQuestionConfiguratorOpen: false,
   isQuestionGroupConfiguratorOpen: false,
   isAddedGeneralConfiguration: true,
@@ -241,11 +261,11 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
 
     resetTest: () => set({ test: DEFAULT_PROPS.test, questionGroups: [] }),
 
-    setIsTestConfiguratorShowed: (isOpen) =>
+    setIsTestConfiguratorOpen: (isOpen) =>
       set((prev) => ({
         ...prev,
-        isTestConfiguratorShowed: applyUpdater(
-          prev.isTestConfiguratorShowed,
+        isTestConfiguratorOpen: applyUpdater(
+          prev.isTestConfiguratorOpen,
           isOpen
         ),
       })),

@@ -22,9 +22,10 @@ import {
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { navigationModeEnum } from '@schema/testSettings';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 const TestCreatorTestNavigation: FC = () => {
-  const form = useFormContext();
+  const form = useFormContext<TestCreatorTest>();
 
   return (
     <TabsContent
@@ -33,7 +34,7 @@ const TestCreatorTestNavigation: FC = () => {
     >
       <FormField
         control={form.control}
-        name="navigationMode"
+        name="settings.navigationMode"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="font-semibold">Tryb nawigacji</FormLabel>
@@ -67,7 +68,7 @@ const TestCreatorTestNavigation: FC = () => {
 
       <FormField
         control={form.control}
-        name="allowGoBack"
+        name="settings.allowGoBack"
         render={({ field }) => (
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
@@ -90,7 +91,7 @@ const TestCreatorTestNavigation: FC = () => {
 
       <FormField
         control={form.control}
-        name="confirmBeforeGroupChange"
+        name="settings.confirmBeforeGroupChange"
         render={({ field }) => (
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">

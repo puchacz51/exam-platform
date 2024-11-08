@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
+
+import { ListX, Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -20,7 +22,7 @@ const GroupList: FC = () => {
   return (
     <div
       className={cn(
-        'flex min-h-[60px] items-center space-x-4',
+        'flex min-h-[60px] items-center gap-4 rounded-lg bg-white p-2 shadow-sm',
         isQuestionGroupConfiguratorOpen && 'col-start-1'
       )}
     >
@@ -32,20 +34,26 @@ const GroupList: FC = () => {
         />
       ))}
       {isAddedGeneralConfiguration && (
-        <>
+        <div className="ml-auto flex gap-2">
           <Button
-            className="cursor-pointer whitespace-nowrap"
+            variant="outline"
+            className="flex items-center gap-2 bg-white hover:bg-gray-50"
             onClick={addQuestionGroup}
           >
-            {isSingleGroup ? 'Podziel test na grupy' : 'Dodaj Grupę Pytań'}
+            <Plus className="h-4 w-4" />
+            <span>
+              {isSingleGroup ? 'Podziel test na grupy' : 'Dodaj Grupę Pytań'}
+            </span>
           </Button>
           <Button
-            className="cursor-pointer whitespace-nowrap"
+            variant="outline"
+            className="flex items-center gap-2 bg-white hover:bg-gray-50"
             onClick={() => setIsSortFormOpen(true)}
           >
-            Zmień ułożenie
+            <ListX className="h-4 w-4" />
+            <span>Zmień ułożenie</span>
           </Button>
-        </>
+        </div>
       )}
     </div>
   );

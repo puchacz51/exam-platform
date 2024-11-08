@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { questionGroupSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionsGroup';
 import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
+import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
 
 type QuestionGroup = z.infer<typeof questionGroupSchema> & {
   questions: z.infer<typeof questionTypeSchema>[];
@@ -61,15 +62,7 @@ function validateGroupOrders(groups: QuestionGroup[]): string[] {
   return errors;
 }
 
-function validateAccessCode(test: z.infer<typeof testSchema>): string[] {
-  const errors: string[] = [];
 
-  if (test.accessType === 'CODE' && !test.accessCode) {
-    errors.push('Kod dostępu jest wymagany dla testów z dostępem po kodzie');
-  }
-
-  return errors;
-}
 
 function validateQuestionsInGroups(groups: QuestionGroup[]): string[] {
   const errors: string[] = [];
@@ -107,7 +100,6 @@ function performBusinessValidations(data: CreateTestPayload): string[] {
   const allErrors: string[] = [
     ...validateUniqueGroupIds(data.questionGroups),
     ...validateGroupOrders(data.questionGroups),
-    ...validateAccessCode(data.test),
     ...validateQuestionsInGroups(data.questionGroups),
     ...validateQuestionsPerPage(data.questionGroups),
   ];

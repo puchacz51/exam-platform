@@ -1,8 +1,9 @@
-import { getTest } from '@actions/test/getTest';
 import { useCallback, useEffect, useState } from 'react';
 
+import { getTest } from '@actions/test/getTest';
+
 const useGetTest = (initialTestId?: string) => {
-  const [test, setTest] = useState(null);
+  const [test, setTest] = useState<null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,6 +34,5 @@ const useGetTest = (initialTestId?: string) => {
 
   return { test, loading, error, loadTest };
 };
-
 
 export default useGetTest;

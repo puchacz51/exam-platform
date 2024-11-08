@@ -1,6 +1,6 @@
 import { DropResult } from 'react-beautiful-dnd';
 
-import { useTestContext } from '../store/storeContext';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 type UseDragEndHandler = () => (result: DropResult) => void;
 

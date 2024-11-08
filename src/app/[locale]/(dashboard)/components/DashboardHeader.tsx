@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { Bell, Settings } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-
-import ProfileDropdown from '../../components/header/ProfileDropdown';
+import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
 
 const DashboardHeader = () => {
   return (

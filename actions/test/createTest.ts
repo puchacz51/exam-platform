@@ -36,18 +36,12 @@ async function createTest(
         description: test.description,
         categoryId: test.categoryId,
         creatorId: userId,
-        accessType: test.accessType,
-        accessCode: test.accessCode,
         createdAt: new Date(),
       })
       .returning();
-
-    // Create test settings
     await tx.insert(testSettingsTable).values({
+      ...test.settings,
       testId: createdTest.id,
-      isDefault: true,
-      navigationMode: 'LINEAR',
-      questionDisplayMode: 'ALL',
     });
 
     for (const group of questionGroups) {

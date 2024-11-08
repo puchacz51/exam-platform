@@ -12,11 +12,10 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { OpenQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
 const OpenEndedQuestionForm = () => {
-  const form = useFormContext<TestCreatorQuestion>();
+  const form = useFormContext<OpenQuestion>();
 
   return (
     <Form {...form}>
@@ -52,7 +51,7 @@ const OpenEndedQuestionForm = () => {
                 <FormLabel>Przykładowa poprawna odpowiedź</FormLabel>
                 <FormControl>
                   <Textarea
-                    {...field}
+                    value={field.value}
                     placeholder="Wprowadź przykładową poprawną odpowiedź"
                     className="min-h-[100px]"
                   />

@@ -1,6 +1,6 @@
 import { Metadata, NextPage } from 'next';
 import { notFound } from 'next/navigation';
-import { ChevronLeft, Clock, Book, Users, Award, Calendar } from 'lucide-react';
+import { Award, Book, Calendar, ChevronLeft, Clock, Users } from 'lucide-react';
 import { eq } from 'drizzle-orm';
 
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
+
 import TestViewer from './components/TestViewer';
 
 interface TestPageProps {
@@ -58,8 +59,6 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
     avgScore: '78%',
     lastUpdated: new Date().toLocaleDateString(),
   };
-
-
 
   return (
     <div className="min-h-screen bg-gray-50">
