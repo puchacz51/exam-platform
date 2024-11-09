@@ -6,7 +6,7 @@ import { questionsTable } from './questions';
 export const orderItemsTable = pgTable('order_items', {
   id: uuid('id').primaryKey().defaultRandom(),
   questionId: uuid('question_id')
-    .references(() => questionsTable.id)
+    .references(() => questionsTable.id, { onDelete: 'cascade' })
     .notNull(),
   text: text('text').notNull(),
   order: integer('order').notNull(),

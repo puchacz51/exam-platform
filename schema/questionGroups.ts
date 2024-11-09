@@ -6,9 +6,10 @@ import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: uuid('id').primaryKey().defaultRandom(),
-  testId: uuid('test_id').references(() => testsTable.id),
+  testId: uuid('test_id').references(() => testsTable.id, {
+    onDelete: 'cascade',
+  }),
   name: varchar('name', { length: 256 }),
-  order: integer('order'),
   maxQuestionPerPage: integer('max_question_per_page'),
 });
 

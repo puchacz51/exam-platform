@@ -35,7 +35,9 @@ export const questionDisplayModeEnum = pgEnum('question_display_mode', [
 
 export const testSettingsTable = pgTable('test_settings', {
   id: uuid('id').primaryKey().defaultRandom(),
-  testId: uuid('test_id').references(() => testsTable.id),
+  testId: uuid('test_id').references(() => testsTable.id, {
+    onDelete: 'cascade',
+  }),
   isDefault: boolean('is_default').default(false),
 
   navigationMode: navigationModeEnum('navigation_mode').notNull(),

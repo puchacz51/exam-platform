@@ -1,9 +1,13 @@
 import { FC } from 'react';
 
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Input } from '@/components/ui/input';
+import { type NumericQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
-const NumericQuestion: FC<{ question: QuestionType }> = ({ question }) => {
+interface NumericQuestionProps {
+  question: NumericQuestion;
+}
+
+const NumericQuestion: FC<NumericQuestionProps> = ({ question }) => {
   return (
     <div className="space-y-3">
       <Input
@@ -12,9 +16,9 @@ const NumericQuestion: FC<{ question: QuestionType }> = ({ question }) => {
         disabled
         className="max-w-xs"
       />
-      {question.numericQuestion && (
+      {question?.numericQuestions && (
         <p className="text-sm text-muted-foreground">
-          Tolerance: ±{question.numericQuestion.tolerance}
+          Tolerance: ±{question.numericQuestions.tolerance}
         </p>
       )}
     </div>

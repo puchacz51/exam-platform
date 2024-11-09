@@ -6,6 +6,7 @@ import { TestConfiguration } from '@actions/test/getTestConfiguration';
 import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
 import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
+import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
 
 export type TestCreatorAnswer = {
   text: string;
@@ -87,84 +88,7 @@ const DEFAULT_PROPS: TestProps = {
       name: 'Science and Logic',
       order: 2,
       maxQuestionPerPage: 3,
-      questions: [
-        {
-          id: 'q2',
-          text: 'What is the boiling point of water at sea level?',
-          questionType: 'NUMERIC',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 3,
-          correctAnswer: 100,
-          tolerance: 0.5,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q3',
-          text: 'Identify the matching pairs of animals and their habitats.',
-          questionType: 'MATCHING',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 7,
-          matchingPairs: [
-            { key: 'Polar Bear', value: 'Arctic' },
-            { key: 'Camel', value: 'Desert' },
-            { key: 'Penguin', value: 'Antarctica' },
-          ],
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q4',
-          text: 'Put the planets in our solar system in order from the Sun.',
-          questionType: 'ORDER',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 8,
-          orderItems: [
-            { text: 'Mercury', order: 1 },
-            { text: 'Venus', order: 2 },
-            { text: 'Earth', order: 3 },
-            { text: 'Mars', order: 4 },
-            { text: 'Jupiter', order: 5 },
-          ],
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q5',
-          text: 'What is 15 divided by 3?',
-          questionType: 'NUMERIC',
-          isPublic: false,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 2,
-          correctAnswer: 5,
-          tolerance: 0.1,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q6',
-          text: 'True or False: Lightning never strikes the same place twice.',
-          questionType: 'BOOLEAN',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 1,
-          correctAnswer: false,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q8',
-          text: 'What is the main gas found in the air we breathe?',
-          questionType: 'SINGLE_CHOICE',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 5,
-          answers: [
-            { text: 'Oxygen', isCorrect: false },
-            { text: 'Nitrogen', isCorrect: true },
-            { text: 'Carbon Dioxide', isCorrect: false },
-          ],
-          groupId: 'group-1730041489822',
-        },
-      ],
+      questions: [...mathTest],
     },
   ],
   currentQuestion: null,

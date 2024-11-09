@@ -37,9 +37,10 @@ const useDragDrop = () => {
     useSensor(KeyboardSensor)
   );
 
-  const findContainer = (id: string): string | null => {
-    if (questionGroups.some((group) => group.id === id)) {
-      return id;
+  const findContainer = (id: string | number): string | null => {
+    const numericId = typeof id === 'string' ? parseInt(id) : id;
+    if (questionGroups.some((group) => group.id === numericId.toString())) {
+      return numericId.toString();
     }
     return (
       questionGroups.find((group) =>
@@ -49,15 +50,18 @@ const useDragDrop = () => {
   };
 
   const handleDragStart = ({ active }: DragStartEvent) => {
-    setActiveId(active.id as string);
-    setActiveGroup(findContainer(active.id as string));
+    setActiveId(active.id.toString());
+    const container = findContainer(active.id);
+    setActiveGroup(container as unknown as string);
   };
 
   const handleDragOver = ({ active, over }: DragOverEvent) => {
     if (!over) return;
 
-    const activeContainer = findContainer(active.id as string);
-    const overContainer = findContainer(over.id as string) || over.id;
+    const activeContainer = findContainer(active.id);
+    const overContainer = over
+      ? findContainer(over.id) || over.id.toString()
+      : null;
 
     if (
       !activeContainer ||
@@ -110,7 +114,7 @@ const useDragDrop = () => {
       return newGroups;
     });
 
-    setActiveGroup(overContainer);
+    setActiveGroup(overContainer as unknown as string);
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
@@ -120,8 +124,8 @@ const useDragDrop = () => {
       return;
     }
 
-    const activeContainer = findContainer(active.id as string);
-    const overContainer = findContainer(over.id as string) || over.id;
+    const activeContainer = findContainer(active.id);
+    const overContainer = findContainer(over.id) || over.id.toString();
 
     if (!activeContainer || !overContainer) {
       setActiveId(null);

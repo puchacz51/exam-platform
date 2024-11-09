@@ -1,6 +1,5 @@
 import { usersTable } from '@schema/users';
 import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
-
 import {
   matchingPairsRelations,
   matchingPairsTable,
@@ -25,9 +24,9 @@ import {
 import {
   booleanGroupSubQuestionsRelations,
   booleanGroupSubQuestionsTable,
-} from './booleanGroupQuestion';
-import { numericGroupSubQuestionsRelations } from './numericGroupQuestion';
-import { testSettingsRelations, testSettingsTable } from './testSettings';
+} from '@schema/booleanGroupQuestion';
+import { numericGroupSubQuestionsRelations } from '@schema/numericGroupQuestion';
+import { testSettingsRelations, testSettingsTable } from '@schema/testSettings';
 
 export const schema = {
   users: usersTable,

@@ -55,14 +55,13 @@ async function createTest(
         })
         .returning();
 
-      group.questions.forEach(async (question, i) => {
+      for (const [i, question] of Object.entries(group.questions)) {
         const [createdQuestion] = await tx
           .insert(questionsTable)
           .values({
             groupId: createdGroup.id,
             text: question.text,
             questionType: question.questionType as 'OPEN',
-            order: i,
             isPublic: question.isPublic,
             categoryId: question.categoryId,
             points: question.points,
@@ -70,7 +69,7 @@ async function createTest(
           .returning();
 
         await createQuestionTypeSpecificData(tx, question, createdQuestion.id);
-      });
+      }
     }
 
     return createdTest;
@@ -92,8 +91,8 @@ export async function createTestAction(
     }
 
     const userId = session.user.userID;
-    console.log('userId', userId);
     const result = await createTest(test, questionGroups, userId);
+    console.log('result', result);
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating test:', error);

@@ -9,6 +9,8 @@ import MatchingQuestion from './MatchingQuestion';
 import BooleanQuestion from './BooleanQuestion';
 import NumericQuestion from './NumericQuestion';
 import OrderQuestion from './OrderQuestion';
+import BooleanGroupQuestion from '@/app/[locale]/(public)/test/[id]/components/Questions/BooleanGroupQuestion';
+import NumericGroupQuestion from '@/app/[locale]/(public)/test/[id]/components/Questions/NumericGroupQuestion';
 
 const QuestionSelector: FC<{ question: QuestionType }> = ({ question }) => {
   switch (question.questionType) {
@@ -24,6 +26,10 @@ const QuestionSelector: FC<{ question: QuestionType }> = ({ question }) => {
       return <NumericQuestion question={question} />;
     case 'BOOLEAN':
       return <BooleanQuestion question={question} />;
+    case 'BOOLEAN_GROUP':
+      return <BooleanGroupQuestion question={question} />;
+    case 'NUMERIC_GROUP':
+      return <NumericGroupQuestion question={question} />;
     default:
       return (
         <Textarea

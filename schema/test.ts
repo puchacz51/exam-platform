@@ -8,6 +8,8 @@ import {
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
+import { testSettingsTable } from '@schema/testSettings';
+
 import { usersTable } from './users';
 import { categoriesTable } from './categories';
 import { questionGroupsTable } from './questionGroups';
@@ -40,6 +42,10 @@ export const testsRelations = relations(testsTable, ({ one, many }) => ({
     references: [categoriesTable.id],
   }),
   questionGroups: many(questionGroupsTable),
+  settings: one(testSettingsTable, {
+    fields: [testsTable.id],
+    references: [testSettingsTable.testId],
+  }),
 }));
 
 export type InsertTest = typeof testsTable.$inferInsert;

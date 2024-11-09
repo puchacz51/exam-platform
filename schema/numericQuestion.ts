@@ -6,7 +6,7 @@ import { questionsTable } from './questions';
 export const numericQuestionsTable = pgTable('numeric_questions', {
   id: uuid('id').primaryKey().defaultRandom(),
   questionId: uuid('question_id')
-    .references(() => questionsTable.id)
+    .references(() => questionsTable.id, { onDelete: 'cascade' })
     .notNull(),
   correctAnswer: real('correct_answer').notNull(),
   tolerance: real('tolerance'),

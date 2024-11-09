@@ -25,6 +25,13 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
         questionGroups: {
           with: {
             questions: {
+              columns: {
+                questionType: true,
+                id: true,
+                text: true,
+                points: true,
+                isPublic: true,
+              },
               with: {
                 ...(includeAnswers && {
                   answers: {
@@ -47,13 +54,14 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
                     name: true,
                   },
                 },
+                matchingPairs: true,
+                numericQuestions: true,
               },
             },
           },
         },
       },
     });
-
 
     if (revalidate) {
       revalidatePath(`/test/${testId}`);

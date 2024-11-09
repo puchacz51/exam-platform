@@ -5,10 +5,13 @@ import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/st
 type UseDragEndHandler = () => (result: DropResult) => void;
 
 export const useDragEndHandler: UseDragEndHandler = () => {
-  const currentQuestionGroup = useTestContext(
+  const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
   const questionGroups = useTestContext((state) => state.questionGroups);
+  const currentQuestionGroup = questionGroups.find(
+    (group) => group.id === currentQuestionGroupId
+  );
   const setQuestionGroups = useTestContext((state) => state.setQuestionGroups);
   const updatedQuestionGroup = useTestContext(
     (state) => state.updateQuestionGroup

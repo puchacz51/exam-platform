@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { testAccessTypeEnum } from '@schema/testAccess';
+import { testAccessTypeEnum } from '@schema/TestAccess';
 
 const TestCreatorTestAccess: FC = () => {
   const form = useFormContext();

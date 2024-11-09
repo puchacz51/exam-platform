@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { boolean, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 
 import { questionsTable } from './questions';
 
@@ -8,7 +8,7 @@ export const numericGroupSubQuestionsTable = pgTable(
   {
     id: uuid('id').primaryKey().defaultRandom(),
     questionId: uuid('question_id')
-      .references(() => questionsTable.id)
+      .references(() => questionsTable.id, { onDelete: 'cascade' })
       .notNull(),
     text: text('text').notNull(),
     correctAnswer: integer('correct_answer').notNull(),

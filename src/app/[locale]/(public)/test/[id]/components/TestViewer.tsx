@@ -13,8 +13,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGetTest';
 import { TestHeader } from '@/app/[locale]/(public)/test/[id]/components/TestHeader';
 import TestProgress from '@/app/[locale]/(public)/test/[id]/components/TestProgress';
-import QuestionGroup from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/QuestionGroup';
 import { TestNavigation } from '@/app/[locale]/(public)/test/[id]/components/TestNavigation';
+import { QuestionGroup } from '@/app/[locale]/(public)/test/[id]/components/Questions/QuestionGroup';
 
 interface TestViewerProps {
   testId: string;
@@ -23,7 +23,7 @@ interface TestViewerProps {
 const TestViewer = ({ testId }: TestViewerProps) => {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
-
+  console.log(test);
   const testSettings = {
     changeable: true,
     timeLimit: 30,

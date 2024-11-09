@@ -10,12 +10,14 @@ import {
   OrderQuestion,
   Question,
   SingleChoiceQuestion,
+  MatchingQuestion,
 } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
 import { numericQuestionsTable } from '@schema/numericQuestion';
 import { booleanGroupSubQuestionsTable } from '@schema/booleanGroupQuestion';
 import { numericGroupSubQuestionsTable } from '@schema/numericGroupQuestion';
+import { matchingPairsTable } from '@schema/matchingPairs';
 
 import { Tx } from './createTest';
 
@@ -59,6 +61,13 @@ export const createQuestionTypeSpecificData = async (
         questionId
       );
       break;
+    case 'MATCHING':
+      await handleMatchingQuestion(
+        tx,
+        question as MatchingQuestion,
+        questionId
+      );
+      break;
   }
 };
 
@@ -82,10 +91,10 @@ export const handleChoiceQuestion = async (
   questionId: string
 ) => {
   const answersToInsert = question.answers.map((answer, index) => ({
-    questionId,
     text: answer.text,
     isCorrect: answer.isCorrect,
     order: index,
+    questionId,
   }));
 
   await tx.insert(answersTable).values(answersToInsert);
@@ -162,4 +171,20 @@ export const handleNumericGroupQuestion = async (
   );
 
   await tx.insert(numericGroupSubQuestionsTable).values(subQuestionsToInsert);
+};
+
+export const handleMatchingQuestion = async (
+  tx: Tx,
+  question: MatchingQuestion,
+  questionId: string
+) => {
+  console.log('Processing matching question:', questionId);
+  const pairsToInsert = question.matchingPairs.map((pair) => ({
+    questionId,
+    key: pair.key,
+    value: pair.value,
+  }));
+
+  console.log('Inserting pairs:', pairsToInsert);
+  await tx.insert(matchingPairsTable).values(pairsToInsert);
 };

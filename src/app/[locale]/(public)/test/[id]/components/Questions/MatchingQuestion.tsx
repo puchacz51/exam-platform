@@ -2,15 +2,19 @@ import { FC } from 'react';
 
 import { ArrowRight } from 'lucide-react';
 
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Card, CardContent } from '@/components/ui/card';
+import { type MatchingQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 
-const MatchingQuestion: FC<{ question: QuestionType }> = ({ question }) => {
+interface MatchingPairProps {
+  question: MatchingQuestion;
+}
+
+const MatchingQuestion: FC<MatchingPairProps> = ({ question }) => {
   return (
     <div className="grid gap-4">
-      {question.matchingPairs?.map((pair) => (
+      {question?.matchingPairs?.map((pair) => (
         <Card
-          key={pair.id}
+          key={pair.key}
           className="bg-gray-50"
         >
           <CardContent className="flex items-center justify-between p-4">

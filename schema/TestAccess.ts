@@ -22,7 +22,7 @@ export const testAccessConfigTable = pgTable('test_access_configs', {
   id: uuid('id').primaryKey().defaultRandom(),
   testId: uuid('test_id')
     .notNull()
-    .references(() => testsTable.id),
+    .references(() => testsTable.id, { onDelete: 'cascade' }),
   accessType: testAccessTypeEnum('access_type').notNull(),
   accessCode: varchar('access_code', { length: 20 }),
   groupId: uuid('group_id').references(() => usersTable.id),

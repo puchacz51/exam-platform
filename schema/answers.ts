@@ -7,7 +7,7 @@ export const answersTable = pgTable('answers', {
   id: uuid('id').primaryKey().defaultRandom(),
   questionId: uuid('question_id')
     .notNull()
-    .references(() => questionsTable.id),
+    .references(() => questionsTable.id,{ onDelete: 'cascade' }),
   text: text('text').notNull(),
   isCorrect: boolean('is_correct').default(false),
   order: integer('order'),
