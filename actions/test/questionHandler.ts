@@ -14,10 +14,8 @@ import {
 } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
-import { numericQuestionsTable } from '@schema/numericQuestion';
-import { booleanGroupSubQuestionsTable } from '@schema/booleanGroupQuestion';
-import { numericGroupSubQuestionsTable } from '@schema/numericGroupQuestion';
 import { matchingPairsTable } from '@schema/matchingPairs';
+import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
 
 import { Tx } from './createTest';
 
@@ -131,9 +129,11 @@ export const handleNumericQuestion = async (
   question: NumericQuestion,
   questionId: string
 ) => {
-  await tx.insert(numericQuestionsTable).values({
+  await tx.insert(groupSubQuestionsTable).values({
     questionId,
-    correctAnswer: question.correctAnswer,
+    text: question.text,
+    type: 'NUMERIC',
+    numericAnswer: question.correctAnswer,
     tolerance: question.tolerance,
   });
 };
@@ -144,15 +144,17 @@ export const handleBooleanGroupQuestion = async (
   questionId: string
 ) => {
   const subQuestionsToInsert = question.subQuestions.map(
-    (subQuestion, index) => ({
-      questionId,
-      text: subQuestion.text,
-      correctAnswer: subQuestion.correctAnswer,
-      order: subQuestion.order ?? index,
-    })
+    (subQuestion, index) =>
+      ({
+        questionId,
+        text: subQuestion.text,
+        type: 'BOOLEAN',
+        booleanAnswer: subQuestion.correctAnswer,
+        order: subQuestion.order ?? index,
+      }) as const
   );
 
-  await tx.insert(booleanGroupSubQuestionsTable).values(subQuestionsToInsert);
+  await tx.insert(groupSubQuestionsTable).values(subQuestionsToInsert);
 };
 
 export const handleNumericGroupQuestion = async (
@@ -161,16 +163,18 @@ export const handleNumericGroupQuestion = async (
   questionId: string
 ) => {
   const subQuestionsToInsert = question.subQuestions.map(
-    (subQuestion, index) => ({
-      questionId,
-      text: subQuestion.text,
-      correctAnswer: subQuestion.correctAnswer,
-      numericTolerance: subQuestion.numericTolerance,
-      order: subQuestion.order ?? index,
-    })
+    (subQuestion, index) =>
+      ({
+        questionId,
+        text: subQuestion.text,
+        type: 'NUMERIC',
+        numericAnswer: subQuestion.correctAnswer,
+        tolerance: subQuestion.numericTolerance,
+        order: subQuestion.order ?? index,
+      }) as const
   );
 
-  await tx.insert(numericGroupSubQuestionsTable).values(subQuestionsToInsert);
+  await tx.insert(groupSubQuestionsTable).values(subQuestionsToInsert);
 };
 
 export const handleMatchingQuestion = async (

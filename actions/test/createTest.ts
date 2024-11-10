@@ -50,7 +50,6 @@ async function createTest(
         .values({
           testId: createdTest.id,
           name: group.name,
-          order: group.order,
           maxQuestionPerPage: group.maxQuestionPerPage,
         })
         .returning();

@@ -1,10 +1,14 @@
 import { FC } from 'react';
 
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { type BooleanQuestion } from '../../../../../../../../types/questionTypes';
 
-const BooleanQuestion: FC<{ question: QuestionType }> = ({ question }) => {
+interface BooleanQuestionProps {
+  question: BooleanQuestion;
+}
+
+const BooleanQuestion: FC<BooleanQuestionProps> = ({ question }) => {
   return (
     <RadioGroup className="flex space-x-6">
       <div className="flex items-center space-x-2">

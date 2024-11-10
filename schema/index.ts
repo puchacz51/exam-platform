@@ -9,10 +9,7 @@ import {
   questionGroupsTable,
 } from '@schema/questionGroups';
 import { orderItemsRelations, orderItemsTable } from '@schema/orderItems';
-import {
-  numericQuestionsRelations,
-  numericQuestionsTable,
-} from '@schema/numericQuestion';
+
 import { answerRelations, answersTable } from '@schema/answers';
 import { questionRelations, questionsTable } from '@schema/questions';
 import { categoriesRelations, categoriesTable } from '@schema/categories';
@@ -21,12 +18,12 @@ import {
   questionOnQuestionGroupRelations,
   questionOnQuestionGroupTable,
 } from '@schema/questionOnQuestionGroup';
-import {
-  booleanGroupSubQuestionsRelations,
-  booleanGroupSubQuestionsTable,
-} from '@schema/booleanGroupQuestion';
-import { numericGroupSubQuestionsRelations } from '@schema/numericGroupQuestion';
+
 import { testSettingsRelations, testSettingsTable } from '@schema/testSettings';
+import {
+  groupSubQuestionsRelations,
+  groupSubQuestionsTable,
+} from '@schema/groupSubQuestions';
 
 export const schema = {
   users: usersTable,
@@ -38,21 +35,17 @@ export const schema = {
   questionGroups: questionGroupsTable,
   answers: answersTable,
   orderItems: orderItemsTable,
-  numericQuestions: numericQuestionsTable,
   questionOnQuestionGroup: questionOnQuestionGroupTable,
   testSettings: testSettingsTable,
-  booleanGroupSubQuestionsTable,
-  numericQuestionsTable,
+  groupSubQuestions: groupSubQuestionsTable,
   testsRelations,
   matchingPairsRelations,
   questionGroupRelations,
   orderItemsRelations,
-  numericQuestionsRelations,
   answerRelations,
   questionRelations,
   categoriesRelations,
   questionOnQuestionGroupRelations,
-  booleanGroupSubQuestionsRelations,
-  numericGroupSubQuestionsRelations,
   testSettingsRelations,
+  groupSubQuestionsRelations,
 };

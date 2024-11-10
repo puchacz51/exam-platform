@@ -21,3 +21,6 @@ export const matchingPairsRelations = relations(
     }),
   })
 );
+
+export type InsertMatchingPair = typeof matchingPairsTable.$inferInsert;
+export type SelectMatchingPair = typeof matchingPairsTable.$inferSelect;

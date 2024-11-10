@@ -1,25 +1,25 @@
 import { FC } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { type NumericQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { type NumericQuestion } from '../../../../../../../../types/questionTypes';
 
 interface NumericQuestionProps {
   question: NumericQuestion;
 }
 
 const NumericQuestion: FC<NumericQuestionProps> = ({ question }) => {
+  const { tolerance, numericAnswer } = question.groupSubQuestions[0];
   return (
     <div className="space-y-3">
       <Input
         type="number"
         placeholder="Enter numeric value"
-        disabled
         className="max-w-xs"
+        disabled
+        value={numericAnswer?.toString()}
       />
-      {question?.numericQuestions && (
-        <p className="text-sm text-muted-foreground">
-          Tolerance: ±{question.numericQuestions.tolerance}
-        </p>
+      {tolerance && (
+        <p className="text-sm text-muted-foreground">Tolerance: ±{tolerance}</p>
       )}
     </div>
   );

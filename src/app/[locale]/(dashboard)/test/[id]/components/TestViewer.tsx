@@ -11,10 +11,10 @@ import {
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGetTest';
-import { TestHeader } from '@/app/[locale]/(public)/test/[id]/components/TestHeader';
-import TestProgress from '@/app/[locale]/(public)/test/[id]/components/TestProgress';
-import { TestNavigation } from '@/app/[locale]/(public)/test/[id]/components/TestNavigation';
-import { QuestionGroup } from '@/app/[locale]/(public)/test/[id]/components/Questions/QuestionGroup';
+import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
+import TestProgress from '@/app/[locale]/(dashboard)/test/[id]/components/TestProgress';
+import { TestNavigation } from '@/app/[locale]/(dashboard)/test/[id]/components/TestNavigation';
+import { QuestionGroup } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionGroup';
 
 interface TestViewerProps {
   testId: string;
@@ -69,9 +69,8 @@ const TestViewer = ({ testId }: TestViewerProps) => {
       <Card className="shadow-lg">
         <CardHeader className="border-b">
           <TestHeader
-            title={test.title}
-            description={test.description}
-            accessType={test.accessType}
+            title={test.title || ''}
+            description={test.description || ''}
             category={test.category}
             isChangeable={testSettings.changeable}
           />

@@ -2,18 +2,10 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
 import QuestionSelector from './QuestionSelector';
-
-interface Question {
-  id: string;
-  text: string;
-  points: number;
-}
+import { CompleteQuestionGroup } from '../../../../../../../../types/test';
 
 interface QuestionGroupProps {
-  group: {
-    name?: string;
-    questions?: Question[];
-  };
+  group: CompleteQuestionGroup;
   currentGroupIndex: number;
 }
 

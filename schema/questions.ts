@@ -15,6 +15,7 @@ import { questionGroupsTable } from '@schema/questionGroups';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',
@@ -50,13 +51,9 @@ export const questionRelations = relations(questionsTable, ({ one, many }) => ({
     references: [categoriesTable.id],
   }),
   answers: many(answersTable),
-  questionOnQuestionGroup: many(questionOnQuestionGroupTable),
   orderItems: many(orderItemsTable),
-  numericQuestions: one(questionsTable, {
-    fields: [questionsTable.id],
-    references: [questionsTable.id],
-  }),
   matchingPairs: many(matchingPairsTable),
+  groupSubQuestions: many(groupSubQuestionsTable),
 }));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;

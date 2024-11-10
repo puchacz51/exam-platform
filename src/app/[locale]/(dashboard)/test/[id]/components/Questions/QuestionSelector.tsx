@@ -9,10 +9,15 @@ import MatchingQuestion from './MatchingQuestion';
 import BooleanQuestion from './BooleanQuestion';
 import NumericQuestion from './NumericQuestion';
 import OrderQuestion from './OrderQuestion';
-import BooleanGroupQuestion from '@/app/[locale]/(public)/test/[id]/components/Questions/BooleanGroupQuestion';
-import NumericGroupQuestion from '@/app/[locale]/(public)/test/[id]/components/Questions/NumericGroupQuestion';
+import BooleanGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanGroupQuestion';
+import NumericGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericGroupQuestion';
+import { CompleteQuestion } from '../../../../../../../../types/test';
 
-const QuestionSelector: FC<{ question: QuestionType }> = ({ question }) => {
+interface QuestionSelectorProps {
+  question: CompleteQuestion;
+}
+
+const QuestionSelector: FC<QuestionSelectorProps> = ({ question }) => {
   switch (question.questionType) {
     case 'SINGLE_CHOICE':
       return <SingleChoiceQuestion question={question} />;

@@ -1,8 +1,7 @@
-
 import { FC } from 'react';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { type NumericGroupQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { type NumericGroupQuestion } from '../../../../../../../../types/questionTypes';
 
 interface NumericGroupQuestionProps {
   question: NumericGroupQuestion;
@@ -11,7 +10,7 @@ interface NumericGroupQuestionProps {
 const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({ question }) => {
   return (
     <div className="grid gap-4">
-      {question?.subQuestions?.map((subQuestion) => (
+      {question?.groupSubQuestions?.map((subQuestion) => (
         <Card
           key={subQuestion.text}
           className="bg-gray-50"
@@ -19,12 +18,12 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({ question }) => {
           <CardContent className="flex items-center justify-between p-4">
             <div className="font-medium">{subQuestion.text}</div>
             <div className="flex flex-col items-end gap-1">
-              <div className="min-w-[100px] rounded-md bg-white p-2 shadow-sm text-center">
-                {subQuestion.correctAnswer}
+              <div className="min-w-[100px] rounded-md bg-white p-2 text-center shadow-sm">
+                {subQuestion.numericAnswer}
               </div>
-              {subQuestion.numericTolerance && (
+              {subQuestion.tolerance && (
                 <div className="text-sm text-muted-foreground">
-                  ±{subQuestion.numericTolerance}
+                  ±{subQuestion.tolerance}
                 </div>
               )}
             </div>

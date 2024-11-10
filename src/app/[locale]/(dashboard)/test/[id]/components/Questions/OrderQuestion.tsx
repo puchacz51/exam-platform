@@ -15,12 +15,11 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-
 import SortableItem from './SortableItem';
+import { type OrderQuestion } from '../../../../../../../../types/questionTypes';
 
 interface OrderQuestionProps {
-  question: QuestionType;
+  question: OrderQuestion;
 }
 
 const OrderQuestion: FC<OrderQuestionProps> = ({ question }) => {

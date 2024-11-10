@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { getTest } from '@actions/test/getTest';
-import { TestWithQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { CompleteTest } from '../../../../../../../types/test';
 
 const useGetTest = (initialTestId?: string) => {
-  const [test, setTest] = useState<TestWithQuestion | null>(null);
+  const [test, setTest] = useState<CompleteTest | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -13,7 +13,7 @@ const useGetTest = (initialTestId?: string) => {
       try {
         setLoading(true);
         setError(null);
-        const result = (await getTest(testId)) as unknown as TestWithQuestion;
+        const result = (await getTest(testId)) as unknown as CompleteTest;
         if (!result) {
           throw new Error('Test not found');
         }

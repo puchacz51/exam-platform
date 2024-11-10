@@ -2,7 +2,6 @@
 import { Question } from '../schemas/questionTypeSchema';
 import { randomBytes } from 'crypto';
 
-// Helper function to generate IDs
 const generateId = () => randomBytes(20).toString('hex');
 
 export const questionGroups0911 = [
