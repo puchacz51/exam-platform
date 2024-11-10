@@ -68,12 +68,6 @@ const TestViewer = ({ testId }: TestViewerProps) => {
     <div className="mx-auto max-w-4xl p-4">
       <Card className="shadow-lg">
         <CardHeader className="border-b">
-          <TestHeader
-            title={test.title || ''}
-            description={test.description || ''}
-            category={test.category}
-            isChangeable={testSettings.changeable}
-          />
         </CardHeader>
 
         <TestProgress

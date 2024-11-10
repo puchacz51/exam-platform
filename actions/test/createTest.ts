@@ -33,7 +33,7 @@ async function createTest(
       .insert(testsTable)
       .values({
         title: test.title,
-        description: test.description,
+        description: test.description || '',
         categoryId: test.categoryId,
         creatorId: userId,
         createdAt: new Date(),

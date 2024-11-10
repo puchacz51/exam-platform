@@ -17,15 +17,15 @@ export function TestDetails({ settings }: TestDetailsProps) {
       title: "Navigation Settings",
       settings: [
         { label: "Navigation Mode", value: settings.navigationMode },
-        { label: "Allow Going Back", value: <BooleanIndicator value={settings.allowGoBack} /> },
-        { label: "Confirm Group Change", value: <BooleanIndicator value={settings.confirmBeforeGroupChange} /> },
+        { label: "Allow Going Back", value: <BooleanIndicator value={!!settings.allowGoBack} /> },
+        { label: "Confirm Group Change", value: <BooleanIndicator value={!!settings.confirmBeforeGroupChange} /> },
       ]
     },
     {
       title: "Scoring Settings",
       settings: [
         { label: "Scoring System", value: settings.scoringSystem },
-        { label: "Allow Partial Points", value: <BooleanIndicator value={settings.allowPartialPoints} /> },
+        { label: "Allow Partial Points", value: <BooleanIndicator value={!!settings.allowPartialPoints} /> },
         { label: "Minimum Points Per Question", value: settings.minimumPointsPerQuestion },
         { label: "Negative Points Percentage", value: `${settings.negativePointsPercentage}%` },
         { label: "Rounding Precision", value: settings.roundingPrecision },
@@ -36,8 +36,8 @@ export function TestDetails({ settings }: TestDetailsProps) {
       settings: [
         { label: "Question Display Mode", value: settings.questionDisplayMode },
         { label: "Questions Per Page", value: settings.questionsPerPage || "All" },
-        { label: "Shuffle Questions", value: <BooleanIndicator value={settings.shuffleQuestionsInGroup} /> },
-        { label: "Shuffle Answers", value: <BooleanIndicator value={settings.shuffleAnswers} /> },
+        { label: "Shuffle Questions", value: <BooleanIndicator value={!!settings.shuffleQuestionsInGroup} /> },
+        { label: "Shuffle Answers", value: <BooleanIndicator value={!!settings.shuffleAnswers} /> },
       ]
     }
   ];

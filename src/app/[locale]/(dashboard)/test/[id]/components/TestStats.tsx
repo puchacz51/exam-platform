@@ -1,43 +1,55 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Book, Users, Award, Brain, Target } from 'lucide-react';
-import { SelectTestSettings } from '@schema/testSettings';
+import { Clock, Book, Brain, Target } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
+import { CompleteTest } from '../../../../../../../types/test';
 
 interface TestStatsProps {
-  duration: string;
-  questionCount: number;
-  settings: SelectTestSettings;
-  questions: Array<{ questionType: keyof typeof questionTypeIcons }>;
+  test: CompleteTest;
 }
 
-const countQuestionTypes = (questions: TestStatsProps['questions']) => {
-  return questions?.reduce(
-    (acc, question) => {
-      acc[question.questionType] = (acc[question.questionType] || 0) + 1;
+const countQuestionTypes = (test: CompleteTest) => {
+  return test.questionGroups.reduce(
+    (acc, group) => {
+      group.questions.forEach((question) => {
+        acc[question.questionType] = (acc[question.questionType] || 0) + 1;
+      });
       return acc;
     },
     {} as Record<string, number>
   );
 };
 
-export function TestStats({
-  duration,
-  questionCount,
-  settings,
-  questions,
-}: TestStatsProps) {
-  const questionTypes = countQuestionTypes(questions);
+const formatDuration = (duration: number) => {
+  if (duration >= 60) {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    return `${hours}h ${minutes > 0 ? `${minutes}min` : ''}`;
+  }
+  return `${duration}min`;
+};
+
+export function TestStats({ test }: TestStatsProps) {
+  const questionCount = test.questionGroups.reduce(
+    (acc, group) => acc + group.questions.length,
+    0
+  );
+  const pointsCount = test.questionGroups.reduce(
+    (acc, group) =>
+      acc + group.questions.reduce((acc, question) => acc + question.points, 0),
+    0
+  );
+  const questionTypes = countQuestionTypes(test);
 
   const mainStats = [
     {
       icon: <Clock className="h-8 w-8 text-blue-500" />,
       label: 'Duration',
-      value: duration,
+      value: formatDuration(30),
     },
     {
       icon: <Book className="h-8 w-8 text-green-500" />,
@@ -47,12 +59,12 @@ export function TestStats({
     {
       icon: <Target className="h-8 w-8 text-purple-500" />,
       label: 'Max Points',
-      value: `${questionCount * 1}pts`,
+      value: `${pointsCount}pts`,
     },
     {
       icon: <Brain className="h-8 w-8 text-yellow-500" />,
       label: 'Scoring System',
-      value: settings.scoringSystem,
+      value: test.settings.scoringSystem,
     },
   ];
 
@@ -60,14 +72,19 @@ export function TestStats({
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {mainStats.map((item) => (
-          <Card key={item.label}>
+          <Card
+            key={item.label}
+            className="transition-colors hover:bg-secondary/5"
+          >
             <CardContent className="flex items-center p-6">
               {item.icon}
               <div className="ml-4">
                 <p className="text-sm font-medium text-muted-foreground">
                   {item.label}
                 </p>
-                <p className="text-xl font-semibold">{item.value}</p>
+                <p className="text-xl font-semibold text-primary">
+                  {item.value}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -79,19 +96,22 @@ export function TestStats({
           const Icon =
             questionTypeIcons[type as keyof typeof questionTypeIcons];
           return (
-            <Card key={type}>
+            <Card
+              key={type}
+              className="transition-colors hover:bg-secondary/5"
+            >
               <CardContent
                 className={cn(
-                  'flex items-center p-4 transition-colors',
+                  'flex items-center p-4',
                   questionTypeColors[type as keyof typeof questionTypeColors]
                 )}
               >
                 <Icon className="h-6 w-6" />
                 <div className="ml-3">
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium text-muted-foreground">
                     {type.replace('_', ' ')}
                   </p>
-                  <p className="text-lg font-semibold">{count}</p>
+                  <p className="text-lg font-semibold text-primary">{count}</p>
                 </div>
               </CardContent>
             </Card>

@@ -17,7 +17,7 @@ export const TestNavigation = ({
   onPrevious,
   onNext,
 }: TestNavigationProps) => (
-  <div className="flex justify-between border-t p-6">
+  <div className="flex w-full justify-between border-t p-6">
     <Button
       variant="outline"
       onClick={onPrevious}
@@ -26,20 +26,13 @@ export const TestNavigation = ({
     >
       <ChevronLeft className="h-4 w-4" /> Previous Group
     </Button>
-
-    {currentGroupIndex === totalGroups - 1 ? (
-      <Button className="gap-2">
-        Submit Test
-        <ChevronRight className="h-4 w-4" />
-      </Button>
-    ) : (
-      <Button
-        onClick={onNext}
-        className="gap-2"
-      >
-        Next Group
-        <ChevronRight className="h-4 w-4" />
-      </Button>
-    )}
+    <Button
+      onClick={onNext}
+      className="gap-2"
+      disabled={currentGroupIndex >= totalGroups - 1}
+    >
+      Next Group
+      <ChevronRight className="h-4 w-4" />
+    </Button>
   </div>
 );
