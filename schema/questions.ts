@@ -7,14 +7,13 @@ import {
   text,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { relations, sql } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 
 import { matchingPairsTable } from '@schema/matchingPairs';
 import { categoriesTable } from '@schema/categories';
 import { questionGroupsTable } from '@schema/questionGroups';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
-import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
 
 export const questionTypeEnum = pgEnum('question_type', [

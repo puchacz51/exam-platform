@@ -8,6 +8,7 @@ import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/st
 import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/navigation/BulletBar';
 import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
 import TestCreatorQuestionsForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsForm';
+import { AiQuestionGenerator } from '../ai-generator/AiQuestionGenerator';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
@@ -52,6 +53,7 @@ const TestCreator: FC = () => {
                 </div>
               )
           )}
+          <AiQuestionGenerator />
 
           {hasQuestions && (
             <Button onClick={handleFinishTest}>Zakończ tworzenie testu</Button>
