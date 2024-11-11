@@ -8,12 +8,19 @@ interface DroppableContainerProps {
 }
 
 const DroppableContainer: FC<DroppableContainerProps> = ({ id, children }) => {
-  const { setNodeRef } = useDroppable({ id });
+  const { setNodeRef, isOver } = useDroppable({
+    id,
+    data: {
+      type: 'container',
+      accepts: ['question'],
+      id: id,
+    },
+  });
 
   return (
     <div
       ref={setNodeRef}
-      className="h-full"
+      className={`h-full w-full flex-1 ${isOver ? 'bg-blue-50' : ''}`}
     >
       {children}
     </div>

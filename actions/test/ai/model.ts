@@ -9,7 +9,7 @@ import { GenerationConfig, GoogleGenerativeAI } from '@google/generative-ai';
 import { customAlphabet } from 'nanoid';
 import dotenv from 'dotenv';
 import { getQuestionSchemas } from './exampleQuestionJson';
-import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/ai-generator/schema';
+import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 
 dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || '');
