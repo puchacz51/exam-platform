@@ -9,15 +9,16 @@ interface QuestionTypeButtonProps {
   onSelect: (type: string) => void;
 }
 
-export function QuestionTypeButton({
+export const QuestionTypeButton = ({
   type,
   isSelected,
   onSelect,
-}: QuestionTypeButtonProps) {
+}: QuestionTypeButtonProps) => {
   const Icon = questionTypeIcons[type as keyof typeof questionTypeIcons];
 
   return (
     <button
+      type="button"
       onClick={() => onSelect(type)}
       className={`${
         questionTypeColors[type as keyof typeof questionTypeColors]
@@ -31,6 +32,6 @@ export function QuestionTypeButton({
       </div>
     </button>
   );
-}
+};
 
 export default QuestionTypeButton;

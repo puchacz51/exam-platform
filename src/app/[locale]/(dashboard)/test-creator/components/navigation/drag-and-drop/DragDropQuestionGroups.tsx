@@ -9,7 +9,10 @@ import {
   MeasuringStrategy,
   pointerWithin,
 } from '@dnd-kit/core';
-import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+} from '@dnd-kit/sortable';
 
 import useDragDrop from '@/app/[locale]/(dashboard)/test-creator/hooks/useDragDrop';
 import QuestionGroup from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/QuestionGroup';
@@ -45,7 +48,7 @@ const DragDropQuestionGroups: FC = () => {
 
   const getDragOverlayContent = (id: string) => {
     // Check if it's a group being dragged
-    const group = items.find(group => group.id === id);
+    const group = items.find((group) => group.id === id);
     if (group) {
       return (
         <div className="w-64 rounded border bg-white p-3 text-sm shadow-lg">
@@ -60,7 +63,7 @@ const DragDropQuestionGroups: FC = () => {
     const containerIndex = findContainer(id);
     return containerIndex !== -1 ? (
       <div className="w-60 rounded border bg-white p-2 text-sm shadow-lg">
-        {items[containerIndex]?.questions.find(item => item.id === id)?.text}
+        {items[containerIndex]?.questions.find((item) => item.id === id)?.text}
       </div>
     ) : null;
   };

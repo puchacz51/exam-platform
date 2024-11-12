@@ -7,6 +7,7 @@ import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/typ
 import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
+import { Question } from '../../../../../../types/questionTypes';
 
 export type TestCreatorAnswer = {
   text: string;
@@ -26,6 +27,7 @@ export interface TestProps {
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
   isSortFormOpen: boolean;
+  aiQuestions: Question[] | null;  // tylko jedna tablica zamiast dwóch
 }
 type Updater<T> = T | ((prev: T) => T);
 
@@ -51,6 +53,8 @@ export interface TestState extends TestProps {
     questionGroups: Updater<TestCreatorQuestionGroup[]>
   ) => void;
   setIsSortFormOpen: (isOpen: Updater<boolean>) => void;
+  setAiQuestions: (questions: Question[] | null) => void;
+  clearAiQuestions: () => void;
 }
 
 const DEFAULT_PROPS: TestProps = {
@@ -98,6 +102,7 @@ const DEFAULT_PROPS: TestProps = {
   isQuestionGroupConfiguratorOpen: false,
   isAddedGeneralConfiguration: true,
   isSortFormOpen: false,
+  aiQuestions: null,
 };
 const applyUpdater = <T>(value: T, updater: Updater<T>): T =>
   typeof updater === 'function' ? (updater as (prev: T) => T)(value) : updater;
@@ -249,6 +254,18 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
       set((prev) => ({
         ...prev,
         isSortFormOpen: applyUpdater(prev.isSortFormOpen, isOpen),
+      })),
+
+    setAiQuestions: (questions) =>
+      set((prev) => ({
+        ...prev,
+        aiQuestions: questions,
+      })),
+
+    clearAiQuestions: () =>
+      set((prev) => ({
+        ...prev,
+        aiQuestions: null,
       })),
   }));
 

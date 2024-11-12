@@ -40,7 +40,7 @@ const SortableItem: FC<SortableItemProps> = ({ id, text, type }) => {
       {...attributes}
       {...listeners}
     >
-      <Icon className="mr-1.5 h-3.5 w-3.5 inline-block" />
+      <Icon className="mr-1.5 inline-block h-3.5 w-3.5" />
       {text}
     </div>
   );

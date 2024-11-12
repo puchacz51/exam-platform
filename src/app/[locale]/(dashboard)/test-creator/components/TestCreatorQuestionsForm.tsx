@@ -144,10 +144,16 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     <Card
       className={cn(
         'overflow-hidden border-t-4 border-t-blue-500 p-6 shadow-lg',
+        !isQuestionConfiguratorOpen && 'rounded-lg py-2',
         className
       )}
     >
-      <div className="relative z-10 mb-6 flex items-center justify-between">
+      <div
+        className={cn(
+          'relative z-10 mb-6 flex items-center justify-between',
+          !isQuestionConfiguratorOpen && 'mb-0'
+        )}
+      >
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold text-gray-800">
             Create Question

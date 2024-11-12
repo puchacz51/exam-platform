@@ -102,7 +102,7 @@ const BOOLEAN_GROUP = {
   text: 'Which of the following are fruits?',
   questionType: 'BOOLEAN_GROUP',
   points: 2,
-  groupSubQuestions: [
+  subQuestions: [
     {
       text: 'Apple',
       correctAnswer: true,
@@ -126,7 +126,7 @@ const NUMERIC_GROUP = {
   text: 'What is the sum of the following numbers?',
   questionType: 'NUMERIC_GROUP',
   points: 2,
-  groupSubQuestions: [
+  subQuestions: [
     {
       text: '2 + 2',
       correctAnswer: 4,
@@ -182,7 +182,9 @@ const exampleQuestionJson = {
   MATCHING: JSON.stringify(MATCHING, null, 2),
 };
 
-export const getQuestionSchemas = (questionTypes: QuestionType['questionType'][]) => {
+export const getQuestionSchemas = (
+  questionTypes: QuestionType['questionType'][]
+) => {
   const schemas: Record<string, string> = {};
   questionTypes.forEach((questionType) => {
     schemas[questionType] = exampleQuestionJson[questionType];

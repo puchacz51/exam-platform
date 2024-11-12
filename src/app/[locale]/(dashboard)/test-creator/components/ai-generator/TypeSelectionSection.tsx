@@ -1,20 +1,25 @@
+import { Dice5 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Dice5 } from 'lucide-react';
 import { questionTypeEnum } from '@schema/questions';
+
 import QuestionTypeButton from './QuestionTypeButton';
 import { TypeSelectionSectionProps } from './types';
 
-export function TypeSelectionSection({
+export const TypeSelectionSection = ({
   selectedTypes,
   onTypeSelect,
   onRandomSelect,
-}: TypeSelectionSectionProps) {
+}: TypeSelectionSectionProps) => {
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex-1" />
-        <Button variant="outline" onClick={onRandomSelect}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onRandomSelect}
+        >
           <Dice5 className="mr-2 h-4 w-4" />
           Random Selection
         </Button>
@@ -35,4 +40,4 @@ export function TypeSelectionSection({
       </div>
     </>
   );
-}
+};

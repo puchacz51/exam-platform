@@ -1,32 +1,129 @@
+import { useCallback, useEffect, useState } from 'react';
+
+import { Check, X } from 'lucide-react';
 
 import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Check, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { questionTypeColors, questionTypeIcons } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  questionTypeColors,
+  questionTypeIcons,
+} from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
 
 interface GeneratedQuestionsViewProps {
   questions: Question[];
-  onAccept: () => void;
+  questionGroups: TestCreatorQuestionGroup[];
+  onAccept: (groupId: string, selectedQuestions: Question[]) => void;
   onReject: () => void;
 }
 
-export function GeneratedQuestionsView({ questions, onAccept, onReject }: GeneratedQuestionsViewProps) {
+export const GeneratedQuestionsView = ({
+  questions,
+  questionGroups,
+  onAccept,
+  onReject,
+}: GeneratedQuestionsViewProps) => {
+  const [state, setState] = useState(() => ({
+    selectedGroupId: '',
+    selectedQuestions: new Set<string>(),
+  }));
+
+  useEffect(() => {
+    setState({
+      selectedGroupId: '',
+      selectedQuestions: new Set(),
+    });
+  }, [questions.length]);
+
+  const toggleQuestion = useCallback((questionId: string) => {
+    setState((prev) => {
+      const newSelected = new Set(prev.selectedQuestions);
+      if (newSelected.has(questionId)) {
+        newSelected.delete(questionId);
+      } else {
+        newSelected.add(questionId);
+      }
+      return {
+        ...prev,
+        selectedQuestions: newSelected,
+      };
+    });
+  }, []);
+
+  const handleAccept = useCallback(() => {
+    if (!state.selectedGroupId || state.selectedQuestions.size === 0) return;
+
+    const selectedQuestionsList = questions.filter((q) =>
+      state.selectedQuestions.has(q.id)
+    );
+    onAccept(state.selectedGroupId, selectedQuestionsList);
+  }, [state.selectedGroupId, state.selectedQuestions, questions, onAccept]);
+
+  const handleGroupChange = useCallback((groupId: string) => {
+    setState((prev) => ({
+      ...prev,
+      selectedGroupId: groupId,
+    }));
+  }, []);
+
   return (
     <Card className="mt-6">
       <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-medium">Generated Questions</CardTitle>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={onReject}>
-            <X className="mr-2 h-4 w-4" />
-            Reject
-          </Button>
-          <Button size="sm" onClick={onAccept}>
-            <Check className="mr-2 h-4 w-4" />
-            Accept Questions
-          </Button>
+        <CardTitle className="text-lg font-medium">
+          Generated Questions
+        </CardTitle>
+        <div className="flex items-center gap-4">
+          <Select
+            value={state.selectedGroupId}
+            onValueChange={handleGroupChange}
+          >
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Select question group" />
+            </SelectTrigger>
+            <SelectContent>
+              {questionGroups.map((group) => (
+                <SelectItem
+                  key={group.id}
+                  value={group.id}
+                >
+                  {group.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onReject}
+            >
+              <X className="mr-2 h-4 w-4" />
+              Reject
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleAccept}
+              disabled={
+                !state.selectedGroupId || state.selectedQuestions.size === 0
+              }
+            >
+              <Check className="mr-2 h-4 w-4" />
+              Add Selected ({state.selectedQuestions.size})
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -35,14 +132,22 @@ export function GeneratedQuestionsView({ questions, onAccept, onReject }: Genera
             {questions.map((question, index) => {
               const Icon = questionTypeIcons[question.questionType];
               return (
-                <Card key={question.id} className="p-4">
+                <Card
+                  key={question.id}
+                  className="p-4"
+                >
                   <div className="flex items-start justify-between gap-4">
+                    <Checkbox
+                      checked={state.selectedQuestions.has(question.id)}
+                      onCheckedChange={() => toggleQuestion(question.id)}
+                      className="mt-1"
+                    />
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium text-muted-foreground">
                           Question {index + 1}
                         </span>
-                        <Badge 
+                        <Badge
                           variant="secondary"
                           className={questionTypeColors[question.questionType]}
                         >
@@ -50,7 +155,7 @@ export function GeneratedQuestionsView({ questions, onAccept, onReject }: Genera
                           {question.questionType.replace(/_/g, ' ')}
                         </Badge>
                       </div>
-                      <p className="text-sm font-medium">{question.question}</p>
+                      <p className="text-sm font-medium">{question.text}</p>
                     </div>
                   </div>
                 </Card>
@@ -61,4 +166,4 @@ export function GeneratedQuestionsView({ questions, onAccept, onReject }: Genera
       </CardContent>
     </Card>
   );
-}
+};

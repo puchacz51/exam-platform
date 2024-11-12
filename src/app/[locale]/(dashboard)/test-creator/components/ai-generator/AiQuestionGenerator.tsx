@@ -1,40 +1,46 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Form } from '@/components/ui/form';
-import { aiGeneratorSchema, type AiGeneratorFormData } from './schema';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { questionTypeEnum } from '@schema/questions';
-import { TypeSelectionSection } from './TypeSelectionSection';
-import { ConfigurationSection } from './ConfigurationSection';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { GeneratedQuestionsView } from './GeneratedQuestionsView';
 import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { generateQuestions } from '@actions/test/ai/model';
 
-export function AiQuestionGenerator() {
+import { TypeSelectionSection } from './TypeSelectionSection';
+import { ConfigurationSection } from './ConfigurationSection';
+import { GeneratedQuestionsView } from './GeneratedQuestionsView';
+import { type AiGeneratorFormData, aiGeneratorSchema } from './schema';
+
+export const AiQuestionGenerator = () => {
   const [step, setStep] = useState<'select' | 'configure'>('select');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [generatedQuestions, setGeneratedQuestions] = useState<
-    Question[] | null
-  >(null);
 
+  const questionGroups = useTestContext((state) => state.questionGroups);
+  const addQuestion = useTestContext((state) => state.addQuestion);
+  const aiQuestions = useTestContext((state) => state.aiQuestions);
+  const setAiQuestions = useTestContext((state) => state.setAiQuestions);
+  const clearAiQuestions = useTestContext((state) => state.clearAiQuestions);
   const categories = useTestContext(
     (state) => state.testConfiguration.categories
   );
+
   const form = useForm<AiGeneratorFormData>({
     resolver: zodResolver(aiGeneratorSchema),
     defaultValues: {
@@ -70,17 +76,34 @@ export function AiQuestionGenerator() {
     form.setValue('selectedTypes', randomTypes);
   };
 
-  const handleAcceptQuestions = () => {
-    if (generatedQuestions) {
-      setGeneratedQuestions(null);
-      setStep('select');
-      form.reset();
-    }
-  };
+  const handleAcceptQuestions = useCallback(
+    (groupId: string, selectedQuestions: Question[]) => {
+      if (!selectedQuestions.length || !aiQuestions) return;
 
-  const handleRejectQuestions = () => {
-    setGeneratedQuestions(null);
-  };
+      // Batch all updates
+      const batch = () => {
+        // Add questions
+        selectedQuestions.forEach((question) => {
+          addQuestion({
+            ...question,
+            groupId,
+            id: `question-${Date.now()}-${Math.random()}`,
+          });
+        });
+
+        const selectedIds = new Set(selectedQuestions.map((q) => q.id));
+        const remaining = aiQuestions.filter((q) => !selectedIds.has(q.id));
+        setAiQuestions(remaining.length > 0 ? remaining : null);
+      };
+
+      batch();
+    },
+    [aiQuestions, addQuestion, setAiQuestions]
+  );
+
+  const handleRejectQuestions = useCallback(() => {
+    clearAiQuestions();
+  }, [clearAiQuestions]);
 
   const onSubmit = async (data: AiGeneratorFormData) => {
     setIsLoading(true);
@@ -88,7 +111,7 @@ export function AiQuestionGenerator() {
     console.log('data', data);
     try {
       const questions = await generateQuestions(data);
-      setGeneratedQuestions(questions);
+      setAiQuestions(questions);
     } catch (err) {
       setError(
         err instanceof Error
@@ -99,7 +122,6 @@ export function AiQuestionGenerator() {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="space-y-6">
       <Card className="w-full">
@@ -117,8 +139,14 @@ export function AiQuestionGenerator() {
                 onValueChange={(v) => setStep(v as 'select' | 'configure')}
               >
                 <TabsList className="mb-6 grid w-full grid-cols-2">
-                  <TabsTrigger value="select">1. Select Types</TabsTrigger>
                   <TabsTrigger
+                    type="button"
+                    value="select"
+                  >
+                    1. Select Types
+                  </TabsTrigger>
+                  <TabsTrigger
+                    type="button"
                     value="configure"
                     disabled={selectedTypes.length === 0}
                   >
@@ -155,6 +183,7 @@ export function AiQuestionGenerator() {
             <CardFooter className="mt-4 flex items-center gap-4 border-t pt-4">
               {step === 'configure' && (
                 <Button
+                  type="button"
                   variant="ghost"
                   onClick={() => setStep('select')}
                   className="hover:bg-slate-100"
@@ -182,18 +211,19 @@ export function AiQuestionGenerator() {
                 </Button>
               </div>
             </CardFooter>
-            {JSON.stringify(form.getValues())}
           </form>
         </Form>
       </Card>
 
-      {generatedQuestions && (
+      {aiQuestions && aiQuestions.length > 0 && (
         <GeneratedQuestionsView
-          questions={generatedQuestions}
+          key={aiQuestions.map((q) => q.id).join(',')}
+          questions={aiQuestions}
+          questionGroups={questionGroups}
           onAccept={handleAcceptQuestions}
           onReject={handleRejectQuestions}
         />
       )}
     </div>
   );
-}
+};
