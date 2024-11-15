@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGetTest';
-import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
 import TestProgress from '@/app/[locale]/(dashboard)/test/[id]/components/TestProgress';
 import { TestNavigation } from '@/app/[locale]/(dashboard)/test/[id]/components/TestNavigation';
 import { QuestionGroup } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionGroup';
@@ -49,8 +48,6 @@ const TestViewer = ({ testId }: TestViewerProps) => {
 
   const handleNextGroup = () => {
     if (testSettings.requireAllAnswers) {
-      // const currentQuestions = currentGroup.questions || [];
-      // const answeredQuestions = currentQuestions.filter((q) => answers[q.id]);
     }
 
     if (currentGroupIndex < totalGroups - 1) {
@@ -67,8 +64,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   return (
     <div className="mx-auto max-w-4xl p-4">
       <Card className="shadow-lg">
-        <CardHeader className="border-b">
-        </CardHeader>
+        <CardHeader className="border-b"></CardHeader>
 
         <TestProgress
           timeLimit={testSettings.timeLimit}

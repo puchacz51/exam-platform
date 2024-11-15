@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
 
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,9 @@ import { GeneratedQuestionsView } from './GeneratedQuestionsView';
 import { type AiGeneratorFormData, aiGeneratorSchema } from './schema';
 
 export const AiQuestionGenerator = () => {
+  const setIsAiGeneratorOpen = useTestContext(
+    (state) => state.setIsAiGeneratorOpen
+  );
   const [step, setStep] = useState<'select' | 'configure'>('select');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -128,10 +132,23 @@ export const AiQuestionGenerator = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
-              <CardTitle>AI Question Generator</CardTitle>
-              <CardDescription>
-                Create questions using AI assistance
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>AI Question Generator</CardTitle>
+                  <CardDescription>
+                    Create questions using AI assistance
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsAiGeneratorOpen(false)}
+                  className="h-8 w-8 rounded-full hover:bg-slate-100"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Hide AI Generator</span>
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <Tabs

@@ -6,10 +6,12 @@ import { eq } from 'drizzle-orm';
 import { Button } from '@/components/ui/button';
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
+import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
+
 import { TestHeader } from './components/TestHeader';
 import { TestStats } from './components/TestStats';
 import { TestDetails } from './components/TestDetails';
-import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
+import { TestAccessForm } from './components/TestAccessForm';
 
 interface TestPageProps {
   params: {
@@ -82,6 +84,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
         />
         <TestStats test={test} />
         <TestDetails settings={test.settings} />
+        <TestAccessForm />
         <TestViewer testId={test.id} />
       </div>
     </div>

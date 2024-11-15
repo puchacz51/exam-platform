@@ -1,13 +1,14 @@
 import { relations } from 'drizzle-orm';
 import {
+  boolean,
+  integer,
   pgEnum,
   pgTable,
+  real,
   text,
   uuid,
-  integer,
-  boolean,
-  real,
 } from 'drizzle-orm/pg-core';
+
 import { questionsTable } from './questions';
 
 export const subQuestionTypeEnum = pgEnum('sub_question_type', [

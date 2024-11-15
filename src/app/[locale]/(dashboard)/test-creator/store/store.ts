@@ -7,6 +7,7 @@ import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/typ
 import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
+
 import { Question } from '../../../../../../types/questionTypes';
 
 export type TestCreatorAnswer = {
@@ -27,7 +28,8 @@ export interface TestProps {
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
   isSortFormOpen: boolean;
-  aiQuestions: Question[] | null;  // tylko jedna tablica zamiast dwóch
+  aiQuestions: Question[] | null; // tylko jedna tablica zamiast dwóch
+  isAiGeneratorOpen: boolean;
 }
 type Updater<T> = T | ((prev: T) => T);
 
@@ -47,7 +49,12 @@ export interface TestState extends TestProps {
   setIsTestConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionGroupConfiguratorOpen: (isOpen: Updater<boolean>) => void;
-  setCurrentQuestion: (groupId: string, questionId: string) => void;
+  setCurrentQuestion: (
+    currentQuestion: {
+      groupId: string;
+      questionId: string;
+    } | null
+  ) => void;
   setCurrentQuestionGroup: (groupId: string) => void;
   setQuestionGroups: (
     questionGroups: Updater<TestCreatorQuestionGroup[]>
@@ -55,6 +62,7 @@ export interface TestState extends TestProps {
   setIsSortFormOpen: (isOpen: Updater<boolean>) => void;
   setAiQuestions: (questions: Question[] | null) => void;
   clearAiQuestions: () => void;
+  setIsAiGeneratorOpen: (isOpen: Updater<boolean>) => void;
 }
 
 const DEFAULT_PROPS: TestProps = {
@@ -90,7 +98,7 @@ const DEFAULT_PROPS: TestProps = {
     {
       id: 'group-1730041489822',
       name: 'Science and Logic',
-      order: 2,
+      order: 1,
       maxQuestionPerPage: 3,
       questions: [...mathTest],
     },
@@ -103,6 +111,7 @@ const DEFAULT_PROPS: TestProps = {
   isAddedGeneralConfiguration: true,
   isSortFormOpen: false,
   aiQuestions: null,
+  isAiGeneratorOpen: false,
 };
 const applyUpdater = <T>(value: T, updater: Updater<T>): T =>
   typeof updater === 'function' ? (updater as (prev: T) => T)(value) : updater;
@@ -226,15 +235,20 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         ),
       })),
 
-    setCurrentQuestion: (groupId, questionId) =>
+    setCurrentQuestion: (currentQuestion) =>
       set((prev) => ({
         ...prev,
         currentQuestion:
-          prev.questionGroups
-            .find((g) => g.id === groupId)
-            ?.questions.find((q) => q.id === questionId) || null,
+          (!!currentQuestion &&
+            prev.questionGroups
+              .find((g) => g.id === currentQuestion.groupId)
+              ?.questions.find((q) => q.id === currentQuestion.questionId)) ||
+          null,
         currentQuestionGroupId:
-          prev.questionGroups.find((g) => g.id === groupId)?.id || null,
+          (!!currentQuestion &&
+            prev.questionGroups.find((g) => g.id === currentQuestion.groupId)
+              ?.id) ||
+          prev.currentQuestionGroupId,
       })),
 
     setCurrentQuestionGroup: (groupId) =>
@@ -266,6 +280,12 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
       set((prev) => ({
         ...prev,
         aiQuestions: null,
+      })),
+
+    setIsAiGeneratorOpen: (isOpen) =>
+      set((prev) => ({
+        ...prev,
+        isAiGeneratorOpen: applyUpdater(prev.isAiGeneratorOpen, isOpen),
       })),
   }));
 

@@ -3,6 +3,7 @@
 import {
   BooleanGroupQuestion,
   BooleanQuestion,
+  MatchingQuestion,
   MultipleChoiceQuestion,
   NumericGroupQuestion,
   NumericQuestion,
@@ -10,7 +11,6 @@ import {
   OrderQuestion,
   Question,
   SingleChoiceQuestion,
-  MatchingQuestion,
 } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';

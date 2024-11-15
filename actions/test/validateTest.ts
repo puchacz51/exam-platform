@@ -62,8 +62,6 @@ function validateGroupOrders(groups: QuestionGroup[]): string[] {
   return errors;
 }
 
-
-
 function validateQuestionsInGroups(groups: QuestionGroup[]): string[] {
   const errors: string[] = [];
 

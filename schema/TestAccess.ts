@@ -35,7 +35,6 @@ export const testAccessConfigTable = pgTable('test_access_configs', {
   showResultsAfterSubmission: boolean('show_results_after_submission').default(
     true
   ),
-  shuffleQuestions: boolean('shuffle_questions').default(false),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });

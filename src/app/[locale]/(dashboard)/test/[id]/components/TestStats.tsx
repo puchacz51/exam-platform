@@ -1,11 +1,12 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Book, Brain, Target } from 'lucide-react';
+import { Book, Brain, Clock, Target } from 'lucide-react';
 
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
+
 import { CompleteTest } from '../../../../../../../types/test';
 
 interface TestStatsProps {
@@ -33,7 +34,7 @@ const formatDuration = (duration: number) => {
   return `${duration}min`;
 };
 
-export function TestStats({ test }: TestStatsProps) {
+export const TestStats = ({ test }: TestStatsProps) => {
   const questionCount = test.questionGroups.reduce(
     (acc, group) => acc + group.questions.length,
     0
@@ -120,4 +121,4 @@ export function TestStats({ test }: TestStatsProps) {
       </div>
     </div>
   );
-}
+};

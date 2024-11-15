@@ -73,7 +73,11 @@ const useDragDrop = () => {
         ? over.data.current.id
         : findContainer(overId);
 
-    if (!activeContainer || !overContainer || activeContainer === overContainer) {
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
       return;
     }
 
@@ -125,9 +129,10 @@ const useDragDrop = () => {
     }
 
     const activeContainer = findContainer(active.id);
-    const overContainer = over.data.current?.type === 'container'
-      ? over.id.toString()
-      : findContainer(over.id);
+    const overContainer =
+      over.data.current?.type === 'container'
+        ? over.id.toString()
+        : findContainer(over.id);
 
     if (!activeContainer || !overContainer) {
       setActiveId(null);
@@ -159,9 +164,15 @@ const useDragDrop = () => {
       });
     }
     // Przenoszenie między grupami tylko jeśli kontenery są różne i istnieją
-    else if (activeContainer && overContainer && activeContainer !== overContainer) {
+    else if (
+      activeContainer &&
+      overContainer &&
+      activeContainer !== overContainer
+    ) {
       setQuestionGroups((prev) => {
-        const activeGroupIndex = prev.findIndex((g) => g.id === activeContainer);
+        const activeGroupIndex = prev.findIndex(
+          (g) => g.id === activeContainer
+        );
         const overGroupIndex = prev.findIndex((g) => g.id === overContainer);
 
         if (activeGroupIndex === -1 || overGroupIndex === -1) return prev;
@@ -176,7 +187,10 @@ const useDragDrop = () => {
 
         if (movedQuestionIndex === -1) return prev;
 
-        const [movedQuestion] = activeGroup.questions.splice(movedQuestionIndex, 1);
+        const [movedQuestion] = activeGroup.questions.splice(
+          movedQuestionIndex,
+          1
+        );
         overGroup.questions.push(movedQuestion);
 
         newGroups[activeGroupIndex] = activeGroup;

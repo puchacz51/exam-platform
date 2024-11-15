@@ -1,6 +1,13 @@
+import { Bookmark, BookOpen, Calendar } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Bookmark, Calendar } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 interface TestHeaderProps {
   title: string;
@@ -41,7 +48,10 @@ export const TestHeader = ({
           </div>
         </div>
         {category && (
-          <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1">
+          <Badge
+            variant="secondary"
+            className="flex items-center gap-1 px-3 py-1"
+          >
             <Bookmark className="h-3 w-3" />
             {category.name}
           </Badge>

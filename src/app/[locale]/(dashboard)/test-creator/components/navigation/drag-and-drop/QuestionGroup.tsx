@@ -16,7 +16,12 @@ interface QuestionGroupProps {
   isOver: boolean;
 }
 
-const QuestionGroup: FC<QuestionGroupProps> = ({ id, name, items = [], isOver }) => {
+const QuestionGroup: FC<QuestionGroupProps> = ({
+  id,
+  name,
+  items = [],
+  isOver,
+}) => {
   const {
     attributes,
     listeners,
@@ -37,7 +42,8 @@ const QuestionGroup: FC<QuestionGroupProps> = ({ id, name, items = [], isOver })
     opacity: isDragging ? 0.5 : 1,
   };
 
-  const validItems = items?.filter(item => item && typeof item.id === 'string') ?? [];
+  const validItems =
+    items?.filter((item) => item && typeof item.id === 'string') ?? [];
 
   return (
     <div
@@ -62,7 +68,7 @@ const QuestionGroup: FC<QuestionGroupProps> = ({ id, name, items = [], isOver })
         <div className="flex h-[60vh] w-full flex-col rounded bg-gray-50/50 p-2">
           <div className="h-full w-full overflow-y-auto">
             {validItems.length > 0 ? (
-              <SortableContext items={validItems.map(item => item.id)}>
+              <SortableContext items={validItems.map((item) => item.id)}>
                 {validItems.map((item) => (
                   <SortableItem
                     key={item.id}

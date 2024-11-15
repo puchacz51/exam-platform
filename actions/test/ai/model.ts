@@ -1,15 +1,17 @@
 'use server';
 
+import { GenerationConfig, GoogleGenerativeAI } from '@google/generative-ai';
+import { customAlphabet } from 'nanoid';
+import dotenv from 'dotenv';
+
 import {
   Question,
   QuestionType,
   questionTypeSchema,
 } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { GenerationConfig, GoogleGenerativeAI } from '@google/generative-ai';
-import { customAlphabet } from 'nanoid';
-import dotenv from 'dotenv';
-import { getQuestionSchemas } from './exampleQuestionJson';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
+
+import { getQuestionSchemas } from './exampleQuestionJson';
 
 dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || '');
