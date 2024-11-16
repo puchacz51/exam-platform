@@ -19,4 +19,6 @@ export interface TypeSelectionSectionProps {
   selectedTypes: QuestionTypeCount[];
   onTypeSelect: (type: string) => void;
   onRandomSelect: () => void;
+  language: 'en' | 'pl';
+  onLanguageChange: (value: 'en' | 'pl') => void;
 }

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-
+import { useCallback } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Check, X } from 'lucide-react';
 
 import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
@@ -20,62 +20,74 @@ import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
+import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface GeneratedQuestionsViewProps {
   questions: Question[];
   questionGroups: TestCreatorQuestionGroup[];
-  onAccept: (groupId: string, selectedQuestions: Question[]) => void;
-  onReject: () => void;
 }
 
 export const GeneratedQuestionsView = ({
   questions,
   questionGroups,
-  onAccept,
-  onReject,
 }: GeneratedQuestionsViewProps) => {
-  const [state, setState] = useState(() => ({
-    selectedGroupId: '',
-    selectedQuestions: new Set<string>(),
-  }));
-
-  useEffect(() => {
-    setState({
-      selectedGroupId: '',
-      selectedQuestions: new Set(),
-    });
-  }, [questions.length]);
-
-  const toggleQuestion = useCallback((questionId: string) => {
-    setState((prev) => {
-      const newSelected = new Set(prev.selectedQuestions);
-      if (newSelected.has(questionId)) {
-        newSelected.delete(questionId);
-      } else {
-        newSelected.add(questionId);
-      }
-      return {
-        ...prev,
-        selectedQuestions: newSelected,
-      };
-    });
-  }, []);
+  const form = useFormContext<AiGeneratorFormData>();
+  const selectedGroupId = form.watch('selectedGroupId');
+  const selectedQuestionIds = form.watch('selectedQuestionIds');
+  const setQuestionGroups = useTestContext((state) => state.setQuestionGroups);
+  const toggleQuestion = useCallback(
+    (questionId: string) => {
+      form.setValue(
+        'selectedQuestionIds',
+        selectedQuestionIds.includes(questionId)
+          ? selectedQuestionIds.filter((id) => id !== questionId)
+          : [...selectedQuestionIds, questionId]
+      );
+    },
+    [form, selectedQuestionIds]
+  );
 
   const handleAccept = useCallback(() => {
-    if (!state.selectedGroupId || state.selectedQuestions.size === 0) return;
+    if (!selectedGroupId || selectedQuestionIds.length === 0) return;
 
     const selectedQuestionsList = questions.filter((q) =>
-      state.selectedQuestions.has(q.id)
+      selectedQuestionIds.includes(q.id)
     );
-    onAccept(state.selectedGroupId, selectedQuestionsList);
-  }, [state.selectedGroupId, state.selectedQuestions, questions, onAccept]);
+    setQuestionGroups((prev) => {
+      const groupId = prev.findIndex((group) => group.id === selectedGroupId);
 
-  const handleGroupChange = useCallback((groupId: string) => {
-    setState((prev) => ({
-      ...prev,
-      selectedGroupId: groupId,
-    }));
-  }, []);
+      if (groupId === -1) return prev;
+
+      const group = prev[groupId];
+      const addedQuestions = selectedQuestionsList.map((q) => ({
+        ...q,
+        groupId: selectedGroupId,
+      }));
+
+      return [
+        ...prev.slice(0, groupId),
+        {
+          ...group,
+          questions: [...group.questions, ...addedQuestions],
+        },
+        ...prev.slice(groupId + 1),
+      ];
+    });
+
+    form.setValue('selectedQuestionIds', []);
+    form.setValue(
+      'generatedQuestions',
+      questions.filter((q) => !selectedQuestionIds.includes(q.id))
+    );
+  }, [selectedGroupId, selectedQuestionIds, questions, form]);
+
+  const handleGroupChange = useCallback(
+    (groupId: string) => {
+      form.setValue('selectedGroupId', groupId);
+    },
+    [form]
+  );
 
   return (
     <Card className="mt-6">
@@ -85,7 +97,7 @@ export const GeneratedQuestionsView = ({
         </CardTitle>
         <div className="flex items-center gap-4">
           <Select
-            value={state.selectedGroupId}
+            value={selectedGroupId}
             onValueChange={handleGroupChange}
           >
             <SelectTrigger className="w-[200px]">
@@ -107,7 +119,6 @@ export const GeneratedQuestionsView = ({
               type="button"
               variant="outline"
               size="sm"
-              onClick={onReject}
             >
               <X className="mr-2 h-4 w-4" />
               Reject
@@ -116,12 +127,10 @@ export const GeneratedQuestionsView = ({
               type="button"
               size="sm"
               onClick={handleAccept}
-              disabled={
-                !state.selectedGroupId || state.selectedQuestions.size === 0
-              }
+              disabled={!selectedGroupId || selectedQuestionIds.length === 0}
             >
               <Check className="mr-2 h-4 w-4" />
-              Add Selected ({state.selectedQuestions.size})
+              Add Selected ({selectedQuestionIds.length})
             </Button>
           </div>
         </div>
@@ -138,7 +147,7 @@ export const GeneratedQuestionsView = ({
                 >
                   <div className="flex items-start justify-between gap-4">
                     <Checkbox
-                      checked={state.selectedQuestions.has(question.id)}
+                      checked={selectedQuestionIds.includes(question.id)}
                       onCheckedChange={() => toggleQuestion(question.id)}
                       className="mt-1"
                     />

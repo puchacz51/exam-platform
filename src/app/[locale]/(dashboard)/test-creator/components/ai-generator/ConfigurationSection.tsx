@@ -1,4 +1,5 @@
 import { Info } from 'lucide-react';
+import { useFormContext } from 'react-hook-form';
 
 import {
   Select,
@@ -19,18 +20,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import SelectedTypesBadge from './SelectedTypesBadge';
-import { ConfigurationSectionProps } from './types';
+import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 
-interface Category {
-  id: string;
-  name: string;
+
+interface ConfigurationSectionProps {
+  totalQuestions: number;
+  categories: Array<{ id: string; name: string }>;
 }
 
 export const ConfigurationSection = ({
-  form,
   totalQuestions,
   categories,
-}: ConfigurationSectionProps & { categories: Category[] }) => {
+}: ConfigurationSectionProps) => {
+  const form = useFormContext<AiGeneratorFormData>();
   const selectedTypes = form.watch('selectedTypes');
 
   return (

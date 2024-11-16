@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 
 import {
   Question,
-  QuestionType,
   questionTypeSchema,
 } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
@@ -35,6 +34,7 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       selectedTypes,
       topic = '',
       category = { name: '', id: '' },
+      language = 'en',
     } = options;
 
     const totalCount =
@@ -59,6 +59,7 @@ export async function generateQuestions(options: AiGeneratorFormData) {
 
     const prompt = `
       Generate ${totalCount} questions on the topic of "${topic}" ${detail ? `focusing on: ${detail}` : ''}.
+      Generate the content in ${language === 'pl' ? 'Polish' : 'English'} language.
       ${typeRequirements}
       
       Use these example schemas as reference for each question type:
@@ -81,7 +82,7 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       isPublic: true,
     }));
 
-    return questionsWithIds.filter((question, index) => {
+    const validateQuestions = questionsWithIds.filter((question, index) => {
       const parsedQuestion = questionTypeSchema.safeParse(question);
       if (!parsedQuestion.success) {
         console.error(
@@ -92,8 +93,10 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       }
       return true;
     });
+
+    return { data: validateQuestions };
   } catch (error) {
     console.error('Error generating questions:', error);
-    throw error;
+    return { error: 'Failed to generate questions. Please try again.' };
   }
 }

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { questionTypeEnum } from '@schema/questions';
 
 export const aiGeneratorSchema = z
@@ -11,10 +12,15 @@ export const aiGeneratorSchema = z
         count: z.number().min(1).max(12),
       })
     ),
+    language: z.enum(['en', 'pl']).default('en'),
     category: z.object({
       id: z.string(),
       name: z.string(),
     }),
+    step: z.enum(['select', 'configure']).default('select'),
+    selectedGroupId: z.string().optional(),
+    selectedQuestionIds: z.array(z.string()).default([]),
+    generatedQuestions: z.array(z.any()).nullable().default(null),
   })
   .refine(
     (data) => {
