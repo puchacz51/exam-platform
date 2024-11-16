@@ -15,10 +15,10 @@ export const questionOnQuestionGroupTable = pgTable(
   {
     questionId: uuid('question_id')
       .notNull()
-      .references(() => questionsTable.id),
+      .references(() => questionsTable.id, { onDelete: 'cascade' }),
     questionGroupId: uuid('question_group_id')
       .notNull()
-      .references(() => questionGroupsTable.id),
+      .references(() => questionGroupsTable.id, { onDelete: 'cascade' }),
     order: varchar('order'),
   },
   (table) => ({

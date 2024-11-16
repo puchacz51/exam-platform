@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
 import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
+import { getTest } from '@actions/test/getTest';
 
 import { TestHeader } from './components/TestHeader';
 import { TestStats } from './components/TestStats';
@@ -43,18 +44,7 @@ export async function generateMetadata({
 }
 
 const TestPage: NextPage<TestPageProps> = async ({ params }) => {
-  const test = await db.query.tests.findFirst({
-    where: eq(testsTable.id, params.id),
-    with: {
-      category: true,
-      settings: true,
-      questionGroups: {
-        with: {
-          questions: true,
-        },
-      },
-    },
-  });
+  const test = await getTest(params.id);
 
   if (!test) {
     return notFound();

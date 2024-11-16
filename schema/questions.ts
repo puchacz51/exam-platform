@@ -1,6 +1,5 @@
 import {
   boolean,
-  integer,
   pgEnum,
   pgTable,
   real,
@@ -11,10 +10,10 @@ import { relations } from 'drizzle-orm';
 
 import { matchingPairsTable } from '@schema/matchingPairs';
 import { categoriesTable } from '@schema/categories';
-import { questionGroupsTable } from '@schema/questionGroups';
 import { answersTable } from '@schema/answers';
 import { orderItemsTable } from '@schema/orderItems';
 import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
+import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',
@@ -30,9 +29,6 @@ export const questionTypeEnum = pgEnum('question_type', [
 
 export const questionsTable = pgTable('questions', {
   id: uuid('id').primaryKey().defaultRandom(),
-  groupId: uuid('group_id').references(() => questionGroupsTable.id, {
-    onDelete: 'cascade',
-  }),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),
   isPublic: boolean('is_public').default(false),
@@ -41,10 +37,7 @@ export const questionsTable = pgTable('questions', {
 });
 
 export const questionRelations = relations(questionsTable, ({ one, many }) => ({
-  group: one(questionGroupsTable, {
-    fields: [questionsTable.groupId],
-    references: [questionGroupsTable.id],
-  }),
+  questionOnQuestionGroup: many(questionOnQuestionGroupTable),
   category: one(categoriesTable, {
     fields: [questionsTable.categoryId],
     references: [categoriesTable.id],

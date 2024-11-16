@@ -9,7 +9,6 @@ import {
   questionGroupsTable,
 } from '@schema/questionGroups';
 import { orderItemsRelations, orderItemsTable } from '@schema/orderItems';
-
 import { answerRelations, answersTable } from '@schema/answers';
 import { questionRelations, questionsTable } from '@schema/questions';
 import { categoriesRelations, categoriesTable } from '@schema/categories';
@@ -18,7 +17,6 @@ import {
   questionOnQuestionGroupRelations,
   questionOnQuestionGroupTable,
 } from '@schema/questionOnQuestionGroup';
-
 import { testSettingsRelations, testSettingsTable } from '@schema/testSettings';
 import {
   groupSubQuestionsRelations,

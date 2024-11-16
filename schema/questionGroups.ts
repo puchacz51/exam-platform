@@ -1,8 +1,9 @@
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
+import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+
 import { testsTable } from './test';
-import { questionsTable } from './questions';
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -20,7 +21,7 @@ export const questionGroupRelations = relations(
       fields: [questionGroupsTable.testId],
       references: [testsTable.id],
     }),
-    questions: many(questionsTable),
+    questionOnQuestionGroup: many(questionOnQuestionGroupTable),
   })
 );
 
