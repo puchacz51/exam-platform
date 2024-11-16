@@ -1,16 +1,15 @@
 import { FC } from 'react';
 
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { Textarea } from '@/components/ui/textarea';
 import BooleanGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanGroupQuestion';
 import NumericGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericGroupQuestion';
+import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoinceQuestion';
+import MultipleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MultipleChoiceQuestion';
+import MatchingQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MatchingQuestion';
+import OrderQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OrderQuestion';
+import NumericQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericQuestion';
+import BooleanQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanQuestion';
 
-import SingleChoiceQuestion from './SingleChoinceQuestion';
-import MultipleChoiceQuestion from './MultipleChoiceQuestion';
-import MatchingQuestion from './MatchingQuestion';
-import BooleanQuestion from './BooleanQuestion';
-import NumericQuestion from './NumericQuestion';
-import OrderQuestion from './OrderQuestion';
 import { CompleteQuestion } from '../../../../../../../../types/test';
 
 interface QuestionSelectorProps {

@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Clock } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 
 import { Button } from '@/components/ui/button';
@@ -30,9 +30,12 @@ import {
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { testAccessFormSchema, type TestAccessFormValues } from './TestAccessForm.schema';
+import {
+  testAccessFormSchema,
+  TestAccessFormValues,
+} from '@/app/[locale]/(dashboard)/test/[id]/components/TestAccessForm.schema';
 
-export function TestAccessForm() {
+export const TestAccessForm = () => {
   const form = useForm<TestAccessFormValues>({
     resolver: zodResolver(testAccessFormSchema),
     defaultValues: {
@@ -54,14 +57,20 @@ export function TestAccessForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
             <FormField
               control={form.control}
               name="accessType"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Access Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select access type" />
@@ -85,7 +94,10 @@ export function TestAccessForm() {
                   <FormItem>
                     <FormLabel>Access Code</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Enter access code" />
+                      <Input
+                        {...field}
+                        placeholder="Enter access code"
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -102,9 +114,14 @@ export function TestAccessForm() {
                     <div className="flex gap-2">
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="w-[180px]">
+                          <Button
+                            variant="outline"
+                            className="w-[180px]"
+                          >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value ? format(field.value, 'PPP') : 'Pick date'}
+                            {field.value
+                              ? format(field.value, 'PPP')
+                              : 'Pick date'}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
@@ -129,8 +146,12 @@ export function TestAccessForm() {
                                 field.onChange(e.target.value);
                                 if (form.getValues('startsAt')) {
                                   const date = form.getValues('startsAt');
-                                  const [hours, minutes] = e.target.value.split(':');
-                                  date.setHours(parseInt(hours), parseInt(minutes));
+                                  const [hours, minutes] =
+                                    e.target.value.split(':');
+                                  date.setHours(
+                                    parseInt(hours),
+                                    parseInt(minutes)
+                                  );
                                   form.setValue('startsAt', date);
                                 }
                               }}
@@ -152,9 +173,14 @@ export function TestAccessForm() {
                     <div className="flex gap-2">
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="w-[180px]">
+                          <Button
+                            variant="outline"
+                            className="w-[180px]"
+                          >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value ? format(field.value, 'PPP') : 'Pick date'}
+                            {field.value
+                              ? format(field.value, 'PPP')
+                              : 'Pick date'}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
@@ -179,8 +205,12 @@ export function TestAccessForm() {
                                 field.onChange(e.target.value);
                                 if (form.getValues('endsAt')) {
                                   const date = form.getValues('endsAt');
-                                  const [hours, minutes] = e.target.value.split(':');
-                                  date.setHours(parseInt(hours), parseInt(minutes));
+                                  const [hours, minutes] =
+                                    e.target.value.split(':');
+                                  date.setHours(
+                                    parseInt(hours),
+                                    parseInt(minutes)
+                                  );
                                   form.setValue('endsAt', date);
                                 }
                               }}
@@ -202,7 +232,13 @@ export function TestAccessForm() {
                   <FormItem>
                     <FormLabel>Time Limit (minutes)</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -215,7 +251,13 @@ export function TestAccessForm() {
                   <FormItem>
                     <FormLabel>Max Attempts</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -228,7 +270,13 @@ export function TestAccessForm() {
                   <FormItem>
                     <FormLabel>Min Time Between Attempts (minutes)</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -242,7 +290,9 @@ export function TestAccessForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Requires Registration</FormLabel>
+                      <FormLabel className="text-base">
+                        Requires Registration
+                      </FormLabel>
                       <FormDescription>
                         Users must be registered to take the test
                       </FormDescription>
@@ -263,7 +313,9 @@ export function TestAccessForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Show Results After Submission</FormLabel>
+                      <FormLabel className="text-base">
+                        Show Results After Submission
+                      </FormLabel>
                       <FormDescription>
                         Display results immediately after test completion
                       </FormDescription>
@@ -285,4 +337,4 @@ export function TestAccessForm() {
       </CardContent>
     </Card>
   );
-}
+};

@@ -8,11 +8,10 @@ import db from '@/lib/db';
 import { testsTable } from '@schema/test';
 import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
 import { getTest } from '@actions/test/getTest';
-
-import { TestHeader } from './components/TestHeader';
-import { TestStats } from './components/TestStats';
-import { TestDetails } from './components/TestDetails';
-import { TestAccessForm } from './components/TestAccessForm';
+import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
+import { TestStats } from '@/app/[locale]/(dashboard)/test/[id]/components/TestStats';
+import { TestDetails } from '@/app/[locale]/(dashboard)/test/[id]/components/TestDetails';
+import { TestAccessForm } from '@/app/[locale]/(dashboard)/test/[id]/components/TestAccessForm';
 
 interface TestPageProps {
   params: {

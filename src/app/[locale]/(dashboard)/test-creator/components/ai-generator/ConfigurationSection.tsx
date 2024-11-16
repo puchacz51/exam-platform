@@ -18,10 +18,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-
-import SelectedTypesBadge from './SelectedTypesBadge';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 
+import SelectedTypesBadge from './SelectedTypesBadge';
 
 interface ConfigurationSectionProps {
   totalQuestions: number;

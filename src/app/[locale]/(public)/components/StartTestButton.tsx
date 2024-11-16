@@ -1,14 +1,14 @@
-
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
 
 interface StartTestButtonProps {
   testId: string;
 }
 
-export function StartTestButton({ testId }: StartTestButtonProps) {
+export const StartTestButton = ({ testId }: StartTestButtonProps) => {
   const router = useRouter();
 
   const handleStartTest = () => {
@@ -16,12 +16,12 @@ export function StartTestButton({ testId }: StartTestButtonProps) {
   };
 
   return (
-    <Button 
-      size="lg" 
+    <Button
+      size="lg"
       onClick={handleStartTest}
       className="w-full md:w-auto"
     >
       Start Test
     </Button>
   );
-}
+};

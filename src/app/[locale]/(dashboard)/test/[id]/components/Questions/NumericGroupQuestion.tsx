@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Card, CardContent } from '@/components/ui/card';
+
 import { type NumericGroupQuestion } from '../../../../../../../../types/questionTypes';
 
 interface NumericGroupQuestionProps {

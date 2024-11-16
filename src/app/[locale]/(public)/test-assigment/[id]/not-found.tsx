@@ -1,6 +1,7 @@
+import { Home } from 'lucide-react';
+
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -13,8 +14,14 @@ export default function NotFound() {
           </p>
         </CardContent>
         <CardFooter className="flex justify-center border-t p-8">
-          <Button asChild size="lg">
-            <a href="/" className="flex items-center gap-3">
+          <Button
+            asChild
+            size="lg"
+          >
+            <a
+              href="/"
+              className="flex items-center gap-3"
+            >
               <Home className="h-5 w-5" />
               Go to Homepage
             </a>

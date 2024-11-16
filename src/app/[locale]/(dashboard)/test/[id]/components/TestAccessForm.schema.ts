@@ -14,5 +14,5 @@ export const testAccessFormSchema = z.object({
   requiresRegistration: z.boolean().default(true),
   showResultsAfterSubmission: z.boolean().default(true),
 });
-  
+
 export type TestAccessFormValues = z.infer<typeof testAccessFormSchema>;

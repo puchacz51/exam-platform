@@ -3,7 +3,6 @@ import { Bookmark, BookOpen, Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,

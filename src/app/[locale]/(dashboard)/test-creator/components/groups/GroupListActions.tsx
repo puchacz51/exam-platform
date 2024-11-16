@@ -1,6 +1,7 @@
+import { Sparkles } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { Sparkles } from 'lucide-react';
 
 export const GroupListActions = () => {
   const setIsAiGeneratorOpen = useTestContext(

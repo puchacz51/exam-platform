@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Input } from '@/components/ui/input';
+
 import { type NumericQuestion } from '../../../../../../../../types/questionTypes';
 
 interface NumericQuestionProps {

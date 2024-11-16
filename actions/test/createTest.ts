@@ -9,9 +9,9 @@ import { questionsTable } from '@schema/questions';
 import { auth } from '@/next-auth/auth';
 import { testSettingsTable } from '@schema/testSettings';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import { validateTestSubmission } from '@actions/test/validateTest';
+import { createQuestionTypeSpecificData } from '@actions/test/questionHandler';
 
-import { validateTestSubmission } from './validateTest';
-import { createQuestionTypeSpecificData } from './questionHandler';
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 export type Tx = Parameters<TransactionFunction>[0];

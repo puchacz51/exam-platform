@@ -1,13 +1,21 @@
-
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { BookOpen } from 'lucide-react';
+
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 interface PublicTestHeaderProps {
   title: string;
   description: string;
 }
 
-export function PublicTestHeader({ title, description }: PublicTestHeaderProps) {
+export const PublicTestHeader = ({
+  title,
+  description,
+}: PublicTestHeaderProps) => {
   return (
     <Card>
       <CardHeader>
@@ -23,4 +31,4 @@ export function PublicTestHeader({ title, description }: PublicTestHeaderProps) 
       </CardHeader>
     </Card>
   );
-}
+};

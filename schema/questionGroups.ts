@@ -2,8 +2,8 @@ import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import { testsTable } from '@schema/test';
 
-import { testsTable } from './test';
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: uuid('id').primaryKey().defaultRandom(),

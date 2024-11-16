@@ -1,9 +1,10 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
 
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -19,17 +20,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { questionTypeEnum } from '@schema/questions';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import {
-  Question,
-  QuestionType,
-} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { generateQuestions } from '@actions/test/ai/model';
 import { ConfigurationSection } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/ConfigurationSection';
 import { TypeSelectionSection } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/TypeSelectionSection';
 import { GeneratedQuestionsView } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/GeneratedQuestionsView';
-
-import { type AiGeneratorFormData, aiGeneratorSchema } from './schema';
-import { X } from 'lucide-react';
+import {
+  AiGeneratorFormData,
+  aiGeneratorSchema,
+} from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 
 export const AiQuestionGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +38,6 @@ export const AiQuestionGenerator = () => {
     (state) => state.setIsAiGeneratorOpen
   );
   const questionGroups = useTestContext((state) => state.questionGroups);
-  const addQuestion = useTestContext((state) => state.addQuestion);
   const categories = useTestContext(
     (state) => state.testConfiguration.categories
   );

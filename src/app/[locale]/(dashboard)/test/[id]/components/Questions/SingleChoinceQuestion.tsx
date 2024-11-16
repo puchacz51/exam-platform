@@ -1,6 +1,8 @@
+import { FC } from 'react';
+
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { FC } from 'react';
+
 import { type SingleChoiceQuestion } from '../../../../../../../../types/questionTypes';
 
 interface SingleChoiceQuestionProps {

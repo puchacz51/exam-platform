@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { Checkbox } from '@radix-ui/react-checkbox';
 
 import { Label } from '@/components/ui/label';
+
 import { type MultipleChoiceQuestion } from '../../../../../../../../types/questionTypes';
 
 interface MultipleChoiceQuestionProps {

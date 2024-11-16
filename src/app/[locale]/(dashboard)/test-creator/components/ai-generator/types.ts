@@ -1,5 +1,6 @@
+import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 import { UseFormReturn } from 'react-hook-form';
-import { AiGeneratorFormData } from './schema';
+
 
 export interface QuestionTypeCount {
   type: string;

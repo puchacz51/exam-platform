@@ -1,3 +1,4 @@
+import { questionsTable } from '@schema/questions';
 import { relations } from 'drizzle-orm';
 import {
   boolean,
@@ -8,8 +9,6 @@ import {
   text,
   uuid,
 } from 'drizzle-orm/pg-core';
-
-import { questionsTable } from './questions';
 
 export const subQuestionTypeEnum = pgEnum('sub_question_type', [
   'NUMERIC',
