@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AlertCircle, Plus, Trash2 } from 'lucide-react';
 
+import { generateId } from '@/utils/generateId';
 import { Button } from '@/components/ui/button';
 import {
   FormControl,
@@ -17,7 +18,7 @@ import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { BooleanGroupQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { BooleanGroupQuestion } from '@/types/test-creator/question';
 
 const BooleanGroupQuestionForm = () => {
   const form = useFormContext<BooleanGroupQuestion>();
@@ -30,8 +31,8 @@ const BooleanGroupQuestionForm = () => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ text: '', correctAnswer: false });
-      append({ text: '', correctAnswer: false });
+      append({ id: generateId(), text: '', correctAnswer: false });
+      append({ id: generateId(), text: '', correctAnswer: false });
     }
   }, []);
 
@@ -63,7 +64,13 @@ const BooleanGroupQuestionForm = () => {
             <span>Podpytania prawda/fałsz</span>
             <Button
               type="button"
-              onClick={() => append({ text: '', correctAnswer: false })}
+              onClick={() =>
+                append({
+                  id: generateId(),
+                  text: '',
+                  correctAnswer: false,
+                })
+              }
               className="ml-auto"
             >
               <Plus className="mr-2 h-4 w-4" />

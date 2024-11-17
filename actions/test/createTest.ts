@@ -1,8 +1,8 @@
 'use server';
 
 import db from '@/lib/db';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
+import { TestCreatorTest } from '@/types/test-creator/test';
 import { testsTable } from '@schema/test';
 import { questionGroupsTable } from '@schema/questionGroups';
 import { questionsTable } from '@schema/questions';
@@ -11,7 +11,6 @@ import { testSettingsTable } from '@schema/testSettings';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 import { validateTestSubmission } from '@actions/test/validateTest';
 import { createQuestionTypeSpecificData } from '@actions/test/questionHandler';
-
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 export type Tx = Parameters<TransactionFunction>[0];

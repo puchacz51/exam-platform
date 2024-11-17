@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
 import { Card, CardContent } from '@/components/ui/card';
-
-import { type BooleanGroupQuestion } from '../../../../../../../../types/questionTypes';
+import { type BooleanGroupQuestion } from '@/types/test/questionTypes';
 
 interface BooleanGroupQuestionProps {
   question: BooleanGroupQuestion;

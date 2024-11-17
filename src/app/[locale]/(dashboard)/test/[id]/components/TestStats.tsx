@@ -6,8 +6,7 @@ import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
-
-import { CompleteTest } from '../../../../../../../types/test';
+import { CompleteTest } from '@/types/test/test';
 
 interface TestStatsProps {
   test: CompleteTest;

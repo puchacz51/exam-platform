@@ -3,12 +3,11 @@ import { EmptyObject } from 'react-hook-form';
 import { z } from 'zod';
 
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { TestCreatorQuestion } from '@/types/test-creator/question';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
-
-import { Question } from '../../../../../../types/questionTypes';
+import { Question } from '@/types/test/questionTypes';
 
 export type TestCreatorAnswer = {
   text: string;
@@ -28,7 +27,7 @@ export interface TestProps {
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
   isSortFormOpen: boolean;
-  aiQuestions: Question[] | null; // tylko jedna tablica zamiast dwóch
+  aiQuestions: Question[] | null;
   isAiGeneratorOpen: boolean;
 }
 type Updater<T> = T | ((prev: T) => T);

@@ -19,7 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface QuestionBulletProps {

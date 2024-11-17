@@ -22,7 +22,7 @@ import {
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { navigationModeEnum } from '@schema/testSettings';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestNavigation: FC = () => {
   const form = useFormContext<TestCreatorTest>();

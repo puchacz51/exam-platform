@@ -3,10 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { eq } from 'drizzle-orm';
 import { asc } from 'drizzle-orm';
-
-import db from '@/lib/db';
 import { testsTable } from '@schema/test';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+
+import db from '@/lib/db';
 
 interface GetTestOptions {
   includeAnswers?: boolean;
@@ -72,7 +72,7 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
         settings: true,
       },
     });
-    console.log(test);
+
     if (test) {
       test.questionGroups = test.questionGroups.map((group) => ({
         ...group,

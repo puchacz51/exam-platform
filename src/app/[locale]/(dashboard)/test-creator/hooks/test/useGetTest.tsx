@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { getTest } from '@actions/test/getTest';
 
-import { CompleteTest } from '../../../../../../../types/test';
+import { CompleteTest } from '../../../../../../types/test/test';
 
 const useGetTest = (initialTestId?: string) => {
   const [test, setTest] = useState<CompleteTest | null>(null);

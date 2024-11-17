@@ -14,7 +14,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/types/test-creator/answers';
+import { generateId } from '@/utils/generateId';
 
 export const OrderQuestionForm = () => {
   const form = useFormContext<QuestionType>();
@@ -35,8 +36,8 @@ export const OrderQuestionForm = () => {
 
   useEffect(() => {
     if (!fields.length) {
-      append({ text: '', order: 1 });
-      append({ text: '', order: 2 });
+      append({ id: generateId(), text: '', order: 1 });
+      append({ id: generateId(), text: '', order: 2 });
     }
   }, [fields.length, append]);
 
@@ -186,7 +187,9 @@ export const OrderQuestionForm = () => {
           <Button
             type="button"
             variant="outline"
-            onClick={() => append({ text: '', order: fields.length + 1 })}
+            onClick={() =>
+              append({ id: generateId(), text: '', order: fields.length + 1 })
+            }
             className="mt-6 w-full border-blue-300 bg-blue-50 text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-100"
           >
             <Plus className="mr-2 h-4 w-4" /> Dodaj element

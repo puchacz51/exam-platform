@@ -7,9 +7,7 @@ export const GroupListActions = () => {
   const setIsAiGeneratorOpen = useTestContext(
     (state) => state.setIsAiGeneratorOpen
   );
-  const setCurrentQuestionGroup = useTestContext(
-    (state) => state.setCurrentQuestionGroup
-  );
+  const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
 
   return (
     <div className="flex gap-2">
@@ -25,7 +23,7 @@ export const GroupListActions = () => {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => setCurrentQuestionGroup(null)}
+        onClick={() => addQuestionGroup()}
         className="flex items-center gap-2"
       >
         Add Group

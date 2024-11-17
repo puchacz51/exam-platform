@@ -6,6 +6,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
 
+import { questionTypeEnum } from '@schema/questions';
+import { generateQuestions } from '@actions/test/ai/model';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,10 +20,7 @@ import {
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { questionTypeEnum } from '@schema/questions';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { generateQuestions } from '@actions/test/ai/model';
 import { ConfigurationSection } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/ConfigurationSection';
 import { TypeSelectionSection } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/TypeSelectionSection';
 import { GeneratedQuestionsView } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/GeneratedQuestionsView';
@@ -29,6 +28,8 @@ import {
   AiGeneratorFormData,
   aiGeneratorSchema,
 } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
+import { Question } from '@/types/test/questionTypes';
+import { QuestionType } from '@/types/test-creator/answers';
 
 export const AiQuestionGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,8 @@ export const AiQuestionGenerator = () => {
     (state) => state.setIsAiGeneratorOpen
   );
   const questionGroups = useTestContext((state) => state.questionGroups);
+  const setAiQuestions = useTestContext((state) => state.setAiQuestions);
+
   const categories = useTestContext(
     (state) => state.testConfiguration.categories
   );
@@ -57,20 +60,21 @@ export const AiQuestionGenerator = () => {
     },
   });
 
-  const selectedTypes = methods.watch('selectedTypes');
-  const step = methods.watch('step');
-  const generatedQuestions = methods.watch('generatedQuestions');
+  const { setValue, watch, getValues } = methods;
+  const selectedTypes = watch('selectedTypes');
+  const step = watch('step');
+  const generatedQuestions = watch('generatedQuestions');
   const totalQuestions = selectedTypes.reduce((sum, qt) => sum + qt.count, 0);
 
   const handleTypeSelect = (type: string) => {
-    const current = methods.getValues('selectedTypes');
+    const current = getValues('selectedTypes');
     if (current.some((t) => t.type === type)) {
-      methods.setValue(
+      setValue(
         'selectedTypes',
         current.filter((t) => t.type !== type)
       );
     } else {
-      methods.setValue('selectedTypes', [
+      setValue('selectedTypes', [
         ...current,
         { type: type as QuestionType['questionType'], count: 1 },
       ]);
@@ -84,16 +88,21 @@ export const AiQuestionGenerator = () => {
       .sort(() => Math.random() - 0.5)
       .slice(0, randomCount)
       .map((type) => ({ type, count: Math.floor(12 / randomCount) }));
-    methods.setValue('selectedTypes', randomTypes);
+    setValue('selectedTypes', randomTypes);
   };
 
   const onSubmit = async (data: AiGeneratorFormData) => {
     setIsLoading(true);
     setError(null);
-    console.log('data', data);
+
     try {
-      const { data: questions } = await generateQuestions(data);
-      methods.setValue('generatedQuestions', questions);
+      const { data: questions, error } = await generateQuestions(data);
+
+      if (!!questions) setAiQuestions(questions as Question[]);
+
+      if (error) {
+        throw new Error(error);
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -134,7 +143,7 @@ export const AiQuestionGenerator = () => {
                 <Tabs
                   value={step}
                   onValueChange={(v) =>
-                    methods.setValue('step', v as 'select' | 'configure')
+                    setValue('step', v as 'select' | 'configure')
                   }
                 >
                   <TabsList className="mb-6 grid w-full grid-cols-2">
@@ -183,7 +192,7 @@ export const AiQuestionGenerator = () => {
                   <Button
                     type="button"
                     variant="ghost"
-                    onClick={() => methods.setValue('step', 'select')}
+                    onClick={() => setValue('step', 'select')}
                     className="hover:bg-slate-100"
                   >
                     ← Back

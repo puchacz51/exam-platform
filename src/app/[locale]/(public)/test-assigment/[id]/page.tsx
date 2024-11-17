@@ -4,10 +4,9 @@ import { notFound } from 'next/navigation';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
-
-import { PublicTestHeader } from '../../components/PublicTestHeader';
-import { PublicTestInfo } from '../../components/PublicTestInfo';
-import { StartTestButton } from '../../components/StartTestButton';
+import { PublicTestInfo } from '@/app/[locale]/(public)/components/PublicTestInfo';
+import { PublicTestHeader } from '@/app/[locale]/(public)/components/PublicTestHeader';
+import { StartTestButton } from '@/app/[locale]/(public)/components/StartTestButton';
 
 interface StartTestPageProps {
   params: {
@@ -22,7 +21,11 @@ async function getTestData(testId: string) {
       with: {
         questionGroups: {
           with: {
-            questions: true,
+            questionOnQuestionGroup: {
+              with: {
+                question: true,
+              },
+            },
           },
         },
         settings: true,
@@ -33,7 +36,13 @@ async function getTestData(testId: string) {
       notFound();
     }
 
-    return test;
+    return {
+      ...test,
+      questionGroups: test.questionGroups.map((group) => ({
+        ...group,
+        questions: group.questionOnQuestionGroup.map((q) => q.question),
+      })),
+    };
   } catch (error) {
     console.error('Error fetching test data:', error);
     notFound();

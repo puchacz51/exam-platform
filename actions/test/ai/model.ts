@@ -3,14 +3,11 @@
 import { GenerationConfig, GoogleGenerativeAI } from '@google/generative-ai';
 import { customAlphabet } from 'nanoid';
 import dotenv from 'dotenv';
+import { getQuestionSchemas } from '@actions/test/ai/exampleQuestionJson';
 
-import {
-  Question,
-  questionTypeSchema,
-} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
-
-import { getQuestionSchemas } from './exampleQuestionJson';
+import { Question } from '@/types/test-creator/question';
 
 dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || '');
@@ -94,7 +91,10 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       return true;
     });
 
-    return { data: validateQuestions };
+    if (!validateQuestions.length)
+      throw new Error('No valid questions generated');
+
+    return { data: validateQuestions as Question[] };
   } catch (error) {
     console.error('Error generating questions:', error);
     return { error: 'Failed to generate questions. Please try again.' };

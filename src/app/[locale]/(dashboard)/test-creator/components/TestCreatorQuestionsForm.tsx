@@ -2,6 +2,7 @@ import React, { FC, HTMLAttributes } from 'react';
 
 import { useFormContext } from 'react-hook-form';
 
+import { questionTypeEnum } from '@schema/questions';
 import {
   FormControl,
   FormDescription,
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { SingleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/SingleChoiceQuestionForm';
 import { NumericQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericQuestionForm';
 import { MultipleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/MultipleChoiceQuestionForm';
@@ -30,8 +30,8 @@ import MatchingQuestionForm from '@/app/[locale]/(dashboard)/test-creator/compon
 import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
 import BooleanGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanGroupQuestionForm';
 import NumericGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericGroupQuestionForm';
-import { questionTypeEnum } from '@schema/questions';
 import { cn } from '@/lib/utils';
+import { QuestionType } from '@/types/test-creator/answers';
 
 interface TestCreatorQuestionsFormProps
   extends HTMLAttributes<HTMLFormElement> {

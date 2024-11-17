@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { questionGroupSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionsGroup';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface TestCreatorQuestionGroupFormProps

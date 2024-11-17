@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { OpenQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { OpenQuestion } from '@/types/test-creator/question';
 
 const OpenEndedQuestionForm = () => {
   const form = useFormContext<OpenQuestion>();

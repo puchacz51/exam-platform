@@ -2,8 +2,7 @@ import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-
-import { type BooleanQuestion } from '../../../../../../../../types/questionTypes';
+import { type BooleanQuestion } from '@/types/test/questionTypes';
 
 interface BooleanQuestionProps {
   question: BooleanQuestion;

@@ -7,7 +7,7 @@ import { GripVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import SortableItem from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/SortableItem';
 import DroppableContainer from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/DroppableContainer';
-import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { Question } from '@/types/test-creator/question';
 
 interface QuestionGroupProps {
   id: string;

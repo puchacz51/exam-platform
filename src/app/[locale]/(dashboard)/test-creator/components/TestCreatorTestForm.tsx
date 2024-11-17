@@ -14,7 +14,7 @@ import TestCreatorTestNavigation from '@/app/[locale]/(dashboard)/test-creator/c
 import TestCreatorTestDisplay from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestDisplay';
 import TestCreatorTestResults from '@/app/[locale]/(dashboard)/test-creator/components/test/TestCreatorTestResults';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 
 const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {

@@ -1,4 +1,3 @@
-
 import { SelectAnswer } from '@schema/answers';
 import { SelectMatchingPair } from '@schema/matchingPairs';
 import { SelectOrderItem } from '@schema/orderItems';
@@ -61,4 +60,4 @@ export type Question =
   | NumericQuestion
   | MatchingQuestion
   | BooleanGroupQuestion
-  | NumericGroupQuestion;
+  | NumericGroupQuestion

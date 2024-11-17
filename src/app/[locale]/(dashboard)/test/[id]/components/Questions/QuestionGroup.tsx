@@ -1,8 +1,8 @@
+import QuestionSelector from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionSelector';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-
-import QuestionSelector from './QuestionSelector';
-import { CompleteQuestionGroup } from '../../../../../../../../types/test';
+import { Question } from '@/types/test/questionTypes';
+import { CompleteQuestionGroup } from '@/types/test/test';
 
 interface QuestionGroupProps {
   group: CompleteQuestionGroup;
@@ -44,7 +44,7 @@ export const QuestionGroup = ({
             <Badge variant="outline">{question.points} points</Badge>
           </div>
           <p className="mb-4">{question.text}</p>
-          <QuestionSelector question={question} />
+          <QuestionSelector question={question as unknown as Question} />
         </Card>
       ))}
     </div>

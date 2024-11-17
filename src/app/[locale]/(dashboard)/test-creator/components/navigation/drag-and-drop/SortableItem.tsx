@@ -7,7 +7,7 @@ import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/types/test-creator/answers';
 
 interface SortableItemProps {
   id: string;

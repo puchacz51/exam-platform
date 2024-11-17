@@ -15,12 +15,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import {
-  QuestionType,
-  questionTypeSchema,
-} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import TestCreatorQuestionsForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsForm';
 import { Button } from '@/components/ui/button';
+import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/types/test-creator/answers';
 
 const initialQuestion = {
   text: '',

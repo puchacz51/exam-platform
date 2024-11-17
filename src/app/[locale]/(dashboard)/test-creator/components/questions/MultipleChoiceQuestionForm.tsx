@@ -16,7 +16,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { TestCreatorQuestion } from '@/types/test-creator/question';
+import { generateId } from '@/utils/generateId';
 
 export const MultipleChoiceQuestionForm = () => {
   const form = useFormContext<TestCreatorQuestion>();
@@ -29,7 +30,7 @@ export const MultipleChoiceQuestionForm = () => {
 
   useEffect(() => {
     if (!fields.length) {
-      append({ text: '', isCorrect: false });
+      append({ id: generateId(), text: '', isCorrect: false });
     }
   }, []);
 
@@ -108,7 +109,11 @@ export const MultipleChoiceQuestionForm = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => append({ text: '', isCorrect: false })}
+              onClick={() => append({ 
+                id: generateId(), 
+                text: '', 
+                isCorrect: false 
+              })}
               className="mt-4"
             >
               <Plus className="mr-2 h-4 w-4" /> Dodaj odpowiedź

@@ -1,5 +1,11 @@
 'use server';
 
+import { answersTable } from '@schema/answers';
+import { orderItemsTable } from '@schema/orderItems';
+import { matchingPairsTable } from '@schema/matchingPairs';
+import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
+import { Tx } from '@actions/test/createTest';
+
 import {
   BooleanGroupQuestion,
   BooleanQuestion,
@@ -11,13 +17,7 @@ import {
   OrderQuestion,
   Question,
   SingleChoiceQuestion,
-} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { answersTable } from '@schema/answers';
-import { orderItemsTable } from '@schema/orderItems';
-import { matchingPairsTable } from '@schema/matchingPairs';
-import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
-import { Tx } from '@actions/test/createTest';
-
+} from '@/types/test-creator/question';
 
 export const createQuestionTypeSpecificData = async (
   tx: Tx,

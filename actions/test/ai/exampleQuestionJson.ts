@@ -1,4 +1,4 @@
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/types/test-creator/answers';
 
 const SINGLE_CHOICE = {
   text: 'What is the capital of Poland?',

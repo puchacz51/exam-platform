@@ -7,7 +7,6 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-
 import { testSettingsTable } from '@schema/testSettings';
 import { usersTable } from '@schema/users';
 import { categoriesTable } from '@schema/categories';

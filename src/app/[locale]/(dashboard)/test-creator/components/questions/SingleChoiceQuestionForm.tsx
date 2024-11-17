@@ -16,7 +16,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { OpenQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { OpenQuestion } from '@/types/test-creator/question';
+import { generateId } from '@/utils/generateId';
 
 export const SingleChoiceQuestionForm = () => {
   const form = useFormContext<OpenQuestion>();
@@ -40,8 +41,8 @@ export const SingleChoiceQuestionForm = () => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ text: '', isCorrect: false });
-      append({ text: '', isCorrect: false });
+      append({ id: generateId(), text: '', isCorrect: false });
+      append({ id: generateId(), text: '', isCorrect: false });
     }
   }, []);
 
@@ -170,7 +171,11 @@ export const SingleChoiceQuestionForm = () => {
           <Button
             type="button"
             variant="outline"
-            onClick={() => append({ text: '', isCorrect: false })}
+            onClick={() => append({ 
+              id: generateId(), 
+              text: '', 
+              isCorrect: false 
+            })}
             className="mt-4"
           >
             <Plus className="mr-2 h-4 w-4" />

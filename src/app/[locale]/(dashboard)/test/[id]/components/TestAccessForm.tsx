@@ -146,6 +146,9 @@ export const TestAccessForm = () => {
                                 field.onChange(e.target.value);
                                 if (form.getValues('startsAt')) {
                                   const date = form.getValues('startsAt');
+
+                                  if (!date) return;
+
                                   const [hours, minutes] =
                                     e.target.value.split(':');
                                   date.setHours(
@@ -207,6 +210,9 @@ export const TestAccessForm = () => {
                                   const date = form.getValues('endsAt');
                                   const [hours, minutes] =
                                     e.target.value.split(':');
+
+                                  if (!date) return;
+
                                   date.setHours(
                                     parseInt(hours),
                                     parseInt(minutes)

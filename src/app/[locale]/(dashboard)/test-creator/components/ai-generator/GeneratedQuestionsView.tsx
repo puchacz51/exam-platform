@@ -3,8 +3,7 @@ import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Check, X } from 'lucide-react';
 
-import { Question } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -23,6 +22,7 @@ import {
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import { Question } from '@/types/test-creator/question';
 
 interface GeneratedQuestionsViewProps {
   questions: Question[];
@@ -77,10 +77,6 @@ export const GeneratedQuestionsView = ({
     });
 
     form.setValue('selectedQuestionIds', []);
-    form.setValue(
-      'generatedQuestions',
-      questions.filter((q) => !selectedQuestionIds.includes(q.id))
-    );
   }, [selectedGroupId, selectedQuestionIds, questions, form]);
 
   const handleGroupChange = useCallback(

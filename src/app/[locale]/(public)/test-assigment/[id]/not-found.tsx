@@ -10,7 +10,7 @@ export default function NotFound() {
         <CardContent className="p-8 text-center">
           <h2 className="mb-4 text-2xl font-bold">Test Not Found</h2>
           <p className="text-muted-foreground">
-            The test you're looking for doesn't exist or has been removed.
+            The test you re looking for doesnt exist or has been removed.
           </p>
         </CardContent>
         <CardFooter className="flex justify-center border-t p-8">

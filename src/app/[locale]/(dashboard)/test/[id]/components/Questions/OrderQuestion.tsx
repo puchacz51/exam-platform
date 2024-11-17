@@ -15,8 +15,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import SortableItem from './SortableItem';
-import { type OrderQuestion } from '../../../../../../../../types/questionTypes';
+import { type OrderQuestion } from '@/types/test/questionTypes';
+import SortableItem from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SortableItem';
 
 interface OrderQuestionProps {
   question: OrderQuestion;

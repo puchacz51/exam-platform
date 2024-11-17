@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestResults: FC = () => {
   const form = useFormContext<TestCreatorTest>();

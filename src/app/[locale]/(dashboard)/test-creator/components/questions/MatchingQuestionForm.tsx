@@ -15,7 +15,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { MatchingQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { MatchingQuestion } from '@/types/test-creator/question';
+import { generateId } from '@/utils/generateId';
 
 const MatchingQuestionForm = () => {
   const form = useFormContext<MatchingQuestion>();
@@ -28,8 +29,8 @@ const MatchingQuestionForm = () => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ key: '', value: '' });
-      append({ key: '', value: '' });
+      append({ id: generateId(), key: '', value: '' });
+      append({ id: generateId(), key: '', value: '' });
     }
   }, []);
 
@@ -72,7 +73,11 @@ const MatchingQuestionForm = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => append({ key: '', value: '' })}
+                onClick={() => append({ 
+                  id: generateId(), 
+                  key: '', 
+                  value: '' 
+                })}
                 className="border-blue-200 bg-white hover:bg-gray-50"
               >
                 <Plus className="mr-2 h-4 w-4" />

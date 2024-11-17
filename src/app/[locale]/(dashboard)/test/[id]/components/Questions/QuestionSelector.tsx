@@ -9,11 +9,11 @@ import MatchingQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Qu
 import OrderQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OrderQuestion';
 import NumericQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericQuestion';
 import BooleanQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanQuestion';
-
-import { CompleteQuestion } from '../../../../../../../../types/test';
+import { Question } from '@/types/test/questionTypes';
+import { type NumericGroupQuestion as NumericGroupQuestionType } from '@/types/test-creator/question';
 
 interface QuestionSelectorProps {
-  question: CompleteQuestion;
+  question: Question;
 }
 
 const QuestionSelector: FC<QuestionSelectorProps> = ({ question }) => {
@@ -33,7 +33,11 @@ const QuestionSelector: FC<QuestionSelectorProps> = ({ question }) => {
     case 'BOOLEAN_GROUP':
       return <BooleanGroupQuestion question={question} />;
     case 'NUMERIC_GROUP':
-      return <NumericGroupQuestion question={question} />;
+      return (
+        <NumericGroupQuestion
+          question={question as unknown as NumericGroupQuestionType}
+        />
+      );
     default:
       return (
         <Textarea
