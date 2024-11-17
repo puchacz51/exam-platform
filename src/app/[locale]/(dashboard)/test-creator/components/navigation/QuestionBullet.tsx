@@ -1,5 +1,3 @@
-'use client';
-
 import React, { FC } from 'react';
 
 import {
@@ -21,7 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
+import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 interface QuestionBulletProps {
@@ -62,22 +60,23 @@ const QuestionBullet: FC<QuestionBulletProps> = ({
   const setCurrentQuestion = useTestContext(
     (state) => state.setCurrentQuestion
   );
-  const setIsQuestionConfiguratorOpen = useTestContext(
-    (state) => state.setIsQuestionConfiguratorOpen
-  );
-  const currentQuestion = useTestContext((state) => state.currentQuestion);
 
+  const currentQuestion = useTestContext((state) => state.currentQuestion);
   const Icon = questionTypeIcons[question.questionType];
+
+  const handleQuestionClick = () => {
+    if (currentQuestion?.id === question.id) {
+      return setCurrentQuestion(null);
+    }
+    setCurrentQuestion({ groupId: questionGroupId, questionId: question.id });
+  };
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            onClick={() => {
-              setCurrentQuestion(questionGroupId, question.id);
-              setIsQuestionConfiguratorOpen(true);
-            }}
+            onClick={handleQuestionClick}
             variant="outline"
             className={cn(
               'relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all',

@@ -6,7 +6,7 @@ import { FieldErrors, useFormContext } from 'react-hook-form';
 import { AlertCircle } from 'lucide-react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 type TestFieldsErrors = FieldErrors<TestCreatorTest>;
 

@@ -24,7 +24,7 @@ import { TabsContent } from '@/components/ui/tabs';
 import { questionDisplayModeEnum } from '@schema/testSettings';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestDisplay: FC = () => {
   const form = useFormContext<TestCreatorTest>();

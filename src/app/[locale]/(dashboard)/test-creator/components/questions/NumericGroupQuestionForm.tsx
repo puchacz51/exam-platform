@@ -16,7 +16,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { NumericGroupQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { NumericGroupQuestion } from '@/types/test-creator/question';
+import { generateId } from '@/utils/generateId';
 
 const NumericGroupQuestionForm = () => {
   const form = useFormContext<NumericGroupQuestion>();
@@ -29,8 +30,18 @@ const NumericGroupQuestionForm = () => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ text: '', correctAnswer: 0, numericTolerance: 0 });
-      append({ text: '', correctAnswer: 0, numericTolerance: 0 });
+      append({
+        id: generateId(),
+        text: '',
+        correctAnswer: 0,
+        numericTolerance: 0,
+      });
+      append({
+        id: generateId(),
+        text: '',
+        correctAnswer: 0,
+        numericTolerance: 0,
+      });
     }
   }, []);
 
@@ -63,7 +74,12 @@ const NumericGroupQuestionForm = () => {
             <Button
               type="button"
               onClick={() =>
-                append({ text: '', correctAnswer: 0, numericTolerance: 0 })
+                append({
+                  id: generateId(),
+                  text: '',
+                  correctAnswer: 0,
+                  numericTolerance: 0,
+                })
               }
               className="ml-auto"
             >

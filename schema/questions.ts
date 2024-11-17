@@ -1,6 +1,5 @@
 import {
   boolean,
-  integer,
   pgEnum,
   pgTable,
   real,
@@ -9,11 +8,12 @@ import {
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { questionGroupsTable } from './questionGroups';
-import { categoriesTable } from './categories';
-import { answersTable } from './answers';
-import { questionOnQuestionGroupTable } from './questionOnQuestionGroup';
-import { orderItemsTable } from './orderItems';
+import { matchingPairsTable } from '@schema/matchingPairs';
+import { categoriesTable } from '@schema/categories';
+import { answersTable } from '@schema/answers';
+import { orderItemsTable } from '@schema/orderItems';
+import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
+import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',
@@ -23,31 +23,29 @@ export const questionTypeEnum = pgEnum('question_type', [
   'BOOLEAN',
   'NUMERIC',
   'MATCHING',
+  'BOOLEAN_GROUP',
+  'NUMERIC_GROUP',
 ]);
 
 export const questionsTable = pgTable('questions', {
   id: uuid('id').primaryKey().defaultRandom(),
-  groupId: uuid('group_id').references(() => questionGroupsTable.id),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),
-  order: integer('order'),
   isPublic: boolean('is_public').default(false),
   categoryId: uuid('category_id').references(() => categoriesTable.id),
   points: real('points').notNull().default(1),
 });
 
 export const questionRelations = relations(questionsTable, ({ one, many }) => ({
-  group: one(questionGroupsTable, {
-    fields: [questionsTable.groupId],
-    references: [questionGroupsTable.id],
-  }),
+  questionOnQuestionGroup: many(questionOnQuestionGroupTable),
   category: one(categoriesTable, {
     fields: [questionsTable.categoryId],
     references: [categoriesTable.id],
   }),
   answers: many(answersTable),
-  questionOnQuestionGroup: many(questionOnQuestionGroupTable),
   orderItems: many(orderItemsTable),
+  matchingPairs: many(matchingPairsTable),
+  groupSubQuestions: many(groupSubQuestionsTable),
 }));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;

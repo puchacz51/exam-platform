@@ -1,7 +1,18 @@
 import { FC } from 'react';
 
 import { X } from 'lucide-react';
-import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
+import {
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragOverlay,
+  DropAnimation,
+  MeasuringStrategy,
+  pointerWithin,
+} from '@dnd-kit/core';
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+} from '@dnd-kit/sortable';
 
 import useDragDrop from '@/app/[locale]/(dashboard)/test-creator/hooks/useDragDrop';
 import QuestionGroup from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/QuestionGroup';
@@ -35,6 +46,38 @@ const DragDropQuestionGroups: FC = () => {
     );
   };
 
+  const getDragOverlayContent = (id: string) => {
+    // Check if it's a group being dragged
+    const group = items.find((group) => group.id === id);
+    if (group) {
+      return (
+        <div className="w-64 rounded border bg-white p-3 text-sm shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="font-bold">{group.name}</span>
+          </div>
+        </div>
+      );
+    }
+
+    // Otherwise it's a question being dragged
+    const containerIndex = findContainer(id);
+    return containerIndex !== -1 ? (
+      <div className="w-60 rounded border bg-white p-2 text-sm shadow-lg">
+        {items[containerIndex]?.questions.find((item) => item.id === id)?.text}
+      </div>
+    ) : null;
+  };
+
+  const dropAnimation: DropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5',
+        },
+      },
+    }),
+  };
+
   return (
     <div className="relative">
       <button
@@ -45,32 +88,34 @@ const DragDropQuestionGroups: FC = () => {
       </button>
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCorners}
+        collisionDetection={pointerWithin}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
+        measuring={{
+          droppable: {
+            strategy: MeasuringStrategy.Always,
+          },
+        }}
       >
         <div className="flex w-full gap-6 overflow-y-auto p-4">
-          {items.map(({ id, name, questions }) => (
-            <QuestionGroup
-              key={id}
-              id={id}
-              name={name}
-              items={questions}
-              isOver={id === activeGroup}
-            />
-          ))}
+          <SortableContext
+            items={items.map((group) => group.id)}
+            strategy={horizontalListSortingStrategy}
+          >
+            {items.map(({ id, name, questions }) => (
+              <QuestionGroup
+                key={id}
+                id={id}
+                name={name}
+                items={questions}
+                isOver={id === activeGroup}
+              />
+            ))}
+          </SortableContext>
         </div>
-        <DragOverlay>
-          {activeId ? (
-            <div className="scale-105 transform rounded border bg-white p-4 shadow-lg">
-              {
-                items[findContainer(activeId)]?.questions.find(
-                  (item) => item.id === activeId
-                )?.text
-              }
-            </div>
-          ) : null}
+        <DragOverlay dropAnimation={dropAnimation}>
+          {activeId && getDragOverlayContent(activeId)}
         </DragOverlay>
       </DndContext>
     </div>

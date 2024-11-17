@@ -7,7 +7,7 @@ import {
   questionTypeColors,
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
-import { QuestionType } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { QuestionType } from '@/types/test-creator/answers';
 
 interface SortableItemProps {
   id: string;
@@ -36,11 +36,11 @@ const SortableItem: FC<SortableItemProps> = ({ id, text, type }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`mb-2 cursor-move rounded border p-4 shadow ${questionTypeColors[type]}`}
+      className={`mb-1.5 cursor-move rounded border p-2 text-sm shadow ${questionTypeColors[type]}`}
       {...attributes}
       {...listeners}
     >
-      <Icon className="mr-2 h-4 w-4" />
+      <Icon className="mr-1.5 inline-block h-3.5 w-3.5" />
       {text}
     </div>
   );

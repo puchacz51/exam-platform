@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import DragDropQuestionGroups from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop//DragDropQuestionGroups';
+import DragDropQuestionGroups from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/DragDropQuestionGroups';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 import TestCreatorQuestionGroupForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsGroupForm';
 import GroupList from '@/app/[locale]/(dashboard)/test-creator/components/navigation/GroupList';
@@ -15,7 +15,7 @@ const BulletBar = () => {
   return (
     <div
       className={cn(
-        'grid gap-2',
+        'grid max-w-full gap-2 overflow-x-hidden',
         isQuestionGroupConfiguratorOpen && 'md:grid-cols-2'
       )}
     >

@@ -1,8 +1,15 @@
 'use server';
 
+import { answersTable } from '@schema/answers';
+import { orderItemsTable } from '@schema/orderItems';
+import { matchingPairsTable } from '@schema/matchingPairs';
+import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
+import { Tx } from '@actions/test/createTest';
+
 import {
   BooleanGroupQuestion,
   BooleanQuestion,
+  MatchingQuestion,
   MultipleChoiceQuestion,
   NumericGroupQuestion,
   NumericQuestion,
@@ -10,14 +17,7 @@ import {
   OrderQuestion,
   Question,
   SingleChoiceQuestion,
-} from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
-import { answersTable } from '@schema/answers';
-import { orderItemsTable } from '@schema/orderItems';
-import { numericQuestionsTable } from '@schema/numericQuestion';
-import { booleanGroupSubQuestionsTable } from '@schema/booleanGroupQuestion';
-import { numericGroupSubQuestionsTable } from '@schema/numericGroupQuestion';
-
-import { Tx } from './createTest';
+} from '@/types/test-creator/question';
 
 export const createQuestionTypeSpecificData = async (
   tx: Tx,
@@ -59,6 +59,13 @@ export const createQuestionTypeSpecificData = async (
         questionId
       );
       break;
+    case 'MATCHING':
+      await handleMatchingQuestion(
+        tx,
+        question as MatchingQuestion,
+        questionId
+      );
+      break;
   }
 };
 
@@ -82,10 +89,10 @@ export const handleChoiceQuestion = async (
   questionId: string
 ) => {
   const answersToInsert = question.answers.map((answer, index) => ({
-    questionId,
     text: answer.text,
     isCorrect: answer.isCorrect,
     order: index,
+    questionId,
   }));
 
   await tx.insert(answersTable).values(answersToInsert);
@@ -122,9 +129,11 @@ export const handleNumericQuestion = async (
   question: NumericQuestion,
   questionId: string
 ) => {
-  await tx.insert(numericQuestionsTable).values({
+  await tx.insert(groupSubQuestionsTable).values({
     questionId,
-    correctAnswer: question.correctAnswer,
+    text: question.text,
+    type: 'NUMERIC',
+    numericAnswer: question.correctAnswer,
     tolerance: question.tolerance,
   });
 };
@@ -135,15 +144,17 @@ export const handleBooleanGroupQuestion = async (
   questionId: string
 ) => {
   const subQuestionsToInsert = question.subQuestions.map(
-    (subQuestion, index) => ({
-      questionId,
-      text: subQuestion.text,
-      correctAnswer: subQuestion.correctAnswer,
-      order: subQuestion.order ?? index,
-    })
+    (subQuestion, index) =>
+      ({
+        questionId,
+        text: subQuestion.text,
+        type: 'BOOLEAN',
+        booleanAnswer: subQuestion.correctAnswer,
+        order: subQuestion.order ?? index,
+      }) as const
   );
 
-  await tx.insert(booleanGroupSubQuestionsTable).values(subQuestionsToInsert);
+  await tx.insert(groupSubQuestionsTable).values(subQuestionsToInsert);
 };
 
 export const handleNumericGroupQuestion = async (
@@ -152,14 +163,32 @@ export const handleNumericGroupQuestion = async (
   questionId: string
 ) => {
   const subQuestionsToInsert = question.subQuestions.map(
-    (subQuestion, index) => ({
-      questionId,
-      text: subQuestion.text,
-      correctAnswer: subQuestion.correctAnswer,
-      numericTolerance: subQuestion.numericTolerance,
-      order: subQuestion.order ?? index,
-    })
+    (subQuestion, index) =>
+      ({
+        questionId,
+        text: subQuestion.text,
+        type: 'NUMERIC',
+        numericAnswer: subQuestion.correctAnswer,
+        tolerance: subQuestion.numericTolerance,
+        order: subQuestion.order ?? index,
+      }) as const
   );
 
-  await tx.insert(numericGroupSubQuestionsTable).values(subQuestionsToInsert);
+  await tx.insert(groupSubQuestionsTable).values(subQuestionsToInsert);
+};
+
+export const handleMatchingQuestion = async (
+  tx: Tx,
+  question: MatchingQuestion,
+  questionId: string
+) => {
+  console.log('Processing matching question:', questionId);
+  const pairsToInsert = question.matchingPairs.map((pair) => ({
+    questionId,
+    key: pair.key,
+    value: pair.value,
+  }));
+
+  console.log('Inserting pairs:', pairsToInsert);
+  await tx.insert(matchingPairsTable).values(pairsToInsert);
 };

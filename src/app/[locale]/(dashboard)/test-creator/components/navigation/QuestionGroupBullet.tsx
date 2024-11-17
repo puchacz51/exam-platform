@@ -4,7 +4,7 @@ import { CheckCircle, Circle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 
 interface QuestionGroupBulletProps {
   group: TestCreatorQuestionGroup;

@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { NumericQuestion } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
+import { NumericQuestion } from '@/types/test-creator/question';
 
 export const NumericQuestionForm = () => {
   const form = useFormContext<NumericQuestion>();

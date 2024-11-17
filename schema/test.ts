@@ -7,10 +7,10 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-
-import { usersTable } from './users';
-import { categoriesTable } from './categories';
-import { questionGroupsTable } from './questionGroups';
+import { testSettingsTable } from '@schema/testSettings';
+import { usersTable } from '@schema/users';
+import { categoriesTable } from '@schema/categories';
+import { questionGroupsTable } from '@schema/questionGroups';
 
 export const accessTypeEnum = pgEnum('access_type', [
   'PUBLIC',
@@ -23,11 +23,15 @@ export type TestAccessType =
 
 export const testsTable = pgTable('tests', {
   id: uuid('id').primaryKey().defaultRandom(),
-  title: varchar('title', { length: 256 }),
-  description: text('description'),
-  creatorId: uuid('creator_id').references(() => usersTable.id),
-  categoryId: uuid('category_id').references(() => categoriesTable.id),
-  createdAt: timestamp('created_at'),
+  title: varchar('title', { length: 256 }).notNull(),
+  description: text('description').notNull(),
+  creatorId: uuid('creator_id')
+    .references(() => usersTable.id)
+    .notNull(),
+  categoryId: uuid('category_id')
+    .references(() => categoriesTable.id)
+    .notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export const testsRelations = relations(testsTable, ({ one, many }) => ({
@@ -40,6 +44,10 @@ export const testsRelations = relations(testsTable, ({ one, many }) => ({
     references: [categoriesTable.id],
   }),
   questionGroups: many(questionGroupsTable),
+  settings: one(testSettingsTable, {
+    fields: [testsTable.id],
+    references: [testSettingsTable.testId],
+  }),
 }));
 
 export type InsertTest = typeof testsTable.$inferInsert;

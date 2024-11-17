@@ -1,16 +1,16 @@
 'use server';
 
 import db from '@/lib/db';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
+import { TestCreatorTest } from '@/types/test-creator/test';
 import { testsTable } from '@schema/test';
 import { questionGroupsTable } from '@schema/questionGroups';
 import { questionsTable } from '@schema/questions';
 import { auth } from '@/next-auth/auth';
 import { testSettingsTable } from '@schema/testSettings';
-
-import { validateTestSubmission } from './validateTest';
-import { createQuestionTypeSpecificData } from './questionHandler';
+import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import { validateTestSubmission } from '@actions/test/validateTest';
+import { createQuestionTypeSpecificData } from '@actions/test/questionHandler';
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 export type Tx = Parameters<TransactionFunction>[0];
@@ -33,7 +33,7 @@ async function createTest(
       .insert(testsTable)
       .values({
         title: test.title,
-        description: test.description,
+        description: test.description || '',
         categoryId: test.categoryId,
         creatorId: userId,
         createdAt: new Date(),
@@ -50,19 +50,16 @@ async function createTest(
         .values({
           testId: createdTest.id,
           name: group.name,
-          order: group.order,
           maxQuestionPerPage: group.maxQuestionPerPage,
         })
         .returning();
 
-      group.questions.forEach(async (question, i) => {
+      for (const [index, question] of Object.entries(group.questions)) {
         const [createdQuestion] = await tx
           .insert(questionsTable)
           .values({
-            groupId: createdGroup.id,
             text: question.text,
             questionType: question.questionType as 'OPEN',
-            order: i,
             isPublic: question.isPublic,
             categoryId: question.categoryId,
             points: question.points,
@@ -70,7 +67,13 @@ async function createTest(
           .returning();
 
         await createQuestionTypeSpecificData(tx, question, createdQuestion.id);
-      });
+
+        await tx.insert(questionOnQuestionGroupTable).values({
+          questionId: createdQuestion.id,
+          questionGroupId: createdGroup.id,
+          order: String(parseInt(index) + 1),
+        });
+      }
     }
 
     return createdTest;
@@ -92,7 +95,6 @@ export async function createTestAction(
     }
 
     const userId = session.user.userID;
-    console.log('userId', userId);
     const result = await createTest(test, questionGroups, userId);
     return { success: true, data: result };
   } catch (error) {

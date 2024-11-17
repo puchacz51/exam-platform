@@ -3,9 +3,11 @@ import { EmptyObject } from 'react-hook-form';
 import { z } from 'zod';
 
 import { TestConfiguration } from '@actions/test/getTestConfiguration';
-import { TestCreatorQuestion } from '@/app/[locale]/(dashboard)/test-creator/types/question';
-import { TestCreatorQuestionGroup } from '@/app/[locale]/(dashboard)/test-creator/types/questionGroup';
+import { TestCreatorQuestion } from '@/types/test-creator/question';
+import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
+import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
+import { Question } from '@/types/test/questionTypes';
 
 export type TestCreatorAnswer = {
   text: string;
@@ -25,6 +27,8 @@ export interface TestProps {
   isQuestionGroupConfiguratorOpen: boolean;
   isAddedGeneralConfiguration: boolean;
   isSortFormOpen: boolean;
+  aiQuestions: Question[] | null;
+  isAiGeneratorOpen: boolean;
 }
 type Updater<T> = T | ((prev: T) => T);
 
@@ -44,12 +48,20 @@ export interface TestState extends TestProps {
   setIsTestConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionConfiguratorOpen: (isOpen: Updater<boolean>) => void;
   setIsQuestionGroupConfiguratorOpen: (isOpen: Updater<boolean>) => void;
-  setCurrentQuestion: (groupId: string, questionId: string) => void;
+  setCurrentQuestion: (
+    currentQuestion: {
+      groupId: string;
+      questionId: string;
+    } | null
+  ) => void;
   setCurrentQuestionGroup: (groupId: string) => void;
   setQuestionGroups: (
     questionGroups: Updater<TestCreatorQuestionGroup[]>
   ) => void;
   setIsSortFormOpen: (isOpen: Updater<boolean>) => void;
+  setAiQuestions: (questions: Question[] | null) => void;
+  clearAiQuestions: () => void;
+  setIsAiGeneratorOpen: (isOpen: Updater<boolean>) => void;
 }
 
 const DEFAULT_PROPS: TestProps = {
@@ -85,86 +97,9 @@ const DEFAULT_PROPS: TestProps = {
     {
       id: 'group-1730041489822',
       name: 'Science and Logic',
-      order: 2,
+      order: 1,
       maxQuestionPerPage: 3,
-      questions: [
-        {
-          id: 'q2',
-          text: 'What is the boiling point of water at sea level?',
-          questionType: 'NUMERIC',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 3,
-          correctAnswer: 100,
-          tolerance: 0.5,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q3',
-          text: 'Identify the matching pairs of animals and their habitats.',
-          questionType: 'MATCHING',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 7,
-          matchingPairs: [
-            { key: 'Polar Bear', value: 'Arctic' },
-            { key: 'Camel', value: 'Desert' },
-            { key: 'Penguin', value: 'Antarctica' },
-          ],
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q4',
-          text: 'Put the planets in our solar system in order from the Sun.',
-          questionType: 'ORDER',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 8,
-          orderItems: [
-            { text: 'Mercury', order: 1 },
-            { text: 'Venus', order: 2 },
-            { text: 'Earth', order: 3 },
-            { text: 'Mars', order: 4 },
-            { text: 'Jupiter', order: 5 },
-          ],
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q5',
-          text: 'What is 15 divided by 3?',
-          questionType: 'NUMERIC',
-          isPublic: false,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 2,
-          correctAnswer: 5,
-          tolerance: 0.1,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q6',
-          text: 'True or False: Lightning never strikes the same place twice.',
-          questionType: 'BOOLEAN',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 1,
-          correctAnswer: false,
-          groupId: 'group-1730041489822',
-        },
-        {
-          id: 'q8',
-          text: 'What is the main gas found in the air we breathe?',
-          questionType: 'SINGLE_CHOICE',
-          isPublic: true,
-          categoryId: '46b56f2a-9a45-46c9-b9b4-3494beb96e35',
-          points: 5,
-          answers: [
-            { text: 'Oxygen', isCorrect: false },
-            { text: 'Nitrogen', isCorrect: true },
-            { text: 'Carbon Dioxide', isCorrect: false },
-          ],
-          groupId: 'group-1730041489822',
-        },
-      ],
+      questions: [...mathTest],
     },
   ],
   currentQuestion: null,
@@ -174,6 +109,8 @@ const DEFAULT_PROPS: TestProps = {
   isQuestionGroupConfiguratorOpen: false,
   isAddedGeneralConfiguration: true,
   isSortFormOpen: false,
+  aiQuestions: null,
+  isAiGeneratorOpen: false,
 };
 const applyUpdater = <T>(value: T, updater: Updater<T>): T =>
   typeof updater === 'function' ? (updater as (prev: T) => T)(value) : updater;
@@ -297,15 +234,20 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         ),
       })),
 
-    setCurrentQuestion: (groupId, questionId) =>
+    setCurrentQuestion: (currentQuestion) =>
       set((prev) => ({
         ...prev,
         currentQuestion:
-          prev.questionGroups
-            .find((g) => g.id === groupId)
-            ?.questions.find((q) => q.id === questionId) || null,
+          (!!currentQuestion &&
+            prev.questionGroups
+              .find((g) => g.id === currentQuestion.groupId)
+              ?.questions.find((q) => q.id === currentQuestion.questionId)) ||
+          null,
         currentQuestionGroupId:
-          prev.questionGroups.find((g) => g.id === groupId)?.id || null,
+          (!!currentQuestion &&
+            prev.questionGroups.find((g) => g.id === currentQuestion.groupId)
+              ?.id) ||
+          prev.currentQuestionGroupId,
       })),
 
     setCurrentQuestionGroup: (groupId) =>
@@ -325,6 +267,24 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
       set((prev) => ({
         ...prev,
         isSortFormOpen: applyUpdater(prev.isSortFormOpen, isOpen),
+      })),
+
+    setAiQuestions: (questions) =>
+      set((prev) => ({
+        ...prev,
+        aiQuestions: questions,
+      })),
+
+    clearAiQuestions: () =>
+      set((prev) => ({
+        ...prev,
+        aiQuestions: null,
+      })),
+
+    setIsAiGeneratorOpen: (isOpen) =>
+      set((prev) => ({
+        ...prev,
+        isAiGeneratorOpen: applyUpdater(prev.isAiGeneratorOpen, isOpen),
       })),
   }));
 

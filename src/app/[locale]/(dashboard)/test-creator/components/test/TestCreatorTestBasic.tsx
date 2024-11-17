@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { TabsContent } from '@/components/ui/tabs';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestBasic: FC = () => {
   const {

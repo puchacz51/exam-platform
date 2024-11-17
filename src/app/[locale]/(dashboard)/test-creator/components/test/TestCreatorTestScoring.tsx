@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { scoringSystemEnum } from '@schema/testSettings';
-import { TestCreatorTest } from '@/app/[locale]/(dashboard)/test-creator/types/test';
+import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestScoring: FC = () => {
   const form = useFormContext<TestCreatorTest>();

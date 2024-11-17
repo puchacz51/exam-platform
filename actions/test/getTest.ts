@@ -2,9 +2,12 @@
 
 import { revalidatePath } from 'next/cache';
 import { eq } from 'drizzle-orm';
+import { asc } from 'drizzle-orm';
+import { testsTable } from '@schema/test';
+import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 
 import db from '@/lib/db';
-import { testsTable } from '@schema/test';
+
 interface GetTestOptions {
   includeAnswers?: boolean;
   revalidate?: boolean;
@@ -24,36 +27,58 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
         },
         questionGroups: {
           with: {
-            questions: {
+            questionOnQuestionGroup: {
+              orderBy: [asc(questionOnQuestionGroupTable.order)],
               with: {
-                ...(includeAnswers && {
-                  answers: {
-                    columns: {
-                      id: true,
-                      text: true,
-                      order: true,
-                    },
-                  },
-                }),
-                orderItems: {
+                question: {
                   columns: {
+                    questionType: true,
                     id: true,
                     text: true,
+                    points: true,
+                    isPublic: true,
                   },
-                },
-                category: {
-                  columns: {
-                    id: true,
-                    name: true,
+                  with: {
+                    ...(includeAnswers && {
+                      answers: {
+                        columns: {
+                          id: true,
+                          text: true,
+                          order: true,
+                        },
+                      },
+                    }),
+                    orderItems: {
+                      columns: {
+                        id: true,
+                        text: true,
+                      },
+                    },
+                    category: {
+                      columns: {
+                        id: true,
+                        name: true,
+                      },
+                    },
+                    matchingPairs: true,
+                    answers: true,
+                    groupSubQuestions: true,
                   },
                 },
               },
             },
           },
         },
+        settings: true,
       },
     });
 
+    if (test) {
+      test.questionGroups = test.questionGroups.map((group) => ({
+        ...group,
+        questions: group.questionOnQuestionGroup.map((qog) => qog.question),
+      }));
+    }
 
     if (revalidate) {
       revalidatePath(`/test/${testId}`);
