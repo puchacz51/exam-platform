@@ -6,11 +6,12 @@ import db from '@/lib/db';
 
 import { CredentialsProvider } from './provider/CredentialsProvider';
 import { AzureADProvider } from './provider/AzureADProvider';
+import { USOSProvider } from './provider/USOSProvider';
 import { authConfigWithProviders } from './authWithoutProviders';
 
 export const authConfig: NextAuthConfig = {
   ...authConfigWithProviders,
-  providers: [AzureADProvider, CredentialsProvider],
+  providers: [AzureADProvider, CredentialsProvider, USOSProvider],
   callbacks: {
     async session({ session, token }) {
       if (token) {
@@ -32,7 +33,6 @@ export const authConfig: NextAuthConfig = {
       return session;
     },
     async jwt({ token, user, trigger }) {
-      console.log('jwt', trigger);
       if (trigger === 'update') {
         const userId = token.user.userID;
         const [userUpdated] = await db

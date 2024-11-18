@@ -8,29 +8,31 @@ import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
 
 const DashboardHeader = () => {
   return (
-    <header className="bg-white shadow-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
+    <header className="bg-white shadow-[0_2px_4px_rgba(0,0,0,0.05)]">
+      <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link
               href="/dashboard"
-              className="text-2xl font-bold text-gray-900"
+              className="text-xl sm:text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
             >
               Dashboard
             </Link>
           </div>
-          <nav className="flex items-center space-x-4">
+          <nav className="flex items-center space-x-2 sm:space-x-4">
             <Button
               variant="ghost"
               size="icon"
+              className="h-9 w-9 sm:h-10 sm:w-10 hover:bg-gray-100 transition-colors"
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
+              className="h-9 w-9 sm:h-10 sm:w-10 hover:bg-gray-100 transition-colors"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <ProfileDropdown />
           </nav>

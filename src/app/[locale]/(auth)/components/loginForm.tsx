@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,25 +32,54 @@ const defaultValues: LoginForm = {
 };
 
 const LoginForm: FC = () => {
+  const [isLoading, setIsLoading] = useState({
+    credentials: false,
+    microsoft: false,
+    usos: false,
+  });
+
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
 
   const onSubmit = async (data: LoginForm) => {
-    await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      callbackUrl: '/dashboard',
-    });
+    try {
+      setIsLoading((prev) => ({ ...prev, credentials: true }));
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        // Handle error
+        console.error(result.error);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading((prev) => ({ ...prev, credentials: false }));
+    }
   };
 
-  const handleMicrosoftSignIn = () => {
-    signIn('azure-ad', { callbackUrl: '/dashboard' });
+  const handleMicrosoftSignIn = async () => {
+    try {
+      setIsLoading((prev) => ({ ...prev, microsoft: true }));
+      await signIn('azure-ad', { redirect: false });
+    } finally {
+      setIsLoading((prev) => ({ ...prev, microsoft: false }));
+    }
   };
 
-  const handleUSOSSignIn = () => {
-    signIn('usos', { callbackUrl: '/dashboard' });
+  const handleUSOSSignIn = async () => {
+    try {
+      setIsLoading((prev) => ({ ...prev, usos: true }));
+      await signIn('USOS', { redirect: false });
+    } finally {
+      setIsLoading((prev) => ({ ...prev, usos: false }));
+    }
   };
 
   return (
@@ -103,8 +132,9 @@ const LoginForm: FC = () => {
             <Button
               type="submit"
               className="w-full"
+              disabled={isLoading.credentials}
             >
-              Zaloguj się
+              {isLoading.credentials ? 'Logowanie...' : 'Zaloguj się'}
             </Button>
           </form>
         </Form>
@@ -124,14 +154,16 @@ const LoginForm: FC = () => {
           <Button
             variant="outline"
             onClick={handleMicrosoftSignIn}
+            disabled={isLoading.microsoft}
           >
-            Microsoft Teams
+            {isLoading.microsoft ? 'Łączenie...' : 'Microsoft Teams'}
           </Button>
           <Button
             variant="outline"
             onClick={handleUSOSSignIn}
+            disabled={isLoading.usos}
           >
-            USOS
+            {isLoading.usos ? 'Łączenie...' : 'USOS'}
           </Button>
         </div>
       </CardContent>

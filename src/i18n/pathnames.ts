@@ -32,6 +32,14 @@ const dashboardPathnames = {
     en: '/test-creator',
     pl: '/tworzenie-testu',
   },
+  '/test-creator/:testId': {
+    en: '/test-creator/:testId',
+    pl: '/tworzenie-testu/:testId',
+  },
+  '/groups': {
+    en: '/groups',
+    pl: '/grupy',
+  },
 } as const;
 
 const publicPathnames = {
