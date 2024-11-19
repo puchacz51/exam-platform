@@ -25,8 +25,8 @@ export const USOSProvider: Provider = {
   clientId: process.env.USOS_CONSUMER_KEY,
   clientSecret: process.env.USOS_CONSUMER_SECRET,
   issuer: 'http://localhost:3005',
+
   profile(profile) {
-    console.log('profile', profile);
     return {
       id: profile.id,
       name: `${profile.firstname} ${profile.lastname}`,

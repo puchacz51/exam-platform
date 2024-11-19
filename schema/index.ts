@@ -22,6 +22,8 @@ import {
   groupSubQuestionsRelations,
   groupSubQuestionsTable,
 } from '@schema/groupSubQuestions';
+import { groupsRelations, groupsTable } from '@schema/groups';
+import { userGroupsRelations, userGroupsTable } from '@schema/userGroups';
 
 export const schema = {
   users: usersTable,
@@ -36,6 +38,8 @@ export const schema = {
   questionOnQuestionGroup: questionOnQuestionGroupTable,
   testSettings: testSettingsTable,
   groupSubQuestions: groupSubQuestionsTable,
+  groups: groupsTable,
+  userGroups: userGroupsTable,
   testsRelations,
   matchingPairsRelations,
   questionGroupRelations,
@@ -46,4 +50,6 @@ export const schema = {
   questionOnQuestionGroupRelations,
   testSettingsRelations,
   groupSubQuestionsRelations,
+  groupsRelations,
+  userGroupsRelations,
 };

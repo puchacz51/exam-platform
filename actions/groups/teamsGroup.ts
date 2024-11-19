@@ -4,7 +4,6 @@ import { Client } from '@microsoft/microsoft-graph-client';
 
 import { auth } from '@/next-auth/auth';
 
-// Simplified interface to match available permissions
 interface TeamsGroup {
   id: string;
   displayName: string;
@@ -31,7 +30,7 @@ export async function getUserTeamsGroups(): Promise<TeamsGroup[]> {
 
     const response = await client
       .api('/me/teamwork/associatedTeams')
-      .select('id,displayName') 
+      .select('id,displayName')
       .get();
 
     const teams = response.value;
