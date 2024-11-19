@@ -7,7 +7,6 @@ export const authConfigWithProviders: NextAuthConfig = {
     signOut: '/auth/signout',
     error: '/auth/error',
   },
-  debug: true,
   callbacks: {
     async session({ session, token }) {
       if (token) {

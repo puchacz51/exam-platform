@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { useRouter } from '@/i18n/routing';
 
 const loginSchema = z.object({
   email: z.string().email('Nieprawidłowy adres email'),
@@ -32,6 +33,7 @@ const defaultValues: LoginForm = {
 };
 
 const LoginForm: FC = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState({
     credentials: false,
     microsoft: false,
@@ -57,6 +59,7 @@ const LoginForm: FC = () => {
         console.error(result.error);
         return;
       }
+      router.replace('/dashboard');
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,6 +71,7 @@ const LoginForm: FC = () => {
     try {
       setIsLoading((prev) => ({ ...prev, microsoft: true }));
       await signIn('azure-ad', { redirect: false });
+      router.replace('/dashboard');
     } finally {
       setIsLoading((prev) => ({ ...prev, microsoft: false }));
     }
@@ -76,7 +80,8 @@ const LoginForm: FC = () => {
   const handleUSOSSignIn = async () => {
     try {
       setIsLoading((prev) => ({ ...prev, usos: true }));
-      await signIn('USOS', { redirect: false });
+      await signIn('USOS');
+      router.replace('/dashboard');
     } finally {
       setIsLoading((prev) => ({ ...prev, usos: false }));
     }

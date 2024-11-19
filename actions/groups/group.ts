@@ -2,6 +2,7 @@
 
 import { and, eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
+import { auth } from '@/next-auth/auth';
 
 import db from '@/lib/db';
 import { userGroupsTable } from '@schema/userGroups';
@@ -27,11 +28,18 @@ async function createGroupWithUsers(
   tx: Tx,
   data: z.infer<typeof createGroupSchema>
 ) {
+  const session = await auth();
+
+  if (!session?.user?.userID) {
+    throw new Error('Unauthorized');
+  }
+
   const [newGroup] = await tx
     .insert(groupsTable)
     .values({
       name: data.name,
       description: data.description || null,
+      ownerId: session.user.userID,
     })
     .returning();
 
@@ -94,7 +102,6 @@ async function addNewUsersToGroupTx(
   const existingUserIds = new Set(existingUsers.map((u) => u.userId));
   const newUserIds = userIds.filter((id) => !existingUserIds.has(id));
   if (newUserIds.length > 0) {
-    // Fetch user names
     const users = await tx
       .select({ id: usersTable.id })
       .from(usersTable)
@@ -108,9 +115,9 @@ async function addNewUsersToGroupTx(
     );
   }
 
-  return { 
+  return {
     addedUsers: newUserIds.length,
-    groupId: group[0].id 
+    groupId: group[0].id,
   };
 }
 

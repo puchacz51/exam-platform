@@ -3,15 +3,13 @@ import { eq } from 'drizzle-orm';
 
 import { usersTable } from '@schema/users';
 import db from '@/lib/db';
-
-import { CredentialsProvider } from './provider/CredentialsProvider';
-import { AzureADProvider } from './provider/AzureADProvider';
-import { USOSProvider } from './provider/USOSProvider';
-import { authConfigWithProviders } from './authWithoutProviders';
+import { AzureADProvider } from '@/next-auth/provider/AzureADProvider';
+import { CredentialsProvider } from '@/next-auth/provider/CredentialsProvider';
+import { authConfigWithProviders } from '@/next-auth/authWithoutProviders';
 
 export const authConfig: NextAuthConfig = {
   ...authConfigWithProviders,
-  providers: [AzureADProvider, CredentialsProvider, USOSProvider],
+  providers: [AzureADProvider, CredentialsProvider],
   callbacks: {
     async session({ session, token }) {
       if (token) {

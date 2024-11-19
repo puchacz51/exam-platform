@@ -29,7 +29,7 @@ const GroupList = ({ groups }: GroupListProps) => {
   const hasMore = filteredGroups.length > displayedGroups.length;
 
   const loadMore = () => {
-    setLimit(groups.length); // Show all groups instead of incrementing by 10
+    setLimit(groups.length);
   };
 
   return (

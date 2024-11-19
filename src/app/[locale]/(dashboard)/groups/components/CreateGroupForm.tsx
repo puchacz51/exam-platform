@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,9 +22,14 @@ import { createGroup } from '@actions/groups/group';
 import { useSearchUsers } from '@/hooks/useSearchUsers';
 
 import { type CreateGroupFormData, createGroupSchema } from '../schema';
+import { useToast } from '@/hooks/use-toast';
 
 export const CreateGroupForm = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: searchResults, isLoading } = useSearchUsers(searchQuery);
 
   const form = useForm<CreateGroupFormData>({
@@ -35,8 +41,41 @@ export const CreateGroupForm = () => {
     },
   });
 
+  const onSubmit = async (data: CreateGroupFormData) => {
+    setIsSubmitting(true);
+    try {
+      const result = await createGroup(data);
+      if (result.success) {
+        // Invalidate both queries to trigger refetch
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ['userGroups'] }),
+          queryClient.invalidateQueries({ queryKey: ['teamsGroups'] })
+        ]);
+        toast({
+          title: 'Success',
+          description: 'Group created successfully',
+        });
+        form.reset();
+      } else {
+        toast({
+          title: 'Error',
+          description: result.error || 'Failed to create group',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'An unexpected error occurred',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const userOptions = searchResults?.success
-    ? searchResults.users.map((user) => ({
+    ? searchResults?.users?.map((user) => ({
         value: user.id,
         label: `${user.firstname} ${user.lastname} (${user.email})`,
       }))
@@ -45,7 +84,7 @@ export const CreateGroupForm = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(createGroup)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4"
       >
         <FormField
@@ -84,7 +123,7 @@ export const CreateGroupForm = () => {
               <FormLabel>Add Users</FormLabel>
               <FormControl>
                 <MultiSelect
-                  options={userOptions}
+                  options={userOptions || []}
                   value={field.value || []}
                   onChange={field.onChange}
                   onSearch={setSearchQuery}
@@ -97,7 +136,12 @@ export const CreateGroupForm = () => {
           )}
         />
 
-        <Button type="submit">Create Group</Button>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Creating...' : 'Create Group'}
+        </Button>
       </form>
     </Form>
   );
