@@ -5,7 +5,7 @@ import postgres from 'postgres';
 
 import { schema } from '@schema/index';
 
-const { DATABASE_URL = '' } = process.env;
+const { DATABASE_URL = '', DATABASE_URL_DATABASE_URL = '' } = process.env;
 
 declare global {
   // eslint-disable-next-line no-var -- only var works here
@@ -15,7 +15,9 @@ declare global {
 let db: PostgresJsDatabase<typeof schema>;
 
 if (env.NODE_ENV === 'production') {
-  db = drizzle(postgres(DATABASE_URL), { schema });
+  console.log('Using DATABASE_URL_DATABASE_URL');
+  console.log('DATABASE_URL_DATABASE_URL', DATABASE_URL_DATABASE_URL);
+  db = drizzle(postgres(DATABASE_URL_DATABASE_URL), { schema });
 } else {
   if (!global.db) global.db = drizzle(postgres(DATABASE_URL), { schema });
 
