@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 
+import { useSearchUsers } from '@/hooks/useSearchUsers';
+import { useCreateGroup } from '@/hooks/useCreateGroup';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,19 +19,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MultiSelect } from '@/components/ui/multi-select';
-import { createGroup } from '@actions/groups/group';
-import { useSearchUsers } from '@/hooks/useSearchUsers';
-
-import { type CreateGroupFormData, createGroupSchema } from '../schema';
-import { useToast } from '@/hooks/use-toast';
+import {
+  CreateGroupFormData,
+  createGroupSchema,
+} from '@/app/[locale]/(dashboard)/groups/schema';
 
 export const CreateGroupForm = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: searchResults, isLoading } = useSearchUsers(searchQuery);
+  const { createGroupMutation, isSubmitting } = useCreateGroup();
 
   const form = useForm<CreateGroupFormData>({
     resolver: zodResolver(createGroupSchema),
@@ -42,35 +39,9 @@ export const CreateGroupForm = () => {
   });
 
   const onSubmit = async (data: CreateGroupFormData) => {
-    setIsSubmitting(true);
-    try {
-      const result = await createGroup(data);
-      if (result.success) {
-        // Invalidate both queries to trigger refetch
-        await Promise.all([
-          queryClient.invalidateQueries({ queryKey: ['userGroups'] }),
-          queryClient.invalidateQueries({ queryKey: ['teamsGroups'] })
-        ]);
-        toast({
-          title: 'Success',
-          description: 'Group created successfully',
-        });
-        form.reset();
-      } else {
-        toast({
-          title: 'Error',
-          description: result.error || 'Failed to create group',
-          variant: 'destructive',
-        });
-      }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSubmitting(false);
+    const success = await createGroupMutation(data);
+    if (success) {
+      form.reset();
     }
   };
 

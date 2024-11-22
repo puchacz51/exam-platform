@@ -1,8 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { getUserGroups } from '@actions/groups/getGroup';
 import { Users } from 'lucide-react';
+
+import { useUserGroups } from '@/hooks/useUserGroups';
+
 import { GroupItem } from './GroupItem';
 
 interface Group {
@@ -18,17 +19,7 @@ interface OwnedGroupListProps {
 }
 
 const OwnedGroupList = ({ initialGroups }: OwnedGroupListProps) => {
-  const { data: groups } = useQuery<Group[]>({
-    queryKey: ['userGroups'],
-    queryFn: () =>
-      getUserGroups().then((response) => {
-        if (response.success) {
-          return response.data as Group[];
-        }
-        throw new Error(response.error);
-      }),
-    initialData: initialGroups,
-  });
+  const { data: groups } = useUserGroups(initialGroups);
 
   if (!groups?.length) {
     return (

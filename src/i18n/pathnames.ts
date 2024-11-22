@@ -40,6 +40,10 @@ const dashboardPathnames = {
     en: '/groups',
     pl: '/grupy',
   },
+  '/test-assigment': {
+    en: '/test-assigment',
+    pl: '/przypisanie-testu',
+  },
 } as const;
 
 const publicPathnames = {

@@ -14,7 +14,7 @@ const DashboardHeader = () => {
           <div className="flex items-center">
             <Link
               href="/dashboard"
-              className="text-xl sm:text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+              className="text-xl font-bold text-gray-900 transition-colors hover:text-gray-700 sm:text-2xl"
             >
               Dashboard
             </Link>
@@ -23,14 +23,14 @@ const DashboardHeader = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 sm:h-10 sm:w-10 hover:bg-gray-100 transition-colors"
+              className="h-9 w-9 transition-colors hover:bg-gray-100 sm:h-10 sm:w-10"
             >
               <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 sm:h-10 sm:w-10 hover:bg-gray-100 transition-colors"
+              className="h-9 w-9 transition-colors hover:bg-gray-100 sm:h-10 sm:w-10"
             >
               <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>

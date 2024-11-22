@@ -1,11 +1,11 @@
+import { ReactNode } from 'react';
+
 import { Inter } from 'next/font/google';
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 
 import { cn } from '@/lib/utils';
 import { auth } from '@/next-auth/auth';
-
-import { ReactNode } from 'react';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
 import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
 

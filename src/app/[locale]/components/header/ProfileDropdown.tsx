@@ -29,7 +29,7 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="relative h-10 w-10 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="relative h-10 w-10 rounded-full transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               <Avatar className="h-9 w-9">
                 <AvatarImage
@@ -51,25 +51,41 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
               {session?.user?.firstname} {session?.user?.lastname}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild className="cursor-pointer hover:bg-accent focus:bg-accent">
-              <Link href="/profile" className="w-full">Profil</Link>
+            <DropdownMenuItem
+              asChild
+              className="cursor-pointer hover:bg-accent focus:bg-accent"
+            >
+              <Link
+                href="/profile"
+                className="w-full"
+              >
+                Profil
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild className="cursor-pointer hover:bg-accent focus:bg-accent">
-              <Link href="/settings" className="w-full">Ustawienia</Link>
+            <DropdownMenuItem
+              asChild
+              className="cursor-pointer hover:bg-accent focus:bg-accent"
+            >
+              <Link
+                href="/settings"
+                className="w-full"
+              >
+                Ustawienia
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              onClick={() => signOut()} 
-              className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 focus:bg-red-50"
+            <DropdownMenuItem
+              onClick={() => signOut()}
+              className="cursor-pointer text-red-500 hover:bg-red-50 hover:text-red-600 focus:bg-red-50"
             >
               Wyloguj się
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button 
-          asChild 
-          className="hover:opacity-90 transition-opacity"
+        <Button
+          asChild
+          className="transition-opacity hover:opacity-90"
         >
           <Link href="/login">Zaloguj się</Link>
         </Button>

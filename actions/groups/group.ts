@@ -2,8 +2,8 @@
 
 import { and, eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
-import { auth } from '@/next-auth/auth';
 
+import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { userGroupsTable } from '@schema/userGroups';
 import { groupsTable, type SelectGroup } from '@schema/groups';

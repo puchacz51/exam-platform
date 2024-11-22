@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Loader2, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import {
@@ -99,8 +99,8 @@ export const MultiSelect = ({
                           </Button>
                         </div>
                       </TooltipTrigger>
-                      <TooltipContent 
-                        side="top" 
+                      <TooltipContent
+                        side="top"
                         className="flex flex-col gap-1 p-3"
                       >
                         <p className="font-medium">{name}</p>
@@ -126,7 +126,8 @@ export const MultiSelect = ({
                   </div>
                 ) : (
                   <div className="flex items-center gap-1">
-                    Show {value.length - 5} more <ChevronDown className="h-3 w-3" />
+                    Show {value.length - 5} more{' '}
+                    <ChevronDown className="h-3 w-3" />
                   </div>
                 )}
               </Button>

@@ -26,7 +26,6 @@ const TestCreator: FC = () => {
     (state) => state.currentQuestionGroupId
   );
   const currentQuestion = useTestContext((state) => state.currentQuestion);
-  const isAiGeneratorOpen = useTestContext((state) => state.isAiGeneratorOpen);
 
   const hasQuestions = questionGroups.some(
     (group) => !!group?.questions?.length
@@ -63,23 +62,19 @@ const TestCreator: FC = () => {
                       <TestCreatorQuestionsEditForm />
                     </div>
                   )}
-                  {isAiGeneratorOpen && (
-                    <div>
-                      <h2 className="mb-4 text-2xl font-bold text-slate-900">
-                        AI Generator
-                      </h2>
-                      <AiQuestionGenerator />
-                    </div>
-                  )}
                   <div>
-                    <h2 className="mb-4 text-2xl font-bold text-gray-900">
-                      Add New Question
-                    </h2>
+                    <div className="mb-4 flex items-center justify-between">
+                      <h2 className="text-2xl font-bold text-gray-900">
+                        Add New Question
+                      </h2>
+                    </div>
                     <TestCreatorQuestionsAddForm />
                   </div>
                 </div>
               )
           )}
+
+          <AiQuestionGenerator />
 
           {hasQuestions && (
             <div className="flex justify-end border-t pt-8">

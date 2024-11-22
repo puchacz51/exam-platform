@@ -10,7 +10,6 @@ import {
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from './test';
-import { usersTable } from './users';
 import { testAccessGroupsTable } from './testAccessGroups';
 
 export const testAccessTypeEnum = pgEnum('test_access_type', [
@@ -39,13 +38,16 @@ export const testAccessConfigTable = pgTable('test_access_configs', {
   updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-export const testAccessConfigRelations = relations(testAccessConfigTable, ({ one, many }) => ({
-  test: one(testsTable, {
-    fields: [testAccessConfigTable.testId],
-    references: [testsTable.id],
-  }),
-  testAccessGroups: many(testAccessGroupsTable),
-}));
+export const testAccessConfigRelations = relations(
+  testAccessConfigTable,
+  ({ one, many }) => ({
+    test: one(testsTable, {
+      fields: [testAccessConfigTable.testId],
+      references: [testsTable.id],
+    }),
+    testAccessGroups: many(testAccessGroupsTable),
+  })
+);
 
 export type InsertTestAccessConfig = typeof testAccessConfigTable.$inferInsert;
 export type SelectTestAccessConfig = typeof testAccessConfigTable.$inferSelect;

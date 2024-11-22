@@ -73,11 +73,13 @@ const MatchingQuestionForm = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => append({ 
-                  id: generateId(), 
-                  key: '', 
-                  value: '' 
-                })}
+                onClick={() =>
+                  append({
+                    id: generateId(),
+                    key: '',
+                    value: '',
+                  })
+                }
                 className="border-blue-200 bg-white hover:bg-gray-50"
               >
                 <Plus className="mr-2 h-4 w-4" />

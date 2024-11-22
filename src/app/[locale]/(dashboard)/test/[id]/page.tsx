@@ -11,7 +11,6 @@ import { getTest } from '@actions/test/getTest';
 import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
 import { TestStats } from '@/app/[locale]/(dashboard)/test/[id]/components/TestStats';
 import { TestDetails } from '@/app/[locale]/(dashboard)/test/[id]/components/TestDetails';
-import { TestAccessForm } from '@/app/[locale]/(dashboard)/test/[id]/components/TestAccessForm';
 import { CompleteTest } from '@/types/test/test';
 
 interface TestPageProps {
@@ -74,7 +73,6 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
         />
         <TestStats test={test as unknown as CompleteTest} />
         <TestDetails settings={test.settings} />
-        <TestAccessForm />
         <TestViewer testId={test.id} />
       </div>
     </div>

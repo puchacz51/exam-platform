@@ -1,15 +1,15 @@
-
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+
+import { ChevronDown, ChevronUp, Users } from 'lucide-react';
+
+import { useGroupMembers } from '@/hooks/useGroupMembers';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChevronDown, ChevronUp, Users } from 'lucide-react';
-import { getGroupMembers } from '@actions/groups/getGroup';
 
 interface GroupItemProps {
   group: {
@@ -22,29 +22,28 @@ interface GroupItemProps {
 
 export const GroupItem = ({ group }: GroupItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const { data: members, isLoading } = useQuery({
-    queryKey: ['groupMembers', group.id],
-    queryFn: async () => {
-      const response = await getGroupMembers(group.id);
-      return response.data || [];
-    },
-    enabled: isExpanded,
-  });
+  const { data: members, isLoading } = useGroupMembers(group.id, isExpanded);
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
       <div className="border-b bg-gray-50/50 p-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h3 className="text-xl font-semibold tracking-tight">{group.name}</h3>
+            <h3 className="text-xl font-semibold tracking-tight">
+              {group.name}
+            </h3>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="flex items-center gap-1">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
                 <Users size={12} />
                 {group.memberCount.value} members
               </Badge>
               {isExpanded ? (
-                <span className="text-sm text-muted-foreground">Hide members</span>
+                <span className="text-sm text-muted-foreground">
+                  Hide members
+                </span>
               ) : (
                 <Button
                   variant="ghost"
@@ -71,7 +70,9 @@ export const GroupItem = ({ group }: GroupItemProps) => {
           </Button>
         </div>
         {group.description && (
-          <p className="mt-2 text-sm text-muted-foreground">{group.description}</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {group.description}
+          </p>
         )}
       </div>
 
@@ -103,7 +104,10 @@ export const GroupItem = ({ group }: GroupItemProps) => {
                         {member.email}
                       </p>
                     </div>
-                    <Badge variant="secondary" className="ml-auto">
+                    <Badge
+                      variant="secondary"
+                      className="ml-auto"
+                    >
                       Member
                     </Badge>
                   </div>

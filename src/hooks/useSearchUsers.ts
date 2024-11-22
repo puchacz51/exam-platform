@@ -8,6 +8,6 @@ export function useSearchUsers(query: string) {
     queryFn: () =>
       searchUsers({ query, searchBy: ['firstname', 'lastname', 'email'] }),
     enabled: query.length > 0,
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
   });
 }

@@ -16,7 +16,6 @@ const GroupsPage = async () => {
     isTeamsUser ? getUserTeamsGroups() : Promise.resolve({ data: [] }),
   ]);
 
-  console.log(ownedGroups, teamsGroups);
   return (
     <ReactQueryProvider>
       <div className="container mx-auto max-w-7xl space-y-8">
@@ -75,7 +74,13 @@ const GroupsPage = async () => {
                       Your Microsoft Teams synchronized groups.
                     </p>
                   </div>
-                  <GroupList groups={teamsGroups} />
+                  <GroupList
+                    groups={
+                      Array.isArray(teamsGroups)
+                        ? teamsGroups
+                        : teamsGroups.data
+                    }
+                  />
                 </div>
               </Card>
             </section>
