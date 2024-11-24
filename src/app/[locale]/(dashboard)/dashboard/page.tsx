@@ -1,16 +1,26 @@
 import { NextPage } from 'next';
 
 import { getUserGroups } from '@actions/groups/getGroup';
-
-import { DashboardHeader } from './components/DashboardHeader';
-import { RecentTests } from './components/RecentTests';
-import { AssignedTests } from './components/AssignedTests';
-import { GroupsList } from './components/GroupsList';
+import { getLatestUserTests } from '@actions/test/getLatestUserTests';
+import { auth } from '@/next-auth/auth';
+import { DashboardHeader } from '@/app/[locale]/(dashboard)/dashboard/components/DashboardHeader';
+import { RecentTests } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/RecentTests';
+import { AssignedTests } from '@/app/[locale]/(dashboard)/dashboard/components/AssignedTests';
+import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/GroupsList';
 
 const DashboardPage: NextPage = async () => {
-  const tests: string[] = [];
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user) {
+    return null;
+  }
+
+  const tests = user ? await getLatestUserTests(user.userID, 5) : [];
+  console.log(tests);
   const assignedTests: string[] = [];
   const groupsData = await getUserGroups(8);
+
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
 

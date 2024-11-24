@@ -12,10 +12,7 @@ export const testSchema = z.object({
     .min(1, 'Tytuł jest wymagany')
     .max(256, 'Tytuł musi mieć maksymalnie 256 znaków'),
   description: z.string().optional(),
-  categoryId: z
-    .string()
-    .uuid('Nieprawidłowy format ID kategorii')
-    .min(1, 'Kategoria jest wymagana'),
+
   settings: z.object({
     navigationMode: z.enum(navigationModeEnum.enumValues).default('FREE'),
     allowGoBack: z.boolean().default(true),

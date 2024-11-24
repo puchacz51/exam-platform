@@ -19,12 +19,6 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
     const test = await db.query.tests.findFirst({
       where: eq(testsTable.id, testId),
       with: {
-        category: {
-          columns: {
-            id: true,
-            name: true,
-          },
-        },
         questionGroups: {
           with: {
             questionOnQuestionGroup: {

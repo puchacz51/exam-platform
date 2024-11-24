@@ -18,7 +18,7 @@ export const sendConfirmationEmail = async ({
 }: SendConfirmationEmailProps) => {
   try {
     const token = await generateEmailVerificationToken(email);
-    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/confirm-email?token=${token}`;
+    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
     const emailMessages = await getEmailMessages(locale);
 
