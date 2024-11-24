@@ -1,6 +1,5 @@
-import { Bookmark, BookOpen, Calendar } from 'lucide-react';
+import { BookOpen, Calendar } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardDescription,
@@ -11,7 +10,6 @@ import {
 interface TestHeaderProps {
   title: string;
   description: string;
-  category?: { name: string };
   createdAt: Date;
   questionsCount?: number;
 }
@@ -19,7 +17,6 @@ interface TestHeaderProps {
 export const TestHeader = ({
   title,
   description,
-  category,
   createdAt,
   questionsCount,
 }: TestHeaderProps) => (
@@ -46,15 +43,6 @@ export const TestHeader = ({
             )}
           </div>
         </div>
-        {category && (
-          <Badge
-            variant="secondary"
-            className="flex items-center gap-1 px-3 py-1"
-          >
-            <Bookmark className="h-3 w-3" />
-            {category.name}
-          </Badge>
-        )}
       </div>
     </CardHeader>
   </Card>

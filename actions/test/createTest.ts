@@ -34,7 +34,6 @@ async function createTest(
       .values({
         title: test.title,
         description: test.description || '',
-        categoryId: test.categoryId,
         creatorId: userId,
         createdAt: new Date(),
       })

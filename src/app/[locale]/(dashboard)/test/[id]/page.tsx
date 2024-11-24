@@ -67,7 +67,6 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
         <TestHeader
           title={test.title}
           description={test.description || ''}
-          category={test.category}
           createdAt={test.createdAt}
           questionsCount={test.questionGroups.length}
         />
