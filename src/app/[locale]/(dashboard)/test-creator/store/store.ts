@@ -69,7 +69,6 @@ const DEFAULT_PROPS: TestProps = {
   test: {
     title: 'Sample Test',
     description: 'A test to assess knowledge on various subjects.',
-    categoryId: '098b030e-0cbd-492a-a201-170e96c87a52',
     settings: {
       navigationMode: 'ANSWER_LOCK',
       allowGoBack: true,

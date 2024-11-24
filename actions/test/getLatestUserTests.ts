@@ -4,6 +4,7 @@ import { desc, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
+import { TestWithCategory } from '@/types/test/testWithCategory';
 
 export async function getLatestUserTests(userId: string, limit: number = 5) {
   try {
@@ -53,7 +54,7 @@ export async function getLatestUserTests(userId: string, limit: number = 5) {
         createdAt: test.createdAt,
         questionCount,
         categories,
-      };
+      } as TestWithCategory;
     });
   } catch (error) {
     console.error('Error fetching user tests:', error);

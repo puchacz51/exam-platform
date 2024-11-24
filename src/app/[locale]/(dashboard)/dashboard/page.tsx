@@ -17,7 +17,6 @@ const DashboardPage: NextPage = async () => {
   }
 
   const tests = user ? await getLatestUserTests(user.userID, 5) : [];
-  console.log(tests);
   const assignedTests: string[] = [];
   const groupsData = await getUserGroups(8);
 

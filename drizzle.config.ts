@@ -8,7 +8,7 @@ export const configOptions: Config = {
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {
-    url: 'postgresql://neondb_owner:gkOr0sTV7mQN@ep-jolly-base-a2m9b8hz.eu-central-1.aws.neon.tech/neondb?sslmode=require',
+    url: process.env.DATABASE_URL || '',
     // user: process.env.DATABASE_USER || '',
     // password: process.env.DATABASE_PASSWORD || '',
     // database: process.env.DATABASE_NAME || '',
