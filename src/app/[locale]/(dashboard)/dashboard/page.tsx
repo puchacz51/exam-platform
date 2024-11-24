@@ -40,7 +40,6 @@ const DashboardPage: NextPage = async () => {
   const tests = user ? await getLatestUserTests(5) : [];
   const assignedTests: string[] = [];
   const groupsData = await getUserGroups(8);
-
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
 

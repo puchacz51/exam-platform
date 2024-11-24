@@ -1,7 +1,6 @@
-import Link from 'next/link';
-
 import { TestWithCategory } from '@/types/test/testWithCategory';
 import { formatDate } from '@/lib/utils';
+import { Link } from '@/i18n/routing';
 
 interface TestItemProps {
   test: TestWithCategory;
@@ -10,7 +9,7 @@ interface TestItemProps {
 export const TestItem = ({ test }: TestItemProps) => {
   return (
     <Link
-      href={`/test/${test.id}`}
+      href={{ pathname: '/test/[id]', params: { id: test.id } }}
       className="block"
     >
       <div className="rounded-lg border p-4 transition-colors hover:bg-muted/50">
