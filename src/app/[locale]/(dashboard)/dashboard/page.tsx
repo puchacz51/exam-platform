@@ -13,8 +13,23 @@ import { DashboardHeader } from '@/app/[locale]/(dashboard)/dashboard/components
 import { RecentTests } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/RecentTests';
 import { AssignedTests } from '@/app/[locale]/(dashboard)/dashboard/components/AssignedTests';
 import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/GroupsList';
+import { getLatestUserTests } from '@actions/test/getLatestUserTests';
+import { auth } from '@/next-auth/auth';
+import { DashboardHeader } from '@/app/[locale]/(dashboard)/dashboard/components/DashboardHeader';
+import { RecentTests } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/RecentTests';
+import { AssignedTests } from '@/app/[locale]/(dashboard)/dashboard/components/AssignedTests';
+import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/GroupsList';
 
 const DashboardPage: NextPage = async () => {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user) {
+    return null;
+  }
+
+  const tests = user ? await getLatestUserTests(user.userID, 5) : [];
+  console.log(tests);
   const session = await auth();
   const user = session?.user;
 
