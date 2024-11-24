@@ -58,7 +58,6 @@ const TestCreatorQuestionsAddForm: FC<TestCreatorQuestionsFormProps> = ({
 
     addQuestion(questionWithId);
     form.reset({ ...initialQuestion });
-  
   };
 
   return (
