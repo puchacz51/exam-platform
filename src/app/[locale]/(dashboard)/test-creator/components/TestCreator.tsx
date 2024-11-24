@@ -10,6 +10,7 @@ import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/
 import { AiQuestionGenerator } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/AiQuestionGenerator';
 import TestCreatorQuestionsAddForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsAddForm';
 import TestCreatorQuestionsEditForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsEditForm';
+import { QuestionEditModal } from './modals/QuestionEditModal';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
@@ -25,7 +26,6 @@ const TestCreator: FC = () => {
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
-  const currentQuestion = useTestContext((state) => state.currentQuestion);
 
   const hasQuestions = questionGroups.some(
     (group) => !!group?.questions?.length
@@ -54,14 +54,6 @@ const TestCreator: FC = () => {
                   key={group.id}
                   className="flex w-full flex-col space-y-8"
                 >
-                  {currentQuestion && (
-                    <div>
-                      <h2 className="mb-4 text-2xl font-bold text-blue-900">
-                        Edit Question
-                      </h2>
-                      <TestCreatorQuestionsEditForm />
-                    </div>
-                  )}
                   <div>
                     <div className="mb-4 flex items-center justify-between">
                       <h2 className="text-2xl font-bold text-gray-900">
@@ -89,6 +81,8 @@ const TestCreator: FC = () => {
           )}
         </div>
       )}
+
+      <QuestionEditModal />
     </div>
   );
 };

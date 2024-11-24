@@ -1,18 +1,16 @@
-import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { ToastCustomProvider } from '@/components/ui/toaster';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <ToastCustomProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </ToastCustomProvider>
+        <ReactQueryProvider>
+          <ToastCustomProvider>{children}</ToastCustomProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

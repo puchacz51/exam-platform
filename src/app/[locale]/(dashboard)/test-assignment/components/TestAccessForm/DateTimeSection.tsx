@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
-import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assigment/schema/TestAccessSchema';
+import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
 
 export const DateTimeSection = () => {
   const { control, getValues, setValue } =

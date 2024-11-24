@@ -1,15 +1,11 @@
 import { ReactNode } from 'react';
 
-import { Inter } from 'next/font/google';
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 
-import { cn } from '@/lib/utils';
 import { auth } from '@/next-auth/auth';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
 import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
-
-const inter = Inter({ subsets: ['latin'] });
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -18,15 +14,15 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: Readonly<RootLayoutProps>) => {
   const session = await auth();
   return (
-    <html lang="en">
-      <body className={cn(inter.className, 'flex min-h-screen flex-col')}>
-        <SessionProvider session={session}>
+    <>
+      <SessionProvider session={session}>
+        <div className="flex min-h-screen flex-col">
           <DashboardHeader />
-          {children}
+          <main className="flex-grow">{children}</main>
           <DashboardFooter />
-        </SessionProvider>
-      </body>
-    </html>
+        </div>
+      </SessionProvider>
+    </>
   );
 };
 

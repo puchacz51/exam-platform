@@ -1,24 +1,22 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { eq } from 'drizzle-orm';
-import { asc } from 'drizzle-orm';
+import { eq, asc } from 'drizzle-orm';
 
+import { auth } from '@/next-auth/auth';
+import db from '@/lib/db';
 import { testsTable } from '@schema/test';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
-import db from '@/lib/db';
 import { CompleteTest } from '@/types/test/test';
 
-interface GetTestOptions {
-  includeAnswers?: boolean;
-  revalidate?: boolean;
-}
-export async function getTest(testId: string, options: GetTestOptions = {}) {
+export const getAllUserTests = async () => {
   try {
-    const { includeAnswers = true, revalidate = false } = options;
+    const session = await auth();
+    if (!session?.user?.userID) {
+      throw new Error('Unauthorized');
+    }
 
-    const test = await db.query.tests.findFirst({
-      where: eq(testsTable.id, testId),
+    const tests = await db.query.tests.findMany({
+      where: eq(testsTable.creatorId, session.user.userID),
       with: {
         questionGroups: {
           with: {
@@ -34,15 +32,6 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
                     isPublic: true,
                   },
                   with: {
-                    ...(includeAnswers && {
-                      answers: {
-                        columns: {
-                          id: true,
-                          text: true,
-                          order: true,
-                        },
-                      },
-                    }),
                     orderItems: {
                       columns: {
                         id: true,
@@ -68,20 +57,17 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
       },
     });
 
-    if (test) {
-      test.questionGroups = test.questionGroups.map((group) => ({
+    const processedTests = tests.map((test) => ({
+      ...test,
+      questionGroups: test.questionGroups.map((group) => ({
         ...group,
         questions: group.questionOnQuestionGroup.map((qog) => qog.question),
-      }));
-    }
+      })),
+    }));
 
-    if (revalidate) {
-      revalidatePath(`/test/${testId}`);
-    }
-
-    return test as unknown as CompleteTest;
+    return processedTests as unknown as CompleteTest[];
   } catch (error) {
-    console.error('Error fetching test:', error);
-    throw new Error('Failed to fetch test data');
+    console.error('Error fetching tests:', error);
+    throw new Error('Failed to fetch tests data');
   }
-}
+};

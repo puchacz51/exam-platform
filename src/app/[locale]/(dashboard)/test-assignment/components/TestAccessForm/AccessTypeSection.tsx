@@ -14,9 +14,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assigment/schema/TestAccessSchema';
+import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
 import { Group } from '@/types/group/group';
-import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assigment/components/TestAccessForm/MultiGroupSelection';
+import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/MultiGroupSelection';
 
 interface AccessTypeSectionProps {
   initialGroups: Group[];

@@ -15,8 +15,6 @@ declare global {
 let db: PostgresJsDatabase<typeof schema>;
 
 if (env.NODE_ENV === 'production') {
-  console.log('Using DATABASE_URL_DATABASE_URL');
-  console.log('DATABASE_URL_DATABASE_URL', DATABASE_URL_DATABASE_URL);
   db = drizzle(postgres(DATABASE_URL_DATABASE_URL), { schema });
 } else {
   if (!global.db) global.db = drizzle(postgres(DATABASE_URL), { schema });

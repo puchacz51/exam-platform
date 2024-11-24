@@ -34,15 +34,8 @@ const MatchingQuestionForm = () => {
     }
   }, []);
 
-  const onSubmit = (data: MatchingQuestion) => {
-    console.log(data);
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <>
       <FormField
         control={control}
         name="text"
@@ -62,7 +55,6 @@ const MatchingQuestionForm = () => {
           </FormItem>
         )}
       />
-
       <Card className="border-t-4 border-t-blue-500">
         <CardContent className="pt-6">
           <div className="mb-6">
@@ -170,7 +162,7 @@ const MatchingQuestionForm = () => {
           </div>
         </CardContent>
       </Card>
-    </form>
+    </>
   );
 };
 

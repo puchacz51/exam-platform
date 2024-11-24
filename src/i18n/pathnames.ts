@@ -40,9 +40,19 @@ const dashboardPathnames = {
     en: '/groups',
     pl: '/grupy',
   },
-  '/test-assigment': {
-    en: '/test-assigment',
+  '/test-assignment': {
+    en: '/test-assignment',
     pl: '/przypisanie-testu',
+  },
+  '/test': '/test',
+  '/test/[id]': '/test/[id]',
+  '/test/[id]/assign': {
+    en: '/test/[id]/assign',
+    pl: '/test/[id]/przypisanie',
+  },
+  '/test-assignment/list': {
+    en: '/test-assignment/list',
+    pl: '/przypisanie-testu/lista',
   },
 } as const;
 

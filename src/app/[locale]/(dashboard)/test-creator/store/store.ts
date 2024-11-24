@@ -138,7 +138,6 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         return {
           ...prev,
           questionGroups: [...prev.questionGroups, newGroup],
-          currentQuestionGroupId: newGroup.id,
         };
       }),
 
@@ -176,7 +175,6 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
               ? { ...g, questions: [...g.questions, question] }
               : g
           ),
-          currentQuestion: question,
         };
       }),
 

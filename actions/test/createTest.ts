@@ -85,7 +85,7 @@ export async function createTestAction(
 ) {
   try {
     const session = await auth();
-    console.log('session', session);
+
     if (!session?.user?.userID) {
       return {
         success: false,

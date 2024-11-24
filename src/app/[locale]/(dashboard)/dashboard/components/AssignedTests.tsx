@@ -22,7 +22,7 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
           asChild
         >
           <Link
-            href="/"
+            href="/test-assignment/list"
             className="gap-2"
           >
             View All <ChevronRight className="h-4 w-4" />
@@ -46,7 +46,7 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
         asChild
       >
         <Link
-          href="/test-assigment"
+          href="/test-assignment"
           className="gap-2"
         >
           View All Assigned <ChevronRight className="h-4 w-4" />

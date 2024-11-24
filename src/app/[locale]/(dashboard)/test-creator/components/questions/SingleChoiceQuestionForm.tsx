@@ -46,15 +46,8 @@ export const SingleChoiceQuestionForm = () => {
     }
   }, []);
 
-  const onSubmit = (data: OpenQuestion) => {
-    console.log(data);
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <>
       <FormField
         control={control}
         name="text"
@@ -197,7 +190,7 @@ export const SingleChoiceQuestionForm = () => {
           )}
         />
       )}
-    </form>
+    </>
   );
 };
 

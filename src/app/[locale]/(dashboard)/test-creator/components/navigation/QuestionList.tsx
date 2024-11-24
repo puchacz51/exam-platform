@@ -51,14 +51,6 @@ const QuestionList: FC = () => {
           ))
         )}
       </div>
-      <Button
-        onClick={handleAddNewQuestion}
-        variant="outline"
-        className="flex items-center space-x-2 self-center"
-      >
-        <Plus className="h-4 w-4" />
-        <span>Dodaj pytanie</span>
-      </Button>
     </div>
   );
 };

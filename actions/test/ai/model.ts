@@ -67,7 +67,6 @@ export async function generateQuestions(options: AiGeneratorFormData) {
     `;
 
     const result = await model.generateContent(prompt);
-    console.log('Generated questions:', result.response.text());
     const questions: Question[] = JSON.parse(result.response.text());
 
     const nanoid = customAlphabet('1234567890abcdef', 24);

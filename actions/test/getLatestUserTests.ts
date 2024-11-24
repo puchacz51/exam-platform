@@ -5,8 +5,15 @@ import { desc, eq } from 'drizzle-orm';
 import db from '@/lib/db';
 import { testsTable } from '@schema/test';
 import { TestWithCategory } from '@/types/test/testWithCategory';
+import { auth } from '@/next-auth/auth';
 
-export async function getLatestUserTests(userId: string, limit: number = 5) {
+export async function getLatestUserTests(limit: number = 5) {
+  const session = await auth();
+  if (!session?.user?.userID) {
+    throw new Error('Unauthorized');
+  }
+
+  const userId = session.user.userID;
   try {
     const tests = await db.query.tests.findMany({
       where: eq(testsTable.creatorId, userId),
