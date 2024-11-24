@@ -2,13 +2,12 @@ import React, { FC, HTMLAttributes } from 'react';
 
 import { randomBytes } from 'crypto';
 
-import { Form, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
   Tooltip,
@@ -59,7 +58,6 @@ const TestCreatorQuestionsAddForm: FC<TestCreatorQuestionsFormProps> = ({
 
     addQuestion(questionWithId);
     form.reset({ ...initialQuestion });
-  
   };
 
   return (

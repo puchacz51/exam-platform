@@ -1,22 +1,29 @@
 import React from 'react';
+
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useTestContext } from '../../store/storeContext';
-import TestCreatorQuestionsEditForm from '../TestCreatorQuestionsEditForm';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import TestCreatorQuestionsEditForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsEditForm';
 
 export const QuestionEditModal = () => {
   const currentQuestion = useTestContext((state) => state.currentQuestion);
-  const setCurrentQuestion = useTestContext((state) => state.setCurrentQuestion);
+  const setCurrentQuestion = useTestContext(
+    (state) => state.setCurrentQuestion
+  );
 
   return (
-    <Dialog open={!!currentQuestion} onOpenChange={() => setCurrentQuestion(null)}>
+    <Dialog
+      open={!!currentQuestion}
+      onOpenChange={() => setCurrentQuestion(null)}
+    >
       <DialogContent className="flex h-[90vh] max-w-4xl flex-col p-0">
-        <DialogHeader className="flex-shrink-0 px-6 py-4 border-b">
+        <DialogHeader className="flex-shrink-0 border-b px-6 py-4">
           <DialogTitle>Edit Question</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-hidden">

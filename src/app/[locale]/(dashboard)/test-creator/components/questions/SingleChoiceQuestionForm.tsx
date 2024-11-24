@@ -25,7 +25,6 @@ export const SingleChoiceQuestionForm = () => {
     control,
     setValue,
     getValues,
-    handleSubmit,
     formState: { errors },
   } = form;
   const { fields, append, remove } = useFieldArray({

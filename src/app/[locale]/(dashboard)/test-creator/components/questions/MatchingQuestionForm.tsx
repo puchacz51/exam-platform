@@ -20,7 +20,7 @@ import { generateId } from '@/utils/generateId';
 
 const MatchingQuestionForm = () => {
   const form = useFormContext<MatchingQuestion>();
-  const { control, handleSubmit } = form;
+  const { control } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,

@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { ListX, Plus } from 'lucide-react';
+import { ListX } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 import QuestionBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
@@ -12,17 +11,12 @@ const QuestionList: FC = () => {
     currentQuestionGroupId,
     isQuestionGroupConfiguratorOpen,
     questionGroups,
-    setIsTestConfiguratorOpen,
   } = useTestContext((state) => state);
 
   const currentQuestionGroup = questionGroups.find(
     (group) => group.id === currentQuestionGroupId
   );
   const hasQuestions = (currentQuestionGroup?.questions?.length || 0) > 0;
-
-  const handleAddNewQuestion = () => {
-    setIsTestConfiguratorOpen(true);
-  };
 
   return (
     <div

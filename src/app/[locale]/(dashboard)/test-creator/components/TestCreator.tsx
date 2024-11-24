@@ -9,8 +9,7 @@ import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/naviga
 import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
 import { AiQuestionGenerator } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/AiQuestionGenerator';
 import TestCreatorQuestionsAddForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsAddForm';
-import TestCreatorQuestionsEditForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsEditForm';
-import { QuestionEditModal } from './modals/QuestionEditModal';
+import { QuestionEditModal } from '@/app/[locale]/(dashboard)/test-creator/components/modals/QuestionEditModal';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
