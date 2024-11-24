@@ -7,6 +7,12 @@ import { DashboardHeader } from '@/app/[locale]/(dashboard)/dashboard/components
 import { RecentTests } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/RecentTests';
 import { AssignedTests } from '@/app/[locale]/(dashboard)/dashboard/components/AssignedTests';
 import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/GroupsList';
+import { getLatestUserTests } from '@actions/test/getLatestUserTests';
+import { auth } from '@/next-auth/auth';
+import { DashboardHeader } from '@/app/[locale]/(dashboard)/dashboard/components/DashboardHeader';
+import { RecentTests } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/RecentTests';
+import { AssignedTests } from '@/app/[locale]/(dashboard)/dashboard/components/AssignedTests';
+import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/GroupsList';
 
 const DashboardPage: NextPage = async () => {
   const session = await auth();
@@ -19,6 +25,7 @@ const DashboardPage: NextPage = async () => {
   const tests = user ? await getLatestUserTests(user.userID, 5) : [];
   const assignedTests: string[] = [];
   const groupsData = await getUserGroups(8);
+
 
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
