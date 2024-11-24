@@ -1,7 +1,7 @@
 import { Check, X } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SelectTestSettings } from '@schema/testSettings';
+import { type SelectTestSettings } from '@schema/testSettings';
 
 interface TestDetailsProps {
   settings: SelectTestSettings;
@@ -39,14 +39,6 @@ export const TestDetails = ({ settings }: TestDetailsProps) => {
         {
           label: 'Allow Partial Points',
           value: <BooleanIndicator value={!!settings.allowPartialPoints} />,
-        },
-        {
-          label: 'Minimum Points Per Question',
-          value: settings.minimumPointsPerQuestion,
-        },
-        {
-          label: 'Negative Points Percentage',
-          value: `${settings.negativePointsPercentage}%`,
         },
         { label: 'Rounding Precision', value: settings.roundingPrecision },
       ],

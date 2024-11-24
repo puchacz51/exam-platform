@@ -20,7 +20,6 @@ export type CompleteQuestionGroup = SelectQuestionGroup & {
 };
 
 export type CompleteTest = SelectTest & {
-  category?: SelectCategory;
   settings: SelectTestSettings;
   questionGroups: CompleteQuestionGroup[];
 };

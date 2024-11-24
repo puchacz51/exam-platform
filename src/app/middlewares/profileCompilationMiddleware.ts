@@ -23,9 +23,7 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
   const url = context.req.nextUrl.clone();
 
   url.pathname = completeProfileUrl;
-  console.log('Redirecting to complete profile page');
-  console.log(completeProfileUrl);
+
   return { ...context, res: NextResponse.redirect(url) };
 
-  return context;
 };

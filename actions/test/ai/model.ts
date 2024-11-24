@@ -3,8 +3,8 @@
 import { GenerationConfig, GoogleGenerativeAI } from '@google/generative-ai';
 import { customAlphabet } from 'nanoid';
 import dotenv from 'dotenv';
-import { getQuestionSchemas } from '@actions/test/ai/exampleQuestionJson';
 
+import { getQuestionSchemas } from '@actions/test/ai/exampleQuestionJson';
 import { questionTypeSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/questionTypeSchema';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 import { Question } from '@/types/test-creator/question';
@@ -20,7 +20,7 @@ const generation_config: GenerationConfig = {
   responseMimeType: 'application/json',
 };
 const model = genAI.getGenerativeModel({
-  model: 'gemini-1.5-flash',
+  model: 'gemini-1.5-flash-8b',
   generationConfig: generation_config,
 });
 
@@ -67,7 +67,6 @@ export async function generateQuestions(options: AiGeneratorFormData) {
     `;
 
     const result = await model.generateContent(prompt);
-    console.log('Generated questions:', result.response.text());
     const questions: Question[] = JSON.parse(result.response.text());
 
     const nanoid = customAlphabet('1234567890abcdef', 24);

@@ -7,9 +7,9 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
+
 import { testSettingsTable } from '@schema/testSettings';
 import { usersTable } from '@schema/users';
-import { categoriesTable } from '@schema/categories';
 import { questionGroupsTable } from '@schema/questionGroups';
 
 export const accessTypeEnum = pgEnum('access_type', [
@@ -28,9 +28,6 @@ export const testsTable = pgTable('tests', {
   creatorId: uuid('creator_id')
     .references(() => usersTable.id)
     .notNull(),
-  categoryId: uuid('category_id')
-    .references(() => categoriesTable.id)
-    .notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -39,10 +36,7 @@ export const testsRelations = relations(testsTable, ({ one, many }) => ({
     fields: [testsTable.creatorId],
     references: [usersTable.id],
   }),
-  category: one(categoriesTable, {
-    fields: [testsTable.categoryId],
-    references: [categoriesTable.id],
-  }),
+
   questionGroups: many(questionGroupsTable),
   settings: one(testSettingsTable, {
     fields: [testsTable.id],

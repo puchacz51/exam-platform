@@ -29,39 +29,64 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="relative h-8 w-8 rounded-full"
+              className="relative h-10 w-10 rounded-full transition-colors hover:bg-accent hover:text-accent-foreground"
             >
-              <Avatar className="h-8 w-8">
+              <Avatar className="h-9 w-9">
                 <AvatarImage
                   src={session?.user?.image || ''}
                   alt={session?.user?.name || ''}
+                  className="object-cover"
                 />
-                <AvatarFallback>{session?.user?.name?.[0]}</AvatarFallback>
+                <AvatarFallback className="text-sm font-medium">
+                  {session?.user?.name?.[0]}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="max-w-11"
+            className="w-56 shadow-lg"
           >
-            <DropdownMenuLabel className="line-clamp-1 max-w-full">
+            <DropdownMenuLabel className="line-clamp-1 px-2 py-1.5 text-sm font-medium">
               {session?.user?.firstname} {session?.user?.lastname}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/profile">Profil</Link>
+            <DropdownMenuItem
+              asChild
+              className="cursor-pointer hover:bg-accent focus:bg-accent"
+            >
+              <Link
+                href="/profile"
+                className="w-full"
+              >
+                Profil
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/settings">Ustawienia</Link>
+            <DropdownMenuItem
+              asChild
+              className="cursor-pointer hover:bg-accent focus:bg-accent"
+            >
+              <Link
+                href="/settings"
+                className="w-full"
+              >
+                Ustawienia
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem
+              onClick={() => signOut()}
+              className="cursor-pointer text-red-500 hover:bg-red-50 hover:text-red-600 focus:bg-red-50"
+            >
               Wyloguj się
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button asChild>
+        <Button
+          asChild
+          className="transition-opacity hover:opacity-90"
+        >
           <Link href="/login">Zaloguj się</Link>
         </Button>
       )}

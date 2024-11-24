@@ -60,4 +60,4 @@ export type Question =
   | NumericQuestion
   | MatchingQuestion
   | BooleanGroupQuestion
-  | NumericGroupQuestion
+  | NumericGroupQuestion;

@@ -32,6 +32,7 @@ import BooleanGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/co
 import NumericGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericGroupQuestionForm';
 import { cn } from '@/lib/utils';
 import { QuestionType } from '@/types/test-creator/answers';
+import { Button } from '@/components/ui/button';
 
 interface TestCreatorQuestionsFormProps
   extends HTMLAttributes<HTMLFormElement> {
@@ -76,7 +77,6 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
 
   return (
     <form
-      {...props}
       onSubmit={handleSubmit(props.handleSubmit)}
       className={cn('space-y-6', className)}
     >
@@ -212,6 +212,13 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
           <SelectedQuestionForm />
         </div>
       )}
+
+      <Button
+        type="submit"
+        className="w-full bg-blue-500 text-white hover:bg-blue-600"
+      >
+        Create Question
+      </Button>
     </form>
   );
 };
