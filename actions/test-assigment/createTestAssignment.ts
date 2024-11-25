@@ -8,13 +8,15 @@ import { testAccessGroupsTable } from '@schema/testAccessGroups';
 
 async function createTestAssignment(
   testId: string,
-  data: TestAccessFormValues
+  data: TestAccessFormValues,
+  userId: string
 ) {
   return await db.transaction(async (tx) => {
     const [createdConfig] = await tx
       .insert(testAccessConfigTable)
       .values({
         testId,
+        assignedBy: userId,
         accessType: data.accessType,
         accessCode: data.accessCode,
         startsAt: data.startsAt,
@@ -53,8 +55,8 @@ export async function createTestAssignmentAction(
         error: 'Unauthorized access. Please log in.',
       };
     }
-
-    const result = await createTestAssignment(testId, data);
+    const userId = session.user.userID;
+    const result = await createTestAssignment(testId, data, userId);
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating test assignment:', error);

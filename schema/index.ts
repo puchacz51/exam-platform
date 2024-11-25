@@ -25,9 +25,30 @@ import {
 import { groupsRelations, groupsTable } from '@schema/groups';
 import { userGroupsRelations, userGroupsTable } from '@schema/userGroups';
 import {
-  testAccessGroupsTable,
   testAccessGroupsRelations,
+  testAccessGroupsTable,
 } from '@schema/testAccessGroups';
+import {
+  attemptAnswersRelations,
+  attemptAnswersTable,
+  testAttemptsRelations,
+  testAttemptsTable,
+} from '@schema/attemptAnswers';
+import {
+  attemptAnswerRelations,
+  booleanAnswerRelations,
+  booleanAnswersTable,
+  choiceAnswerRelations,
+  choiceAnswersTable,
+  matchingAnswerRelations,
+  matchingAnswersTable,
+  numericAnswerRelations,
+  numericAnswersTable,
+  openAnswerRelations,
+  openAnswersTable,
+  orderAnswerRelations,
+  orderAnswersTable,
+} from '@schema/attemptAnswerDetails';
 
 export const schema = {
   users: usersTable,
@@ -45,6 +66,14 @@ export const schema = {
   groups: groupsTable,
   userGroups: userGroupsTable,
   testAccessGroups: testAccessGroupsTable,
+  testAttempts: testAttemptsTable,
+  attemptAnswers: attemptAnswersTable,
+  openAnswers: openAnswersTable,
+  choiceAnswers: choiceAnswersTable,
+  matchingAnswers: matchingAnswersTable,
+  orderAnswers: orderAnswersTable,
+  numericAnswers: numericAnswersTable,
+  booleanAnswers: booleanAnswersTable,
   usersRelations,
   testsRelations,
   matchingPairsRelations,
@@ -59,4 +88,13 @@ export const schema = {
   groupsRelations,
   userGroupsRelations,
   testAccessGroupsRelations,
+  testAttemptsRelations,
+  attemptAnswerRelations,
+  attemptAnswersRelations,
+  openAnswerRelations,
+  choiceAnswerRelations,
+  matchingAnswerRelations,
+  orderAnswerRelations,
+  numericAnswerRelations,
+  booleanAnswerRelations,
 };

@@ -1,18 +1,21 @@
+import { eq } from 'drizzle-orm';
+
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/TestAccess';
 import { testsTable } from '@schema/test';
-import { eq } from 'drizzle-orm';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 import { groupsTable } from '@schema/groups';
 import { auth } from '@/next-auth/auth';
 
-export async function getTestAssignments() {
+export async function getTestOwnerAssignments() {
   const sessions = await auth();
 
   if (!sessions?.user?.userID) {
     throw new Error('Unauthorized');
   }
 
+  const userId = sessions.user.userID;
+  console.log(userId);
   const assignments = await db
     .select({
       testId: testsTable.id,
@@ -22,6 +25,7 @@ export async function getTestAssignments() {
       accessCode: testAccessConfigTable.accessCode,
       groupId: groupsTable.id,
       groupName: groupsTable.name,
+      assignedBy: testAccessConfigTable.assignedBy,
     })
     .from(testAccessConfigTable)
     .innerJoin(testsTable, eq(testAccessConfigTable.testId, testsTable.id))
@@ -29,7 +33,8 @@ export async function getTestAssignments() {
       testAccessGroupsTable,
       eq(testAccessGroupsTable.testAccessConfigId, testAccessConfigTable.id)
     )
-    .leftJoin(groupsTable, eq(testAccessGroupsTable.groupId, groupsTable.id));
+    .leftJoin(groupsTable, eq(testAccessGroupsTable.groupId, groupsTable.id))
+    .where(eq(testAccessConfigTable.assignedBy, userId));
 
   return assignments;
 }

@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getTestAssignments } from '@actions/test-assigment/getTestAssignments';
+import { getTestOwnerAssignments } from '@actions/test-assigment/getTestOwnerAssignments';
 
-export default async function TestAssignmentListPage() {
-  const assignments = await getTestAssignments();
+const TestAssignmentListPage = async () => {
+  const assignments = await getTestOwnerAssignments();
 
   return (
-    <div className="container mx-auto py-6">
+      <div className="container mx-auto py-6">
       <h1 className="mb-6 text-2xl font-bold">Test Assignments</h1>
       <div className="grid gap-4">
         {assignments.map((assignment) => (
@@ -43,4 +43,6 @@ export default async function TestAssignmentListPage() {
       </div>
     </div>
   );
-}
+};
+
+export default TestAssignmentListPage;

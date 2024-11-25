@@ -1,6 +1,6 @@
 'use server';
 
-import { eq, asc } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
