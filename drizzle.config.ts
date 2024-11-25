@@ -8,12 +8,8 @@ export const configOptions: Config = {
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {
-    user: process.env.DATABASE_USER || '',
-    password: process.env.DATABASE_PASSWORD || '',
-    database: process.env.DATABASE_NAME || '',
-    host: process.env.DATABASE_HOST || '',
-    port: parseInt(process.env.DATABASE_PORT || '5432', 10),
-    ssl: false,
+    url: process.env.DATABASE_URL || '',
+
   },
 };
 

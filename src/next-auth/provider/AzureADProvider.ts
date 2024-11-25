@@ -8,7 +8,11 @@ export const AzureADProvider = AzureAD({
   clientId: process.env.AZURE_AD_CLIENT_ID,
   clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
   tenantId: process.env.AZURE_AD_TENANT_ID,
-  authorization: { params: { scope: 'openid profile email offline_access' } },
+  authorization: {
+    params: {
+      scope: 'openid profile email offline_access Team.ReadBasic.All',
+    },
+  },
   profile: async (profile, tokens) => {
     const email = profile.email ?? profile.preferred_username;
     const [existingUser] = await db

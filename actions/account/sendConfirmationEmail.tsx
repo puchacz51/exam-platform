@@ -1,8 +1,8 @@
 import { render } from '@react-email/render';
+
 import EmailTemplate from '@emial-templates/ConfirmationEmailTemplate';
 import { generateEmailVerificationToken } from '@actions/account/generateEmailVerificationToken';
 import { SelectUser } from '@schema/users';
-
 import { mailTransporter } from '@/lib/email/tranasporter';
 import { getEmailMessages } from '@/lib/email/getEmailMessages';
 
@@ -18,7 +18,7 @@ export const sendConfirmationEmail = async ({
 }: SendConfirmationEmailProps) => {
   try {
     const token = await generateEmailVerificationToken(email);
-    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/confirm-email?token=${token}`;
+    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
     const emailMessages = await getEmailMessages(locale);
 

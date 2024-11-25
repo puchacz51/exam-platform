@@ -1,33 +1,28 @@
-import { Inter } from 'next/font/google';
+import { ReactNode } from 'react';
+
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 
-import { cn } from '@/lib/utils';
 import { auth } from '@/next-auth/auth';
-
-import DashboardHeader from './components/DashboardHeader';
-// import DashboardNavbar from './components/DashboardNavbar'
-import DashboardFooter from './components/DashboardFooter';
-
-const inter = Inter({ subsets: ['latin'] });
+import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
+import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const RootLayout = async ({ children }: Readonly<RootLayoutProps>) => {
   const session = await auth();
   return (
-    <html lang="en">
-      <body className={cn(inter.className, 'flex min-h-screen flex-col')}>
-        <SessionProvider session={session}>
+    <>
+      <SessionProvider session={session}>
+        <div className="flex min-h-screen flex-col">
           <DashboardHeader />
-          {/* <DashboardNavbar /> */}
-          {children}
+          <main className="flex-grow">{children}</main>
           <DashboardFooter />
-        </SessionProvider>
-      </body>
-    </html>
+        </div>
+      </SessionProvider>
+    </>
   );
 };
 

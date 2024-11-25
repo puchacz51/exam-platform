@@ -49,7 +49,8 @@ export const BooleanQuestionForm = () => {
                   <FormLabel>Poprawna odpowiedź</FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      defaultValue={String(field.value)}
+                      onValueChange={(value) => field.onChange(value === 'true')}
                       className="flex space-x-4"
                     >
                       <div className="flex items-center space-x-2">

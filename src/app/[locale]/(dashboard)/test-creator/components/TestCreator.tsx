@@ -9,7 +9,7 @@ import BulletBar from '@/app/[locale]/(dashboard)/test-creator/components/naviga
 import TestCreatorForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorTestForm';
 import { AiQuestionGenerator } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/AiQuestionGenerator';
 import TestCreatorQuestionsAddForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsAddForm';
-import TestCreatorQuestionsEditForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsEditForm';
+import { QuestionEditModal } from '@/app/[locale]/(dashboard)/test-creator/components/modals/QuestionEditModal';
 
 const TestCreator: FC = () => {
   const isInitialConfig = useTestContext(
@@ -25,8 +25,6 @@ const TestCreator: FC = () => {
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
-  const currentQuestion = useTestContext((state) => state.currentQuestion);
-  const isAiGeneratorOpen = useTestContext((state) => state.isAiGeneratorOpen);
 
   const hasQuestions = questionGroups.some(
     (group) => !!group?.questions?.length
@@ -55,31 +53,19 @@ const TestCreator: FC = () => {
                   key={group.id}
                   className="flex w-full flex-col space-y-8"
                 >
-                  {currentQuestion && (
-                    <div>
-                      <h2 className="mb-4 text-2xl font-bold text-blue-900">
-                        Edit Question
-                      </h2>
-                      <TestCreatorQuestionsEditForm />
-                    </div>
-                  )}
-                  {isAiGeneratorOpen && (
-                    <div>
-                      <h2 className="mb-4 text-2xl font-bold text-slate-900">
-                        AI Generator
-                      </h2>
-                      <AiQuestionGenerator />
-                    </div>
-                  )}
                   <div>
-                    <h2 className="mb-4 text-2xl font-bold text-gray-900">
-                      Add New Question
-                    </h2>
+                    <div className="mb-4 flex items-center justify-between">
+                      <h2 className="text-2xl font-bold text-gray-900">
+                        Add New Question
+                      </h2>
+                    </div>
                     <TestCreatorQuestionsAddForm />
                   </div>
                 </div>
               )
           )}
+
+          <AiQuestionGenerator />
 
           {hasQuestions && (
             <div className="flex justify-end border-t pt-8">
@@ -94,6 +80,8 @@ const TestCreator: FC = () => {
           )}
         </div>
       )}
+
+      <QuestionEditModal />
     </div>
   );
 };

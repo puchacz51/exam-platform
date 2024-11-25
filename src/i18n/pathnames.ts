@@ -32,6 +32,28 @@ const dashboardPathnames = {
     en: '/test-creator',
     pl: '/tworzenie-testu',
   },
+  '/test-creator/:testId': {
+    en: '/test-creator/:testId',
+    pl: '/tworzenie-testu/:testId',
+  },
+  '/groups': {
+    en: '/groups',
+    pl: '/grupy',
+  },
+  '/test-assignment': {
+    en: '/test-assignment',
+    pl: '/przypisanie-testu',
+  },
+  '/test': '/test',
+  '/test/[id]': '/test/[id]',
+  '/test/[id]/assign': {
+    en: '/test/[id]/assign',
+    pl: '/test/[id]/przypisanie',
+  },
+  '/test-assignment/list': {
+    en: '/test-assignment/list',
+    pl: '/przypisanie-testu/lista',
+  },
 } as const;
 
 const publicPathnames = {

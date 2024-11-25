@@ -20,7 +20,7 @@ import { generateId } from '@/utils/generateId';
 
 const MatchingQuestionForm = () => {
   const form = useFormContext<MatchingQuestion>();
-  const { control, handleSubmit } = form;
+  const { control } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -34,15 +34,8 @@ const MatchingQuestionForm = () => {
     }
   }, []);
 
-  const onSubmit = (data: MatchingQuestion) => {
-    console.log(data);
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <>
       <FormField
         control={control}
         name="text"
@@ -62,7 +55,6 @@ const MatchingQuestionForm = () => {
           </FormItem>
         )}
       />
-
       <Card className="border-t-4 border-t-blue-500">
         <CardContent className="pt-6">
           <div className="mb-6">
@@ -73,11 +65,13 @@ const MatchingQuestionForm = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => append({ 
-                  id: generateId(), 
-                  key: '', 
-                  value: '' 
-                })}
+                onClick={() =>
+                  append({
+                    id: generateId(),
+                    key: '',
+                    value: '',
+                  })
+                }
                 className="border-blue-200 bg-white hover:bg-gray-50"
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -168,7 +162,7 @@ const MatchingQuestionForm = () => {
           </div>
         </CardContent>
       </Card>
-    </form>
+    </>
   );
 };
 
