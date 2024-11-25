@@ -25,7 +25,6 @@ export const SingleChoiceQuestionForm = () => {
     control,
     setValue,
     getValues,
-    handleSubmit,
     formState: { errors },
   } = form;
   const { fields, append, remove } = useFieldArray({
@@ -46,15 +45,8 @@ export const SingleChoiceQuestionForm = () => {
     }
   }, []);
 
-  const onSubmit = (data: OpenQuestion) => {
-    console.log(data);
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6"
-    >
+    <>
       <FormField
         control={control}
         name="text"
@@ -171,11 +163,13 @@ export const SingleChoiceQuestionForm = () => {
           <Button
             type="button"
             variant="outline"
-            onClick={() => append({ 
-              id: generateId(), 
-              text: '', 
-              isCorrect: false 
-            })}
+            onClick={() =>
+              append({
+                id: generateId(),
+                text: '',
+                isCorrect: false,
+              })
+            }
             className="mt-4"
           >
             <Plus className="mr-2 h-4 w-4" />
@@ -195,7 +189,7 @@ export const SingleChoiceQuestionForm = () => {
           )}
         />
       )}
-    </form>
+    </>
   );
 };
 

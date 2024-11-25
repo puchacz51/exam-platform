@@ -34,7 +34,6 @@ async function createTest(
       .values({
         title: test.title,
         description: test.description || '',
-        categoryId: test.categoryId,
         creatorId: userId,
         createdAt: new Date(),
       })
@@ -86,7 +85,7 @@ export async function createTestAction(
 ) {
   try {
     const session = await auth();
-    console.log('session', session);
+
     if (!session?.user?.userID) {
       return {
         success: false,

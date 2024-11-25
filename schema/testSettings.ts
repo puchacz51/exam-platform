@@ -3,7 +3,6 @@ import {
   integer,
   pgEnum,
   pgTable,
-  real,
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
@@ -48,8 +47,6 @@ export const testSettingsTable = pgTable('test_settings', {
 
   scoringSystem: scoringSystemEnum('scoring_system').notNull(),
   allowPartialPoints: boolean('allow_partial_points').default(true),
-  minimumPointsPerQuestion: real('minimum_points_per_question').default(0),
-  negativePointsPercentage: real('negative_points_percentage').default(0),
   roundingPrecision: integer('rounding_precision').default(2),
 
   questionDisplayMode: questionDisplayModeEnum(
@@ -57,15 +54,13 @@ export const testSettingsTable = pgTable('test_settings', {
   ).notNull(),
   questionsPerPage: integer('questions_per_page'),
   shuffleQuestionsInGroup: boolean('shuffle_questions_in_group').default(false),
-  shuffleAnswers: boolean('shuffle_answers').default(false),
+  shuffleAnswers: boolean('shuffle_answers').default(true),
 
   showProgressBar: boolean('show_progress_bar').default(true),
   showTimeRemaining: boolean('show_time_remaining').default(true),
   showQuestionPoints: boolean('show_question_points').default(true),
   allowQuestionFlagging: boolean('allow_question_flagging').default(true),
-  autosaveInterval: integer('autosave_interval').default(60),
 
-  showPartialResults: boolean('show_partial_results').default(false),
   showCorrectAnswers: boolean('show_correct_answers').default(false),
   showPointsPerQuestion: boolean('show_points_per_question').default(true),
   showFinalScore: boolean('show_final_score').default(true),

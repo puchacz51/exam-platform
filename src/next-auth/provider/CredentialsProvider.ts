@@ -44,7 +44,6 @@ export const CredentialsProvider = Credentials({
         emailConfirmed: user.emailConfirmed,
       };
     } catch (e) {
-      console.log(e);
 
       return null;
     }
