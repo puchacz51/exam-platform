@@ -3,8 +3,8 @@
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { usersTable } from '@schema/users';
 
+import { usersTable } from '@schema/users';
 import db from '@/lib/db';
 import { auth } from '@/next-auth/auth';
 

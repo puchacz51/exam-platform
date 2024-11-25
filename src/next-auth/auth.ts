@@ -3,10 +3,9 @@ import { eq } from 'drizzle-orm';
 
 import { usersTable } from '@schema/users';
 import db from '@/lib/db';
-
-import { CredentialsProvider } from './provider/CredentialsProvider';
-import { AzureADProvider } from './provider/AzureADProvider';
-import { authConfigWithProviders } from './authWithoutProviders';
+import { AzureADProvider } from '@/next-auth/provider/AzureADProvider';
+import { CredentialsProvider } from '@/next-auth/provider/CredentialsProvider';
+import { authConfigWithProviders } from '@/next-auth/authWithoutProviders';
 
 export const authConfig: NextAuthConfig = {
   ...authConfigWithProviders,
@@ -32,7 +31,6 @@ export const authConfig: NextAuthConfig = {
       return session;
     },
     async jwt({ token, user, trigger }) {
-      console.log('jwt', trigger);
       if (trigger === 'update') {
         const userId = token.user.userID;
         const [userUpdated] = await db

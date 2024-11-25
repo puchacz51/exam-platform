@@ -5,7 +5,6 @@ import { orderItemsTable } from '@schema/orderItems';
 import { matchingPairsTable } from '@schema/matchingPairs';
 import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
 import { Tx } from '@actions/test/createTest';
-
 import {
   BooleanGroupQuestion,
   BooleanQuestion,
@@ -182,13 +181,11 @@ export const handleMatchingQuestion = async (
   question: MatchingQuestion,
   questionId: string
 ) => {
-  console.log('Processing matching question:', questionId);
   const pairsToInsert = question.matchingPairs.map((pair) => ({
     questionId,
     key: pair.key,
     value: pair.value,
   }));
 
-  console.log('Inserting pairs:', pairsToInsert);
   await tx.insert(matchingPairsTable).values(pairsToInsert);
 };

@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
-import { auth } from '@/next-auth/auth';
 
 import { InsertUser, usersTable } from '@schema/users';
 import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';

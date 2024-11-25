@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, ClipboardEvent } from 'react';
+import React, { ChangeEvent, ClipboardEvent, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
@@ -35,26 +35,41 @@ const EmailVerificationForm = () => {
     defaultValues,
   });
 
-  const onSubmit = async (data: VerifyTokenFormData) => {
+  useEffect(() => {
+    const token = searchParams.get('token');
+    if (token && token.length === 8) {
+      // Fill in the token inputs automatically
+      token.split('').forEach((char, index) => {
+        form.setValue(`token.${index}` as 'token.1', char);
+      });
+      
+      // Auto-submit if token is present
+      handleSubmitToken(token);
+    }
+  }, [searchParams]);
+
+  const handleSubmitToken = async (token: string) => {
+    const email = searchParams.get('email');
+    if (!email) {
+      console.error('Brak adresu email');
+      return;
+    }
+
     try {
-      const email = searchParams.get('email');
-
-      if (!email) {
-        throw new Error('Brak adresu email');
-      }
-
-      const token = data.token.join('');
-
-      const successs = await verifyEmailToken(token, email);
-      if (!successs) {
+      const success = await verifyEmailToken(token, email);
+      if (success) {
+        push('/login');
+      } else {
         console.error('Nieprawidłowy token');
-        return;
       }
-
-      push('/login');
     } catch (error) {
       console.error('Wystąpił błąd:', error);
     }
+  };
+
+  const onSubmit = async (data: VerifyTokenFormData) => {
+    const token = data.token.join('');
+    await handleSubmitToken(token);
   };
 
   const handleInputChange = (

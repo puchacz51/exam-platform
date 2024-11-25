@@ -22,18 +22,17 @@ import {
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import { Question } from '@/types/test-creator/question';
 
 interface GeneratedQuestionsViewProps {
-  questions: Question[];
   questionGroups: TestCreatorQuestionGroup[];
 }
 
 export const GeneratedQuestionsView = ({
-  questions,
   questionGroups,
 }: GeneratedQuestionsViewProps) => {
   const form = useFormContext<AiGeneratorFormData>();
+  const questions = useTestContext((state) => state.aiQuestions);
+
   const selectedGroupId = form.watch('selectedGroupId');
   const selectedQuestionIds = form.watch('selectedQuestionIds');
   const setQuestionGroups = useTestContext((state) => state.setQuestionGroups);
@@ -52,7 +51,7 @@ export const GeneratedQuestionsView = ({
   const handleAccept = useCallback(() => {
     if (!selectedGroupId || selectedQuestionIds.length === 0) return;
 
-    const selectedQuestionsList = questions.filter((q) =>
+    const selectedQuestionsList = questions?.filter((q) =>
       selectedQuestionIds.includes(q.id)
     );
     setQuestionGroups((prev) => {
@@ -61,16 +60,16 @@ export const GeneratedQuestionsView = ({
       if (groupId === -1) return prev;
 
       const group = prev[groupId];
-      const addedQuestions = selectedQuestionsList.map((q) => ({
+      const addedQuestions = selectedQuestionsList?.map((q) => ({
         ...q,
         groupId: selectedGroupId,
-      }));
+      })) as TestCreatorQuestionGroup['questions'];
 
       return [
         ...prev.slice(0, groupId),
         {
           ...group,
-          questions: [...group.questions, ...addedQuestions],
+          questions: [...group.questions, ...(addedQuestions || [])],
         },
         ...prev.slice(groupId + 1),
       ];
@@ -88,7 +87,7 @@ export const GeneratedQuestionsView = ({
 
   return (
     <Card className="mt-6">
-      <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex-row items-center justify-between space-y-0 border-b bg-white pb-4">
         <CardTitle className="text-lg font-medium">
           Generated Questions
         </CardTitle>
@@ -132,15 +131,15 @@ export const GeneratedQuestionsView = ({
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-4">
-            {questions.map((question, index) => {
+      <CardContent className="p-0">
+        <ScrollArea className="h-[300px]">
+          <div className="space-y-4 p-6">
+            {questions?.map((question, index) => {
               const Icon = questionTypeIcons[question.questionType];
               return (
                 <Card
                   key={question.id}
-                  className="p-4"
+                  className="p-4 transition-colors hover:bg-slate-50"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <Checkbox

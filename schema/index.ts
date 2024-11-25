@@ -1,4 +1,4 @@
-import { usersTable } from '@schema/users';
+import { usersRelations, usersTable } from '@schema/users';
 import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
 import {
   matchingPairsRelations,
@@ -22,6 +22,12 @@ import {
   groupSubQuestionsRelations,
   groupSubQuestionsTable,
 } from '@schema/groupSubQuestions';
+import { groupsRelations, groupsTable } from '@schema/groups';
+import { userGroupsRelations, userGroupsTable } from '@schema/userGroups';
+import {
+  testAccessGroupsTable,
+  testAccessGroupsRelations,
+} from '@schema/testAccessGroups';
 
 export const schema = {
   users: usersTable,
@@ -36,6 +42,10 @@ export const schema = {
   questionOnQuestionGroup: questionOnQuestionGroupTable,
   testSettings: testSettingsTable,
   groupSubQuestions: groupSubQuestionsTable,
+  groups: groupsTable,
+  userGroups: userGroupsTable,
+  testAccessGroups: testAccessGroupsTable,
+  usersRelations,
   testsRelations,
   matchingPairsRelations,
   questionGroupRelations,
@@ -46,4 +56,7 @@ export const schema = {
   questionOnQuestionGroupRelations,
   testSettingsRelations,
   groupSubQuestionsRelations,
+  groupsRelations,
+  userGroupsRelations,
+  testAccessGroupsRelations,
 };

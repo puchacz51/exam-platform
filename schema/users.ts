@@ -1,3 +1,6 @@
+import { groupsTable } from '@schema/groups';
+import { testsTable } from '@schema/test';
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   pgTable,
@@ -19,6 +22,11 @@ export const usersTable = pgTable('users', {
     .notNull()
     .default(false),
 });
+
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
+  testOwner: many(testsTable),
+  groupOwner: many(groupsTable),
+}));
 
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
