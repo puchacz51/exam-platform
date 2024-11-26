@@ -20,14 +20,10 @@ export const testSchema = z.object({
 
     scoringSystem: z.enum(scoringSystemEnum.enumValues).default('STANDARD'),
     allowPartialPoints: z.boolean().default(true),
-    minimumPointsPerQuestion: z.number().min(0).default(0),
-    negativePointsPercentage: z.number().min(0).max(100).default(0),
-    roundingPrecision: z.number().int().min(0).max(10).default(2),
 
     questionDisplayMode: z
       .enum(questionDisplayModeEnum.enumValues)
       .default('GROUP'),
-    questionsPerPage: z.number().int().positive().optional(),
     shuffleQuestionsInGroup: z.boolean().default(false),
     shuffleAnswers: z.boolean().default(false),
 
@@ -35,9 +31,7 @@ export const testSchema = z.object({
     showTimeRemaining: z.boolean().default(true),
     showQuestionPoints: z.boolean().default(true),
     allowQuestionFlagging: z.boolean().default(true),
-    autosaveInterval: z.number().int().min(0).default(60),
 
-    showPartialResults: z.boolean().default(false),
     showCorrectAnswers: z.boolean().default(false),
     showPointsPerQuestion: z.boolean().default(true),
     showFinalScore: z.boolean().default(true),

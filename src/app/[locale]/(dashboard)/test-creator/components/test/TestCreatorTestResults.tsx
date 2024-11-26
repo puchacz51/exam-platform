@@ -26,29 +26,6 @@ const TestCreatorTestResults: FC = () => {
       <div className="space-y-4">
         <FormField
           control={form.control}
-          name="settings.showPartialResults"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż wyniki cząstkowe
-                </FormLabel>
-                <FormDescription>
-                  Wyświetlaj wyniki podczas rozwiązywania testu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="settings.showCorrectAnswers"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
@@ -58,52 +35,6 @@ const TestCreatorTestResults: FC = () => {
                 </FormLabel>
                 <FormDescription>
                   Wyświetl poprawne odpowiedzi po zakończeniu testu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.showPointsPerQuestion"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż punkty za pytania
-                </FormLabel>
-                <FormDescription>
-                  Wyświetl zdobyte punkty za każde pytanie
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.showFinalScore"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż wynik końcowy
-                </FormLabel>
-                <FormDescription>
-                  Wyświetl całkowity wynik po zakończeniu testu
                 </FormDescription>
               </div>
               <FormControl>

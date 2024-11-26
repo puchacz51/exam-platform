@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes, useState } from 'react';
 
-import { Form, FormProvider, useForm } from 'react-hook-form';
+import { Form, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Eye, Layout, Medal, Save, Settings2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -19,6 +19,19 @@ import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/test
 
 const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
   const test = useTestContext((state) => state.test);
+  const isAddedGeneralConfiguration = useTestContext(
+    (state) => state.isAddedGeneralConfiguration
+  );
+
+  const addQuestionGroup = useTestContext((state) => state.addQuestionGroup);
+  const setIsTestConfiguratorOpen = useTestContext(
+    (state) => state.setIsTestConfiguratorOpen
+  );
+  const setTest = useTestContext((state) => state.setTest);
+  const setIsAddedGeneralConfiguration = useTestContext(
+    (state) => state.setIsAddedGeneralConfiguration
+  );
+
   const [activeTab, setActiveTab] = useState('basic');
 
   const form = useForm<TestCreatorTest>({
@@ -28,8 +41,13 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
     resolver: zodResolver(testSchema),
   });
 
-  const handleSubmit = (data: TestCreatorTest) => {
-    console.log(data);
+  const handleSubmit: SubmitHandler<TestCreatorTest> = (data) => {
+    if (!isAddedGeneralConfiguration) {
+      addQuestionGroup();
+    }
+    setIsAddedGeneralConfiguration(true);
+    setTest(data);
+    setIsTestConfiguratorOpen(false);
   };
 
   return (
@@ -48,7 +66,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           onValueChange={setActiveTab}
           className="w-full"
         >
-          <TabsList className="mb-6 grid w-full grid-cols-6">
+          <TabsList className="mb-6 grid w-full grid-cols-6 overflow-x-auto sm:grid-cols-6">
             <TabsTrigger
               value="basic"
               className="flex items-center gap-2"
@@ -86,18 +104,18 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
             </TabsTrigger>
           </TabsList>
 
-          <Form {...form}>
-            <form
+          <FormProvider {...form}>
+            <Form
               className="space-y-6"
-              onSubmit={form.handleSubmit(handleSubmit)}
+              onSubmit={(e) => {
+                form.handleSubmit(handleSubmit)();
+              }}
             >
-              <FormProvider {...form}>
-                <TestCreatorTestBasic />
-                <TestCreatorTestNavigation />
-                <TestCreatorTestScoring />
-                <TestCreatorTestDisplay />
-                <TestCreatorTestResults />
-              </FormProvider>
+              <TestCreatorTestBasic />
+              <TestCreatorTestNavigation />
+              <TestCreatorTestScoring />
+              <TestCreatorTestDisplay />
+              <TestCreatorTestResults />
               <div className="flex justify-end border-t pt-6">
                 <Button
                   type="submit"
@@ -106,8 +124,8 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
                   Zapisz konfigurację
                 </Button>
               </div>
-            </form>
-          </Form>
+            </Form>
+          </FormProvider>
         </Tabs>
       </CardContent>
     </Card>

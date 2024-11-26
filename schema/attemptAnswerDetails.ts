@@ -92,31 +92,37 @@ export const openAnswerRelations = relations(openAnswersTable, ({ one }) => ({
   }),
 }));
 
-export const choiceAnswerRelations = relations(choiceAnswersTable, ({ one }) => ({
-  attemptAnswer: one(attemptAnswersTable, {
-    fields: [choiceAnswersTable.attemptAnswerId],
-    references: [attemptAnswersTable.id],
-  }),
-  answer: one(answersTable, {
-    fields: [choiceAnswersTable.answerId],
-    references: [answersTable.id],
-  }),
-}));
+export const choiceAnswerRelations = relations(
+  choiceAnswersTable,
+  ({ one }) => ({
+    attemptAnswer: one(attemptAnswersTable, {
+      fields: [choiceAnswersTable.attemptAnswerId],
+      references: [attemptAnswersTable.id],
+    }),
+    answer: one(answersTable, {
+      fields: [choiceAnswersTable.answerId],
+      references: [answersTable.id],
+    }),
+  })
+);
 
-export const matchingAnswerRelations = relations(matchingAnswersTable, ({ one }) => ({
-  attemptAnswer: one(attemptAnswersTable, {
-    fields: [matchingAnswersTable.attemptAnswerId],
-    references: [attemptAnswersTable.id],
-  }),
-  keyItem: one(matchingItemsTable, {
-    fields: [matchingAnswersTable.keyItemId],
-    references: [matchingItemsTable.id],
-  }),
-  valueItem: one(matchingItemsTable, {
-    fields: [matchingAnswersTable.valueItemId],
-    references: [matchingItemsTable.id],
-  }),
-}));
+export const matchingAnswerRelations = relations(
+  matchingAnswersTable,
+  ({ one }) => ({
+    attemptAnswer: one(attemptAnswersTable, {
+      fields: [matchingAnswersTable.attemptAnswerId],
+      references: [attemptAnswersTable.id],
+    }),
+    keyItem: one(matchingItemsTable, {
+      fields: [matchingAnswersTable.keyItemId],
+      references: [matchingItemsTable.id],
+    }),
+    valueItem: one(matchingItemsTable, {
+      fields: [matchingAnswersTable.valueItemId],
+      references: [matchingItemsTable.id],
+    }),
+  })
+);
 
 export const orderAnswerRelations = relations(orderAnswersTable, ({ one }) => ({
   attemptAnswer: one(attemptAnswersTable, {
@@ -129,24 +135,30 @@ export const orderAnswerRelations = relations(orderAnswersTable, ({ one }) => ({
   }),
 }));
 
-export const numericAnswerRelations = relations(numericAnswersTable, ({ one }) => ({
-  attemptAnswer: one(attemptAnswersTable, {
-    fields: [numericAnswersTable.attemptAnswerId],
-    references: [attemptAnswersTable.id],
-  }),
-  subQuestion: one(groupSubQuestionsTable, {
-    fields: [numericAnswersTable.subQuestionId],
-    references: [groupSubQuestionsTable.id],
-  }),
-}));
+export const numericAnswerRelations = relations(
+  numericAnswersTable,
+  ({ one }) => ({
+    attemptAnswer: one(attemptAnswersTable, {
+      fields: [numericAnswersTable.attemptAnswerId],
+      references: [attemptAnswersTable.id],
+    }),
+    subQuestion: one(groupSubQuestionsTable, {
+      fields: [numericAnswersTable.subQuestionId],
+      references: [groupSubQuestionsTable.id],
+    }),
+  })
+);
 
-export const booleanAnswerRelations = relations(booleanAnswersTable, ({ one }) => ({
-  attemptAnswer: one(attemptAnswersTable, {
-    fields: [booleanAnswersTable.attemptAnswerId],
-    references: [attemptAnswersTable.id],
-  }),
-  subQuestion: one(groupSubQuestionsTable, {
-    fields: [booleanAnswersTable.subQuestionId],
-    references: [groupSubQuestionsTable.id],
-  }),
-}));
+export const booleanAnswerRelations = relations(
+  booleanAnswersTable,
+  ({ one }) => ({
+    attemptAnswer: one(attemptAnswersTable, {
+      fields: [booleanAnswersTable.attemptAnswerId],
+      references: [attemptAnswersTable.id],
+    }),
+    subQuestion: one(groupSubQuestionsTable, {
+      fields: [booleanAnswersTable.subQuestionId],
+      references: [groupSubQuestionsTable.id],
+    }),
+  })
+);

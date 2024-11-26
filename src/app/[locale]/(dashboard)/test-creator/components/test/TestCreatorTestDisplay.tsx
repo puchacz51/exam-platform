@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -28,7 +27,6 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestDisplay: FC = () => {
   const form = useFormContext<TestCreatorTest>();
-  const questionDisplayMode = form.watch('settings.questionDisplayMode');
 
   return (
     <TabsContent
@@ -70,31 +68,6 @@ const TestCreatorTestDisplay: FC = () => {
           </FormItem>
         )}
       />
-      {questionDisplayMode === 'CUSTOM' && (
-        <FormField
-          control={form.control}
-          name="settings.questionsPerPage"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">
-                Liczba pytań na stronę
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min="1"
-                  className="border-gray-200"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Ile pytań ma być wyświetlanych jednocześnie
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
 
       <div className="space-y-4">
         <FormField
@@ -212,30 +185,6 @@ const TestCreatorTestDisplay: FC = () => {
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.autosaveInterval"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">
-                Interwał autozapisu (sekundy)
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min="0"
-                  className="border-gray-200"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Jak często automatycznie zapisywać odpowiedzi (0 = wyłączone)
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />

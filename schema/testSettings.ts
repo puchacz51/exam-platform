@@ -1,11 +1,4 @@
-import {
-  boolean,
-  integer,
-  pgEnum,
-  pgTable,
-  timestamp,
-  uuid,
-} from 'drizzle-orm/pg-core';
+import { boolean, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from './test';
@@ -36,7 +29,6 @@ export const testSettingsTable = pgTable('test_settings', {
   testId: uuid('test_id').references(() => testsTable.id, {
     onDelete: 'cascade',
   }),
-  isDefault: boolean('is_default').default(false),
 
   navigationMode: navigationModeEnum('navigation_mode').notNull(),
   allowGoBack: boolean('allow_go_back').default(true),
@@ -46,12 +38,10 @@ export const testSettingsTable = pgTable('test_settings', {
 
   scoringSystem: scoringSystemEnum('scoring_system').notNull(),
   allowPartialPoints: boolean('allow_partial_points').default(true),
-  roundingPrecision: integer('rounding_precision').default(2),
 
   questionDisplayMode: questionDisplayModeEnum(
     'question_display_mode'
   ).notNull(),
-  questionsPerPage: integer('questions_per_page'),
   shuffleQuestionsInGroup: boolean('shuffle_questions_in_group').default(false),
   shuffleAnswers: boolean('shuffle_answers').default(true),
 
