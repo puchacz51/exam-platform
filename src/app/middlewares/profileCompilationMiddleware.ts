@@ -25,5 +25,4 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
   url.pathname = completeProfileUrl;
 
   return { ...context, res: NextResponse.redirect(url) };
-
 };

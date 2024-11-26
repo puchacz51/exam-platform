@@ -29,7 +29,6 @@ export const questionDisplayModeEnum = pgEnum('question_display_mode', [
   'ALL',
   'GROUP',
   'SINGLE',
-  'CUSTOM',
 ]);
 
 export const testSettingsTable = pgTable('test_settings', {

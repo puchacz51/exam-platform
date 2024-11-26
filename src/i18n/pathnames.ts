@@ -23,7 +23,7 @@ const authPathnames = {
   },
 } as const;
 
-const dashboardPathnames = {
+export const protectedPathnames = {
   '/dashboard': {
     en: '/dashboard',
     pl: '/panel',
@@ -54,6 +54,14 @@ const dashboardPathnames = {
     en: '/test-assignment/list',
     pl: '/przypisanie-testu/lista',
   },
+  '/test-attempt/start-screen/[id]': {
+    en: '/test-attempt/start-screen/[id]',
+    pl: '/podejscie-do-testu/ekran-startowy/[id]',
+  },
+  '/test-attempt/[id]': {
+    en: '/test-attempt/[id]',
+    pl: '/podejscie-do-testu/[id]',
+  },
 } as const;
 
 const publicPathnames = {
@@ -62,7 +70,7 @@ const publicPathnames = {
 
 export const pathnames = {
   ...authPathnames,
-  ...dashboardPathnames,
+  ...protectedPathnames,
   ...publicPathnames,
 } satisfies Pathnames<typeof locales>;
 

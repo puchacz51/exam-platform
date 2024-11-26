@@ -49,6 +49,10 @@ import {
   orderAnswerRelations,
   orderAnswersTable,
 } from '@schema/attemptAnswerDetails';
+import {
+  testAccessConfigRelations,
+  testAccessConfigTable,
+} from '@schema/TestAccess';
 
 export const schema = {
   users: usersTable,
@@ -72,6 +76,7 @@ export const schema = {
   choiceAnswers: choiceAnswersTable,
   matchingAnswers: matchingAnswersTable,
   orderAnswers: orderAnswersTable,
+  testAccess: testAccessConfigTable,
   numericAnswers: numericAnswersTable,
   booleanAnswers: booleanAnswersTable,
   usersRelations,
@@ -97,4 +102,5 @@ export const schema = {
   orderAnswerRelations,
   numericAnswerRelations,
   booleanAnswerRelations,
+  testAccessConfigRelations,
 };

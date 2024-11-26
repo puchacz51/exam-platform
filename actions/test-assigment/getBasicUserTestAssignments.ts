@@ -19,7 +19,7 @@ export async function getBasicUserTestAssignments() {
 
   const accessibleTests = await db
     .select({
-      id: testsTable.id,
+      id: testAccessConfigTable .id,
       title: testsTable.title,
       startsAt: testAccessConfigTable.startsAt,
       endsAt: testAccessConfigTable.endsAt,

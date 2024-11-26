@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useRouter } from '@/i18n/routing';
 
 const loginSchema = z.object({
   email: z.string().email('Nieprawidłowy adres email'),
@@ -55,11 +55,14 @@ const LoginForm: FC = () => {
       });
 
       if (result?.error) {
-        // Handle error
         console.error(result.error);
         return;
       }
-      router.replace('/dashboard');
+
+      const returnUrl =
+        new URLSearchParams(window.location.search).get('returnUrl') ||
+        '/dashboard';
+      router.replace(returnUrl);
     } catch (error) {
       console.error(error);
     } finally {
@@ -70,8 +73,12 @@ const LoginForm: FC = () => {
   const handleMicrosoftSignIn = async () => {
     try {
       setIsLoading((prev) => ({ ...prev, microsoft: true }));
-      await signIn('azure-ad', { redirect: false });
-      router.replace('/dashboard');
+      const returnUrl =
+        new URLSearchParams(window.location.search).get('returnUrl') ||
+        '/dashboard';
+      await signIn('azure-ad', { redirect: true, callbackUrl: returnUrl });
+
+      router.replace(returnUrl);
     } finally {
       setIsLoading((prev) => ({ ...prev, microsoft: false }));
     }
@@ -81,7 +88,10 @@ const LoginForm: FC = () => {
     try {
       setIsLoading((prev) => ({ ...prev, usos: true }));
       await signIn('USOS');
-      router.replace('/dashboard');
+      const returnUrl =
+        new URLSearchParams(window.location.search).get('returnUrl') ||
+        '/dashboard';
+      router.replace(returnUrl);
     } finally {
       setIsLoading((prev) => ({ ...prev, usos: false }));
     }

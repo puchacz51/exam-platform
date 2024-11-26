@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { ChevronRight, ClipboardList } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Link } from '@/i18n/routing';
 
 interface AssignedTest {
   id: string;
@@ -84,7 +84,12 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
                 size="sm"
                 asChild
               >
-                <Link href={`/tests/${test.id}`}>
+                <Link
+                  href={{
+                    pathname: '/test-attempt/start-screen/[id]',
+                    params: { id: test.id },
+                  }}
+                >
                   Attempt the test <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
