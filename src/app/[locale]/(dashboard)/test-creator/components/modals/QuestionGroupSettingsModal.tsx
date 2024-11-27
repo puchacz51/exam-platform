@@ -1,6 +1,8 @@
 import { FC, useEffect, useMemo, useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Trash2 } from 'lucide-react';
 
 import {
   Dialog,
@@ -18,8 +20,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { questionGroupSchema } from '../../schemas/questionsGroup';
-import { useTestContext } from '../../store/storeContext';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,8 +30,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Trash2 } from 'lucide-react';
 
+import { questionGroupSchema } from '../../schemas/questionsGroup';
+import { useTestContext } from '../../store/storeContext';
+
+interface QuestionGroupSettingsForm {
+  id: string;
+  name: string;
+}
 interface QuestionGroupSettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -42,17 +48,22 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
   onClose,
 }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { currentQuestionGroupId, updateQuestionGroup, questionGroups, removeQuestionGroup } =
-    useTestContext((state) => state);
+  const {
+    currentQuestionGroupId,
+    updateQuestionGroup,
+    questionGroups,
+    removeQuestionGroup,
+  } = useTestContext((state) => state);
   const currentQuestionGroup = useMemo(
     () => questionGroups.find((group) => group.id === currentQuestionGroupId),
     [currentQuestionGroupId]
   );
 
-  const form = useForm({
+  const form = useForm<QuestionGroupSettingsForm>({
     resolver: zodResolver(questionGroupSchema),
     defaultValues: {
-      ...currentQuestionGroup,
+      id: currentQuestionGroupId || '',
+      name: currentQuestionGroup?.name || '',
     },
   });
 
@@ -62,7 +73,7 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
     });
   }, [currentQuestionGroup, currentQuestionGroupId]);
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: QuestionGroupSettingsForm) => {
     updateQuestionGroup(values);
     onClose();
   };
@@ -134,9 +145,12 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Czy na pewno chcesz usunąć tę grupę?</AlertDialogTitle>
+            <AlertDialogTitle>
+              Czy na pewno chcesz usunąć tę grupę?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Ta akcja spowoduje usunięcie grupy wraz ze wszystkimi pytaniami. Tej operacji nie można cofnąć.
+              Ta akcja spowoduje usunięcie grupy wraz ze wszystkimi pytaniami.
+              Tej operacji nie można cofnąć.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

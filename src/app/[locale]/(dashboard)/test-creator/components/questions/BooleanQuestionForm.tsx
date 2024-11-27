@@ -50,7 +50,9 @@ export const BooleanQuestionForm = () => {
                   <FormControl>
                     <RadioGroup
                       defaultValue={String(field.value)}
-                      onValueChange={(value) => field.onChange(value === 'true')}
+                      onValueChange={(value) =>
+                        field.onChange(value === 'true')
+                      }
                       className="flex space-x-4"
                     >
                       <div className="flex items-center space-x-2">

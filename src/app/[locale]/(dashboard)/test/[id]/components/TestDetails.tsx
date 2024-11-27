@@ -40,17 +40,13 @@ export const TestDetails = ({ settings }: TestDetailsProps) => {
           label: 'Allow Partial Points',
           value: <BooleanIndicator value={!!settings.allowPartialPoints} />,
         },
-        { label: 'Rounding Precision', value: settings.roundingPrecision },
       ],
     },
     {
       title: 'Display Settings',
       settings: [
         { label: 'Question Display Mode', value: settings.questionDisplayMode },
-        {
-          label: 'Questions Per Page',
-          value: settings.questionsPerPage || 'All',
-        },
+
         {
           label: 'Shuffle Questions',
           value: (

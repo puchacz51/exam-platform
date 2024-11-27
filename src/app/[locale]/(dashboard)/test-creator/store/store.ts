@@ -35,7 +35,7 @@ type Updater<T> = T | ((prev: T) => T);
 export interface TestState extends TestProps {
   setTest: (test: Updater<Omit<Test, 'questions'>>) => void;
   addQuestionGroup: () => void;
-  updateQuestionGroup: (group: TestCreatorQuestionGroup) => void;
+  updateQuestionGroup: (group: { name: string; id: string }) => void;
   removeQuestionGroup: (groupId: string) => void;
   addQuestion: (question: TestCreatorQuestion) => void;
   updateQuestion: (

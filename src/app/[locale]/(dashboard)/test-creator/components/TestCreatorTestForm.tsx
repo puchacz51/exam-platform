@@ -107,7 +107,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           <FormProvider {...form}>
             <Form
               className="space-y-6"
-              onSubmit={(e) => {
+              onSubmit={() => {
                 form.handleSubmit(handleSubmit)();
               }}
             >

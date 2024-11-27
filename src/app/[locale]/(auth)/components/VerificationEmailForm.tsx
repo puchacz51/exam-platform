@@ -42,7 +42,7 @@ const EmailVerificationForm = () => {
       token.split('').forEach((char, index) => {
         form.setValue(`token.${index}` as 'token.1', char);
       });
-      
+
       // Auto-submit if token is present
       handleSubmitToken(token);
     }

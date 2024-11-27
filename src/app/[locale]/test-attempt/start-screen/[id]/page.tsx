@@ -1,15 +1,16 @@
+import { AlertCircle, Calendar, Files, Timer } from 'lucide-react';
+
 import { isUserAssignedToTest } from '@actions/test/isUserAssignedToTest';
 import { getTestAssignment } from '@actions/test/getTestAssignment';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, Timer, Files, Calendar } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from '@/i18n/routing';
 
 export default async function TestStartScreen({

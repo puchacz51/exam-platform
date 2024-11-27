@@ -45,7 +45,6 @@ export const TestCreatorQuestionGroupForm: FC<
       id: currentQuestionGroup?.id,
       name: currentQuestionGroup?.name,
       order: currentQuestionGroup?.order,
-      maxQuestionPerPage: currentQuestionGroup?.maxQuestionPerPage,
     },
   });
 
@@ -54,7 +53,6 @@ export const TestCreatorQuestionGroupForm: FC<
       id: currentQuestionGroup?.id,
       name: currentQuestionGroup?.name,
       order: currentQuestionGroup?.order,
-      maxQuestionPerPage: currentQuestionGroup?.maxQuestionPerPage,
     });
   }, [currentQuestionGroup]);
 
@@ -108,25 +106,6 @@ export const TestCreatorQuestionGroupForm: FC<
                       {...field}
                       type="number"
                       min={0}
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="maxQuestionPerPage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Maksymalna liczba pytań na stronie</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="number"
-                      min={1}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
                   </FormControl>

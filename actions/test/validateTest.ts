@@ -73,20 +73,6 @@ function validateQuestionsInGroups(groups: QuestionGroup[]): string[] {
   return errors;
 }
 
-function validateQuestionsPerPage(groups: QuestionGroup[]): string[] {
-  const errors: string[] = [];
-
-  for (const group of groups) {
-    if (group.maxQuestionPerPage > group.questions.length) {
-      errors.push(
-        `Maksymalna liczba pytań na stronę (${group.maxQuestionPerPage}) nie może być większa niż liczba pytań w grupie "${group.name}" (${group.questions.length})`
-      );
-    }
-  }
-
-  return errors;
-}
-
 async function validateStructure(
   data: CreateTestPayload
 ): Promise<z.SafeParseReturnType<any, any>> {
@@ -98,7 +84,6 @@ function performBusinessValidations(data: CreateTestPayload): string[] {
     ...validateUniqueGroupIds(data.questionGroups),
     ...validateGroupOrders(data.questionGroups),
     ...validateQuestionsInGroups(data.questionGroups),
-    ...validateQuestionsPerPage(data.questionGroups),
   ];
 
   return allErrors;

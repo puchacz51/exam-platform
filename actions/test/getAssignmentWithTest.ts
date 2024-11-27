@@ -1,11 +1,18 @@
 'use server';
 
-import { eq, asc } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
+
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/TestAccess';
-import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import { auth } from '@/next-auth/auth';
 
 export async function getAssignmentWithTest(id: string) {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+
   try {
     const assignment = await db.query.testAccess.findFirst({
       where: eq(testAccessConfigTable.id, id),
@@ -40,21 +47,9 @@ export async function getAssignmentWithTest(id: string) {
         test: {
           with: {
             questionGroups: {
-              with: {
-                questionOnQuestionGroup: {
-                  orderBy: [asc(questionOnQuestionGroupTable.order)],
-                  with: {
-                    question: {
-                      columns: {
-                        questionType: true,
-                        id: true,
-                        text: true,
-                        points: true,
-                        isPublic: true,
-                      },
-                    },
-                  },
-                },
+              columns: {
+                id: true,
+                name: true,
               },
             },
             settings: true,
@@ -68,14 +63,14 @@ export async function getAssignmentWithTest(id: string) {
     }
 
     // Transform question groups to match the expected format
-    if (assignment.test) {
-      assignment.test.questionGroups = assignment.test.questionGroups.map(
-        (group) => ({
-          ...group,
-          questions: group.questionOnQuestionGroup.map((qog) => qog.question),
-        })
-      );
-    }
+    // if (assignment.test) {
+    //   assignment.test.questionGroups = assignment.test.questionGroups.map(
+    //     (group) => ({
+    //       ...group,
+    //       questions: group.questionOnQuestionGroup.map((qog) => qog.question),
+    //     })
+    //   );
+    // }
 
     return assignment;
   } catch (error) {

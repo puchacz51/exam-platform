@@ -22,7 +22,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-            Tests You've Assigned
+            Tests Youve Assigned
           </h2>
           {ownedTests.length > 0 && (
             <p className="text-sm text-muted-foreground">
@@ -37,7 +37,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
         <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <Share2 className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
-            You haven't assigned any tests yet
+            You havent assigned any tests yet
           </p>
         </div>
       ) : (

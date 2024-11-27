@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { ListX, Plus, Sparkles } from 'lucide-react';
 
@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 import TestConfigurationBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/TestConfigurationBullet';
 import QuestionGroupBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionGroupBullet';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
-import QuestionGroupSettingsModal from '../modals/QuestionGroupSettingsModal';
 
 const GroupList: FC = () => {
   const {
@@ -70,7 +69,6 @@ const GroupList: FC = () => {
           </div>
         )}
       </div>
-
     </>
   );
 };

@@ -81,7 +81,7 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
 
     return test as unknown as CompleteTest;
   } catch (error) {
-    console.error('Error fetching test:', error);
+    console.error('Error fetching test2:', error);
     throw new Error('Failed to fetch test data');
   }
 }
