@@ -26,11 +26,23 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
           </h2>
           {ownedTests.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              {ownedTests.length} {ownedTests.length === 1 ? 'test' : 'tests'}{' '}
+              {ownedTests.length} {ownedTests.length === 1 ? 'test' : 'tests'}
               assigned by you
             </p>
           )}
         </div>
+        <Button
+          variant="ghost"
+          className="hidden sm:flex"
+          asChild
+        >
+          <Link
+            href="/test/assign"
+            className="gap-2"
+          >
+            Assign test <ChevronRight className="h-4 w-4" />
+          </Link>
+        </Button>
       </div>
       <Separator className="my-4" />
       {ownedTests.length === 0 ? (
@@ -60,7 +72,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
                 size="sm"
                 asChild
               >
-                <Link href="/test-assignment/list">
+                <Link href="/test/assign">
                   View list <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

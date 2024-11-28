@@ -22,8 +22,6 @@ async function createTestAssignment(
         startsAt: data.startsAt,
         endsAt: data.endsAt,
         timeLimit: data.timeLimit,
-        maxAttempts: data.maxAttempts,
-        minTimeBetweenAttempts: data.minTimeBetweenAttempts,
         requiresRegistration: data.requiresRegistration,
         showResultsAfterSubmission: data.showResultsAfterSubmission,
       })

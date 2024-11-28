@@ -1,6 +1,7 @@
 'use server';
 
 import { eq } from 'drizzle-orm';
+
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/TestAccess';
 
@@ -14,8 +15,6 @@ export async function getTestAssignment(id: string) {
         startsAt: true,
         endsAt: true,
         timeLimit: true,
-        maxAttempts: true,
-        minTimeBetweenAttempts: true,
         requiresRegistration: true,
         showResultsAfterSubmission: true,
       },

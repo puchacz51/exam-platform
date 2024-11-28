@@ -28,7 +28,7 @@ const DashboardPage: NextPage = async () => {
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
 
   return (
-    <div className="container mx-auto space-y-6 p-4 sm:space-y-8 sm:py-8">
+    <div className="mx-auto max-w-7xl space-y-6 p-4 sm:space-y-8 sm:py-8">
       <DashboardHeader />
       <div className="grid gap-6 sm:gap-8">
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">

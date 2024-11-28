@@ -24,8 +24,6 @@ export async function getAssignmentWithTest(id: string) {
         startsAt: true,
         endsAt: true,
         timeLimit: true,
-        maxAttempts: true,
-        minTimeBetweenAttempts: true,
         requiresRegistration: true,
         showResultsAfterSubmission: true,
       },

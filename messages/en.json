@@ -10,5 +10,28 @@
             "accountCreated": "Account created and activation email sent",
             "error": "An error occurred while creating the account or sending the email"
         }
+    },
+    "home": {
+        "title": "QuizSow - Engineering Project",
+        "description": "Project developed as part of engineering thesis at Bydgoszcz University of Science and Technology. AI-powered test management system.",
+        "buttons": {
+            "getStarted": "Get Started",
+            "learnMore": "Learn More"
+        },
+        "features": {
+            "title": "About Project",
+            "aiSupport": {
+                "title": "AI-Powered Test Creation",
+                "description": "Using Gemini API for generating test questions and supporting the learning process"
+            },
+            "msIntegration": {
+                "title": "Microsoft Integration",
+                "description": "Azure AD authentication and Microsoft Teams integration"
+            },
+            "academic": {
+                "title": "Academic Project",
+                "description": "Engineering thesis conducted under supervision at the Faculty of Telecommunications, Computer Science and Electrical Engineering"
+            }
+        }
     }
 }

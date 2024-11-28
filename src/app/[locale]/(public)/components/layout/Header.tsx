@@ -4,7 +4,11 @@ import Link from 'next/link';
 
 import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
 
-const Header = () => {
+interface HeaderProps {
+  children?: React.ReactNode;
+}
+
+const Header = ({ children }: HeaderProps) => {
   return (
     <header className="bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -37,7 +41,10 @@ const Header = () => {
               </Link>
             </nav>
           </div>
-          <ProfileDropdown />
+          <div className="flex items-center gap-4">
+            {children}
+            <ProfileDropdown />
+          </div>
         </div>
       </div>
     </header>

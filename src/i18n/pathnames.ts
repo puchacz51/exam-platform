@@ -32,27 +32,27 @@ export const protectedPathnames = {
     en: '/test-creator',
     pl: '/tworzenie-testu',
   },
-  '/test-creator/:testId': {
-    en: '/test-creator/:testId',
-    pl: '/tworzenie-testu/:testId',
+  '/test-creator/[id]': {
+    en: '/test-creator/[id]',
+    pl: '/tworzenie-testu/[id]',
   },
   '/groups': {
     en: '/groups',
     pl: '/grupy',
   },
-  '/test-assignment': {
+  '/test': '/test',
+  '/test/[id]': '/test/[id]',
+  '/test/assign/[id]/': {
+    en: '/test/assign/[id]/',
+    pl: '/test/przypisanie/[id]/',
+  },
+  '/test/assign': {
     en: '/test-assignment',
     pl: '/przypisanie-testu',
   },
-  '/test': '/test',
-  '/test/[id]': '/test/[id]',
-  '/test/[id]/assign': {
-    en: '/test/[id]/assign',
-    pl: '/test/[id]/przypisanie',
-  },
-  '/test-assignment/list': {
-    en: '/test-assignment/list',
-    pl: '/przypisanie-testu/lista',
+  'test-assignment': {
+    en: '/assigned-tests',
+    pl: '/przypisane-testy',
   },
   '/test-attempt/start-screen/[id]': {
     en: '/test-attempt/start-screen/[id]',

@@ -29,8 +29,6 @@ export const testAccessConfigTable = pgTable('test_access_configs', {
   startsAt: timestamp('starts_at'),
   endsAt: timestamp('ends_at'),
   timeLimit: integer('time_limit'),
-  maxAttempts: integer('max_attempts'),
-  minTimeBetweenAttempts: integer('min_time_between_attempts'),
   requiresRegistration: boolean('requires_registration').default(true),
   showResultsAfterSubmission: boolean('show_results_after_submission').default(
     true

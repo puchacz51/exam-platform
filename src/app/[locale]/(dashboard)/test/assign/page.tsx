@@ -6,8 +6,11 @@ const TestAssignmentPage = async () => {
   const groups = groupsResponse.success ? groupsResponse.data : [];
 
   return (
-    <div className="space-y-6">
-      <TestAccessForm initialGroups={groups} />
+    <div className="mx-auto max-w-7xl space-y-6 p-4 sm:space-y-8 sm:py-8">
+      <h1 className="text-2xl font-bold">Assign Test Access</h1>
+      <div className="mx-auto max-w-5xl">
+        <TestAccessForm initialGroups={groups} />
+      </div>
     </div>
   );
 };

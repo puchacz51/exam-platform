@@ -28,7 +28,6 @@ import { LimitsSection } from '@/app/[locale]/(dashboard)/test-assignment/compon
 import { OptionsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/OptionsSection';
 import { Group } from '@/types/group/group';
 import { CompleteTest } from '@/types/test/test';
-import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/MultiGroupSelection';
 import { TestPreview } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TestPreview';
 import { createTestAssignmentAction } from '@actions/test-assigment/createTestAssignment';
 
@@ -131,7 +130,6 @@ export const TestAccessForm = ({
               )}
               {(selectedTest || hideTestSelection) && (
                 <div className="space-y-6">
-                  <MultiGroupSelection initialGroups={initialGroups} />
                   <AccessTypeSection initialGroups={initialGroups} />
                   <DateTimeSection />
                   <LimitsSection />

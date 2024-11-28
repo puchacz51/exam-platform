@@ -10,5 +10,28 @@
             "accountCreated": "Konto utworzone i email aktywacyjny wysłany",
             "error": "Wystąpił błąd podczas tworzenia konta lub wysyłania emaila"
         }
+    },
+    "home": {
+        "title": "QuizSow - Projekt Inżynierski",
+        "description": "Projekt realizowany w ramach pracy inżynierskiej na Politechnice Bydgoskiej im. Jana i Jędrzeja Śniadeckich. System do zarządzania testami z wykorzystaniem sztucznej inteligencji.",
+        "buttons": {
+            "getStarted": "Rozpocznij",
+            "learnMore": "Dowiedz się więcej"
+        },
+        "features": {
+            "title": "O Projekcie",
+            "aiSupport": {
+                "title": "Wsparcie AI w Tworzeniu Testów",
+                "description": "Wykorzystanie API Gemini do generowania pytań testowych i wsparcia procesu nauczania"
+            },
+            "msIntegration": {
+                "title": "Integracja z Microsoft",
+                "description": "Wykorzystanie Azure AD do uwierzytelniania oraz integracja z Microsoft Teams"
+            },
+            "academic": {
+                "title": "Projekt Akademicki",
+                "description": "Praca inżynierska realizowana pod kierunkiem promotora na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
+            }
+        }
     }
 }

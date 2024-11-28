@@ -1,4 +1,4 @@
-import { AlertCircle, Calendar, Files, Timer } from 'lucide-react';
+import { AlertCircle, Calendar, Timer } from 'lucide-react';
 
 import { isUserAssignedToTest } from '@actions/test/isUserAssignedToTest';
 import { getTestAssignment } from '@actions/test/getTestAssignment';
@@ -13,11 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from '@/i18n/routing';
 
-export default async function TestStartScreen({
-  params,
-}: {
-  params: { id: string };
-}) {
+const TestStartScreen = async ({ params }: { params: { id: string } }) => {
   const hasAccess = await isUserAssignedToTest(params.id);
   if (!hasAccess) {
     return (
@@ -55,8 +51,46 @@ export default async function TestStartScreen({
   const now = new Date();
   const startDate = testAssignment.startsAt
     ? new Date(testAssignment.startsAt)
+    : now;
+
+  if (testAssignment.timeLimit && testAssignment.timeLimit < 1) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
+        <div className="w-full max-w-2xl">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Invalid Test Configuration</AlertTitle>
+            <AlertDescription>
+              Time limit must be at least 1 minute.
+            </AlertDescription>
+          </Alert>
+        </div>
+      </div>
+    );
+  }
+
+  const endDate = testAssignment.timeLimit
+    ? new Date(startDate.getTime() + testAssignment.timeLimit * 60000)
     : null;
-  const hasStarted = startDate ? now >= startDate : true;
+
+  const hasStarted = now >= startDate;
+  const hasEnded = endDate ? now >= endDate : false;
+
+  if (hasEnded) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
+        <div className="w-full max-w-2xl">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Test Ended</AlertTitle>
+            <AlertDescription>
+              The time limit for this test has expired.
+            </AlertDescription>
+          </Alert>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gray-50 p-6">
@@ -76,12 +110,6 @@ export default async function TestStartScreen({
                 <div className="flex items-center gap-2">
                   <Timer className="h-4 w-4" />
                   <span>Time limit: {testAssignment.timeLimit} minutes</span>
-                </div>
-              )}
-              {testAssignment.maxAttempts && (
-                <div className="flex items-center gap-2">
-                  <Files className="h-4 w-4" />
-                  <span>Max attempts: {testAssignment.maxAttempts}</span>
                 </div>
               )}
             </div>
@@ -130,4 +158,6 @@ export default async function TestStartScreen({
       </div>
     </div>
   );
-}
+};
+
+export default TestStartScreen;
