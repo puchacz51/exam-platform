@@ -27,8 +27,6 @@ const protectedRoutes = Object.keys(protectedPathnames)
     ).pl,
   ]);
 
-console.log(protectedRoutes);
-
 const middleware = chainMiddleware(
   [initlMiddleware],
   [authMiddleware, new RegExp(`^(${protectedRoutes.join('|')})`)],

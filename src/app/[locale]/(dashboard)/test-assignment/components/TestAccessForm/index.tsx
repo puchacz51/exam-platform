@@ -44,23 +44,25 @@ export const TestAccessForm = ({
 }: TestAccessFormProps) => {
   const { toast } = useToast();
   const { data: tests = [], isLoading } = useTests();
-
   const [selectedTest, setSelectedTest] = useState<CompleteTest | null>(
     initialTest ?? null
   );
-
   const methods = useForm<TestAccessFormValues>({
     resolver: zodResolver(testAccessFormSchema),
     defaultValues: {
       accessType: 'CODE',
       accessCode: '',
       groupIds: [],
-      startTime: undefined,
-      endTime: undefined,
+      startsAt: new Date(),
+      endsAt: new Date(Date.now() + 86400000),
+      startTime: '00:00',
+      endTime: '23:59',
+
       requiresRegistration: true,
       showResultsAfterSubmission: true,
     },
   });
+
 
   const router = useRouter();
 

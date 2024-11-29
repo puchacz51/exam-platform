@@ -15,6 +15,7 @@ export const authMiddleware: Middleware = async (context) => {
     const loginPath = pathnames['/login'][locale as Locale];
     const loginUrl = new URL(loginPath, context.req.url);
     loginUrl.searchParams.set('returnUrl', context.req.nextUrl.pathname);
+    
     return {
       ...context,
       res: NextResponse.redirect(loginUrl.toString()),
@@ -29,9 +30,9 @@ export const authMiddleware: Middleware = async (context) => {
     pathnames['/register'].pl,
     pathnames['/verify-email'].pl,
   ] as string[];
-
   if (authPaths.includes(context.req.nextUrl.pathname)) {
     const dashboardPath = pathnames['/dashboard'][locale as Locale];
+
     return {
       ...context,
       res: NextResponse.redirect(dashboardPath),

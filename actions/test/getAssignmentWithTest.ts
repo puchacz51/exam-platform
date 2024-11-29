@@ -49,6 +49,21 @@ export async function getAssignmentWithTest(id: string) {
                 id: true,
                 name: true,
               },
+              with: {
+                qOnQG: {
+                  with: {
+                    question: {
+                      with: {
+                        groupSubQuestions: true,
+                        matchingPairs: true,
+                        orderItems: true,
+                        category: true,
+                        answers: true,
+                      },
+                    },
+                  },
+                },
+              },
             },
             settings: true,
           },
@@ -60,15 +75,6 @@ export async function getAssignmentWithTest(id: string) {
       throw new Error('Assignment not found');
     }
 
-    // Transform question groups to match the expected format
-    // if (assignment.test) {
-    //   assignment.test.questionGroups = assignment.test.questionGroups.map(
-    //     (group) => ({
-    //       ...group,
-    //       questions: group.questionOnQuestionGroup.map((qog) => qog.question),
-    //     })
-    //   );
-    // }
 
     return assignment;
   } catch (error) {
