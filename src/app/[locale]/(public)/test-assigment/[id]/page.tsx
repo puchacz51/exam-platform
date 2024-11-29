@@ -19,9 +19,9 @@ async function getTestData(testId: string) {
     const test = await db.query.tests.findFirst({
       where: eq(testsTable.id, testId),
       with: {
-        questionGroups: {
+        QG: {
           with: {
-            questionOnQuestionGroup: {
+            qOnQG: {
               with: {
                 question: true,
               },
@@ -38,9 +38,9 @@ async function getTestData(testId: string) {
 
     return {
       ...test,
-      questionGroups: test.questionGroups.map((group) => ({
+      questionGroups: test.QG.map((group) => ({
         ...group,
-        questions: group.questionOnQuestionGroup.map((q) => q.question),
+        questions: group.qOnQG.map((q) => q.question),
       })),
     };
   } catch (error) {

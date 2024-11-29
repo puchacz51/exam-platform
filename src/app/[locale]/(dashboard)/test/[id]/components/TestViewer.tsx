@@ -41,7 +41,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
     );
   }
 
-  const questionGroups = test.questionGroups || [];
+  const questionGroups = test.QG || [];
   const currentGroup = questionGroups[currentGroupIndex];
   const totalGroups = questionGroups.length;
   const progress = ((currentGroupIndex + 1) / totalGroups) * 100;

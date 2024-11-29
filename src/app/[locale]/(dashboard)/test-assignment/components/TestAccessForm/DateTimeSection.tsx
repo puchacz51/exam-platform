@@ -24,7 +24,6 @@ export const DateTimeSection = () => {
 
   return (
     <div className="flex gap-4">
-      {/* Start Date & Time */}
       <FormField
         control={control}
         name="startsAt"
@@ -37,6 +36,7 @@ export const DateTimeSection = () => {
                   <Button
                     variant="outline"
                     className="w-[180px]"
+                    type="button"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {field.value ? format(field.value, 'PPP') : 'Pick date'}
@@ -81,7 +81,6 @@ export const DateTimeSection = () => {
         )}
       />
 
-      {/* End Date & Time */}
       <FormField
         control={control}
         name="endsAt"
@@ -94,6 +93,7 @@ export const DateTimeSection = () => {
                   <Button
                     variant="outline"
                     className="w-[180px]"
+                    type="button"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {field.value ? format(field.value, 'PPP') : 'Pick date'}

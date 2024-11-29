@@ -21,7 +21,7 @@ export type CompleteQuestionGroup = SelectQuestionGroup & {
 
 export type CompleteTest = SelectTest & {
   settings: SelectTestSettings;
-  questionGroups: CompleteQuestionGroup[];
+  QG: CompleteQuestionGroup[];
 };
 
 export type TestWithBasicInfo = Pick<

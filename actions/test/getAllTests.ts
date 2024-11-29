@@ -18,9 +18,9 @@ export const getAllUserTests = async () => {
     const tests = await db.query.tests.findMany({
       where: eq(testsTable.creatorId, session.user.userID),
       with: {
-        questionGroups: {
+        QG: {
           with: {
-            questionOnQuestionGroup: {
+            qOnQG: {
               orderBy: [asc(questionOnQuestionGroupTable.order)],
               with: {
                 question: {
@@ -59,9 +59,9 @@ export const getAllUserTests = async () => {
 
     const processedTests = tests.map((test) => ({
       ...test,
-      questionGroups: test.questionGroups.map((group) => ({
+      questionGroups: test.QG.map((group) => ({
         ...group,
-        questions: group.questionOnQuestionGroup.map((qog) => qog.question),
+        questions: group.qOnQG.map((qog) => qog.question),
       })),
     }));
 

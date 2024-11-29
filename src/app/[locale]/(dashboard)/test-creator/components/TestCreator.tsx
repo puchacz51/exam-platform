@@ -47,14 +47,13 @@ const TestCreator: FC = () => {
     console.log('success', success, data, error, errors);
 
     if (success && data?.id) {
-      router.push({ pathname: '/test/[id]', params: { id: 'new' } });
+      router.push({ pathname: '/test/[id]', params: { id: data.id } });
     }
   }, [test, questionGroups]);
 
   return (
     <div className="container mx-auto w-full p-4">
       <BulletBar />
-
       <div className="mt-6">
         {!isInitialConfig ? (
           <TestCreatorForm />

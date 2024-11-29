@@ -1,4 +1,4 @@
-import { and, eq, gt, isNull,  or } from 'drizzle-orm';
+import { and, eq, gt, isNull, or } from 'drizzle-orm';
 import { asc } from 'drizzle-orm';
 
 import db from '@/lib/db';
@@ -51,9 +51,9 @@ export async function getActiveUserTestAssignments() {
       const test = await db.query.tests.findFirst({
         where: eq(testsTable.id, testId),
         with: {
-          questionGroups: {
+          QG: {
             with: {
-              questionOnQuestionGroup: {
+              qOnQG: {
                 orderBy: [asc(questionOnQuestionGroupTable.order)],
                 with: {
                   question: {
@@ -89,9 +89,9 @@ export async function getActiveUserTestAssignments() {
       });
 
       if (test) {
-        test.questionGroups = test.questionGroups.map((group) => ({
+        test.QG = test.QG.map((group) => ({
           ...group,
-          questions: group.questionOnQuestionGroup.map((qog) => qog.question),
+          questions: group.qOnQG.map((qog) => qog.question),
         }));
       }
 

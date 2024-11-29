@@ -6,7 +6,7 @@ interface PageProps {
   };
 }
 
-export default async function TestAttemptPage({ params }: PageProps) {
+const TestAttemptPage = async ({ params }: PageProps) => {
   const assignment = await getAssignmentWithTest(params.id);
 
   return (
@@ -17,4 +17,6 @@ export default async function TestAttemptPage({ params }: PageProps) {
       </pre>
     </div>
   );
-}
+};
+
+export default TestAttemptPage;

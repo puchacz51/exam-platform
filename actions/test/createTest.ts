@@ -58,12 +58,17 @@ async function createTest(
       showFinalScore: test.settings.showFinalScore,
     });
 
-    for (const group of questionGroups) {
+    for (const [i, group] of Object.entries(questionGroups)) {
+      if (!group.questions.length) {
+        continue;
+      }
+
       const [createdGroup] = await tx
         .insert(questionGroupsTable)
         .values({
           testId: createdTest.id,
           name: group.name,
+          order: parseInt(i) + 1,
         })
         .returning();
 
@@ -84,7 +89,7 @@ async function createTest(
         await tx.insert(questionOnQuestionGroupTable).values({
           questionId: createdQuestion.id,
           questionGroupId: createdGroup.id,
-          order: String(parseInt(index) + 1),
+          order: parseInt(index) + 1,
         });
       }
     }
@@ -99,7 +104,7 @@ export async function createTestAction(
 ) {
   try {
     const session = await auth();
-
+    console.log('session:', session);
     if (!session?.user?.userID) {
       return {
         success: false,
@@ -109,7 +114,7 @@ export async function createTestAction(
 
     const userId = session.user.userID;
     const result = await createTest(test, questionGroups, userId);
-
+    console.log('result:', result);
     if ('errors' in result) {
       return { success: false, errors: result.errors };
     }

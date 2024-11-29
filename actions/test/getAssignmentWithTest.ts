@@ -44,7 +44,7 @@ export async function getAssignmentWithTest(id: string) {
         },
         test: {
           with: {
-            questionGroups: {
+            QG: {
               columns: {
                 id: true,
                 name: true,

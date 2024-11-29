@@ -20,9 +20,9 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
     const test = await db.query.tests.findFirst({
       where: eq(testsTable.id, testId),
       with: {
-        questionGroups: {
+        QG: {
           with: {
-            questionOnQuestionGroup: {
+            qOnQG: {
               orderBy: [asc(questionOnQuestionGroupTable.order)],
               with: {
                 question: {
@@ -67,18 +67,18 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
         settings: true,
       },
     });
+    console.log('test:', test);
 
     if (test) {
-      test.questionGroups = test.questionGroups.map((group) => ({
+      test.QG = test.QG.map((group) => ({
         ...group,
-        questions: group.questionOnQuestionGroup.map((qog) => qog.question),
+        questions: group.qOnQG.map((qog) => qog.question),
       }));
     }
 
     if (revalidate) {
       revalidatePath(`/test/${testId}`);
     }
-
     return test as unknown as CompleteTest;
   } catch (error) {
     console.error('Error fetching test2:', error);
