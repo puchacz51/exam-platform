@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { type NumericQuestion } from '@/types/test/questionTypes';
+import { type NumericQuestion } from '@/types/questions/numericQuestion';
 
 interface NumericQuestionProps {
   question: NumericQuestion;
@@ -9,6 +9,7 @@ interface NumericQuestionProps {
 
 const NumericQuestion: FC<NumericQuestionProps> = ({ question }) => {
   const { tolerance, numericAnswer } = question.groupSubQuestions[0];
+
   return (
     <div className="space-y-3">
       <Input

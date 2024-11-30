@@ -15,6 +15,7 @@ import { Link } from '@/i18n/routing';
 
 const TestStartScreen = async ({ params }: { params: { id: string } }) => {
   const hasAccess = await isUserAssignedToTest(params.id);
+
   if (!hasAccess) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
@@ -32,6 +33,7 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
   }
 
   const testAssignment = await getTestAssignment(params.id);
+
   if (!testAssignment) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
@@ -69,8 +71,8 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const endDate = testAssignment.timeLimit
-    ? new Date(startDate.getTime() + testAssignment.timeLimit * 60000)
+  const endDate = testAssignment.endsAt
+    ? new Date(testAssignment.endsAt)
     : null;
 
   const hasStarted = now >= startDate;

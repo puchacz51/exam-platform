@@ -27,7 +27,5 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
   if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl))
     return context;
 
-  const url = context.req.nextUrl.clone();
-
   return { ...context, res: NextResponse.redirect('/dashboard') };
 };

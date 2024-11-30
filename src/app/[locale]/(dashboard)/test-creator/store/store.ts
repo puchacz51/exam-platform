@@ -7,7 +7,7 @@ import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
-import { Question } from '@/types/test/questionTypes';
+import { Question } from '@/types/questions';
 
 export type TestCreatorAnswer = {
   text: string;

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { type MatchingQuestion } from '@/types/test/questionTypes';
+import { type MatchingQuestion } from '@/types/questions/matchingQuestion';
 
 interface MatchingPairProps {
   question: MatchingQuestion;

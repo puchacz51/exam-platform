@@ -1,9 +1,8 @@
 import { FC } from 'react';
 
-import { Checkbox } from '@radix-ui/react-checkbox';
-
 import { Label } from '@/components/ui/label';
-import { type MultipleChoiceQuestion } from '@/types/test/questionTypes';
+import { type MultipleChoiceQuestion } from '@/types/questions/multipleChoiceQuestion';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface MultipleChoiceQuestionProps {
   question: MultipleChoiceQuestion;
@@ -11,6 +10,7 @@ interface MultipleChoiceQuestionProps {
 const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = ({
   question,
 }) => {
+  console.log(question);
   return (
     <div className="space-y-3">
       {question.answers?.map((answer, id) => (

@@ -15,7 +15,7 @@ export const authMiddleware: Middleware = async (context) => {
     const loginPath = pathnames['/login'][locale as Locale];
     const loginUrl = new URL(loginPath, context.req.url);
     loginUrl.searchParams.set('returnUrl', context.req.nextUrl.pathname);
-    
+
     return {
       ...context,
       res: NextResponse.redirect(loginUrl.toString()),

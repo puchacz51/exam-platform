@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { type SingleChoiceQuestion } from '@/types/test/questionTypes';
+import { type SingleChoiceQuestion } from '@/types/questions/singleChoiceQuestion';
 
 interface SingleChoiceQuestionProps {
   question: SingleChoiceQuestion;

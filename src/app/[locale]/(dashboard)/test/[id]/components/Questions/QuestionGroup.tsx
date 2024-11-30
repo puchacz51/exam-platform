@@ -1,7 +1,7 @@
 import QuestionSelector from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionSelector';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Question } from '@/types/test/questionTypes';
+import { Question } from '@/types/questions';
 import { CompleteQuestionGroup } from '@/types/test/test';
 
 interface QuestionGroupProps {

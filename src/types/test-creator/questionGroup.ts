@@ -6,4 +6,3 @@ import { TestCreatorQuestion } from '@/types/test-creator/question';
 export type TestCreatorQuestionGroup = z.infer<typeof questionGroupSchema> & {
   questions: TestCreatorQuestion[];
 };
-  

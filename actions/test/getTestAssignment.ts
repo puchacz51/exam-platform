@@ -4,8 +4,15 @@ import { eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/TestAccess';
+import { auth } from '@/next-auth/auth';
 
 export async function getTestAssignment(id: string) {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+
   try {
     const assignment = await db.query.testAccess.findFirst({
       where: eq(testAccessConfigTable.id, id),
@@ -41,7 +48,8 @@ export async function getTestAssignment(id: string) {
         },
       },
     });
-
+    console.log('assignment:', assignment?.id);
+    console.log('assignment:', assignment?.endsAt);
     return assignment;
   } catch (error) {
     console.error('Error fetching test assignment:', error);
