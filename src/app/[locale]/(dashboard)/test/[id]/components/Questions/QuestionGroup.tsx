@@ -1,8 +1,7 @@
-import QuestionSelector from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionSelector';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Question } from '@/types/questions';
 import { CompleteQuestionGroup } from '@/types/test/test';
+import { Question } from '@/types/questions';
+import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 
 interface QuestionGroupProps {
   group: CompleteQuestionGroup;
@@ -30,22 +29,11 @@ export const QuestionGroup = ({
 
     <div className="space-y-6">
       {group?.questions?.map((question, questionIndex) => (
-        <Card
+        <QuestionItem
           key={question.id}
-          className="p-4 transition-shadow hover:shadow-md"
-        >
-          <div className="mb-4 flex items-center justify-between">
-            <h4 className="text-md flex items-center gap-2 font-medium">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">
-                {questionIndex + 1}
-              </span>
-              Question
-            </h4>
-            <Badge variant="outline">{question.points} points</Badge>
-          </div>
-          <p className="mb-4">{question.text}</p>
-          <QuestionSelector question={question as unknown as Question} />
-        </Card>
+          question={question as Question}
+          questionIndex={questionIndex}
+        />
       ))}
     </div>
   </>

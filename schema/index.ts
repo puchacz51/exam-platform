@@ -31,8 +31,6 @@ import {
 import {
   attemptAnswersRelations,
   attemptAnswersTable,
-  testAttemptsRelations,
-  testAttemptsTable,
 } from '@schema/attemptAnswers';
 import {
   attemptAnswerRelations,
@@ -53,6 +51,7 @@ import {
   testAccessConfigRelations,
   testAccessConfigTable,
 } from '@schema/TestAccess';
+import { testAttemptsRelations, testAttemptsTable } from '@schema/testAttempt';
 
 export const schema = {
   users: usersTable,

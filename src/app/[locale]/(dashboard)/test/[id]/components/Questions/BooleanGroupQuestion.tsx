@@ -3,9 +3,19 @@ import { FC } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { type BooleanGroupQuestion } from '@/types/questions/booleanGroupQuestion';
 
-interface BooleanGroupQuestionProps {
+interface BooleanGroupQuestionViewProps {
+  mode?: 'view';
   question: BooleanGroupQuestion;
 }
+
+interface BooleanGroupQuestionSolveProps {
+  mode?: 'solve';
+  question: BooleanGroupQuestion;
+}
+
+type BooleanGroupQuestionProps =
+  | BooleanGroupQuestionViewProps
+  | BooleanGroupQuestionSolveProps;
 
 const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({ question }) => {
   return (

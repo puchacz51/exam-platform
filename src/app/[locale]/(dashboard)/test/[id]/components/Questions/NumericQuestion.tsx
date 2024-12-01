@@ -1,23 +1,45 @@
 import { FC } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { type NumericQuestion } from '@/types/questions/numericQuestion';
+import {
+  type NumericQuestion,
+  NumericQuestionWithoutSubQuestions,
+} from '@/types/questions/numericQuestion';
 
-interface NumericQuestionProps {
+interface NumericQuestionViewProps {
+  mode?: 'view';
   question: NumericQuestion;
 }
 
-const NumericQuestion: FC<NumericQuestionProps> = ({ question }) => {
-  const { tolerance, numericAnswer } = question.groupSubQuestions[0];
+interface NumericQuestionSolveProps {
+  mode?: 'solve';
+  question: NumericQuestionWithoutSubQuestions;
+}
+
+type NumericQuestionProps =
+  | NumericQuestionViewProps
+  | NumericQuestionSolveProps;
+
+const NumericQuestion: FC<NumericQuestionProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  console.log(question, 1111);
+  const { tolerance } = question.groupSubQuestions[0];
+  const defaultValue =
+    'numericAnswer' in question.groupSubQuestions[0]
+      ? !!question.groupSubQuestions[0].numericAnswer
+        ? question.groupSubQuestions[0].numericAnswer.toString()
+        : 'Podaj poprawną odpowiedź'
+      : 'Podaj poprawną odpowiedź';
 
   return (
     <div className="space-y-3">
       <Input
         type="number"
-        placeholder="Enter numeric value"
+        placeholder={defaultValue}
         className="max-w-xs"
-        disabled
-        value={numericAnswer?.toString()}
+        disabled={mode === 'view'}
       />
       {tolerance && (
         <p className="text-sm text-muted-foreground">Tolerance: ±{tolerance}</p>

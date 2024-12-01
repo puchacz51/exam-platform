@@ -1,11 +1,21 @@
-import { SelectAnswer } from '@schema/answers';
+import { BaseQuestion } from '@/types/questions/baseQuestion';
 
-import { BaseQuestion } from './baseQuestion';
+export interface BooleanGroupSubQuestionWithoutAnswer {
+  id: string;
+  text: string;
+  type: 'BOOLEAN';
+}
+
+export interface BooleanGroupSubQuestion
+  extends BooleanGroupSubQuestionWithoutAnswer {
+  booleanAnswer: boolean | null;
+}
 
 export interface BooleanQuestionWithoutAnswers extends BaseQuestion {
   questionType: 'BOOLEAN';
+  groupSubQuestions: BooleanGroupSubQuestionWithoutAnswer[];
 }
 
 export interface BooleanQuestion extends BooleanQuestionWithoutAnswers {
-  answers: SelectAnswer[];
+  answers: BooleanGroupSubQuestion[];
 }

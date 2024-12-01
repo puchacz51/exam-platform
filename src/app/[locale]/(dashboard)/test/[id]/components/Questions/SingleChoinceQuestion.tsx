@@ -2,34 +2,59 @@ import { FC } from 'react';
 
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { type SingleChoiceQuestion } from '@/types/questions/singleChoiceQuestion';
+import {
+  type SingleChoiceQuestion,
+  SingleChoiceQuestionWithoutAnswers,
+} from '@/types/questions/singleChoiceQuestion';
 
-interface SingleChoiceQuestionProps {
+interface SingleChoiceQuestionViewProps {
+  mode?: 'view';
   question: SingleChoiceQuestion;
 }
 
-const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = ({ question }) => {
+interface SingleChoiceQuestionSolveProps {
+  mode?: 'solve';
+  question: SingleChoiceQuestionWithoutAnswers;
+}
+
+type SingleChoiceQuestionProps =
+  | SingleChoiceQuestionViewProps
+  | SingleChoiceQuestionSolveProps;
+
+const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  const getDefaultValue = (answer: {
+    isCorrect?: boolean | null;
+    [key: string]: unknown;
+  }) => {
+    return 'isCorrect' in answer ? !!answer.isCorrect : false;
+  };
+
   return (
     <RadioGroup className="space-y-3">
-      {question.answers?.map((answer) => (
-        <div
-          key={answer.id}
-          className="flex items-center space-x-3"
-        >
-          <RadioGroupItem
-            value={answer.id}
-            id={answer.id}
-            disabled
-            checked={!!answer.isCorrect}
-          />
-          <Label
-            htmlFor={answer.id}
-            className="text-sm"
+      {question.answers?.map((answer) => {
+        return (
+          <div
+            key={answer.id}
+            className="flex items-center space-x-3"
           >
-            {answer.text}
-          </Label>
-        </div>
-      ))}
+            <RadioGroupItem
+              value={answer.id}
+              id={answer.id}
+              disabled={mode === 'view'}
+              checked={getDefaultValue(answer)}
+            />
+            <Label
+              htmlFor={answer.id}
+              className="text-sm"
+            >
+              {answer.text}
+            </Label>
+          </div>
+        );
+      })}
     </RadioGroup>
   );
 };

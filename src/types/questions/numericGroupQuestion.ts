@@ -1,12 +1,15 @@
-import { SelectGroupSubQuestion } from '@schema/groupSubQuestions';
+import { BaseQuestion } from '@/types/questions/baseQuestion';
+import {
+  NumericGroupSubQuestion,
+  NumericGroupSubQuestionWithoutAnswer,
+} from '@/types/questions/numericQuestion';
 
-import { BaseQuestion } from './baseQuestion';
-
-export interface NumericGroupQuestionWithoutSubQuestions extends BaseQuestion {
+export interface NumericGroupQuestionWithoutAnswer extends BaseQuestion {
   questionType: 'NUMERIC_GROUP';
+  groupSubQuestions: NumericGroupSubQuestionWithoutAnswer[];
 }
 
 export interface NumericGroupQuestion
-  extends NumericGroupQuestionWithoutSubQuestions {
-  groupSubQuestions: SelectGroupSubQuestion[];
+  extends NumericGroupQuestionWithoutAnswer {
+  groupSubQuestions: NumericGroupSubQuestion[];
 }

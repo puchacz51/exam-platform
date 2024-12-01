@@ -13,26 +13,66 @@ import { Question } from '@/types/questions';
 
 interface QuestionSelectorProps {
   question: Question;
+  mode?: 'view' | 'solve';
 }
 
-const QuestionSelector: FC<QuestionSelectorProps> = ({ question }) => {
+const QuestionSelector: FC<QuestionSelectorProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  console.log(question.questionType, question.questionType === 'NUMERIC', 2222);
   switch (question.questionType) {
     case 'SINGLE_CHOICE':
-      return <SingleChoiceQuestion question={question} />;
+      return (
+        <SingleChoiceQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'MULTIPLE_CHOICE':
-      return <MultipleChoiceQuestion question={question} />;
+      return (
+        <MultipleChoiceQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'MATCHING':
-      return <MatchingQuestion question={question} />;
+      return (
+        <MatchingQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'ORDER':
-      return <OrderQuestion question={question} />;
+      return (
+        <OrderQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'NUMERIC':
-      return <NumericQuestion question={question} />;
+      return (
+        <NumericQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'BOOLEAN':
-      return <BooleanQuestion question={question} />;
+      return (
+        <BooleanQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'BOOLEAN_GROUP':
       return <BooleanGroupQuestion question={question} />;
     case 'NUMERIC_GROUP':
-      return <NumericGroupQuestion question={question} />;
+      return (
+        <NumericGroupQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     default:
       return (
         <Textarea

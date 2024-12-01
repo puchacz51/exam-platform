@@ -5,11 +5,23 @@ import { ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { type MatchingQuestion } from '@/types/questions/matchingQuestion';
 
-interface MatchingPairProps {
+interface MatchingPairViewProps {
+  mode?: 'view';
   question: MatchingQuestion;
 }
 
-const MatchingQuestion: FC<MatchingPairProps> = ({ question }) => {
+interface MatchingPairSolveProps {
+  mode?: 'solve';
+  question: MatchingQuestion;
+}
+
+type MatchingPairProps = MatchingPairViewProps | MatchingPairSolveProps;
+
+const MatchingQuestion: FC<MatchingPairProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  console.log(mode);
   return (
     <div className="grid gap-4">
       {question?.matchingPairs?.map((pair) => (

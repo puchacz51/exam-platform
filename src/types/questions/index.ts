@@ -4,7 +4,7 @@ import {
 } from '@/types/questions/multipleChoiceQuestion';
 import {
   OrderQuestion,
-  OrderQuestionWithoutItems,
+  OrderQuestionWithoutAnswer,
 } from '@/types/questions/orderQuestion';
 import {
   BooleanQuestion,
@@ -29,7 +29,7 @@ import {
 } from '@/types/questions/booleanGroupQuestion';
 import {
   NumericGroupQuestion,
-  NumericGroupQuestionWithoutSubQuestions,
+  NumericGroupQuestionWithoutAnswer,
 } from '@/types/questions/numericGroupQuestion';
 
 export type Question =
@@ -47,9 +47,9 @@ export type QuestionWithoutAnswers =
   | OpenQuestionWithoutAnswers
   | SingleChoiceQuestionWithoutAnswers
   | MultipleChoiceQuestionWithoutAnswers
-  | OrderQuestionWithoutItems
+  | OrderQuestionWithoutAnswer
   | BooleanQuestionWithoutAnswers
   | NumericQuestionWithoutSubQuestions
   | MatchingQuestion
   | BooleanGroupQuestionWithoutSubQuestions
-  | NumericGroupQuestionWithoutSubQuestions;
+  | NumericGroupQuestionWithoutAnswer;

@@ -1,11 +1,11 @@
+import { BaseQuestion } from '@/types/questions/baseQuestion';
 import { SelectOrderItem } from '@schema/orderItems';
 
-import { BaseQuestion } from './baseQuestion';
-
-export interface OrderQuestionWithoutItems extends BaseQuestion {
+export interface OrderQuestionWithoutAnswer extends BaseQuestion {
   questionType: 'ORDER';
+  orderItems: Omit<SelectOrderItem, 'order'>[];
 }
 
-export interface OrderQuestion extends OrderQuestionWithoutItems {
+export interface OrderQuestion extends OrderQuestionWithoutAnswer {
   orderItems: SelectOrderItem[];
 }

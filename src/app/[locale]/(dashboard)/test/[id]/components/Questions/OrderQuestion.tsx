@@ -16,13 +16,24 @@ import {
 } from '@dnd-kit/sortable';
 
 import SortableItem from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SortableItem';
-import { type OrderQuestion } from '@/types/questions/orderQuestion';
+import {
+  type OrderQuestion,
+  OrderQuestionWithoutAnswer,
+} from '@/types/questions/orderQuestion';
 
-interface OrderQuestionProps {
+interface OrderQuestionViewProps {
+  mode?: 'view';
   question: OrderQuestion;
 }
 
-const OrderQuestion: FC<OrderQuestionProps> = ({ question }) => {
+interface OrderQuestionSolveProps {
+  mode?: 'solve';
+  question: OrderQuestionWithoutAnswer;
+}
+
+type OrderQuestionProps = OrderQuestionViewProps | OrderQuestionSolveProps;
+
+const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -53,6 +64,7 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question }) => {
       onDragEnd={handleDragEnd}
     >
       <SortableContext
+        disabled={mode === 'view'}
         items={items.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >

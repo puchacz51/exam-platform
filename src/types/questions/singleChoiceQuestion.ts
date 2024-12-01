@@ -4,7 +4,7 @@ import { BaseQuestion } from './baseQuestion';
 
 export interface SingleChoiceQuestionWithoutAnswers extends BaseQuestion {
   questionType: 'SINGLE_CHOICE';
-  answers: Omit<SelectAnswer, 'correct'>[];
+  answers: Omit<SelectAnswer, 'isCorrect'>[];
 }
 
 export interface SingleChoiceQuestion

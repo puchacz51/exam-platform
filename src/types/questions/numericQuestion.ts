@@ -1,18 +1,22 @@
-import { SelectGroupSubQuestion } from '@schema/groupSubQuestions';
+import { BaseQuestion } from '@/types/questions/baseQuestion';
 
-import { BaseQuestion } from './baseQuestion';
+export interface NumericGroupSubQuestionWithoutAnswer {
+  id: string;
+  text: string;
+  type: 'NUMERIC';
+  tolerance: number | null;
+}
+
+export interface NumericGroupSubQuestion
+  extends NumericGroupSubQuestionWithoutAnswer {
+  numericAnswer: number | null;
+}
 
 export interface NumericQuestionWithoutSubQuestions extends BaseQuestion {
   questionType: 'NUMERIC';
-  groupSubQuestions: Pick<
-    SelectGroupSubQuestion,
-    'id' | 'tolerance' | 'text' | 'type'
-  >[];
+  groupSubQuestions: NumericGroupSubQuestionWithoutAnswer[];
 }
 
 export interface NumericQuestion extends NumericQuestionWithoutSubQuestions {
-  groupSubQuestions: Pick<
-    SelectGroupSubQuestion,
-    'id' | 'text' | 'type' | 'tolerance' | 'numericAnswer'
-  >[];
+  groupSubQuestions: NumericGroupSubQuestion[];
 }
