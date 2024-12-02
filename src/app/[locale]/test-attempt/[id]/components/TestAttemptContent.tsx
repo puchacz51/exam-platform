@@ -28,7 +28,21 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const methods = useForm<TestAttemptFormData>({
-    defaultValues: {},
+    defaultValues: {
+      questions: questionGroups.reduce(
+        (acc, group) => {
+          group.questions.forEach((question) => {
+            acc[question.id] = {
+              attemptId,
+              questionId: question.id,
+              type: question.questionType,
+            };
+          });
+          return acc;
+        },
+        {} as Record<string, Partial<AnswerInput>>
+      ),
+    },
     mode: 'onChange',
   });
 
@@ -38,6 +52,7 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   } = methods;
 
   const onSubmit = async (data: TestAttemptFormData) => {
+    console.log(data);
     try {
       const formattedAnswers = Object.entries(data.questions).map(
         ([questionId, attempt]) => {

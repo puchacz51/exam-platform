@@ -54,7 +54,14 @@ export async function getAssignmentWithTest(id: string) {
                   with: {
                     question: {
                       with: {
-                        groupSubQuestions: true,
+                        groupSubQuestions: {
+                          columns: {
+                            id: true,
+                            tolerance: true,
+                            text: true,
+                            type: true,
+                          },
+                        },
                         matchingPairs: true,
                         orderItems: true,
                         category: true,
@@ -84,13 +91,11 @@ export async function getAssignmentWithTest(id: string) {
     }
     if (!assignment.attempts.length) {
       const userAttempt = (await createUserAttempt(assignment.id)).data;
-      
+
       if (!userAttempt) throw new Error('Failed to create user attempt');
 
       assignment.attempts = [userAttempt];
     }
-
-    console.log('assignment', assignment);
 
     const w = {
       ...assignment,

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
-
+import { useFormContext } from 'react-hook-form';
 import {
   closestCenter,
   DndContext,
@@ -13,6 +13,7 @@ import {
 import {
   SortableContext,
   verticalListSortingStrategy,
+  arrayMove,
 } from '@dnd-kit/sortable';
 
 import SortableItem from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SortableItem';
@@ -20,6 +21,7 @@ import {
   type OrderQuestion,
   OrderQuestionWithoutAnswer,
 } from '@/types/questions/orderQuestion';
+import { TestAttemptFormDataOrder } from '@/types/forms/testAttemptForm';
 
 interface OrderQuestionViewProps {
   mode?: 'view';
@@ -34,6 +36,27 @@ interface OrderQuestionSolveProps {
 type OrderQuestionProps = OrderQuestionViewProps | OrderQuestionSolveProps;
 
 const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
+  const { id } = question;
+  const { setValue, getValues, watch } =
+    useFormContext<TestAttemptFormDataOrder>();
+
+  // Track the current order of items in component state
+  const [orderedItems, setOrderedItems] = React.useState(question.orderItems);
+
+  // Initialize form on first render for 'solve' mode
+  React.useEffect(() => {
+    if (mode === 'solve') {
+      setValue(
+        `questions.${id}.items`,
+        question.orderItems.map((item, index) => ({
+          itemId: item.id,
+          order: index + 1,
+        }))
+      );
+      setOrderedItems(question.orderItems);
+    }
+  }, [id, mode, question.orderItems, setValue]);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -42,18 +65,25 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
     })
   );
 
-  const items = question.orderItems || [];
-
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (over && active.id !== over.id) {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over.id);
+    if (over && active.id !== over.id && mode === 'solve') {
+      const oldIndex = orderedItems.findIndex((item) => item.id === active.id);
+      const newIndex = orderedItems.findIndex((item) => item.id === over.id);
 
-      const newItems = [...items];
-      const [movedItem] = newItems.splice(oldIndex, 1);
-      newItems.splice(newIndex, 0, movedItem);
+      // Update the ordered items state
+      const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
+      setOrderedItems(newOrderedItems);
+
+      // Update form values with new orders
+      setValue(
+        `questions.${id}.items`,
+        newOrderedItems.map((item, index) => ({
+          itemId: item.id,
+          order: index + 1,
+        }))
+      );
     }
   };
 
@@ -65,11 +95,11 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
     >
       <SortableContext
         disabled={mode === 'view'}
-        items={items.map((item) => item.id)}
+        items={orderedItems.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
         <div className="space-y-2">
-          {items.map((item, index) => (
+          {orderedItems.map((item, index) => (
             <SortableItem
               key={item.id}
               id={item.id}

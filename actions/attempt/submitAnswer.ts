@@ -86,7 +86,7 @@ export async function submitAnswer(input: AnswerInput) {
       return { data: attemptAnswer, error: null };
     });
   } catch (error) {
-    console.error('Failed to submit answer', error);
+    console.error('Failed to submit answer', error?.message);
     return { data: null, error: 'Failed to submit answer' };
   }
 }

@@ -3,12 +3,13 @@ import { FC } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import BooleanGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanGroupQuestion';
 import NumericGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericGroupQuestion';
-import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoinceQuestion';
+import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoiceQuestion';
 import MultipleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MultipleChoiceQuestion';
 import MatchingQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MatchingQuestion';
 import OrderQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OrderQuestion';
 import NumericQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericQuestion';
 import BooleanQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanQuestion';
+import OpenQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OpenQuestion';
 import { Question } from '@/types/questions';
 
 interface QuestionSelectorProps {
@@ -64,7 +65,12 @@ const QuestionSelector: FC<QuestionSelectorProps> = ({
         />
       );
     case 'BOOLEAN_GROUP':
-      return <BooleanGroupQuestion question={question} />;
+      return (
+        <BooleanGroupQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'NUMERIC_GROUP':
       return (
         <NumericGroupQuestion
@@ -72,12 +78,11 @@ const QuestionSelector: FC<QuestionSelectorProps> = ({
           question={question}
         />
       );
-    default:
+    case 'OPEN':
       return (
-        <Textarea
-          placeholder="Enter your answer"
-          disabled
-          className="w-full"
+        <OpenQuestion
+          mode={mode}
+          question={question}
         />
       );
   }

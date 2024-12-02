@@ -20,32 +20,50 @@ export interface TestAttemptFormDataMultiChoice {
   };
 }
 
-export interface TestAttemptFormDataOpen {
-  questions: {
-    [questionId: string]: Omit<OpenAnswerInput, 'questionId'>;
-  };
-}
-
 export interface TestAttemptFormDataMatching {
   questions: {
     [questionId: string]: Omit<MatchingAnswerInput, 'questionId'>;
   };
 }
 
-export interface TestAttemptFormDataOrder {
-  questions: {
-    [questionId: string]: Omit<OrderAnswerInput, 'questionId'>;
-  };
-}
-
 export interface TestAttemptFormDataNumericGroup {
   questions: {
-    [questionId: string]: Omit<NumericGroupAnswerInput, 'questionId'>;
+    [questionId: string]: NumericGroupAnswerInput;
   };
 }
 
 export interface TestAttemptFormDataBooleanGroup {
   questions: {
     [questionId: string]: Omit<BooleanGroupAnswerInput, 'questionId'>;
+  };
+}
+
+export interface TestAttemptFormDataSingleChoice {
+  questions: {
+    [questionId: string]: ChoiceAnswerInput;
+  };
+}
+
+export interface TestAttemptFormDataNumeric {
+  questions: {
+    [questionId: string]: NumericGroupAnswerInput;
+  };
+}
+
+export interface TestAttemptFormDataOrder {
+  questions: {
+    [questionId: string]: OrderAnswerInput;
+  };
+}
+
+export interface TestAttemptFormDataBoolean {
+  questions: {
+    [questionId: string]: BooleanGroupAnswerInput;
+  };
+}
+
+export interface TestAttemptFormDataOpen {
+  questions: {
+    [questionId: string]: OpenAnswerInput;
   };
 }
