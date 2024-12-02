@@ -1,8 +1,8 @@
 import { boolean, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { testsTable } from './test';
-import { groupSettingsTable } from './groupSettings';
+import { testsTable } from '@schema/test';
+import { groupSettingsTable } from '@schema/groupSettings';
 
 export const navigationModeEnum = pgEnum('navigation_mode', [
   'FREE',

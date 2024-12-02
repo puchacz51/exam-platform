@@ -20,7 +20,6 @@ const QuestionSelector: FC<QuestionSelectorProps> = ({
   question,
   mode = 'view',
 }) => {
-  console.log(question.questionType, question.questionType === 'NUMERIC', 2222);
   switch (question.questionType) {
     case 'SINGLE_CHOICE':
       return (

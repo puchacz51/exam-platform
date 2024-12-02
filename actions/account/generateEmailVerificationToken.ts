@@ -1,5 +1,5 @@
 import {
-  emailVerificationTokensTable,
+  verificationTokensTable,
   InsertEmailVerificationToken,
 } from '@schema/email_verification_tokens';
 import db from '@/lib/db';
@@ -39,7 +39,7 @@ export async function generateEmailVerificationToken(
     expiresAt,
   };
 
-  await db.insert(emailVerificationTokensTable).values(newToken);
+  await db.insert(verificationTokensTable).values(newToken);
 
   return token;
 }

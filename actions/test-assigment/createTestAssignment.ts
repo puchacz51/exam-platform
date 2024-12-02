@@ -3,7 +3,7 @@
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 
 async function createTestAssignment(

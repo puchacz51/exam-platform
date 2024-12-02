@@ -1,7 +1,7 @@
-import { questionsTable } from '@schema/questions';
 import { relations } from 'drizzle-orm';
-import { pgEnum, pgTable, text, uuid, integer } from 'drizzle-orm/pg-core';
+import { integer, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 
+import { questionsTable } from '@schema/questions';
 
 export const matchingItemTypeEnum = pgEnum('matching_item_type', [
   'KEY',

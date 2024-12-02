@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { integer, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 
-import { questionsTable } from './questions';
+import { questionsTable } from '@schema/questions';
 
 export const orderItemsTable = pgTable('order_items', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -18,7 +18,6 @@ export const orderItemsRelations = relations(orderItemsTable, ({ one }) => ({
     references: [questionsTable.id],
   }),
 }));
-
 
 export type InsertOrderItem = typeof orderItemsTable.$inferInsert;
 export type SelectOrderItem = typeof orderItemsTable.$inferSelect;

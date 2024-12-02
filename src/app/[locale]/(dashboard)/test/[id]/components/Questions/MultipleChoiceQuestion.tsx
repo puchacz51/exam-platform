@@ -1,11 +1,14 @@
 import { FC } from 'react';
 
+import { useFieldArray, useFormContext } from 'react-hook-form';
+
 import { Label } from '@/components/ui/label';
 import {
   type MultipleChoiceQuestion,
   MultipleChoiceQuestionWithoutAnswers,
 } from '@/types/questions/multipleChoiceQuestion';
 import { Checkbox } from '@/components/ui/checkbox';
+import { TestAttemptFormDataMultiChoice } from '@/types/forms/testAttemptForm';
 
 interface MultipleChoiceQuestionViewProps {
   question: MultipleChoiceQuestion;
@@ -25,20 +28,61 @@ const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
+  const { id, answers } = question;
+  const fieldKey = `questions.${id}.answers` as const;
+  const { control, setValue, getValues } =
+    useFormContext<TestAttemptFormDataMultiChoice>();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: fieldKey,
+  });
+
+  const handleCheckboxChange = (answerId: string, checked: boolean) => {
+    const questionValue = getValues('questions')[id];
+
+    if (!questionValue.type) {
+      setValue(`questions.${id}.type`, 'MULTIPLE_CHOICE');
+    }
+
+    if (checked) {
+      append({ answerId });
+    } else {
+      const index = fields.findIndex((field) => field.answerId === answerId);
+      if (index !== -1) {
+        remove(index);
+      }
+    }
+  };
+
+  const getIsDefaultAnswerCorrect = (
+    answer: MultipleChoiceQuestion['answers'][number]
+  ) => {
+    return !!answer.isCorrect;
+  };
+
   return (
     <div className="space-y-3">
-      {question.answers?.map((answer, id) => (
+      {answers?.map((answer) => (
         <div
-          key={answer.text}
+          key={answer.id}
           className="flex items-center space-x-3"
         >
           <Checkbox
-            id={id.toLocaleString()}
-            checked={!!answer.isCorrect}
+            id={`${id}-${answer.id}`}
+            defaultChecked={
+              mode === 'view' && getIsDefaultAnswerCorrect(answer)
+            }
             disabled={mode === 'view'}
+            checked={
+              mode === 'solve' &&
+              fields.some((field) => field.answerId === answer.id)
+            }
+            onCheckedChange={(checked) =>
+              mode === 'solve' && handleCheckboxChange(answer.id, !!checked)
+            }
           />
           <Label
-            htmlFor={id.toLocaleString()}
+            htmlFor={`${id}-${answer.id}`}
             className="text-sm"
           >
             {answer.text}

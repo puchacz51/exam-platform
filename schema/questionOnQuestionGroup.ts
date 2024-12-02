@@ -1,8 +1,8 @@
 import { pgTable, primaryKey, smallint, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { questionsTable } from './questions';
-import { questionGroupsTable } from './questionGroups';
+import { questionGroupsTable } from '@schema/questionGroups';
+import { questionsTable } from '@schema/questions';
 
 export const questionOnQuestionGroupTable = pgTable(
   'question_on_question_group',

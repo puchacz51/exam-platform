@@ -1,8 +1,8 @@
 import { pgEnum, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { groupsTable } from './groups';
-import { testAccessConfigTable } from './TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
+import { groupsTable } from '@schema/groups';
 
 export const testAccessGroupSourceTypeEnum = pgEnum(
   'test_access_group_source_type',
@@ -26,7 +26,7 @@ export const testAccessGroupsTable = pgTable('test_access_groups', {
 export const testAccessGroupsRelations = relations(
   testAccessGroupsTable,
   ({ one }) => ({
-    testAccessConfig: one(testAccessConfigTable, {
+    TAGroup: one(testAccessConfigTable, {
       fields: [testAccessGroupsTable.testAccessConfigId],
       references: [testAccessConfigTable.id],
     }),

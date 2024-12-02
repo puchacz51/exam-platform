@@ -3,7 +3,7 @@ import { relations } from 'drizzle-orm';
 
 import { usersTable } from '@schema/users';
 import { attemptAnswersTable } from '@schema/attemptAnswers';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
 
 export const testAttemptsTable = pgTable('test_attempts', {
   id: uuid('id').primaryKey().defaultRandom(),

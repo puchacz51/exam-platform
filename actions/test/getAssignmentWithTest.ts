@@ -3,53 +3,32 @@
 import { and, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
 import { auth } from '@/next-auth/auth';
-import { SelectTestAttempt, testAttemptsTable } from '@schema/testAttempt';
+import { testAttemptsTable } from '@schema/testAttempt';
 import { createUserAttempt } from '@actions/attempt/createUserAttempt';
 
 export async function getAssignmentWithTest(id: string) {
   const session = await auth();
 
-  if (!session) {
+  if (!session?.user.userID) {
     throw new Error('Unauthorized');
-  }
-
-  let userAttempt: SelectTestAttempt;
-
-  const data = await db.query.testAttempts.findFirst({
-    where: and(
-      eq(testAccessConfigTable.id, id),
-      eq(testAttemptsTable.userId, session.user.userID)
-    ),
-  });
-
-  if (!data) {
-    const response = await createUserAttempt(id);
-
-    if (response.data) {
-      userAttempt = response.data;
-    }
-  } else {
-    userAttempt = data;
   }
 
   try {
     const assignment = await db.query.testAccess.findFirst({
-      where: eq(testAccessConfigTable.id, id),
+      where: and(eq(testAccessConfigTable.id, id)),
       columns: {
         id: true,
         testId: true,
         accessType: true,
-        accessCode: true,
-        startsAt: true,
         endsAt: true,
         timeLimit: true,
-        requiresRegistration: true,
         showResultsAfterSubmission: true,
+        startsAt: true,
       },
       with: {
-        testAccessGroups: {
+        TAGroup: {
           columns: {
             id: true,
             sourceType: true,
@@ -94,21 +73,37 @@ export async function getAssignmentWithTest(id: string) {
             settings: true,
           },
         },
+        attempts: {
+          where: eq(testAttemptsTable.userId, session.user.userID),
+        },
       },
     });
 
     if (!assignment) {
       throw new Error('Assignment not found');
     }
+    if (!assignment.attempts.length) {
+      const userAttempt = (await createUserAttempt(assignment.id)).data;
+      
+      if (!userAttempt) throw new Error('Failed to create user attempt');
 
-    const t = assignment.test.QG[0].qOnQG[0].question.groupSubQuestions[0];
+      assignment.attempts = [userAttempt];
+    }
 
-    return {
+    console.log('assignment', assignment);
+
+    const w = {
       ...assignment,
-      questionGroups: assignment.test.QG.flatMap((qg) =>
-        qg.qOnQG.map((q) => q.question)
-      ),
+      questionGroups: assignment.test.QG.map((qg) => ({
+        id: qg.id,
+        name: qg.name,
+        questions: qg.qOnQG
+          .sort((a, b) => (a.order || 0) - (b.order || 0))
+          .map((q) => q.question),
+      })),
     };
+
+    return w;
   } catch (error) {
     console.error('Error fetching assignment with test:', error);
     throw new Error('Failed to fetch assignment with test data');

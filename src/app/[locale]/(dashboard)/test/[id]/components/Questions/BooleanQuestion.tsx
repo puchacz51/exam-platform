@@ -26,7 +26,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({ question, mode }) => {
       <div className="flex items-center space-x-2">
         <RadioGroupItem
           value="true"
-          checked={defaultValue}
+          defaultChecked={defaultValue}
           id={`${question.id}-true`}
           disabled={mode === 'view'}
         />
@@ -34,7 +34,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({ question, mode }) => {
       </div>
       <div className="flex items-center space-x-2">
         <RadioGroupItem
-          checked={!defaultValue}
+          defaultChecked={!defaultValue}
           value="false"
           id={`${question.id}-false`}
           disabled={mode === 'view'}

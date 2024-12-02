@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
 import { testsTable } from '@schema/test';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 import { groupsTable } from '@schema/groups';
@@ -15,7 +15,7 @@ export async function getTestOwnerAssignments() {
   }
 
   const userId = sessions.user.userID;
-  console.log(userId);
+
   const assignments = await db
     .select({
       testId: testsTable.id,

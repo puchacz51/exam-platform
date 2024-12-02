@@ -7,7 +7,7 @@ import { Plus, X } from 'lucide-react';
 
 import { useGroupMembers } from '@/hooks/useGroupMembers';
 import { useSearchUsers } from '@/hooks/useSearchUsers';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';

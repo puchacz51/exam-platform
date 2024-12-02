@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccess';
 import { auth } from '@/next-auth/auth';
 
 export async function getTestAssignment(id: string) {
@@ -26,7 +26,7 @@ export async function getTestAssignment(id: string) {
         showResultsAfterSubmission: true,
       },
       with: {
-        testAccessGroups: {
+        TAGroup: {
           columns: {
             id: true,
             sourceType: true,
@@ -48,8 +48,7 @@ export async function getTestAssignment(id: string) {
         },
       },
     });
-    console.log('assignment:', assignment?.id);
-    console.log('assignment:', assignment?.endsAt);
+
     return assignment;
   } catch (error) {
     console.error('Error fetching test assignment:', error);

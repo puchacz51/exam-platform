@@ -9,9 +9,11 @@ import {
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { testsTable } from './test';
-import { testAccessGroupsTable } from './testAccessGroups';
-import { usersTable } from './users';
+import { testAttemptsTable } from '@schema/testAttempt';
+import { testsTable } from '@schema/test';
+import { usersTable } from '@schema/users';
+import { testAccessGroupsTable } from '@schema/testAccessGroups';
+
 
 export const testAccessTypeEnum = pgEnum('test_access_type', [
   'GROUP',
@@ -47,11 +49,12 @@ export const testAccessConfigRelations = relations(
       fields: [testAccessConfigTable.testId],
       references: [testsTable.id],
     }),
-    testAccessGroups: many(testAccessGroupsTable),
+    TAGroup: many(testAccessGroupsTable),
     assignedByUser: one(usersTable, {
       fields: [testAccessConfigTable.assignedBy],
       references: [usersTable.id],
     }),
+    attempts: many(testAttemptsTable),
   })
 );
 

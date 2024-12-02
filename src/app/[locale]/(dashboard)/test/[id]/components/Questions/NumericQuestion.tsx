@@ -24,7 +24,6 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
-  console.log(question, 1111);
   const { tolerance } = question.groupSubQuestions[0];
   const defaultValue =
     'numericAnswer' in question.groupSubQuestions[0]

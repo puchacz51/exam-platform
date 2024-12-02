@@ -34,27 +34,25 @@ const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = ({
 
   return (
     <RadioGroup className="space-y-3">
-      {question.answers?.map((answer) => {
-        return (
-          <div
-            key={answer.id}
-            className="flex items-center space-x-3"
+      {question.answers?.map((answer) => (
+        <div
+          key={answer.id}
+          className="flex items-center space-x-3"
+        >
+          <RadioGroupItem
+            value={answer.id}
+            id={answer.id}
+            disabled={mode === 'view'}
+            defaultChecked={getDefaultValue(answer)}
+          />
+          <Label
+            htmlFor={answer.id}
+            className="text-sm"
           >
-            <RadioGroupItem
-              value={answer.id}
-              id={answer.id}
-              disabled={mode === 'view'}
-              checked={getDefaultValue(answer)}
-            />
-            <Label
-              htmlFor={answer.id}
-              className="text-sm"
-            >
-              {answer.text}
-            </Label>
-          </div>
-        );
-      })}
+            {answer.text}
+          </Label>
+        </div>
+      ))}
     </RadioGroup>
   );
 };

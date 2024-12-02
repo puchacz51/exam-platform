@@ -1,8 +1,9 @@
 import { pgTable, real, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { questionsTable } from '@schema/questions';
+import { questionsTable, questionTypeEnum } from '@schema/questions';
 import { testAttemptsTable } from '@schema/testAttempt';
+
 
 export const attemptAnswersTable = pgTable('attempt_answers', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -14,6 +15,7 @@ export const attemptAnswersTable = pgTable('attempt_answers', {
     .references(() => questionsTable.id, { onDelete: 'cascade' }),
   answeredAt: timestamp('answered_at').defaultNow(),
   points: real('points'),
+  type: questionTypeEnum('type').notNull(),
 });
 
 export const attemptAnswersRelations = relations(
@@ -22,6 +24,10 @@ export const attemptAnswersRelations = relations(
     testAttempt: one(testAttemptsTable, {
       fields: [attemptAnswersTable.attemptId],
       references: [testAttemptsTable.id],
+    }),
+    question: one(questionsTable, {
+      fields: [attemptAnswersTable.questionId],
+      references: [questionsTable.id],
     }),
   })
 );
