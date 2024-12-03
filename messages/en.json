@@ -84,5 +84,126 @@
             "usos": "USOS",
             "google": "Google"
         }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Dashboard",
+            "welcome": "Welcome to your test management dashboard",
+            "createTest": "Create New Test"
+        },
+        "recentTests": {
+            "title": "Recent Tests",
+            "viewAll": "View All",
+            "empty": {
+                "title": "No tests created yet",
+                "description": "Create your first test to get started",
+                "action": "Create your first test"
+            },
+            "item": {
+                "questions": "{count} questions"
+            }
+        },
+        "assignedTests": {
+            "title": "Upcoming Tests",
+            "subTitle": "{count} {count, plural, one {test} other {tests}} assigned to you",
+            "empty": "No upcoming tests",
+            "startsIn": "Starts in {hours}h",
+            "endsIn": "Ends in {hours}h",
+            "startDate": "Starts: {date}",
+            "attemptTest": "Attempt the test"
+        },
+        "ownedTests": {
+            "title": "Tests You've Assigned",
+            "subTitle": "{count} {count, plural, one {test} other {tests}} assigned by you",
+            "assignTest": "Assign test",
+            "empty": "You haven't assigned any tests yet",
+            "viewList": "View list",
+            "assignedTo": "Assigned to: {group}",
+            "accessType": "Access type: {type}"
+        },
+        "groups": {
+            "title": "Your Groups",
+            "subTitle": "{count} total {count, plural, one {group} other {groups}}",
+            "viewAll": "View All",
+            "empty": {
+                "title": "No groups created yet",
+                "action": "Create your first group"
+            },
+            "members": "{count} {count, plural, one {member} other {members}}",
+            "view": "View",
+            "viewMembers": "View members",
+            "hideMembers": "Hide members",
+            "details": {
+                "title": "Group Details",
+                "edit": "Edit",
+                "cancel": "Cancel",
+                "deleteGroup": "Delete Group",
+                "deleteConfirm": {
+                    "title": "Are you sure?",
+                    "description": "This action cannot be undone. This will permanently delete the group and remove all members."
+                },
+                "save": "Save Changes",
+                "groupName": "Group Name",
+                "description": "Description",
+                "noDescription": "No description provided"
+            },
+            "list": {
+                "searchPlaceholder": "Search groups...",
+                "noResults": "No groups found matching your search",
+                "noGroups": "No groups available",
+                "showAll": "Show All"
+            },
+            "create": {
+                "name": "Group Name",
+                "namePlaceholder": "Enter group name",
+                "description": "Description",
+                "descriptionPlaceholder": "Enter group description",
+                "addUsers": "Add Users",
+                "searchUsers": "Search users...",
+                "create": "Create Group",
+                "creating": "Creating...",
+                "sectionTitle": "Create New Group",
+                "description": "Set up a new group and invite members to collaborate."
+            },
+            "management": {
+                "title": "Groups Management",
+                "description": "Create and manage your groups, add members and organize your team."
+            },
+            "members": {
+                "title": "Group Members",
+                "addButton": "Add Members",
+                "addDialog": {
+                    "title": "Add Members",
+                    "description": "Search and select users to add to the group."
+                }
+            },
+            "owned": {
+                "title": "My Groups",
+                "description": "Groups you have created and manage",
+                "empty": {
+                    "title": "No groups found",
+                    "description": "Create a new group to get started"
+                }
+            },
+            "teams": {
+                "title": "Teams Groups",
+                "description": "Your Microsoft Teams synchronized groups"
+            }
+        }
+    },
+    "test": {
+        "questions": {
+            "matching": {
+                "selectPlaceholder": "Select matching item..."
+            },
+            "boolean": {
+                "true": "True",
+                "false": "False"
+            },
+            "booleanGroup": {
+                "true": "True",
+                "false": "False"
+            }
+        }
     }
 }

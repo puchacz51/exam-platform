@@ -6,6 +6,8 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/next-auth/auth';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
 import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -13,15 +15,18 @@ interface RootLayoutProps {
 
 const RootLayout = async ({ children }: Readonly<RootLayoutProps>) => {
   const session = await auth();
+  const messages = await getMessages();
   return (
     <>
-      <SessionProvider session={session}>
-        <div className="flex min-h-screen flex-col">
-          <DashboardHeader />
-          <main className="flex-grow">{children}</main>
-          <DashboardFooter />
-        </div>
-      </SessionProvider>
+      <NextIntlClientProvider messages={messages}>
+        <SessionProvider session={session}>
+          <div className="flex min-h-screen flex-col">
+            <DashboardHeader />
+            <main className="flex-grow">{children}</main>
+            <DashboardFooter />
+          </div>
+        </SessionProvider>
+      </NextIntlClientProvider>
     </>
   );
 };

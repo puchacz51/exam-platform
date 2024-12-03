@@ -1,12 +1,15 @@
 import { TestWithCategory } from '@/types/test/testWithCategory';
 import { formatDate } from '@/lib/utils';
 import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 interface TestItemProps {
   test: TestWithCategory;
 }
 
 export const TestItem = ({ test }: TestItemProps) => {
+  const t = useTranslations('dashboard.recentTests.item');
+
   return (
     <Link
       href={{ pathname: '/test/[id]', params: { id: test.id } }}
@@ -24,7 +27,7 @@ export const TestItem = ({ test }: TestItemProps) => {
         </p>
         <div className="mt-2 flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
-            {test.questionCount} questions
+            {t('questions', { count: test.questionCount })}
           </span>
           •
           <span className="text-sm text-muted-foreground">

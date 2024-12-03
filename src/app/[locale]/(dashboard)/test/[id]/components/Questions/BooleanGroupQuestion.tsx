@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { type BooleanGroupQuestion } from '@/types/questions/booleanGroupQuestion';
 import { TestAttemptFormDataBooleanGroup } from '@/types/forms/testAttemptForm';
+import { useTranslations } from 'next-intl';
 
 interface BooleanGroupQuestionViewProps {
   mode?: 'view';
@@ -26,6 +27,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
+  const t = useTranslations('test.questions.booleanGroup');
   const { id, groupSubQuestions } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { control, setValue, watch } =
@@ -92,7 +94,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
                     htmlFor={`${subQuestion.id}-true`}
                     className="cursor-pointer text-sm font-medium text-gray-600"
                   >
-                    True
+                    {t('true')}
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -106,7 +108,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
                     htmlFor={`${subQuestion.id}-false`}
                     className="cursor-pointer text-sm font-medium text-gray-600"
                   >
-                    False
+                    {t('false')}
                   </Label>
                 </div>
               </RadioGroup>

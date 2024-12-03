@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { type MatchingQuestion } from '@/types/questions/matchingQuestion';
 import { TestAttemptFormDataMatching } from '@/types/forms/testAttemptForm';
+import { useTranslations } from 'next-intl';
 
 interface MatchingPairViewProps {
   mode?: 'view';
@@ -30,6 +31,7 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
   question,
   mode = 'view',
 }) => {
+  const t = useTranslations('test.questions.matching');
   const { id, matchingPairs } = question;
   const fieldKey = `questions.${id}.pairs` as const;
   const { control, setValue, watch } =
@@ -89,7 +91,7 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
                     onValueChange={(value) => handlePairChange(pair.key, value)}
                   >
                     <SelectTrigger className="w-full min-w-[200px] bg-white sm:w-auto">
-                      <SelectValue placeholder="Select matching item..." />
+                      <SelectValue placeholder={t('selectPlaceholder')} />
                     </SelectTrigger>
                     <SelectContent>
                       {valueItems.map((item) => (

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { usePathname } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 interface AuthHeaderProps {
   children?: React.ReactNode;
@@ -29,6 +30,7 @@ const AuthHeader = ({ children }: AuthHeaderProps) => {
           </div>
           
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             {children}
             <nav className="flex space-x-4">
               <Button

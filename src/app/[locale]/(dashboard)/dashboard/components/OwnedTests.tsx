@@ -1,4 +1,5 @@
 import { ChevronRight, Share2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -17,17 +18,18 @@ interface OwnedTestsProps {
 }
 
 export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
+  const t = useTranslations('dashboard.ownedTests');
+
   return (
     <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-            Tests Youve Assigned
+            {t('title')}
           </h2>
           {ownedTests.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              {ownedTests.length} {ownedTests.length === 1 ? 'test' : 'tests'}
-              assigned by you
+              {t('subTitle', { count: ownedTests.length })}
             </p>
           )}
         </div>
@@ -40,7 +42,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
             href="/test/assign"
             className="gap-2"
           >
-            Assign test <ChevronRight className="h-4 w-4" />
+            {t('assignTest')} <ChevronRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -49,7 +51,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
         <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <Share2 className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
-            You havent assigned any tests yet
+            {t('empty')}
           </p>
         </div>
       ) : (
@@ -63,8 +65,8 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
                 <h3 className="font-medium">{test.testTitle}</h3>
                 <p className="text-sm text-muted-foreground">
                   {test.groupName
-                    ? `Assigned to: ${test.groupName}`
-                    : `Access type: ${test.accessType}`}
+                    ? t('assignedTo', { group: test.groupName })
+                    : t('accessType', { type: test.accessType })}
                 </p>
               </div>
               <Button
@@ -73,7 +75,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
                 asChild
               >
                 <Link href="/test/assign">
-                  View list <ChevronRight className="ml-2 h-4 w-4" />
+                  {t('viewList')} <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>

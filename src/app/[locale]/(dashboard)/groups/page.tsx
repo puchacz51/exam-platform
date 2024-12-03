@@ -7,11 +7,14 @@ import { CreateGroupForm } from '@/app/[locale]/(dashboard)/groups/components/Cr
 import OwnedGroupList from '@/app/[locale]/(dashboard)/groups/components/OwnedGroupList';
 import { auth } from '@/next-auth/auth';
 import { Separator } from '@/components/ui/separator';
+import { getTranslations } from 'next-intl/server';
 
 const GroupsPage = async () => {
   const session = await auth();
   const isTeamsUser = session?.user.authProvider === 'azure-ad';
-  const [ownedGroups, teamsGroups] = await Promise.all([
+
+  const [t, ownedGroups, teamsGroups] = await Promise.all([
+    getTranslations('dashboard.groups'),
     getUserGroups(),
     isTeamsUser ? getUserTeamsGroups() : Promise.resolve({ data: [] }),
   ]);
@@ -21,11 +24,9 @@ const GroupsPage = async () => {
       <div className="container mx-auto max-w-7xl space-y-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold tracking-tight">
-            Groups Management
+            {t('management.title')}
           </h1>
-          <p className="text-muted-foreground">
-            Create and manage your groups, add members and organize your team.
-          </p>
+          <p className="text-muted-foreground">{t('management.description')}</p>
           <Separator />
         </div>
 
@@ -35,10 +36,10 @@ const GroupsPage = async () => {
               <div className="flex flex-col gap-6">
                 <div>
                   <h2 className="text-2xl font-semibold tracking-tight">
-                    Create New Group
+                    {t('create.sectionTitle')}
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    Set up a new group and invite members to collaborate.
+                    {t('create.description')}
                   </p>
                 </div>
                 <CreateGroupForm />
@@ -51,10 +52,10 @@ const GroupsPage = async () => {
               <div className="flex flex-col gap-6">
                 <div>
                   <h2 className="text-2xl font-semibold tracking-tight">
-                    My Groups
+                    {t('owned.title')}
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    Groups you have created and manage.
+                    {t('owned.description')}
                   </p>
                 </div>
                 <OwnedGroupList initialGroups={ownedGroups?.data || []} />
@@ -68,10 +69,10 @@ const GroupsPage = async () => {
                 <div className="flex flex-col gap-6">
                   <div>
                     <h2 className="text-2xl font-semibold tracking-tight">
-                      Teams Groups
+                      {t('teams.title')}
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Your Microsoft Teams synchronized groups.
+                      {t('teams.description')}
                     </p>
                   </div>
                   <GroupList

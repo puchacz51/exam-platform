@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight, FolderPlus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -12,11 +13,13 @@ interface RecentTestsProps {
 }
 
 export const RecentTests = ({ tests }: RecentTestsProps) => {
+  const t = useTranslations('dashboard.recentTests');
+
   return (
     <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-          Recent Tests
+          {t('title')}
         </h2>
         <Button
           variant="ghost"
@@ -27,7 +30,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
             href="/tests"
             className="gap-2"
           >
-            View All <ChevronRight className="h-4 w-4" />
+            {t('viewAll')} <ChevronRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -36,14 +39,14 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
         <div className="flex min-h-[180px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <FolderPlus className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
-            No tests created yet
+            {t('empty.title')}
           </p>
           <Button
             variant="secondary"
             size="sm"
             asChild
           >
-            <Link href="/test-creator">Create your first test</Link>
+            <Link href="/test-creator">{t('empty.action')}</Link>
           </Button>
         </div>
       ) : (
@@ -66,7 +69,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">
-                    {test.questionCount} questions
+                    {t('item.questions', { count: test.questionCount })}
                   </span>
                   •
                   <span className="text-sm text-muted-foreground">
@@ -87,7 +90,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
           href="/tests"
           className="gap-2"
         >
-          View All Tests <ChevronRight className="h-4 w-4" />
+          {t('viewAll')} <ChevronRight className="h-4 w-4" />
         </Link>
       </Button>
     </Card>

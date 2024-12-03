@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -25,6 +26,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
+  const t = useTranslations('test.questions.boolean');
   const { id } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { setValue, watch } = useFormContext<TestAttemptFormDataBoolean>();
@@ -52,7 +54,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
           id={`${id}-true`}
           disabled={mode === 'view'}
         />
-        <Label htmlFor={`${id}-true`}>True</Label>
+        <Label htmlFor={`${id}-true`}>{t('true')}</Label>
       </div>
       <div className="flex items-center space-x-2">
         <RadioGroupItem
@@ -60,7 +62,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
           id={`${id}-false`}
           disabled={mode === 'view'}
         />
-        <Label htmlFor={`${id}-false`}>False</Label>
+        <Label htmlFor={`${id}-false`}>{t('false')}</Label>
       </div>
     </RadioGroup>
   );
