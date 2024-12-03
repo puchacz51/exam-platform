@@ -1,6 +1,7 @@
 'use client';
 
 import { FC } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,30 +22,30 @@ import {
 import { useRouter } from '@/i18n/routing';
 import AlternativeSignUpMethods from '@/app/[locale]/(auth)/components/AlternativeSignUpMethods';
 
-const registrationSchema = z
-  .object({
-    firstName: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
-    lastName: z.string().min(2, 'Nazwisko musi mieć co najmniej 2 znaki'),
-    email: z.string().email('Nieprawidłowy adres email'),
-    password: z.string().min(8, 'Hasło musi mieć co najmniej 8 znaków'),
+const RegistrationForm: FC = () => {
+  const t = useTranslations('auth');
+
+  const registrationSchema = z.object({
+    firstName: z.string().min(2, t('validation.minLength', { length: 2 })),
+    lastName: z.string().min(2, t('validation.minLength', { length: 2 })),
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(8, t('validation.minLength', { length: 8 })),
     confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Hasła nie są identyczne',
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t('validation.passwordMatch'),
     path: ['confirmPassword'],
   });
 
-type RegistrationForm = z.infer<typeof registrationSchema>;
+  type RegistrationForm = z.infer<typeof registrationSchema>;
 
-const defaultValues: RegistrationForm = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-};
+  const defaultValues: RegistrationForm = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
 
-const RegistrationForm: FC = () => {
   const form = useForm<RegistrationForm>({
     resolver: zodResolver(registrationSchema),
     defaultValues,
@@ -75,7 +76,7 @@ const RegistrationForm: FC = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold">
-          Zarejestruj nowe konto
+          {t('register.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -89,7 +90,7 @@ const RegistrationForm: FC = () => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Imię</FormLabel>
+                  <FormLabel>{t('register.firstName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Jan"
@@ -105,7 +106,7 @@ const RegistrationForm: FC = () => {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nazwisko</FormLabel>
+                  <FormLabel>{t('register.lastName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Kowalski"
@@ -121,7 +122,7 @@ const RegistrationForm: FC = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('register.email')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="twoj@email.com"
@@ -138,7 +139,7 @@ const RegistrationForm: FC = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Hasło</FormLabel>
+                  <FormLabel>{t('register.password')}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -155,7 +156,7 @@ const RegistrationForm: FC = () => {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Potwierdź hasło</FormLabel>
+                  <FormLabel>{t('register.confirmPassword')}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -171,7 +172,7 @@ const RegistrationForm: FC = () => {
               type="submit"
               className="w-full"
             >
-              Zarejestruj się
+              {t('register.submit')}
             </Button>
           </form>
         </Form>

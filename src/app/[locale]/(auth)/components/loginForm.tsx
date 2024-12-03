@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,25 +21,26 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-const loginSchema = z.object({
-  email: z.string().email('Nieprawidłowy adres email'),
-  password: z.string().min(1, 'Hasło jest wymagane'),
-});
-
-type LoginForm = z.infer<typeof loginSchema>;
-
-const defaultValues: LoginForm = {
-  email: '',
-  password: '',
-};
-
 const LoginForm: FC = () => {
+  const t = useTranslations('auth');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState({
     credentials: false,
     microsoft: false,
     usos: false,
   });
+
+  const loginSchema = z.object({
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(1, t('validation.required')),
+  });
+
+  type LoginForm = z.infer<typeof loginSchema>;
+
+  const defaultValues: LoginForm = {
+    email: '',
+    password: '',
+  };
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -101,7 +103,7 @@ const LoginForm: FC = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold">
-          Zaloguj się do konta
+          {t('login.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -115,7 +117,7 @@ const LoginForm: FC = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('login.email')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="twoj@email.com"
@@ -132,7 +134,7 @@ const LoginForm: FC = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Hasło</FormLabel>
+                  <FormLabel>{t('login.password')}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -149,7 +151,7 @@ const LoginForm: FC = () => {
               className="w-full"
               disabled={isLoading.credentials}
             >
-              {isLoading.credentials ? 'Logowanie...' : 'Zaloguj się'}
+              {isLoading.credentials ? t('login.loading') : t('login.submit')}
             </Button>
           </form>
         </Form>
@@ -160,7 +162,7 @@ const LoginForm: FC = () => {
           </div>
           <div className="relative flex justify-center text-sm">
             <span className="bg-white px-2 text-gray-500">
-              Lub zaloguj się przez
+              {t('login.alternativeMethods')}
             </span>
           </div>
         </div>
@@ -171,14 +173,14 @@ const LoginForm: FC = () => {
             onClick={handleMicrosoftSignIn}
             disabled={isLoading.microsoft}
           >
-            {isLoading.microsoft ? 'Łączenie...' : 'Microsoft Teams'}
+            {isLoading.microsoft ? t('login.loading') : t('login.microsoft')}
           </Button>
           <Button
             variant="outline"
             onClick={handleUSOSSignIn}
             disabled={isLoading.usos}
           >
-            {isLoading.usos ? 'Łączenie...' : 'USOS'}
+            {isLoading.usos ? t('login.loading') : t('login.usos')}
           </Button>
         </div>
       </CardContent>

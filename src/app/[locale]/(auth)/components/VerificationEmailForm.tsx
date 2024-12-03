@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useRouter } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 type VerifyTokenFormData = {
   token: [string, string, string, string, string, string, string, string];
@@ -30,6 +31,7 @@ const defaultValues: VerifyTokenFormData = {
 const EmailVerificationForm = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth');
 
   const form = useForm({
     defaultValues,
@@ -128,7 +130,7 @@ const EmailVerificationForm = () => {
             name="token"
             render={() => (
               <FormItem>
-                <FormLabel>Kod weryfikacyjny</FormLabel>
+                <FormLabel>{t('verification.code')}</FormLabel>
                 <FormControl>
                   <div className="flex space-x-2">
                     {Array(8)
@@ -150,7 +152,7 @@ const EmailVerificationForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Zweryfikuj</Button>
+          <Button type="submit">{t('verification.submit')}</Button>
         </form>
       </Form>
     </Card>

@@ -14,12 +14,14 @@ import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGe
 import TestProgress from '@/app/[locale]/(dashboard)/test/[id]/components/TestProgress';
 import { TestNavigation } from '@/app/[locale]/(dashboard)/test/[id]/components/TestNavigation';
 import { QuestionGroup } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionGroup';
+import { FormProvider, useForm } from 'react-hook-form';
 
 interface TestViewerProps {
   testId: string;
 }
 
 const TestViewer = ({ testId }: TestViewerProps) => {
+  const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
 
@@ -62,35 +64,37 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-4">
-      <Card className="shadow-lg">
-        <CardHeader className="border-b"></CardHeader>
+    <FormProvider {...form}>
+      <div className="mx-auto max-w-4xl p-4">
+        <Card className="shadow-lg">
+          <CardHeader className="border-b"></CardHeader>
 
-        <TestProgress
-          timeLimit={testSettings.timeLimit}
-          currentGroupIndex={currentGroupIndex}
-          totalGroups={totalGroups}
-          progress={progress}
-        />
-
-        <CardContent className="p-6">
-          <QuestionGroup
-            group={currentGroup}
-            currentGroupIndex={currentGroupIndex}
-          />
-        </CardContent>
-
-        <CardFooter>
-          <TestNavigation
+          <TestProgress
+            timeLimit={testSettings.timeLimit}
             currentGroupIndex={currentGroupIndex}
             totalGroups={totalGroups}
-            isChangeable={testSettings.changeable}
-            onPrevious={handlePreviousGroup}
-            onNext={handleNextGroup}
+            progress={progress}
           />
-        </CardFooter>
-      </Card>
-    </div>
+
+          <CardContent className="p-6">
+            <QuestionGroup
+              group={currentGroup}
+              currentGroupIndex={currentGroupIndex}
+            />
+          </CardContent>
+
+          <CardFooter>
+            <TestNavigation
+              currentGroupIndex={currentGroupIndex}
+              totalGroups={totalGroups}
+              isChangeable={testSettings.changeable}
+              onPrevious={handlePreviousGroup}
+              onNext={handleNextGroup}
+            />
+          </CardFooter>
+        </Card>
+      </div>
+    </FormProvider>
   );
 };
 

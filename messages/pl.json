@@ -33,5 +33,62 @@
                 "description": "Praca inżynierska realizowana pod kierunkiem promotora na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
             }
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Zaloguj się do konta",
+            "email": "Email",
+            "password": "Hasło",
+            "submit": "Zaloguj się",
+            "loading": "Logowanie...",
+            "alternativeMethods": "Lub zaloguj się przez",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "register": "Rejestracja"
+        },
+        "register": {
+            "title": "Zarejestruj nowe konto",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "email": "Email",
+            "password": "Hasło",
+            "confirmPassword": "Potwierdź hasło",
+            "submit": "Zarejestruj się",
+            "alternativeMethods": "Lub zarejestruj się przez",
+            "login": "Logowanie"
+        },
+        "verification": {
+            "title": "Weryfikacja email",
+            "code": "Kod weryfikacyjny",
+            "submit": "Zweryfikuj"
+        },
+        "completeProfile": {
+            "title": "Uzupełnij profil",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "submit": "Zaktualizuj profil"
+        },
+        "validation": {
+            "email": "Nieprawidłowy adres email",
+            "required": "To pole jest wymagane",
+            "minLength": "Minimum {length} znaków",
+            "passwordMatch": "Hasła nie są identyczne"
+        },
+        "alternativeMethods": {
+            "title": "Lub zarejestruj się przez",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "google": "Google"
+        },
+        "completeProfile": {
+            "title": "Uzupełnij profil",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "submit": "Zaktualizuj profil",
+            "validation": {
+                "firstNameLength": "Imię musi mieć co najmniej 2 znaki",
+                "lastNameLength": "Nazwisko musi mieć co najmniej 2 znaki"
+            }
+        }
     }
 }

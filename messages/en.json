@@ -33,5 +33,56 @@
                 "description": "Engineering thesis conducted under supervision at the Faculty of Telecommunications, Computer Science and Electrical Engineering"
             }
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Log in to your account",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Log in",
+            "loading": "Logging in...",
+            "alternativeMethods": "Or log in with",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "register": "Register"
+        },
+        "register": {
+            "title": "Create new account",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "email": "Email",
+            "password": "Password",
+            "confirmPassword": "Confirm password",
+            "submit": "Sign up",
+            "alternativeMethods": "Or sign up with",
+            "login": "Login"
+        },
+        "verification": {
+            "title": "Email verification",
+            "code": "Verification code",
+            "submit": "Verify"
+        },
+        "completeProfile": {
+            "title": "Complete your profile",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "submit": "Update profile",
+            "validation": {
+                "firstNameLength": "First name must be at least 2 characters",
+                "lastNameLength": "Last name must be at least 2 characters"
+            }
+        },
+        "validation": {
+            "email": "Invalid email address",
+            "required": "This field is required",
+            "minLength": "Minimum {length} characters",
+            "passwordMatch": "Passwords don't match"
+        },
+        "alternativeMethods": {
+            "title": "Or sign up with",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "google": "Google"
+        }
     }
 }
