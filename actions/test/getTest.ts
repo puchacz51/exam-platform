@@ -67,7 +67,6 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
         settings: true,
       },
     });
-    console.log('test:', test);
 
     if (test) {
       test.QG = test.QG.map((group) => ({

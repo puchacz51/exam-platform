@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm';
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/testAccess';
 import { auth } from '@/next-auth/auth';
+import { testAttemptsTable } from '@schema/testAttempt';
 
 export async function getTestAssignment(id: string) {
   const session = await auth();
@@ -45,6 +46,9 @@ export async function getTestAssignment(id: string) {
             title: true,
             description: true,
           },
+        },
+        attempts: {
+          where: eq(testAttemptsTable.userId, session.user.userID),
         },
       },
     });

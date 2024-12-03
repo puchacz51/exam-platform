@@ -5,7 +5,7 @@ import { Bell, Settings } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import LanguageSwitcher from '@/app/[locale]/components/LanguageSwitcher';
 
 const DashboardHeader = () => {
   return (

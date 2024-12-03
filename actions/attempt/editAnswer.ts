@@ -73,7 +73,6 @@ export async function editAnswer(
 
     await deleteDetails();
 
-    // Insert new detail records
     switch (input.type) {
       case 'OPEN':
         await tx.insert(openAnswersTable).values({
@@ -119,6 +118,7 @@ export async function editAnswer(
             value: answer.value,
           }))
         );
+        break;
 
       case 'NUMERIC_GROUP':
         await tx.insert(numericAnswersTable).values(

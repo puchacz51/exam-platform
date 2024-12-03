@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { usePathname } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import LanguageSwitcher from '@/app/[locale]/components/LanguageSwitcher';
 
 interface AuthHeaderProps {
   children?: React.ReactNode;
@@ -15,7 +15,7 @@ interface AuthHeaderProps {
 const AuthHeader = ({ children }: AuthHeaderProps) => {
   const t = useTranslations('auth');
   const pathname = usePathname();
-  
+
   return (
     <header className="bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ const AuthHeader = ({ children }: AuthHeaderProps) => {
               Logo
             </Link>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             {children}
