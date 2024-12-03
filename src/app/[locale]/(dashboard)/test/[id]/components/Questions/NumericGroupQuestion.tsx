@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,7 +30,7 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
 }) => {
   const { id, groupSubQuestions } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { control, setValue, getValues, watch } =
+  const { control, setValue } =
     useFormContext<TestAttemptFormDataNumericGroup>();
   const { fields } = useFieldArray({
     control,
@@ -37,10 +38,6 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
   });
 
   const handleInputChange = (subQuestionId: string, value: string) => {
-    const questionValue = getValues('questions')[id];
-    if (!questionValue?.type) {
-      setValue(`questions.${id}.type`, 'NUMERIC_GROUP');
-    }
     const index = fields.findIndex(
       (field) => field.subQuestionId === subQuestionId
     );
@@ -52,14 +49,9 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
     }
   };
 
-  const answers = watch(fieldKey) || [];
-
   return (
     <div className="grid gap-4">
       {groupSubQuestions?.map((subQuestion) => {
-        const answer = answers.find(
-          (ans) => ans.subQuestionId === subQuestion.id
-        );
         return (
           <Card
             key={subQuestion.id}
@@ -91,7 +83,7 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
                   />
                 </div>
                 {subQuestion.tolerance && (
-                  <div className="text-sm text-muted-foreground text-center">
+                  <div className="text-center text-sm text-muted-foreground">
                     ±{subQuestion.tolerance}
                   </div>
                 )}

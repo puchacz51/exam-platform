@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import { Textarea } from '@/components/ui/textarea';
 import BooleanGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanGroupQuestion';
 import NumericGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericGroupQuestion';
 import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoiceQuestion';

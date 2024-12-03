@@ -1,5 +1,7 @@
 import { FC } from 'react';
+
 import { useFormContext } from 'react-hook-form';
+
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import {
@@ -28,8 +30,8 @@ const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = ({
 }) => {
   const { id, answers } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  
-  const { setValue, getValues,watch } =
+
+  const { setValue, getValues, watch } =
     useFormContext<TestAttemptFormDataSingleChoice>();
 
   const selectedAnswerId =
@@ -46,7 +48,6 @@ const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = ({
 
     setValue(fieldKey, [{ answerId }]);
   };
-
 
   return (
     <RadioGroup

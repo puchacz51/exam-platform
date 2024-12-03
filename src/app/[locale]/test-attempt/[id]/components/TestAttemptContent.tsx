@@ -6,9 +6,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 import { Question } from '@/types/questions';
-import { submitAnswers } from '@actions/attempt/submitAnswers';
 import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
 import { AnswerInput } from '@/types/answers/testAttemptAnswers';
+import { prepareFormSubmission } from '@/utils/formSubmissionUtils';
+import { createAnswer } from '@actions/attempt/createAnswer';
 
 export interface AttemptQuestionGroup {
   id: string;
@@ -18,12 +19,14 @@ export interface AttemptQuestionGroup {
 
 interface TestAttemptContentProps {
   questionGroups: AttemptQuestionGroup[];
+  testAssignmentId: string;
   attemptId: string;
 }
 
 export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   questionGroups,
   attemptId,
+  testAssignmentId,
 }) => {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -52,22 +55,11 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   } = methods;
 
   const onSubmit = async (data: TestAttemptFormData) => {
-    console.log(data);
     try {
-      const formattedAnswers = Object.entries(data.questions).map(
-        ([questionId, attempt]) => {
-          if ('answers' in attempt) {
-            return {
-              questionId: questionId,
-              type: attempt.type,
-              answers: attempt.answers,
-              attemptId,
-            };
-          }
-        }
-      );
+      const formattedAnswers = prepareFormSubmission(data, attemptId);
+      console.log('formattedAnswers', formattedAnswers);
 
-      const result = await submitAnswers(formattedAnswers as AnswerInput[]);
+      const result = await createAnswer(testAssignmentId, formattedAnswers);
 
       if (result.error) {
         setSubmitError(result.error);

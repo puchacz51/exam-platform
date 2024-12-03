@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
+
 import { useFormContext } from 'react-hook-form';
 import {
   closestCenter,
@@ -11,9 +12,9 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
+  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
-  arrayMove,
 } from '@dnd-kit/sortable';
 
 import SortableItem from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SortableItem';
@@ -37,8 +38,7 @@ type OrderQuestionProps = OrderQuestionViewProps | OrderQuestionSolveProps;
 
 const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const { id } = question;
-  const { setValue, getValues, watch } =
-    useFormContext<TestAttemptFormDataOrder>();
+  const { setValue } = useFormContext<TestAttemptFormDataOrder>();
 
   // Track the current order of items in component state
   const [orderedItems, setOrderedItems] = React.useState(question.orderItems);
@@ -50,7 +50,7 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
         `questions.${id}.items`,
         question.orderItems.map((item, index) => ({
           itemId: item.id,
-          order: index + 1,
+          position: index + 1,
         }))
       );
       setOrderedItems(question.orderItems);
@@ -76,12 +76,12 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
       const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
       setOrderedItems(newOrderedItems);
 
-      // Update form values with new orders
+      // Update form values with new positions
       setValue(
         `questions.${id}.items`,
         newOrderedItems.map((item, index) => ({
           itemId: item.id,
-          order: index + 1,
+          position: index + 1,
         }))
       );
     }

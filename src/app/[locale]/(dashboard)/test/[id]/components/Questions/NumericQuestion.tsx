@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { useFormContext } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
@@ -28,8 +29,7 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
 }) => {
   const { id, groupSubQuestions } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { setValue, getValues, watch } =
-    useFormContext<TestAttemptFormDataNumeric>();
+  const { setValue, watch } = useFormContext<TestAttemptFormDataNumeric>();
 
   const handleInputChange = (value: string) => {
     setValue(fieldKey, [

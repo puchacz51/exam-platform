@@ -27,7 +27,7 @@ export type ChoiceAnswerInput = Omit<BaseAnswerInput, 'type'> & {
 
 export type MatchingAnswerInput = Omit<BaseAnswerInput, 'type'> & {
   type: 'MATCHING';
-  pairs: Array<Pick<NewMatchingAnswer, 'keyItemId' | 'valueItemId'>>;
+  pairs: Array<Pick<NewMatchingAnswer, 'key' | 'value'>>;
 };
 
 export type OrderAnswerInput = Omit<BaseAnswerInput, 'type'> & {

@@ -5,23 +5,35 @@ import db from '@/lib/db';
 import { submitAnswer } from '@actions/attempt/submitAnswer';
 
 export async function submitAnswers(answers: AnswerInput[]) {
+  if (!answers?.length) {
+    return {
+      data: null,
+      error: 'No answers to submit',
+    };
+  }
+
   try {
-    return await db.transaction(async () => {
-      const results = [];
-      for (const answer of answers) {
-        const result = await submitAnswer(answer);
-        if (result.error) {
-          throw new Error(result.error);
-        }
-        results.push(result.data);
+    return await db.transaction(async (trx) => {
+      const filteredAnswers = answers.filter(Boolean);
+      const results = await Promise.all(
+        filteredAnswers.map((answer) => submitAnswer(answer, trx))
+      );
+
+      const error = results.find((result) => result.error);
+      if (error) {
+        throw new Error(error?.error || '');
       }
-      console.log('results', results);
-      return { data: results, error: null };
+
+      return {
+        data: results.map((result) => result.data),
+        error: null,
+      };
     });
   } catch (error) {
     return {
       data: null,
-      error: 'Failed to submit answers',
+      error:
+        error instanceof Error ? error.message : 'Failed to submit answers',
     };
   }
 }

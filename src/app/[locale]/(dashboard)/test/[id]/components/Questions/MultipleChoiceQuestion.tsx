@@ -30,20 +30,13 @@ const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = ({
 }) => {
   const { id, answers } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { control, setValue, getValues } =
-    useFormContext<TestAttemptFormDataMultiChoice>();
+  const { control } = useFormContext<TestAttemptFormDataMultiChoice>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldKey,
   });
 
   const handleCheckboxChange = (answerId: string, checked: boolean) => {
-    const questionValue = getValues('questions')[id];
-
-    if (!questionValue.type) {
-      setValue(`questions.${id}.type`, 'MULTIPLE_CHOICE');
-    }
-
     if (checked) {
       append({ answerId });
     } else {

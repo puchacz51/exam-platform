@@ -5,27 +5,48 @@ import { auth } from '@/next-auth/auth';
 import { testAccessConfigTable } from '@schema/testAccess';
 import { testAttemptsTable } from '@schema/testAttempt';
 
-export const getUserAttempt = async (assignmentId: string) => {
+export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
   const session = await auth();
 
   if (!session?.user.userID) {
     throw new Error('Unauthorized');
   }
-
+  console.log('session', session);
   try {
     const userAttempt = await db.query.testAttempts.findFirst({
       where: and(
         eq(testAttemptsTable.userId, session.user.userID),
-        eq(testAccessConfigTable.id, assignmentId)
+        eq(testAttemptsTable.testAccessId, assignmentId)
       ),
       with: {
-        testAccess: true,
+        testAccess: {
+          with: {
+            test: {
+              with: {
+                settings: true,
+                QG: {
+                  with: {
+                    qOnQG: {
+                      with: {
+                        question: {
+                          with: {
+                            groupSubQuestions: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         answers: true,
       },
     });
 
     if (!userAttempt) {
-      return { data: null, error: 'Attempt not found' };
+      return { data: userAttempt, error: 'Attempt not found' };
     }
 
     return { data: userAttempt, error: null };

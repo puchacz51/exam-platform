@@ -1,5 +1,7 @@
 import { FC } from 'react';
+
 import { useFormContext } from 'react-hook-form';
+
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { type BooleanQuestion } from '@/types/questions/booleanQuestion';
@@ -25,8 +27,7 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
 }) => {
   const { id } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { setValue, getValues, watch } =
-    useFormContext<TestAttemptFormDataBoolean>();
+  const { setValue, watch } = useFormContext<TestAttemptFormDataBoolean>();
 
   const selectedValue =
     mode === 'solve'
@@ -36,10 +37,6 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
         : undefined;
 
   const handleRadioChange = (value: string) => {
-    const questionValue = getValues('questions')[id];
-    if (!questionValue?.type) {
-      setValue(`questions.${id}.type`, 'BOOLEAN');
-    }
     setValue(fieldKey, [{ subQuestionId: id, value: value === 'true' }]);
   };
 

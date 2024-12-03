@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -27,7 +28,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
 }) => {
   const { id, groupSubQuestions } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { control, setValue, getValues, watch } =
+  const { control, setValue, watch } =
     useFormContext<TestAttemptFormDataBooleanGroup>();
   const { fields } = useFieldArray({
     control,
@@ -35,10 +36,6 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
   });
 
   const handleRadioChange = (subQuestionId: string, value: string) => {
-    const questionValue = getValues('questions')[id];
-    if (!questionValue?.type) {
-      setValue(`questions.${id}.type`, 'BOOLEAN_GROUP');
-    }
     const index = fields.findIndex(
       (field) => field.subQuestionId === subQuestionId
     );
@@ -46,7 +43,10 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
     if (index !== -1) {
       setValue(`${fieldKey}.${index}.value`, value === 'true');
     } else {
-      setValue(fieldKey, [...fields, { subQuestionId, value: value === 'true' }]);
+      setValue(fieldKey, [
+        ...fields,
+        { subQuestionId, value: value === 'true' },
+      ]);
     }
   };
 
@@ -58,9 +58,10 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
         const answer = answers.find(
           (ans) => ans.subQuestionId === subQuestion.id
         );
-        const selectedValue = mode === 'solve'
-          ? answer?.value?.toString()
-          : subQuestion.booleanAnswer?.toString();
+        const selectedValue =
+          mode === 'solve'
+            ? answer?.value?.toString()
+            : subQuestion.booleanAnswer?.toString();
 
         return (
           <Card
@@ -74,7 +75,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
                 </p>
               </div>
               <RadioGroup
-                className="justify-around flex space-x-6 rounded-lg border bg-white p-2 shadow-sm"
+                className="flex justify-around space-x-6 rounded-lg border bg-white p-2 shadow-sm"
                 value={selectedValue}
                 onValueChange={(value) =>
                   mode === 'solve' && handleRadioChange(subQuestion.id, value)

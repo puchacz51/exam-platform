@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ArrowRight } from 'lucide-react';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -31,39 +32,45 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
 }) => {
   const { id, matchingPairs } = question;
   const fieldKey = `questions.${id}.pairs` as const;
-  const { control, setValue, getValues, watch } =
+  const { control, setValue, watch } =
     useFormContext<TestAttemptFormDataMatching>();
   const { fields } = useFieldArray({
     control,
     name: fieldKey,
   });
 
-  const handlePairChange = (keyItemId: string, valueItemId: string) => {
-    const questionValue = getValues('questions')[id];
-    if (!questionValue?.type) {
-      setValue(`questions.${id}.type`, 'MATCHING');
-    }
-
-    const index = fields.findIndex((field) => field.keyItemId === keyItemId);
-    if (index !== -1) {
-      setValue(`${fieldKey}.${index}.valueItemId`, valueItemId);
+  const handlePairChange = (key: string, value: string) => {
+    const index = fields.findIndex((field) => field.key === key);
+    if (index === -1) {
+      // Add new pair at the end of the array
+      setValue(fieldKey, [
+        ...fields,
+        {
+          key,
+          value,
+        },
+      ]);
     } else {
-      setValue(fieldKey, [...fields, { keyItemId, valueItemId }]);
+      // Update existing pair
+      setValue(`${fieldKey}.${index}`, {
+        key,
+        value,
+      });
     }
   };
 
   const pairs = watch(fieldKey) || [];
   const valueItems = matchingPairs.map((pair) => ({
-    id: pair.key,
-    text: pair.value,
+    id: pair.id,
+    key: pair.key,
+    value: pair.value,
   }));
 
   return (
     <div className="grid gap-4">
       {matchingPairs?.map((pair) => {
-        const selectedPair = pairs.find((p) => p.keyItemId === pair.key);
-        const selectedValue =
-          mode === 'solve' ? selectedPair?.valueItemId : pair.key;
+        const selectedPair = pairs.find((p) => p.key === pair.key);
+        const selectedValue = selectedPair?.value;
 
         return (
           <Card
@@ -88,10 +95,10 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
                       {valueItems.map((item) => (
                         <SelectItem
                           key={item.id}
-                          value={item.id}
+                          value={item.value}
                           className="font-medium"
                         >
-                          {item.text}
+                          {item.value}
                         </SelectItem>
                       ))}
                     </SelectContent>

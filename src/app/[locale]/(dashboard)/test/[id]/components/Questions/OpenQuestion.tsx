@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@/components/ui/textarea';
@@ -35,7 +36,9 @@ const OpenQuestion: FC<OpenQuestionProps> = ({ question, mode = 'view' }) => {
     mode === 'solve'
       ? watch(fieldKey)?.text || ''
       : 'answer' in question
-        ? question.answer?.text || ''
+        ? ('text' in (question.answer as { text: string }) &&
+            (question as { answer: { text: string } }).answer?.text) ||
+          ''
         : '';
 
   return (

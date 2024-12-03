@@ -20,6 +20,7 @@ const TestAttemptPage = async ({ params }: PageProps) => {
     <ReactQueryProvider>
       <TestAttemptContent
         attemptId={attempts[0].id}
+        testAssignmentId={params.id}
         questionGroups={questionGroups as AttemptQuestionGroup[]}
       />
     </ReactQueryProvider>
