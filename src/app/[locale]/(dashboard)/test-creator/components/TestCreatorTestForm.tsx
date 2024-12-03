@@ -60,53 +60,55 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="w-full"
         >
-          <TabsList className="mb-6 grid w-full grid-cols-6 overflow-x-auto sm:grid-cols-6">
-            <TabsTrigger
-              value="basic"
-              className="flex items-center gap-2"
-            >
-              <Settings2 className="h-4 w-4" />
-              Podstawowe
-            </TabsTrigger>
-            <TabsTrigger
-              value="navigation"
-              className="flex items-center gap-2"
-            >
-              <Layout className="h-4 w-4" />
-              Nawigacja
-            </TabsTrigger>
-            <TabsTrigger
-              value="scoring"
-              className="flex items-center gap-2"
-            >
-              <Medal className="h-4 w-4" />
-              Punktacja
-            </TabsTrigger>
-            <TabsTrigger
-              value="display"
-              className="flex items-center gap-2"
-            >
-              <Eye className="h-4 w-4" />
-              Wyświetlanie
-            </TabsTrigger>
-            <TabsTrigger
-              value="results"
-              className="flex items-center gap-2"
-            >
-              <Save className="h-4 w-4" />
-              Wyniki
-            </TabsTrigger>
-          </TabsList>
+          <div className="relative mb-4 sm:mb-6">
+            <TabsList className="flex w-full h-max snap-x snap-mandatory gap-2 overflow-x-auto [&>*]:flex-shrink-0">
+              <TabsTrigger
+                value="basic"
+                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+              >
+                <Settings2 className="h-5 w-5" />
+                <span className="text-base">Podstawowe</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="navigation"
+                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+              >
+                <Layout className="h-5 w-5" />
+                <span className="text-base">Nawigacja</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="scoring"
+                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+              >
+                <Medal className="h-5 w-5" />
+                <span className="text-base">Punktacja</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="display"
+                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+              >
+                <Eye className="h-5 w-5" />
+                <span className="text-base">Wyświetlanie</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="results"
+                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+              >
+                <Save className="h-5 w-5" />
+                <span className="text-base">Wyniki</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <FormProvider {...form}>
             <Form
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
               onSubmit={() => {
                 form.handleSubmit(handleSubmit)();
               }}
@@ -116,7 +118,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
               <TestCreatorTestScoring />
               <TestCreatorTestDisplay />
               <TestCreatorTestResults />
-              <div className="flex justify-end border-t pt-6">
+              <div className="flex justify-end border-t pt-4 sm:pt-6">
                 <Button
                   type="submit"
                   className="w-full sm:w-auto"
