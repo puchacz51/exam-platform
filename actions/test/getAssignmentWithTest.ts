@@ -82,6 +82,18 @@ export async function getAssignmentWithTest(id: string) {
         },
         attempts: {
           where: eq(testAttemptsTable.userId, session.user.userID),
+          with: {
+            answers: {
+              with: {
+                booleanAnswers: true,
+                choiceAnswers: true,
+                matchingAnswers: true,
+                numericAnswers: true,
+                openAnswers: true,
+                orderAnswers: true,
+              },
+            },
+          },
         },
       },
     });
@@ -89,26 +101,32 @@ export async function getAssignmentWithTest(id: string) {
     if (!assignment) {
       throw new Error('Assignment not found');
     }
+
+    const questionGroups = assignment.test.QG.map((qg) => ({
+      id: qg.id,
+      name: qg.name,
+      questions: qg.qOnQG
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map((q) => q.question),
+    }));
+
     if (!assignment.attempts.length) {
       const userAttempt = (await createUserAttempt(assignment.id)).data;
 
       if (!userAttempt) throw new Error('Failed to create user attempt');
 
-      assignment.attempts = [userAttempt];
+      return {
+        ...assignment,
+        attempts: [userAttempt],
+        questionGroups,
+      };
     }
 
-    const w = {
+    return {
       ...assignment,
-      questionGroups: assignment.test.QG.map((qg) => ({
-        id: qg.id,
-        name: qg.name,
-        questions: qg.qOnQG
-          .sort((a, b) => (a.order || 0) - (b.order || 0))
-          .map((q) => q.question),
-      })),
+      questionGroups,
+      attempts: assignment.attempts,
     };
-
-    return w;
   } catch (error) {
     console.error('Error fetching assignment with test:', error);
     throw new Error('Failed to fetch assignment with test data');

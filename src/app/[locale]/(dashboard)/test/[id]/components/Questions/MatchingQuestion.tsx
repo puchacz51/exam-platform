@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/select';
 import { type MatchingQuestion } from '@/types/questions/matchingQuestion';
 import { TestAttemptFormDataMatching } from '@/types/forms/testAttemptForm';
-import { useTranslations } from 'next-intl';
 
 interface MatchingPairViewProps {
   mode?: 'view';

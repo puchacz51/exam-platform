@@ -6,16 +6,14 @@ import { Button } from '@/components/ui/button';
 
 export const DashboardHeader = () => {
   const t = useTranslations('dashboard.header');
-  
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           {t('title')}
         </h1>
-        <p className="text-muted-foreground">
-          {t('welcome')}
-        </p>
+        <p className="text-muted-foreground">{t('welcome')}</p>
       </div>
       <Button
         className="w-full sm:w-auto"

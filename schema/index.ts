@@ -36,7 +36,6 @@ import {
   attemptAnswersTable,
 } from '@schema/attemptAnswers';
 import {
-  attemptAnswerRelations,
   booleanAnswerRelations,
   booleanAnswersTable,
   choiceAnswerRelations,
@@ -83,9 +82,7 @@ export const schema = {
   users: usersTable,
   verificationTokens: verificationTokensTable,
 
-  // Relations
   answerRelations,
-  attemptAnswerRelations,
   attemptAnswersRelations,
   booleanAnswerRelations,
   categoriesRelations,

@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
+import { useTranslations } from 'next-intl';
 import { ChevronDown, ChevronUp, Users } from 'lucide-react';
 
 import { useGroupMembers } from '@/hooks/useGroupMembers';

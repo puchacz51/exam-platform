@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronRight, ClipboardList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -68,21 +69,32 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
       ) : (
         <div className="space-y-4">
           {assignedTests.map((test) => (
-            <div key={test.id} className="flex items-center justify-between rounded-lg border p-4">
+            <div
+              key={test.id}
+              className="flex items-center justify-between rounded-lg border p-4"
+            >
               <div>
                 <h3 className="font-medium">{test.title}</h3>
                 {!!test.startsAt && (
                   <p className="text-sm text-muted-foreground">
                     {getTimeStatus(test.startsAt, test.endsAt, t) ||
-                      t('startDate', { date: new Date(test.startsAt).toLocaleDateString() })}
+                      t('startDate', {
+                        date: new Date(test.startsAt).toLocaleDateString(),
+                      })}
                   </p>
                 )}
               </div>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href={{
-                  pathname: '/test-attempt/start-screen/[id]',
-                  params: { id: test.id },
-                }}>
+              <Button
+                variant="ghost"
+                size="sm"
+                asChild
+              >
+                <Link
+                  href={{
+                    pathname: '/test-attempt/start-screen/[id]',
+                    params: { id: test.id },
+                  }}
+                >
                   {t('attemptTest')} <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

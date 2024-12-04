@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { getUserTeamsGroups } from '@actions/groups/teamsGroup';
 import { getUserGroups } from '@actions/groups/getGroup';
 import { Card } from '@/components/ui/card';
@@ -7,7 +9,6 @@ import { CreateGroupForm } from '@/app/[locale]/(dashboard)/groups/components/Cr
 import OwnedGroupList from '@/app/[locale]/(dashboard)/groups/components/OwnedGroupList';
 import { auth } from '@/next-auth/auth';
 import { Separator } from '@/components/ui/separator';
-import { getTranslations } from 'next-intl/server';
 
 const GroupsPage = async () => {
   const session = await auth();

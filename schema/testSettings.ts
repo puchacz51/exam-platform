@@ -14,8 +14,6 @@ export const navigationModeEnum = pgEnum('navigation_mode', [
 export const scoringSystemEnum = pgEnum('scoring_system', [
   'STANDARD',
   'NEGATIVE',
-  'WEIGHTED',
-  'PARTIAL',
 ]);
 
 export const questionDisplayModeEnum = pgEnum('question_display_mode', [

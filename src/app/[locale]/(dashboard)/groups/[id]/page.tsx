@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -6,7 +7,6 @@ import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { GroupDetails } from '@/app/[locale]/(dashboard)/groups/components/GroupDetails';
 import { getGroupById } from '@actions/groups/getGroup';
 import { GroupMembers } from '@/app/[locale]/(dashboard)/groups/components/GroupMembers';
-import { getTranslations } from 'next-intl/server';
 
 interface GroupPageProps {
   params: {

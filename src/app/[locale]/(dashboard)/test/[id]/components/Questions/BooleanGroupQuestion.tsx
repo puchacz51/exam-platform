@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { type BooleanGroupQuestion } from '@/types/questions/booleanGroupQuestion';
 import { TestAttemptFormDataBooleanGroup } from '@/types/forms/testAttemptForm';
-import { useTranslations } from 'next-intl';
 
 interface BooleanGroupQuestionViewProps {
   mode?: 'view';

@@ -1,7 +1,13 @@
-
 import { Calendar, Timer } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from '@/i18n/routing';
 
@@ -27,7 +33,9 @@ export const TestStartCard = ({
       <Card className="shadow-lg">
         <CardHeader className="space-y-4 border-b pb-6">
           <div className="space-y-2">
-            <CardTitle className="text-3xl font-bold tracking-tight">{title}</CardTitle>
+            <CardTitle className="text-3xl font-bold tracking-tight">
+              {title}
+            </CardTitle>
             <CardDescription className="text-base text-muted-foreground">
               {description}
             </CardDescription>
@@ -49,7 +57,11 @@ export const TestStartCard = ({
                   The test is now available. Good luck!
                 </p>
               </div>
-              <Button asChild className="w-full sm:w-auto" size="lg">
+              <Button
+                asChild
+                className="w-full sm:w-auto"
+                size="lg"
+              >
                 <Link
                   href={{
                     pathname: '/test-attempt/[id]',
@@ -63,7 +75,9 @@ export const TestStartCard = ({
           ) : (
             <Alert className="border-2">
               <Calendar className="h-4 w-4" />
-              <AlertTitle className="font-semibold">Test Not Started</AlertTitle>
+              <AlertTitle className="font-semibold">
+                Test Not Started
+              </AlertTitle>
               <AlertDescription className="mt-2">
                 <p className="font-medium">
                   Scheduled start: {startDate?.toLocaleString()}

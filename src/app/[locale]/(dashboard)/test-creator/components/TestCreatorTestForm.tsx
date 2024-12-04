@@ -67,7 +67,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           className="w-full"
         >
           <div className="relative mb-4 sm:mb-6">
-            <TabsList className="flex w-full h-max snap-x snap-mandatory gap-2 overflow-x-auto [&>*]:flex-shrink-0">
+            <TabsList className="flex h-max w-full snap-x snap-mandatory gap-2 overflow-x-auto [&>*]:flex-shrink-0">
               <TabsTrigger
                 value="basic"
                 className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"

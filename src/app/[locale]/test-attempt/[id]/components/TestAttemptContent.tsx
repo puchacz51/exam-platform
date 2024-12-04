@@ -57,7 +57,6 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   const onSubmit = async (data: TestAttemptFormData) => {
     try {
       const formattedAnswers = prepareFormSubmission(data, attemptId);
-      console.log('formattedAnswers', formattedAnswers);
 
       const result = await createAnswer(testAssignmentId, formattedAnswers);
 

@@ -12,7 +12,7 @@ export const orderAnswersTable = pgTable('order_answers', {
   itemId: uuid('item_id').references(() => orderItemsTable.id, {
     onDelete: 'cascade',
   }),
-  position: real('position'),
+  position: real('position').notNull(),
 });
 
 export type OrderAnswer = InferSelectModel<typeof orderAnswersTable>;

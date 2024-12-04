@@ -1,6 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
+
 import { usePathname, useRouter } from '@/i18n/routing';
 import {
   Select,
@@ -16,7 +17,7 @@ const LanguageSwitcher = () => {
   const pathname = usePathname();
 
   const handleChange = (value: string) => {
-    router.replace(pathname, { locale: value });
+    router.replace(pathname as '/dashboard', { locale: value });
   };
 
   return (

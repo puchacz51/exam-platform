@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const testAccessFormSchema = z.object({
   accessType: z.enum(['GROUP', 'CODE', 'EMAIL']),
   accessCode: z.string().optional(),
-  groupIds: z.array(z.string()).optional(), 
+  groupIds: z.array(z.string()).optional(),
   startsAt: z.date().optional(),
   endsAt: z.date().optional(),
   startTime: z.string().optional(),

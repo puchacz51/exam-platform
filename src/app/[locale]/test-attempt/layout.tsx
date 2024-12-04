@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
+
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
+
 import { auth } from '@/next-auth/auth';
 
 interface RootLayoutProps {

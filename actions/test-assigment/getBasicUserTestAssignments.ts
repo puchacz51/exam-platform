@@ -53,6 +53,5 @@ export async function getBasicUserTestAssignments() {
     )
     .orderBy(asc(testAccessConfigTable.startsAt))
     .limit(8);
-  console.log(accessibleTests, 222);
   return accessibleTests;
 }

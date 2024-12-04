@@ -2,7 +2,6 @@ import { and, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { auth } from '@/next-auth/auth';
-import { testAccessConfigTable } from '@schema/testAccess';
 import { testAttemptsTable } from '@schema/testAttempt';
 
 export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
@@ -11,7 +10,6 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
   if (!session?.user.userID) {
     throw new Error('Unauthorized');
   }
-  console.log('session', session);
   try {
     const userAttempt = await db.query.testAttempts.findFirst({
       where: and(

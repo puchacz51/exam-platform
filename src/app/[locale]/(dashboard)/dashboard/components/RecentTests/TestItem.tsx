@@ -1,7 +1,8 @@
+import { useTranslations } from 'next-intl';
+
 import { TestWithCategory } from '@/types/test/testWithCategory';
 import { formatDate } from '@/lib/utils';
 import { Link } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
 
 interface TestItemProps {
   test: TestWithCategory;

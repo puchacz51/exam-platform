@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+
 import { useTranslations } from 'next-intl';
 
 import { Input } from '@/components/ui/input';
@@ -47,9 +48,7 @@ const GroupList = ({ groups }: GroupListProps) => {
         {filteredGroups.length === 0 ? (
           <div className="rounded-lg border border-dashed p-8 text-center">
             <p className="text-muted-foreground">
-              {searchQuery
-                ? t('noResults')
-                : t('noGroups')}
+              {searchQuery ? t('noResults') : t('noGroups')}
             </p>
           </div>
         ) : (

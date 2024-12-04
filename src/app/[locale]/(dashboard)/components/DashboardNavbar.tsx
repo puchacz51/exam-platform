@@ -1,21 +1,19 @@
 'use client';
 
+import { ForwardRefExoticComponent, RefAttributes } from 'react';
+
 import { usePathname } from 'next/navigation';
-import { BarChart, FileText, Home, LucideProps, Users } from 'lucide-react';
+import { FileText, Home, LucideProps, Users } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Pathname } from '@/i18n/pathnames';
 import { Link } from '@/i18n/routing';
-import {
-  ForwardRefExoticComponent,
-  ReactComponentElement,
-  ReactElement,
-  RefAttributes,
-} from 'react';
 
 interface NavItem {
   href: Pathname;
-  icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >;
   label: string;
 }
 

@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 import { auth } from '@/next-auth/auth';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
 import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
 
 interface RootLayoutProps {
   children: ReactNode;

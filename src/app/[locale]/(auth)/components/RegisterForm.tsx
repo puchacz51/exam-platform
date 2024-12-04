@@ -1,8 +1,8 @@
 'use client';
 
 import { FC } from 'react';
-import { useTranslations } from 'next-intl';
 
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -25,16 +25,18 @@ import AlternativeSignUpMethods from '@/app/[locale]/(auth)/components/Alternati
 const RegistrationForm: FC = () => {
   const t = useTranslations('auth');
 
-  const registrationSchema = z.object({
-    firstName: z.string().min(2, t('validation.minLength', { length: 2 })),
-    lastName: z.string().min(2, t('validation.minLength', { length: 2 })),
-    email: z.string().email(t('validation.email')),
-    password: z.string().min(8, t('validation.minLength', { length: 8 })),
-    confirmPassword: z.string(),
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: t('validation.passwordMatch'),
-    path: ['confirmPassword'],
-  });
+  const registrationSchema = z
+    .object({
+      firstName: z.string().min(2, t('validation.minLength', { length: 2 })),
+      lastName: z.string().min(2, t('validation.minLength', { length: 2 })),
+      email: z.string().email(t('validation.email')),
+      password: z.string().min(8, t('validation.minLength', { length: 8 })),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('validation.passwordMatch'),
+      path: ['confirmPassword'],
+    });
 
   type RegistrationForm = z.infer<typeof registrationSchema>;
 

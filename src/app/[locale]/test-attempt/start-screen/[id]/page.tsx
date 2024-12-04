@@ -68,7 +68,7 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
     <TestStartCard
       title={testAssignment.test.title}
       description={testAssignment.test.description}
-      timeLimit={testAssignment.timeLimit}
+      timeLimit={testAssignment.timeLimit || -1}
       hasStarted={hasStarted}
       startDate={startDate}
       testId={params.id}

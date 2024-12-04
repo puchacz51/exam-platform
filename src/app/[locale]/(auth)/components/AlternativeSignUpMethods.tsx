@@ -1,6 +1,8 @@
 import { FC } from 'react';
+
 import { useTranslations } from 'next-intl';
 import { signIn } from 'next-auth/react';
+
 import { Button } from '@/components/ui/button';
 
 const AlternativeSignUpMethods: FC = () => {

@@ -4,6 +4,7 @@ import React, { ChangeEvent, ClipboardEvent, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { verifyEmailToken } from '@actions/account/verifyEmailToken';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useRouter } from '@/i18n/routing';
-import { useTranslations } from 'next-intl';
 
 type VerifyTokenFormData = {
   token: [string, string, string, string, string, string, string, string];

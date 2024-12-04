@@ -3,7 +3,14 @@ import { relations } from 'drizzle-orm';
 
 import { questionsTable, questionTypeEnum } from '@schema/questions';
 import { testAttemptsTable } from '@schema/testAttempt';
-
+import {
+  booleanAnswersTable,
+  choiceAnswersTable,
+  matchingAnswersTable,
+  numericAnswersTable,
+  openAnswersTable,
+  orderAnswersTable,
+} from '@schema/attemptAnswerDetails';
 
 export const attemptAnswersTable = pgTable('attempt_answers', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -20,7 +27,7 @@ export const attemptAnswersTable = pgTable('attempt_answers', {
 
 export const attemptAnswersRelations = relations(
   attemptAnswersTable,
-  ({ one }) => ({
+  ({ one, many }) => ({
     testAttempt: one(testAttemptsTable, {
       fields: [attemptAnswersTable.attemptId],
       references: [testAttemptsTable.id],
@@ -29,6 +36,12 @@ export const attemptAnswersRelations = relations(
       fields: [attemptAnswersTable.questionId],
       references: [questionsTable.id],
     }),
+    booleanAnswers: many(booleanAnswersTable),
+    matchingAnswers: many(matchingAnswersTable),
+    choiceAnswers: many(choiceAnswersTable),
+    orderAnswers: many(orderAnswersTable),
+    openAnswers: many(openAnswersTable),
+    numericAnswers: many(numericAnswersTable),
   })
 );
 

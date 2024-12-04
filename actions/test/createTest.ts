@@ -104,7 +104,6 @@ export async function createTestAction(
 ) {
   try {
     const session = await auth();
-    console.log('session:', session);
     if (!session?.user?.userID) {
       return {
         success: false,
@@ -114,7 +113,6 @@ export async function createTestAction(
 
     const userId = session.user.userID;
     const result = await createTest(test, questionGroups, userId);
-    console.log('result:', result);
     if ('errors' in result) {
       return { success: false, errors: result.errors };
     }
