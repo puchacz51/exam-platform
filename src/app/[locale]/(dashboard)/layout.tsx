@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import '@/app/[locale]/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getLocale, getMessages } from 'next-intl/server';
 
 import { auth } from '@/next-auth/auth';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
@@ -16,9 +16,13 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: Readonly<RootLayoutProps>) => {
   const session = await auth();
   const messages = await getMessages();
+  const locale = await getLocale();
   return (
     <>
-      <NextIntlClientProvider messages={messages}>
+      <NextIntlClientProvider
+        locale={locale}
+        messages={messages}
+      >
         <SessionProvider session={session}>
           <div className="flex min-h-screen flex-col">
             <DashboardHeader />
