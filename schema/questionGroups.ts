@@ -1,9 +1,8 @@
-import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, smallint, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 import { testsTable } from '@schema/test';
-
 
 export const questionGroupsTable = pgTable('question_groups', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -11,7 +10,7 @@ export const questionGroupsTable = pgTable('question_groups', {
     onDelete: 'cascade',
   }),
   name: varchar('name', { length: 256 }),
-  maxQuestionPerPage: integer('max_question_per_page'),
+  order: smallint('order'),
 });
 
 export const questionGroupRelations = relations(
@@ -21,7 +20,7 @@ export const questionGroupRelations = relations(
       fields: [questionGroupsTable.testId],
       references: [testsTable.id],
     }),
-    questionOnQuestionGroup: many(questionOnQuestionGroupTable),
+    qOnQG: many(questionOnQuestionGroupTable),
   })
 );
 

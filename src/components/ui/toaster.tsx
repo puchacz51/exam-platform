@@ -10,7 +10,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from '@/components/ui/toast';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 
 interface ToastProps {
   children: ReactNode;

@@ -9,21 +9,23 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
     href: '/complete-registration',
   });
 
-  if (!context.auth?.user?.profileNeedsCompletion) {
-    if (context.req.nextUrl.pathname.endsWith(completeProfileUrl)) {
-      const url = context.req.nextUrl.clone();
-      url.pathname = '/';
-      return { ...context, res: NextResponse.redirect(url) };
+  if (!context.auth?.user) return context;
+
+  console.log(context.auth?.user?.profileNeedsCompletion);
+
+  if (context.auth?.user?.profileNeedsCompletion) {
+    if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl)) {
+      const confirmPath = context.req.nextUrl.clone();
+      const confirmUrl = new URL(confirmPath.pathname, context.req.url);
+
+      return { ...context, res: NextResponse.redirect(confirmUrl) };
     }
+
     return context;
   }
 
-  if (context.req.nextUrl.pathname.endsWith(completeProfileUrl)) return context;
+  if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl))
+    return context;
 
-  const url = context.req.nextUrl.clone();
-
-  url.pathname = completeProfileUrl;
-
-  return { ...context, res: NextResponse.redirect(url) };
-
+  return { ...context, res: NextResponse.redirect('/dashboard') };
 };

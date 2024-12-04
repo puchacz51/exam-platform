@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { ChevronDown, ChevronUp, Users } from 'lucide-react';
 
 import { useGroupMembers } from '@/hooks/useGroupMembers';
@@ -21,6 +22,7 @@ interface GroupItemProps {
 }
 
 export const GroupItem = ({ group }: GroupItemProps) => {
+  const t = useTranslations('dashboard.groups');
   const [isExpanded, setIsExpanded] = useState(false);
   const { data: members, isLoading } = useGroupMembers(group.id, isExpanded);
 
@@ -38,11 +40,11 @@ export const GroupItem = ({ group }: GroupItemProps) => {
                 className="flex items-center gap-1"
               >
                 <Users size={12} />
-                {group.memberCount.value} members
+                {t('card.member', { count: group.memberCount.value })}
               </Badge>
               {isExpanded ? (
                 <span className="text-sm text-muted-foreground">
-                  Hide members
+                  {t('hideMembers')}
                 </span>
               ) : (
                 <Button
@@ -51,7 +53,7 @@ export const GroupItem = ({ group }: GroupItemProps) => {
                   className="h-auto p-0 text-sm text-muted-foreground hover:text-primary"
                   onClick={() => setIsExpanded(true)}
                 >
-                  View members
+                  {t('viewMembers')}
                 </Button>
               )}
             </div>

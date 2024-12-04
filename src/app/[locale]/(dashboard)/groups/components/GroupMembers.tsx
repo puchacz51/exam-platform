@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Plus, X } from 'lucide-react';
 
 import { useGroupMembers } from '@/hooks/useGroupMembers';
 import { useSearchUsers } from '@/hooks/useSearchUsers';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
@@ -30,6 +31,7 @@ interface GroupMembersProps {
 }
 
 export const GroupMembers = ({ groupId, isOwner }: GroupMembersProps) => {
+  const t = useTranslations('dashboard.groups.members');
   const [searchQuery, setSearchQuery] = useState('');
   const { data: members, refetch } = useGroupMembers(groupId, true);
   const { data: searchResults } = useSearchUsers(searchQuery);
@@ -65,19 +67,19 @@ export const GroupMembers = ({ groupId, isOwner }: GroupMembersProps) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold tracking-tight">Group Members</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">{t('title')}</h2>
         {isOwner && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button>
-                <Plus className="mr-2 h-4 w-4" /> Add Members
+                <Plus className="mr-2 h-4 w-4" /> {t('addButton')}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Add Members</AlertDialogTitle>
+                <AlertDialogTitle>{t('addDialog.title')}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Search and select users to add to the group.
+                  {t('addDialog.description')}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <div className="py-4">

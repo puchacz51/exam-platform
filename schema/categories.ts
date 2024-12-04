@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { questionsTable } from './questions';
+import { questionsTable } from '@schema/questions';
 
 export const categoriesTable = pgTable('categories', {
   id: uuid('id').primaryKey().defaultRandom(),

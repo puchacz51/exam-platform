@@ -3,25 +3,25 @@
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
-import { testAccessConfigTable } from '@schema/TestAccess';
+import { testAccessConfigTable } from '@schema/testAccesss';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 
 async function createTestAssignment(
   testId: string,
-  data: TestAccessFormValues
+  data: TestAccessFormValues,
+  userId: string
 ) {
   return await db.transaction(async (tx) => {
     const [createdConfig] = await tx
       .insert(testAccessConfigTable)
       .values({
         testId,
+        assignedBy: userId,
         accessType: data.accessType,
         accessCode: data.accessCode,
         startsAt: data.startsAt,
         endsAt: data.endsAt,
         timeLimit: data.timeLimit,
-        maxAttempts: data.maxAttempts,
-        minTimeBetweenAttempts: data.minTimeBetweenAttempts,
         requiresRegistration: data.requiresRegistration,
         showResultsAfterSubmission: data.showResultsAfterSubmission,
       })
@@ -53,8 +53,8 @@ export async function createTestAssignmentAction(
         error: 'Unauthorized access. Please log in.',
       };
     }
-
-    const result = await createTestAssignment(testId, data);
+    const userId = session.user.userID;
+    const result = await createTestAssignment(testId, data, userId);
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating test assignment:', error);

@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { TabsContent } from '@/components/ui/tabs';
 import {
   Select,
@@ -88,54 +87,6 @@ const TestCreatorTestScoring: FC = () => {
           </FormItem>
         )}
       />
-
-      <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="settings.minimumPointsPerQuestion"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">
-                Minimalna liczba punktów
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  className="border-gray-200"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                Minimalna liczba punktów za pytanie
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.roundingPrecision"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">
-                Precyzja zaokrąglania
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min="0"
-                  max="10"
-                  className="border-gray-200"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Liczba miejsc po przecinku</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
     </TabsContent>
   );
 };

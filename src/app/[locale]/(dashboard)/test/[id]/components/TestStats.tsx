@@ -13,7 +13,7 @@ interface TestStatsProps {
 }
 
 const countQuestionTypes = (test: CompleteTest) => {
-  return test.questionGroups.reduce(
+  return test.QG.reduce(
     (acc, group) => {
       group.questions.forEach((question) => {
         acc[question.questionType] = (acc[question.questionType] || 0) + 1;
@@ -34,11 +34,11 @@ const formatDuration = (duration: number) => {
 };
 
 export const TestStats = ({ test }: TestStatsProps) => {
-  const questionCount = test.questionGroups.reduce(
+  const questionCount = test.QG.reduce(
     (acc, group) => acc + group.questions.length,
     0
   );
-  const pointsCount = test.questionGroups.reduce(
+  const pointsCount = test.QG.reduce(
     (acc, group) =>
       acc + group.questions.reduce((acc, question) => acc + question.points, 0),
     0

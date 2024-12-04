@@ -10,5 +10,202 @@
             "accountCreated": "Konto utworzone i email aktywacyjny wysłany",
             "error": "Wystąpił błąd podczas tworzenia konta lub wysyłania emaila"
         }
+    },
+    "home": {
+        "title": "QuizSow - Projekt Inżynierski",
+        "description": "Projekt realizowany w ramach pracy inżynierskiej na Politechnice Bydgoskiej im. Jana i Jędrzeja Śniadeckich. System do zarządzania testami z wykorzystaniem sztucznej inteligencji.",
+        "buttons": {
+            "getStarted": "Rozpocznij",
+            "learnMore": "Dowiedz się więcej"
+        },
+        "features": {
+            "title": "O Projekcie",
+            "aiSupport": {
+                "title": "Wsparcie AI w Tworzeniu Testów",
+                "description": "Wykorzystanie API Gemini do generowania pytań testowych i wsparcia procesu nauczania"
+            },
+            "msIntegration": {
+                "title": "Integracja z Microsoft",
+                "description": "Wykorzystanie Azure AD do uwierzytelniania oraz integracja z Microsoft Teams"
+            },
+            "academic": {
+                "title": "Projekt Akademicki",
+                "description": "Praca inżynierska realizowana pod kierunkiem promotora na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
+            }
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Zaloguj się do konta",
+            "email": "Email",
+            "password": "Hasło",
+            "submit": "Zaloguj się",
+            "loading": "Logowanie...",
+            "alternativeMethods": "Lub zaloguj się przez",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "register": "Rejestracja"
+        },
+        "register": {
+            "title": "Zarejestruj nowe konto",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "email": "Email",
+            "password": "Hasło",
+            "confirmPassword": "Potwierdź hasło",
+            "submit": "Zarejestruj się",
+            "alternativeMethods": "Lub zarejestruj się przez",
+            "login": "Logowanie"
+        },
+        "verification": {
+            "title": "Weryfikacja email",
+            "code": "Kod weryfikacyjny",
+            "submit": "Zweryfikuj"
+        },
+        "validation": {
+            "email": "Nieprawidłowy adres email",
+            "required": "To pole jest wymagane",
+            "minLength": "Minimum {length} znaków",
+            "passwordMatch": "Hasła nie są identyczne"
+        },
+        "alternativeMethods": {
+            "title": "Lub zarejestruj się przez",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "google": "Google"
+        },
+        "completeProfile": {
+            "title": "Uzupełnij profil",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "submit": "Zaktualizuj profil",
+            "validation": {
+                "firstNameLength": "Imię musi mieć co najmniej 2 znaki",
+                "lastNameLength": "Nazwisko musi mieć co najmniej 2 znaki"
+            }
+        }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Panel",
+            "welcome": "Witaj w panelu zarządzania testami",
+            "createTest": "Utwórz nowy test"
+        },
+        "recentTests": {
+            "title": "Ostatnie testy",
+            "viewAll": "Zobacz wszystkie",
+            "empty": {
+                "title": "Brak utworzonych testów",
+                "description": "Utwórz swój pierwszy test, aby rozpocząć",
+                "action": "Utwórz pierwszy test"
+            },
+            "item": {
+                "questions": "{count} pytań"
+            }
+        },
+        "assignedTests": {
+            "title": "Nadchodzące testy",
+            "subTitle": "{count} {count, plural, one {test przypisany} other {testy przypisane}} do Ciebie",
+            "empty": "Brak nadchodzących testów",
+            "startsIn": "Rozpoczyna się za {hours}h",
+            "endsIn": "Kończy się za {hours}h",
+            "startDate": "Rozpoczęcie: {date}",
+            "attemptTest": "Rozpocznij test"
+        },
+        "ownedTests": {
+            "title": "Przypisane przez Ciebie testy",
+            "subTitle": "{count} {count, plural, one {test przypisany} other {testy przypisane}} przez Ciebie",
+            "assignTest": "Przypisz test",
+            "empty": "Nie przypisałeś jeszcze żadnych testów",
+            "viewList": "Zobacz listę",
+            "assignedTo": "Przypisano do: {group}",
+            "accessType": "Typ dostępu: {type}"
+        },
+        "groups": {
+            "title": "Twoje grupy",
+            "subTitle": "Łącznie {count} {count, plural, one {grupa} other {grup}}",
+            "viewAll": "Zobacz wszystkie",
+            "empty": {
+                "title": "Brak utworzonych grup",
+                "action": "Utwórz pierwszą grupę"
+            },
+            "members": "{count} {count, plural, one {członek} few {członków} many {członków} other {członka}}",
+            "view": "Zobacz",
+            "viewMembers": "Zobacz członków",
+            "hideMembers": "Ukryj członków",
+            "details": {
+                "title": "Szczegóły grupy",
+                "edit": "Edytuj",
+                "cancel": "Anuluj",
+                "deleteGroup": "Usuń grupę",
+                "deleteConfirm": {
+                    "title": "Czy jesteś pewien?",
+                    "description": "Tej akcji nie można cofnąć. Grupa zostanie trwale usunięta, a wszyscy członkowie zostaną usunięci."
+                },
+                "save": "Zapisz zmiany",
+                "groupName": "Nazwa grupy",
+                "description": "Opis",
+                "noDescription": "Brak opisu"
+            },
+            "list": {
+                "searchPlaceholder": "Szukaj grup...",
+                "noResults": "Nie znaleziono grup pasujących do wyszukiwania",
+                "noGroups": "Brak dostępnych grup",
+                "showAll": "Pokaż wszystkie"
+            },
+            "card": {
+                "member": "Członek"
+            },
+            "create": {
+                "name": "Nazwa grupy",
+                "namePlaceholder": "Wprowadź nazwę grupy",
+                "description": "Opis",
+                "descriptionPlaceholder": "Wprowadź opis grupy",
+                "addUsers": "Dodaj użytkowników",
+                "searchUsers": "Szukaj użytkowników...",
+                "create": "Utwórz grupę",
+                "creating": "Tworzenie...",
+                "sectionTitle": "Utwórz Nową Grupę"
+            },
+            "management": {
+                "title": "Zarządzanie Grupami",
+                "description": "Twórz i zarządzaj swoimi grupami, dodawaj członków i organizuj swój zespół."
+            },
+            "members": {
+                "title": "Członkowie Grupy",
+                "addButton": "Dodaj Członków",
+                "addDialog": {
+                    "title": "Dodaj Członków",
+                    "description": "Wyszukaj i wybierz użytkowników do dodania do grupy."
+                }
+            },
+            "owned": {
+                "title": "Moje Grupy",
+                "description": "Grupy, które utworzyłeś i którymi zarządzasz",
+                "empty": {
+                    "title": "Nie znaleziono grup",
+                    "description": "Utwórz nową grupę, aby rozpocząć"
+                }
+            },
+            "teams": {
+                "title": "Grupy Teams",
+                "description": "Twoje zsynchronizowane grupy Microsoft Teams"
+            }
+        }
+    },
+    "test": {
+        "questions": {
+            "matching": {
+                "selectPlaceholder": "Wybierz pasujący element..."
+            },
+            "boolean": {
+                "true": "Prawda",
+                "false": "Fałsz"
+            },
+            "booleanGroup": {
+                "true": "Prawda",
+                "false": "Fałsz"
+            }
+        }
     }
 }

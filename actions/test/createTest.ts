@@ -33,23 +33,42 @@ async function createTest(
       .insert(testsTable)
       .values({
         title: test.title,
-        description: test.description || '',
+        description: test.description ?? '',
         creatorId: userId,
         createdAt: new Date(),
       })
       .returning();
+
     await tx.insert(testSettingsTable).values({
-      ...test.settings,
       testId: createdTest.id,
+      navigationMode: test.settings.navigationMode,
+      allowGoBack: test.settings.allowGoBack,
+      confirmBeforeGroupChange: test.settings.confirmBeforeGroupChange,
+      scoringSystem: test.settings.scoringSystem,
+      allowPartialPoints: test.settings.allowPartialPoints,
+      questionDisplayMode: test.settings.questionDisplayMode,
+      shuffleQuestionsInGroup: test.settings.shuffleQuestionsInGroup,
+      shuffleAnswers: test.settings.shuffleAnswers,
+      showProgressBar: test.settings.showProgressBar,
+      showTimeRemaining: test.settings.showTimeRemaining,
+      showQuestionPoints: test.settings.showQuestionPoints,
+      allowQuestionFlagging: test.settings.allowQuestionFlagging,
+      showCorrectAnswers: test.settings.showCorrectAnswers,
+      showPointsPerQuestion: test.settings.showPointsPerQuestion,
+      showFinalScore: test.settings.showFinalScore,
     });
 
-    for (const group of questionGroups) {
+    for (const [i, group] of Object.entries(questionGroups)) {
+      if (!group.questions.length) {
+        continue;
+      }
+
       const [createdGroup] = await tx
         .insert(questionGroupsTable)
         .values({
           testId: createdTest.id,
           name: group.name,
-          maxQuestionPerPage: group.maxQuestionPerPage,
+          order: parseInt(i) + 1,
         })
         .returning();
 
@@ -70,7 +89,7 @@ async function createTest(
         await tx.insert(questionOnQuestionGroupTable).values({
           questionId: createdQuestion.id,
           questionGroupId: createdGroup.id,
-          order: String(parseInt(index) + 1),
+          order: parseInt(index) + 1,
         });
       }
     }
@@ -85,7 +104,6 @@ export async function createTestAction(
 ) {
   try {
     const session = await auth();
-
     if (!session?.user?.userID) {
       return {
         success: false,
@@ -95,6 +113,10 @@ export async function createTestAction(
 
     const userId = session.user.userID;
     const result = await createTest(test, questionGroups, userId);
+    if ('errors' in result) {
+      return { success: false, errors: result.errors };
+    }
+
     return { success: true, data: result };
   } catch (error) {
     console.error('Error creating test:', error);

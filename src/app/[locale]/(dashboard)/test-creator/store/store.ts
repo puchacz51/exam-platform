@@ -7,7 +7,7 @@ import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
-import { Question } from '@/types/test/questionTypes';
+import { Question } from '@/types/questions';
 
 export type TestCreatorAnswer = {
   text: string;
@@ -35,7 +35,7 @@ type Updater<T> = T | ((prev: T) => T);
 export interface TestState extends TestProps {
   setTest: (test: Updater<Omit<Test, 'questions'>>) => void;
   addQuestionGroup: () => void;
-  updateQuestionGroup: (group: TestCreatorQuestionGroup) => void;
+  updateQuestionGroup: (group: { name: string; id: string }) => void;
   removeQuestionGroup: (groupId: string) => void;
   addQuestion: (question: TestCreatorQuestion) => void;
   updateQuestion: (
@@ -67,46 +67,40 @@ export interface TestState extends TestProps {
 const DEFAULT_PROPS: TestProps = {
   testConfiguration: { categories: [] },
   test: {
-    title: 'Sample Test',
-    description: 'A test to assess knowledge on various subjects.',
+    title: '',
+    description: '',
     settings: {
-      navigationMode: 'ANSWER_LOCK',
+      navigationMode: 'FREE',
       allowGoBack: true,
       confirmBeforeGroupChange: true,
-      scoringSystem: 'NEGATIVE',
+      scoringSystem: 'STANDARD',
       allowPartialPoints: true,
-      minimumPointsPerQuestion: 0,
-      negativePointsPercentage: 0,
-      roundingPrecision: 2,
-      questionDisplayMode: 'GROUP',
       shuffleQuestionsInGroup: false,
       shuffleAnswers: false,
       showProgressBar: true,
       showTimeRemaining: true,
       showQuestionPoints: true,
       allowQuestionFlagging: true,
-      autosaveInterval: 60,
-      showPartialResults: false,
       showCorrectAnswers: false,
       showPointsPerQuestion: true,
       showFinalScore: true,
+      questionDisplayMode: 'GROUP',
     },
   },
   questionGroups: [
     {
-      id: 'group-1730041489822',
-      name: 'Science and Logic',
+      id: 'group-1',
+      name: 'test',
       order: 1,
-      maxQuestionPerPage: 3,
       questions: [...mathTest],
     },
   ],
   currentQuestion: null,
-  currentQuestionGroupId: 'group-1730041489822',
+  currentQuestionGroupId: null,
   isTestConfiguratorOpen: false,
   isQuestionConfiguratorOpen: false,
   isQuestionGroupConfiguratorOpen: false,
-  isAddedGeneralConfiguration: true,
+  isAddedGeneralConfiguration: false,
   isSortFormOpen: false,
   aiQuestions: null,
   isAiGeneratorOpen: false,
@@ -138,6 +132,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
         return {
           ...prev,
           questionGroups: [...prev.questionGroups, newGroup],
+          currentQuestionGroupId: prev.currentQuestionGroupId || newGroup.id,
         };
       }),
 

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight, Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -12,16 +13,18 @@ interface GroupsListProps {
 }
 
 export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
+  const t = useTranslations('dashboard.groups');
+
   return (
     <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-            Your Groups
+            {t('title')}
           </h2>
           {totalCount > 0 && (
             <p className="text-sm text-muted-foreground">
-              {totalCount} total {totalCount === 1 ? 'group' : 'groups'}
+              {t('subTitle', { count: totalCount })}
             </p>
           )}
         </div>
@@ -34,7 +37,7 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
             href="/groups"
             className="gap-2"
           >
-            View All <ChevronRight className="h-4 w-4" />
+            {t('viewAll')} <ChevronRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -43,14 +46,14 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
         <div className="flex min-h-[180px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <Users className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
-            No groups created yet
+            {t('empty.title')}
           </p>
           <Button
             variant="secondary"
             size="sm"
             asChild
           >
-            <Link href="/groups">Create your first group</Link>
+            <Link href="/groups">{t('empty.action')}</Link>
           </Button>
         </div>
       ) : (
@@ -63,8 +66,7 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
               <div>
                 <h3 className="font-medium">{group.name}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {group.memberCount.value}{' '}
-                  {group.memberCount.value === 1 ? 'member' : 'members'}
+                  {t('card.member', { count: group.memberCount.value })}
                 </p>
               </div>
               <Button
@@ -73,7 +75,7 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
                 asChild
               >
                 <Link href={`/groups/${group.id}`}>
-                  View <ChevronRight className="ml-2 h-4 w-4" />
+                  {t('view')} <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -89,7 +91,7 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
           href="/groups"
           className="gap-2"
         >
-          View All Groups <ChevronRight className="h-4 w-4" />
+          {t('viewAll')} <ChevronRight className="h-4 w-4" />
         </Link>
       </Button>
     </Card>

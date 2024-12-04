@@ -1,6 +1,7 @@
-import { questionsTable } from '@schema/questions';
 import { relations } from 'drizzle-orm';
 import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+
+import { questionsTable } from '@schema/questions';
 
 export const matchingPairsTable = pgTable('matching_pairs', {
   id: uuid('id').primaryKey().defaultRandom(),

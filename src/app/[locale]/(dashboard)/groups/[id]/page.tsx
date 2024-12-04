@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -14,6 +15,7 @@ interface GroupPageProps {
 }
 
 const GroupPage = async ({ params }: GroupPageProps) => {
+  const t = await getTranslations('dashboard.groups');
   const response = await getGroupById(params.id);
 
   if (!response.success || !response.data) {
@@ -27,9 +29,7 @@ const GroupPage = async ({ params }: GroupPageProps) => {
           <h1 className="text-4xl font-bold tracking-tight">
             {response.data.name}
           </h1>
-          <p className="text-muted-foreground">
-            Manage group details, members, and settings.
-          </p>
+          <p className="text-muted-foreground">{t('details.description')}</p>
           <Separator />
         </div>
 

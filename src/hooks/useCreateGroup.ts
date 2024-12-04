@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { createGroup } from '@actions/groups/group';
 import { CreateGroupFormData } from '@/app/[locale]/(dashboard)/groups/schema';
 

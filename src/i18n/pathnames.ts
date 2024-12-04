@@ -23,7 +23,7 @@ const authPathnames = {
   },
 } as const;
 
-const dashboardPathnames = {
+export const protectedPathnames = {
   '/dashboard': {
     en: '/dashboard',
     pl: '/panel',
@@ -32,27 +32,35 @@ const dashboardPathnames = {
     en: '/test-creator',
     pl: '/tworzenie-testu',
   },
-  '/test-creator/:testId': {
-    en: '/test-creator/:testId',
-    pl: '/tworzenie-testu/:testId',
+  '/test-creator/[id]': {
+    en: '/test-creator/[id]',
+    pl: '/tworzenie-testu/[id]',
   },
   '/groups': {
     en: '/groups',
     pl: '/grupy',
   },
-  '/test-assignment': {
+  '/test': '/test',
+  '/test/[id]': '/test/[id]',
+  '/test/assign/[id]/': {
+    en: '/test/assign/[id]/',
+    pl: '/test/przypisanie/[id]/',
+  },
+  '/test/assign': {
     en: '/test-assignment',
     pl: '/przypisanie-testu',
   },
-  '/test': '/test',
-  '/test/[id]': '/test/[id]',
-  '/test/[id]/assign': {
-    en: '/test/[id]/assign',
-    pl: '/test/[id]/przypisanie',
+  'test-assignment': {
+    en: '/assigned-tests',
+    pl: '/przypisane-testy',
   },
-  '/test-assignment/list': {
-    en: '/test-assignment/list',
-    pl: '/przypisanie-testu/lista',
+  '/test-attempt/start-screen/[id]': {
+    en: '/test-attempt/start-screen/[id]',
+    pl: '/podejscie-do-testu/ekran-startowy/[id]',
+  },
+  '/test-attempt/[id]': {
+    en: '/test-attempt/[id]',
+    pl: '/podejscie-do-testu/[id]',
   },
 } as const;
 
@@ -62,7 +70,7 @@ const publicPathnames = {
 
 export const pathnames = {
   ...authPathnames,
-  ...dashboardPathnames,
+  ...protectedPathnames,
   ...publicPathnames,
 } satisfies Pathnames<typeof locales>;
 

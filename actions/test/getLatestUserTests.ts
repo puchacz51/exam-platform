@@ -20,9 +20,9 @@ export async function getLatestUserTests(limit: number = 5) {
       limit,
       orderBy: [desc(testsTable.createdAt)],
       with: {
-        questionGroups: {
+        QG: {
           with: {
-            questionOnQuestionGroup: {
+            qOnQG: {
               with: {
                 question: {
                   with: {
@@ -41,18 +41,14 @@ export async function getLatestUserTests(limit: number = 5) {
     });
 
     return tests.map((test) => {
-      const questionCount = test.questionGroups.reduce(
-        (acc, group) => acc + group.questionOnQuestionGroup.length,
+      const questionCount = test.QG.reduce(
+        (acc, group) => acc + group.qOnQG.length,
         0
       );
 
-      const categories = test.questionGroups
-        .flatMap((group) =>
-          group.questionOnQuestionGroup
-            .map((qog) => qog.question.category?.name)
-            .filter(Boolean)
-        )
-        .filter((value, index, self) => self.indexOf(value) === index);
+      const categories = test.QG.flatMap((group) =>
+        group.qOnQG.map((qog) => qog.question.category?.name).filter(Boolean)
+      ).filter((value, index, self) => self.indexOf(value) === index);
 
       return {
         id: test.id,

@@ -1,5 +1,3 @@
-import { groupsTable } from '@schema/groups';
-import { testsTable } from '@schema/test';
 import { relations } from 'drizzle-orm';
 import {
   boolean,
@@ -8,6 +6,10 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+
+import { groupsTable } from '@schema/groups';
+import { testsTable } from '@schema/test';
+import { testAttemptsTable } from '@schema/testAttempt';
 
 export const usersTable = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -23,9 +25,10 @@ export const usersTable = pgTable('users', {
     .default(false),
 });
 
-export const usersRelations = relations(usersTable, ({ one, many }) => ({
+export const usersRelations = relations(usersTable, ({ many }) => ({
   testOwner: many(testsTable),
   groupOwner: many(groupsTable),
+  testAttempts: many(testAttemptsTable),
 }));
 
 export type InsertUser = typeof usersTable.$inferInsert;

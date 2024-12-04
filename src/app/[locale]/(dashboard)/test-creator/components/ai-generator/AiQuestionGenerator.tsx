@@ -19,7 +19,6 @@ import {
   AiGeneratorFormData,
   aiGeneratorSchema,
 } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
-import { Question } from '@/types/test/questionTypes';
 import { QuestionType } from '@/types/test-creator/answers';
 import {
   Dialog,
@@ -27,6 +26,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Question } from '@/types/questions';
 
 export const AiQuestionGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);

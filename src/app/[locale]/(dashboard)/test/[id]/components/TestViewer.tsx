@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 import { AlertCircle } from 'lucide-react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import {
   Card,
@@ -20,6 +21,7 @@ interface TestViewerProps {
 }
 
 const TestViewer = ({ testId }: TestViewerProps) => {
+  const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
 
@@ -41,7 +43,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
     );
   }
 
-  const questionGroups = test.questionGroups || [];
+  const questionGroups = test.QG || [];
   const currentGroup = questionGroups[currentGroupIndex];
   const totalGroups = questionGroups.length;
   const progress = ((currentGroupIndex + 1) / totalGroups) * 100;
@@ -62,35 +64,37 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-4">
-      <Card className="shadow-lg">
-        <CardHeader className="border-b"></CardHeader>
+    <FormProvider {...form}>
+      <div className="mx-auto max-w-4xl p-4">
+        <Card className="shadow-lg">
+          <CardHeader className="border-b"></CardHeader>
 
-        <TestProgress
-          timeLimit={testSettings.timeLimit}
-          currentGroupIndex={currentGroupIndex}
-          totalGroups={totalGroups}
-          progress={progress}
-        />
-
-        <CardContent className="p-6">
-          <QuestionGroup
-            group={currentGroup}
-            currentGroupIndex={currentGroupIndex}
-          />
-        </CardContent>
-
-        <CardFooter>
-          <TestNavigation
+          <TestProgress
+            timeLimit={testSettings.timeLimit}
             currentGroupIndex={currentGroupIndex}
             totalGroups={totalGroups}
-            isChangeable={testSettings.changeable}
-            onPrevious={handlePreviousGroup}
-            onNext={handleNextGroup}
+            progress={progress}
           />
-        </CardFooter>
-      </Card>
-    </div>
+
+          <CardContent className="p-6">
+            <QuestionGroup
+              group={currentGroup}
+              currentGroupIndex={currentGroupIndex}
+            />
+          </CardContent>
+
+          <CardFooter>
+            <TestNavigation
+              currentGroupIndex={currentGroupIndex}
+              totalGroups={totalGroups}
+              isChangeable={testSettings.changeable}
+              onPrevious={handlePreviousGroup}
+              onNext={handleNextGroup}
+            />
+          </CardFooter>
+        </Card>
+      </div>
+    </FormProvider>
   );
 };
 

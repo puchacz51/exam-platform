@@ -37,7 +37,7 @@ export const testsRelations = relations(testsTable, ({ one, many }) => ({
     references: [usersTable.id],
   }),
 
-  questionGroups: many(questionGroupsTable),
+  QG: many(questionGroupsTable),
   settings: one(testSettingsTable, {
     fields: [testsTable.id],
     references: [testSettingsTable.testId],

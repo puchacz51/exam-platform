@@ -30,40 +30,6 @@ export const LimitsSection = () => {
           </FormItem>
         )}
       />
-
-      <FormField
-        control={control}
-        name="maxAttempts"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Max Attempts</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                {...field}
-                onChange={(e) => field.onChange(parseInt(e.target.value))}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={control}
-        name="minTimeBetweenAttempts"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Min Time Between Attempts (minutes)</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                {...field}
-                onChange={(e) => field.onChange(parseInt(e.target.value))}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
     </div>
   );
 };

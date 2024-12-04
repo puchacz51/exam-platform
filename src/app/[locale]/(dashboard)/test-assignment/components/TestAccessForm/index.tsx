@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { useTests } from '@/hooks/useTests';
 import {
   Select,
@@ -28,7 +28,6 @@ import { LimitsSection } from '@/app/[locale]/(dashboard)/test-assignment/compon
 import { OptionsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/OptionsSection';
 import { Group } from '@/types/group/group';
 import { CompleteTest } from '@/types/test/test';
-import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/MultiGroupSelection';
 import { TestPreview } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TestPreview';
 import { createTestAssignmentAction } from '@actions/test-assigment/createTestAssignment';
 
@@ -45,19 +44,20 @@ export const TestAccessForm = ({
 }: TestAccessFormProps) => {
   const { toast } = useToast();
   const { data: tests = [], isLoading } = useTests();
-
   const [selectedTest, setSelectedTest] = useState<CompleteTest | null>(
     initialTest ?? null
   );
-
   const methods = useForm<TestAccessFormValues>({
     resolver: zodResolver(testAccessFormSchema),
     defaultValues: {
       accessType: 'CODE',
       accessCode: '',
       groupIds: [],
-      startTime: undefined,
-      endTime: undefined,
+      startsAt: new Date(),
+      endsAt: new Date(Date.now() + 86400000),
+      startTime: '00:00',
+      endTime: '23:59',
+
       requiresRegistration: true,
       showResultsAfterSubmission: true,
     },
@@ -131,7 +131,6 @@ export const TestAccessForm = ({
               )}
               {(selectedTest || hideTestSelection) && (
                 <div className="space-y-6">
-                  <MultiGroupSelection initialGroups={initialGroups} />
                   <AccessTypeSection initialGroups={initialGroups} />
                   <DateTimeSection />
                   <LimitsSection />

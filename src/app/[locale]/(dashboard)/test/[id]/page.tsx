@@ -70,7 +70,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
           asChild
         >
           <Link
-            href={{ pathname: '/test/[id]/assign', params: { id: params.id } }}
+            href={{ pathname: '/test/assign/[id]/', params: { id: params.id } }}
           >
             <LinkIcon className="h-4 w-4" />
             Assign test
@@ -82,7 +82,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
           title={test.title}
           description={test.description || ''}
           createdAt={test.createdAt}
-          questionsCount={test.questionGroups.length}
+          questionsCount={test.QG.length}
         />
         <TestStats test={test as unknown as CompleteTest} />
         <TestDetails settings={test.settings} />

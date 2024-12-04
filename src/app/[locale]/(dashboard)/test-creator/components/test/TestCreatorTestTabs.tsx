@@ -30,17 +30,9 @@ const TestCreatorTestTabs: FC = () => {
 
   const tabsWithErrors = {
     basic: hasErrors(['title', 'description']),
-    scoring: hasErrors([
-      'settings.scoringSystem',
-      'settings.minimumPointsPerQuestion',
-      'settings.roundingPrecision',
-    ]),
+    scoring: hasErrors(['settings.scoringSystem']),
     navigation: hasErrors(['settings.navigationMode']),
-    display: hasErrors([
-      'settings.questionDisplayMode',
-      'settings.questionsPerPage',
-      'settings.autosaveInterval',
-    ]),
+    display: hasErrors(['settings.questionDisplayMode']),
     access: hasErrors(['accessType', 'accessCode']),
     results: hasErrors([]),
   };

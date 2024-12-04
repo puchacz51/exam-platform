@@ -1,28 +1,121 @@
 import { FC } from 'react';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { type BooleanGroupQuestion } from '@/types/test/questionTypes';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
-interface BooleanGroupQuestionProps {
+import { Card, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { type BooleanGroupQuestion } from '@/types/questions/booleanGroupQuestion';
+import { TestAttemptFormDataBooleanGroup } from '@/types/forms/testAttemptForm';
+
+interface BooleanGroupQuestionViewProps {
+  mode?: 'view';
   question: BooleanGroupQuestion;
 }
 
-const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({ question }) => {
+interface BooleanGroupQuestionSolveProps {
+  mode?: 'solve';
+  question: BooleanGroupQuestion;
+}
+
+type BooleanGroupQuestionProps =
+  | BooleanGroupQuestionViewProps
+  | BooleanGroupQuestionSolveProps;
+
+const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  const t = useTranslations('test.questions.booleanGroup');
+  const { id, groupSubQuestions } = question;
+  const fieldKey = `questions.${id}.answers` as const;
+  const { control, setValue, watch } =
+    useFormContext<TestAttemptFormDataBooleanGroup>();
+  const { fields } = useFieldArray({
+    control,
+    name: fieldKey,
+  });
+
+  const handleRadioChange = (subQuestionId: string, value: string) => {
+    const index = fields.findIndex(
+      (field) => field.subQuestionId === subQuestionId
+    );
+
+    if (index !== -1) {
+      setValue(`${fieldKey}.${index}.value`, value === 'true');
+    } else {
+      setValue(fieldKey, [
+        ...fields,
+        { subQuestionId, value: value === 'true' },
+      ]);
+    }
+  };
+
+  const answers = watch(fieldKey) || [];
+
   return (
     <div className="grid gap-4">
-      {question?.groupSubQuestions?.map((subQuestion) => (
-        <Card
-          key={subQuestion.text}
-          className="bg-gray-50"
-        >
-          <CardContent className="flex items-center justify-between p-4">
-            <div className="font-medium">{subQuestion.text}</div>
-            <div className="min-w-[100px] rounded-md bg-white p-2 text-center shadow-sm">
-              {subQuestion.booleanAnswer ? 'True' : 'False'}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+      {groupSubQuestions?.map((subQuestion) => {
+        const answer = answers.find(
+          (ans) => ans.subQuestionId === subQuestion.id
+        );
+        const selectedValue =
+          mode === 'solve'
+            ? answer?.value?.toString()
+            : subQuestion.booleanAnswer?.toString();
+
+        return (
+          <Card
+            key={subQuestion.id}
+            className="max-w-full overflow-hidden bg-gray-50 transition-colors hover:bg-gray-100"
+          >
+            <CardContent className="grid items-center gap-2 p-4 md:grid-cols-[1fr_max-content]">
+              <div className="">
+                <p className="whitespace-break-spaces font-medium">
+                  {subQuestion.text}
+                </p>
+              </div>
+              <RadioGroup
+                className="flex justify-around space-x-6 rounded-lg border bg-white p-2 shadow-sm"
+                value={selectedValue}
+                onValueChange={(value) =>
+                  mode === 'solve' && handleRadioChange(subQuestion.id, value)
+                }
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value="true"
+                    id={`${subQuestion.id}-true`}
+                    disabled={mode === 'view'}
+                    className="text-primary"
+                  />
+                  <Label
+                    htmlFor={`${subQuestion.id}-true`}
+                    className="cursor-pointer text-sm font-medium text-gray-600"
+                  >
+                    {t('true')}
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value="false"
+                    id={`${subQuestion.id}-false`}
+                    disabled={mode === 'view'}
+                    className="text-primary"
+                  />
+                  <Label
+                    htmlFor={`${subQuestion.id}-false`}
+                    className="cursor-pointer text-sm font-medium text-gray-600"
+                  >
+                    {t('false')}
+                  </Label>
+                </div>
+              </RadioGroup>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };

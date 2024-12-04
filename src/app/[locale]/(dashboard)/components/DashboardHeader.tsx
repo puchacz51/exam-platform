@@ -5,6 +5,7 @@ import { Bell, Settings } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
+import LanguageSwitcher from '@/app/[locale]/components/LanguageSwitcher';
 
 const DashboardHeader = () => {
   return (
@@ -20,6 +21,7 @@ const DashboardHeader = () => {
             </Link>
           </div>
           <nav className="flex items-center space-x-2 sm:space-x-4">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               size="icon"

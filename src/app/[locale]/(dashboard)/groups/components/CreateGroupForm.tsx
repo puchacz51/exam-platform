@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -25,6 +26,7 @@ import {
 } from '@/app/[locale]/(dashboard)/groups/schema';
 
 export const CreateGroupForm = () => {
+  const t = useTranslations('dashboard.groups.create');
   const [searchQuery, setSearchQuery] = useState('');
   const { data: searchResults, isLoading } = useSearchUsers(searchQuery);
   const { createGroupMutation, isSubmitting } = useCreateGroup();
@@ -63,9 +65,12 @@ export const CreateGroupForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Group Name</FormLabel>
+              <FormLabel>{t('name')}</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder={t('namePlaceholder')}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,9 +82,12 @@ export const CreateGroupForm = () => {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t('description')}</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea
+                  {...field}
+                  placeholder={t('descriptionPlaceholder')}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -91,7 +99,7 @@ export const CreateGroupForm = () => {
           name="users"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Add Users</FormLabel>
+              <FormLabel>{t('addUsers')}</FormLabel>
               <FormControl>
                 <MultiSelect
                   options={userOptions || []}
@@ -99,7 +107,7 @@ export const CreateGroupForm = () => {
                   onChange={field.onChange}
                   onSearch={setSearchQuery}
                   isLoading={isLoading}
-                  placeholder="Search users..."
+                  placeholder={t('searchUsers')}
                 />
               </FormControl>
               <FormMessage />
@@ -111,7 +119,7 @@ export const CreateGroupForm = () => {
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Creating...' : 'Create Group'}
+          {isSubmitting ? t('creating') : t('create')}
         </Button>
       </form>
     </Form>

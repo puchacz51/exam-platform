@@ -4,6 +4,7 @@ import React, { ChangeEvent, ClipboardEvent, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { verifyEmailToken } from '@actions/account/verifyEmailToken';
 import { Button } from '@/components/ui/button';
@@ -30,6 +31,7 @@ const defaultValues: VerifyTokenFormData = {
 const EmailVerificationForm = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth');
 
   const form = useForm({
     defaultValues,
@@ -42,7 +44,7 @@ const EmailVerificationForm = () => {
       token.split('').forEach((char, index) => {
         form.setValue(`token.${index}` as 'token.1', char);
       });
-      
+
       // Auto-submit if token is present
       handleSubmitToken(token);
     }
@@ -128,7 +130,7 @@ const EmailVerificationForm = () => {
             name="token"
             render={() => (
               <FormItem>
-                <FormLabel>Kod weryfikacyjny</FormLabel>
+                <FormLabel>{t('verification.code')}</FormLabel>
                 <FormControl>
                   <div className="flex space-x-2">
                     {Array(8)
@@ -150,7 +152,7 @@ const EmailVerificationForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Zweryfikuj</Button>
+          <Button type="submit">{t('verification.submit')}</Button>
         </form>
       </Form>
     </Card>

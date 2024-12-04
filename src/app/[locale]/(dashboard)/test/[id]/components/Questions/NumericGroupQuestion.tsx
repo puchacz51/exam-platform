@@ -1,35 +1,97 @@
 import { FC } from 'react';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { type NumericGroupQuestion } from '@/types/test-creator/question';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
-interface NumericGroupQuestionProps {
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  type NumericGroupQuestion,
+  NumericGroupQuestionWithoutAnswer,
+} from '@/types/questions/numericGroupQuestion';
+import { TestAttemptFormDataNumericGroup } from '@/types/forms/testAttemptForm';
+
+interface NumericGroupQuestionViewProps {
   question: NumericGroupQuestion;
+  mode?: 'view';
 }
 
-const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({ question }) => {
+interface NumericGroupQuestionSolveProps {
+  question: NumericGroupQuestionWithoutAnswer;
+  mode?: 'solve';
+}
+
+type NumericGroupQuestionProps =
+  | NumericGroupQuestionViewProps
+  | NumericGroupQuestionSolveProps;
+
+const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  const { id, groupSubQuestions } = question;
+  const fieldKey = `questions.${id}.answers` as const;
+  const { control, setValue } =
+    useFormContext<TestAttemptFormDataNumericGroup>();
+  const { fields } = useFieldArray({
+    control,
+    name: fieldKey,
+  });
+
+  const handleInputChange = (subQuestionId: string, value: string) => {
+    const index = fields.findIndex(
+      (field) => field.subQuestionId === subQuestionId
+    );
+
+    if (index !== -1) {
+      setValue(`${fieldKey}.${index}.value`, Number(value));
+    } else {
+      setValue(fieldKey, [...fields, { subQuestionId, value: Number(value) }]);
+    }
+  };
+
   return (
     <div className="grid gap-4">
-      {question?.subQuestions?.map((subQuestion) => (
-        <Card
-          key={subQuestion.text}
-          className="bg-gray-50"
-        >
-          <CardContent className="flex items-center justify-between p-4">
-            <div className="font-medium">{subQuestion.text}</div>
-            <div className="flex flex-col items-end gap-1">
-              <div className="min-w-[100px] rounded-md bg-white p-2 text-center shadow-sm">
-                {subQuestion.correctAnswer}
+      {groupSubQuestions?.map((subQuestion) => {
+        return (
+          <Card
+            key={subQuestion.id}
+            className="max-w-full overflow-hidden bg-gray-50 transition-colors hover:bg-gray-100"
+          >
+            <CardContent className="grid items-center gap-2 p-4 md:grid-cols-[1fr_max-content]">
+              <div>
+                <p className="whitespace-break-spaces font-medium">
+                  {subQuestion.text}
+                </p>
               </div>
-              {subQuestion.numericTolerance && (
-                <div className="text-sm text-muted-foreground">
-                  ±{subQuestion.numericTolerance}
+              <div className="flex flex-col items-end gap-1">
+                <div className="rounded-lg border bg-white p-2 shadow-sm">
+                  <Input
+                    type="number"
+                    className="w-[100px] text-center"
+                    value={
+                      'numericAnswer' in subQuestion
+                        ? !!subQuestion.numericAnswer
+                          ? subQuestion.numericAnswer.toString()
+                          : ''
+                        : undefined
+                    }
+                    disabled={mode === 'view'}
+                    onChange={(e) =>
+                      mode === 'solve' &&
+                      handleInputChange(subQuestion.id, e.target.value)
+                    }
+                  />
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+                {subQuestion.tolerance && (
+                  <div className="text-center text-sm text-muted-foreground">
+                    ±{subQuestion.tolerance}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };

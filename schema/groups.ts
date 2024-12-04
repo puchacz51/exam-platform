@@ -2,8 +2,9 @@ import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { userGroupsTable } from '@schema/userGroups';
-import { testAccessGroupsTable } from './testAccessGroups';
 import { usersTable } from '@schema/users';
+
+import { testAccessGroupsTable } from './testAccessGroups';
 
 export const groupsTable = pgTable('groups', {
   id: uuid('id').primaryKey().defaultRandom(),

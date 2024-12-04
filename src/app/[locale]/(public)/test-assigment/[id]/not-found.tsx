@@ -3,7 +3,7 @@ import { Home } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <div className="container mx-auto flex min-h-[calc(100vh-4rem)] items-center justify-center p-6">
       <Card className="w-full max-w-md shadow-lg">
@@ -30,4 +30,6 @@ export default function NotFound() {
       </Card>
     </div>
   );
-}
+};
+
+export default NotFound;

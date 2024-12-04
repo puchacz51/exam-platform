@@ -1,22 +1,59 @@
 import { FC } from 'react';
 
-import { Input } from '@/components/ui/input';
-import { type NumericQuestion } from '@/types/test/questionTypes';
+import { useFormContext } from 'react-hook-form';
 
-interface NumericQuestionProps {
+import { Input } from '@/components/ui/input';
+import {
+  type NumericQuestion,
+  NumericQuestionWithoutSubQuestions,
+} from '@/types/questions/numericQuestion';
+import { TestAttemptFormDataNumeric } from '@/types/forms/testAttemptForm';
+
+interface NumericQuestionViewProps {
+  mode?: 'view';
   question: NumericQuestion;
 }
 
-const NumericQuestion: FC<NumericQuestionProps> = ({ question }) => {
-  const { tolerance, numericAnswer } = question.groupSubQuestions[0];
+interface NumericQuestionSolveProps {
+  mode?: 'solve';
+  question: NumericQuestionWithoutSubQuestions;
+}
+
+type NumericQuestionProps =
+  | NumericQuestionViewProps
+  | NumericQuestionSolveProps;
+
+const NumericQuestion: FC<NumericQuestionProps> = ({
+  question,
+  mode = 'view',
+}) => {
+  const { id, groupSubQuestions } = question;
+  const fieldKey = `questions.${id}.answers` as const;
+  const { setValue, watch } = useFormContext<TestAttemptFormDataNumeric>();
+
+  const handleInputChange = (value: string) => {
+    setValue(fieldKey, [
+      { subQuestionId: groupSubQuestions[0].id, value: Number(value) },
+    ]);
+  };
+
+  const answerValue =
+    mode === 'solve'
+      ? watch(fieldKey)?.[0]?.value || ''
+      : 'numericAnswer' in groupSubQuestions[0]
+        ? groupSubQuestions[0].numericAnswer?.toString() || ''
+        : '';
+
+  const { tolerance } = groupSubQuestions[0];
+
   return (
     <div className="space-y-3">
       <Input
         type="number"
-        placeholder="Enter numeric value"
         className="max-w-xs"
-        disabled
-        value={numericAnswer?.toString()}
+        disabled={mode === 'view'}
+        value={answerValue}
+        onChange={(e) => mode === 'solve' && handleInputChange(e.target.value)}
       />
       {tolerance && (
         <p className="text-sm text-muted-foreground">Tolerance: ±{tolerance}</p>

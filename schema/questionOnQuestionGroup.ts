@@ -1,14 +1,8 @@
-import {
-  pgTable,
-  primaryKey,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { pgTable, primaryKey, smallint, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { questionsTable } from './questions';
-import { questionGroupsTable } from './questionGroups';
+import { questionGroupsTable } from '@schema/questionGroups';
+import { questionsTable } from '@schema/questions';
 
 export const questionOnQuestionGroupTable = pgTable(
   'question_on_question_group',
@@ -19,11 +13,10 @@ export const questionOnQuestionGroupTable = pgTable(
     questionGroupId: uuid('question_group_id')
       .notNull()
       .references(() => questionGroupsTable.id, { onDelete: 'cascade' }),
-    order: varchar('order'),
+    order: smallint('order'),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.questionId, table.questionGroupId] }),
-    uniqueOrder: unique('unique_order').on(table.questionGroupId, table.order),
   })
 );
 

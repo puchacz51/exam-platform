@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { ScrollArea } from '@radix-ui/react-scroll-area';
-
 import {
   Dialog,
   DialogContent,
@@ -26,12 +24,8 @@ export const QuestionEditModal = () => {
         <DialogHeader className="flex-shrink-0 border-b px-6 py-4">
           <DialogTitle>Edit Question</DialogTitle>
         </DialogHeader>
-        <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full">
-            <div className="px-6 py-4">
-              <TestCreatorQuestionsEditForm />
-            </div>
-          </ScrollArea>
+        <div className="flex-1 overflow-auto px-6 py-4">
+          <TestCreatorQuestionsEditForm />
         </div>
       </DialogContent>
     </Dialog>

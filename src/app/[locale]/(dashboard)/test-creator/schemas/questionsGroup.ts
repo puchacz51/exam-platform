@@ -8,7 +8,4 @@ export const questionGroupSchema = object({
   order: number()
     .int('Kolejność musi być liczbą całkowitą')
     .min(0, 'Kolejność nie może być ujemna'),
-  maxQuestionPerPage: number()
-    .int('Liczba pytań na stronie musi być liczbą całkowitą')
-    .min(1, 'Minimalna liczba pytań na stronie to 1'),
 });

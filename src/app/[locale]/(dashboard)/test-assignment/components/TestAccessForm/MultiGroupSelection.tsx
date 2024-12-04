@@ -115,6 +115,7 @@ export const MultiGroupSelection = ({
                       variant="ghost"
                       size="sm"
                       className="ml-2"
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedGroupForMembers({

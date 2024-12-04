@@ -2,6 +2,8 @@
 
 import { useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import GroupCard from '@/app/[locale]/(dashboard)/groups/components/GroupCard';
@@ -17,6 +19,7 @@ interface GroupListProps {
 }
 
 const GroupList = ({ groups }: GroupListProps) => {
+  const t = useTranslations('dashboard.groups.list');
   const [searchQuery, setSearchQuery] = useState('');
   const [limit, setLimit] = useState(10);
   const listRef = useRef<HTMLDivElement>(null);
@@ -36,7 +39,7 @@ const GroupList = ({ groups }: GroupListProps) => {
     <div>
       <Input
         type="search"
-        placeholder="Search groups..."
+        placeholder={t('searchPlaceholder')}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="mb-6"
@@ -45,9 +48,7 @@ const GroupList = ({ groups }: GroupListProps) => {
         {filteredGroups.length === 0 ? (
           <div className="rounded-lg border border-dashed p-8 text-center">
             <p className="text-muted-foreground">
-              {searchQuery
-                ? 'No groups found matching your search'
-                : 'No groups available'}
+              {searchQuery ? t('noResults') : t('noGroups')}
             </p>
           </div>
         ) : (
@@ -73,7 +74,7 @@ const GroupList = ({ groups }: GroupListProps) => {
                   onClick={loadMore}
                   className="w-full sm:w-auto"
                 >
-                  Show All
+                  {t('showAll')}
                 </Button>
               </div>
             )}

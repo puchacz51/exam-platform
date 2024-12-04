@@ -3,7 +3,7 @@
 import { and, eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
+import { verificationTokensTable } from '@schema/email_verification_tokens';
 import { usersTable } from '@schema/users';
 
 export async function verifyEmailToken(
@@ -12,11 +12,11 @@ export async function verifyEmailToken(
 ): Promise<boolean> {
   const result = await db
     .select()
-    .from(emailVerificationTokensTable)
+    .from(verificationTokensTable)
     .where(
       and(
-        eq(emailVerificationTokensTable.token, token),
-        eq(emailVerificationTokensTable.userEmail, email)
+        eq(verificationTokensTable.token, token),
+        eq(verificationTokensTable.userEmail, email)
       )
     )
     .limit(1);
@@ -28,11 +28,11 @@ export async function verifyEmailToken(
 
   if (verificationToken.expiresAt < new Date()) {
     await db
-      .delete(emailVerificationTokensTable)
+      .delete(verificationTokensTable)
       .where(
         and(
-          eq(emailVerificationTokensTable.token, token),
-          eq(emailVerificationTokensTable.userEmail, email)
+          eq(verificationTokensTable.token, token),
+          eq(verificationTokensTable.userEmail, email)
         )
       );
 
@@ -44,11 +44,11 @@ export async function verifyEmailToken(
     .where(eq(usersTable.email, email));
 
   await db
-    .delete(emailVerificationTokensTable)
+    .delete(verificationTokensTable)
     .where(
       and(
-        eq(emailVerificationTokensTable.token, token),
-        eq(emailVerificationTokensTable.userEmail, email)
+        eq(verificationTokensTable.token, token),
+        eq(verificationTokensTable.userEmail, email)
       )
     );
 

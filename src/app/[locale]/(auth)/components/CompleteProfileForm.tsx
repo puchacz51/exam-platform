@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -21,16 +22,18 @@ import { completeProfile } from '@actions/account/completeProfile';
 import { useRouter } from '@/i18n/routing';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const profileSchema = z.object({
-  firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
-  lastname: z.string().min(2, 'Nazwisko musi mieć co najmniej 2 znaki'),
-});
-
-type ProfileForm = z.infer<typeof profileSchema>;
-
 const CompleteProfileForm: FC = () => {
+  const t = useTranslations('auth.completeProfile');
   const { data: session, update } = useSession();
   const router = useRouter();
+
+  const profileSchema = z.object({
+    firstname: z.string().min(2, t('validation.firstNameLength')),
+    lastname: z.string().min(2, t('validation.lastNameLength')),
+  });
+
+  type ProfileForm = z.infer<typeof profileSchema>;
+
   const form = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -53,7 +56,7 @@ const CompleteProfileForm: FC = () => {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold">
-          Uzupełnij profil
+          {t('title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -67,7 +70,7 @@ const CompleteProfileForm: FC = () => {
               name="firstname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Imię</FormLabel>
+                  <FormLabel>{t('firstName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Jan"
@@ -83,7 +86,7 @@ const CompleteProfileForm: FC = () => {
               name="lastname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nazwisko</FormLabel>
+                  <FormLabel>{t('lastName')}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Kowalski"
@@ -94,7 +97,7 @@ const CompleteProfileForm: FC = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Zaktualizuj profil</Button>
+            <Button type="submit">{t('submit')}</Button>
           </form>
         </Form>
       </CardContent>

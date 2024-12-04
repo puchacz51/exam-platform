@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { deleteGroup, updateGroup } from '@actions/groups/modifyGroup';
 import {
   AlertDialog,
@@ -45,6 +46,7 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const t = useTranslations('dashboard.groups.details');
   const form = useForm({
     resolver: zodResolver(createGroupSchema),
     defaultValues: {
@@ -77,24 +79,23 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold tracking-tight">Group Details</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">{t('title')}</h2>
         <div className="space-x-2">
           <Button
             variant="outline"
             onClick={() => setIsEditing(!isEditing)}
           >
-            {isEditing ? 'Cancel' : 'Edit'}
+            {isEditing ? t('cancel') : t('edit')}
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive">Delete Group</Button>
+              <Button variant="destructive">{t('deleteGroup')}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogTitle>{t('deleteConfirm.title')}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete the
-                  group and remove all members.
+                  {t('deleteConfirm.description')}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

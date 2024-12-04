@@ -1,49 +1,87 @@
 import { FC } from 'react';
 
-import { Textarea } from '@/components/ui/textarea';
 import BooleanGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanGroupQuestion';
 import NumericGroupQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericGroupQuestion';
-import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoinceQuestion';
+import SingleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/SingleChoiceQuestion';
 import MultipleChoiceQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MultipleChoiceQuestion';
 import MatchingQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/MatchingQuestion';
 import OrderQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OrderQuestion';
 import NumericQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/NumericQuestion';
 import BooleanQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/BooleanQuestion';
-import { Question } from '@/types/test/questionTypes';
-import { type NumericGroupQuestion as NumericGroupQuestionType } from '@/types/test-creator/question';
+import OpenQuestion from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/OpenQuestion';
+import { Question } from '@/types/questions';
 
 interface QuestionSelectorProps {
   question: Question;
+  mode?: 'view' | 'solve';
 }
 
-const QuestionSelector: FC<QuestionSelectorProps> = ({ question }) => {
+const QuestionSelector: FC<QuestionSelectorProps> = ({
+  question,
+  mode = 'view',
+}) => {
   switch (question.questionType) {
     case 'SINGLE_CHOICE':
-      return <SingleChoiceQuestion question={question} />;
+      return (
+        <SingleChoiceQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'MULTIPLE_CHOICE':
-      return <MultipleChoiceQuestion question={question} />;
+      return (
+        <MultipleChoiceQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'MATCHING':
-      return <MatchingQuestion question={question} />;
+      return (
+        <MatchingQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'ORDER':
-      return <OrderQuestion question={question} />;
+      return (
+        <OrderQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'NUMERIC':
-      return <NumericQuestion question={question} />;
+      return (
+        <NumericQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'BOOLEAN':
-      return <BooleanQuestion question={question} />;
+      return (
+        <BooleanQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'BOOLEAN_GROUP':
-      return <BooleanGroupQuestion question={question} />;
+      return (
+        <BooleanGroupQuestion
+          mode={mode}
+          question={question}
+        />
+      );
     case 'NUMERIC_GROUP':
       return (
         <NumericGroupQuestion
-          question={question as unknown as NumericGroupQuestionType}
+          mode={mode}
+          question={question}
         />
       );
-    default:
+    case 'OPEN':
       return (
-        <Textarea
-          placeholder="Enter your answer"
-          disabled
-          className="w-full"
+        <OpenQuestion
+          mode={mode}
+          question={question}
         />
       );
   }

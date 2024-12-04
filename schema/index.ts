@@ -1,5 +1,8 @@
 import { usersRelations, usersTable } from '@schema/users';
-import { emailVerificationTokensTable } from '@schema/email_verification_tokens';
+import {
+  verificationTokensRelations,
+  verificationTokensTable,
+} from '@schema/email_verification_tokens';
 import {
   matchingPairsRelations,
   matchingPairsTable,
@@ -25,38 +28,82 @@ import {
 import { groupsRelations, groupsTable } from '@schema/groups';
 import { userGroupsRelations, userGroupsTable } from '@schema/userGroups';
 import {
-  testAccessGroupsTable,
   testAccessGroupsRelations,
+  testAccessGroupsTable,
 } from '@schema/testAccessGroups';
+import {
+  attemptAnswersRelations,
+  attemptAnswersTable,
+} from '@schema/attemptAnswers';
+import {
+  booleanAnswerRelations,
+  booleanAnswersTable,
+  choiceAnswerRelations,
+  choiceAnswersTable,
+  matchingAnswerRelations,
+  matchingAnswersTable,
+  numericAnswerRelations,
+  numericAnswersTable,
+  openAnswerRelations,
+  openAnswersTable,
+  orderAnswerRelations,
+  orderAnswersTable,
+} from '@schema/attemptAnswerDetails';
+import {
+  testAccessConfigRelations,
+  testAccessConfigTable,
+} from '@schema/testAccesss';
+import { testAttemptsRelations, testAttemptsTable } from '@schema/testAttempt';
 
 export const schema = {
-  users: usersTable,
-  email_verification_tokens: emailVerificationTokensTable,
-  tests: testsTable,
-  categories: categoriesTable,
-  questions: questionsTable,
-  matchingPairs: matchingPairsTable,
-  questionGroups: questionGroupsTable,
+  // Tables
   answers: answersTable,
-  orderItems: orderItemsTable,
-  questionOnQuestionGroup: questionOnQuestionGroupTable,
-  testSettings: testSettingsTable,
+  attemptAnswers: attemptAnswersTable,
+  booleanAnswers: booleanAnswersTable,
+  categories: categoriesTable,
+  choiceAnswers: choiceAnswersTable,
   groupSubQuestions: groupSubQuestionsTable,
   groups: groupsTable,
-  userGroups: userGroupsTable,
+  matchingAnswers: matchingAnswersTable,
+  matchingPairs: matchingPairsTable,
+  numericAnswers: numericAnswersTable,
+  openAnswers: openAnswersTable,
+  orderAnswers: orderAnswersTable,
+  orderItems: orderItemsTable,
+  questionGroups: questionGroupsTable,
+  questionOnQuestionGroup: questionOnQuestionGroupTable,
+  questions: questionsTable,
+  testAccess: testAccessConfigTable,
   testAccessGroups: testAccessGroupsTable,
-  usersRelations,
-  testsRelations,
-  matchingPairsRelations,
-  questionGroupRelations,
-  orderItemsRelations,
+  testAttempts: testAttemptsTable,
+  tests: testsTable,
+  testSettings: testSettingsTable,
+  userGroups: userGroupsTable,
+  users: usersTable,
+  verificationTokens: verificationTokensTable,
+
   answerRelations,
-  questionRelations,
+  attemptAnswersRelations,
+  booleanAnswerRelations,
   categoriesRelations,
-  questionOnQuestionGroupRelations,
-  testSettingsRelations,
-  groupSubQuestionsRelations,
+  choiceAnswerRelations,
   groupsRelations,
-  userGroupsRelations,
+  groupSubQuestionsRelations,
+  matchingAnswerRelations,
+  matchingPairsRelations,
+  numericAnswerRelations,
+  openAnswerRelations,
+  orderAnswerRelations,
+  orderItemsRelations,
+  questionGroupRelations,
+  questionOnQuestionGroupRelations,
+  questionRelations,
+  testAccessConfigRelations,
   testAccessGroupsRelations,
+  testAttemptsRelations,
+  testsRelations,
+  testSettingsRelations,
+  userGroupsRelations,
+  usersRelations,
+  verificationTokensRelations,
 };
