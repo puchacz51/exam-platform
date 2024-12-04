@@ -1,7 +1,7 @@
 import { pgEnum, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-import { testAccessConfigTable } from '@schema/testAccess';
+import { testAccessConfigTable } from '@schema/testAccesss';
 import { groupsTable } from '@schema/groups';
 
 export const testAccessGroupSourceTypeEnum = pgEnum(

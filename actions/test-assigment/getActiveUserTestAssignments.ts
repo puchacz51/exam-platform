@@ -2,7 +2,7 @@ import { and, eq, gt, isNull, or } from 'drizzle-orm';
 import { asc } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { testAccessConfigTable } from '@schema/testAccess';
+import { testAccessConfigTable } from '@schema/testAccesss';
 import { testsTable } from '@schema/test';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 import { groupsTable } from '@schema/groups';

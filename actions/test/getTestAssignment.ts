@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm';
 
 import db from '@/lib/db';
-import { testAccessConfigTable } from '@schema/testAccess';
+import { testAccessConfigTable } from '@schema/testAccesss';
 import { auth } from '@/next-auth/auth';
 import { testAttemptsTable } from '@schema/testAttempt';
 

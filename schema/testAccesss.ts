@@ -14,7 +14,6 @@ import { testsTable } from '@schema/test';
 import { usersTable } from '@schema/users';
 import { testAccessGroupsTable } from '@schema/testAccessGroups';
 
-
 export const testAccessTypeEnum = pgEnum('test_access_type', [
   'GROUP',
   'CODE',

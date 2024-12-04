@@ -52,7 +52,7 @@ import {
 import {
   testAccessConfigRelations,
   testAccessConfigTable,
-} from '@schema/testAccess';
+} from '@schema/testAccesss';
 import { testAttemptsRelations, testAttemptsTable } from '@schema/testAttempt';
 
 export const schema = {
