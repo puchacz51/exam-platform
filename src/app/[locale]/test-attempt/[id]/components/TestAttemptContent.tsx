@@ -60,6 +60,7 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
 
       const result = await createAnswer(testAssignmentId, formattedAnswers);
 
+      console.log(result);
       if (result.error) {
         setSubmitError(result.error);
         return;
