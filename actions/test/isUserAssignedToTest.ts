@@ -6,10 +6,10 @@ import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/testAccesss';
 import { userGroupsTable } from '@schema/userGroups';
 import { auth } from '@/next-auth/auth';
+import { testAttemptsTable } from '@schema/testAttempt';
 
 export async function isUserAssignedToTest(id: string) {
   const session = await auth();
-
   if (!session) return false;
 
   const userId = session.user.userID;
@@ -36,8 +36,15 @@ export async function isUserAssignedToTest(id: string) {
             },
           },
         },
+        attempts: {
+          where: and(eq(testAttemptsTable.userId, userId)),
+          with: {
+            answers: true,
+          },
+        },
       },
     });
+    console.log('accessConfig:', accessConfig?.attempts);
 
     if (!accessConfig) return false;
 

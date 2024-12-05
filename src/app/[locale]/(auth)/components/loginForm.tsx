@@ -1,13 +1,12 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,8 +21,11 @@ import {
 } from '@/components/ui/form';
 
 const LoginForm: FC = () => {
+  const returnUrl = (new URLSearchParams(window.location.search).get(
+    'returnUrl'
+  ) || '/dashboard') as unknown as Location;
+  const session = useSession();
   const t = useTranslations('auth');
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState({
     credentials: false,
     microsoft: false,
@@ -47,6 +49,12 @@ const LoginForm: FC = () => {
     defaultValues,
   });
 
+  useEffect(() => {
+    if (session?.data?.user) {
+      window.location = returnUrl;
+    }
+  }, [session]);
+
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading((prev) => ({ ...prev, credentials: true }));
@@ -64,7 +72,8 @@ const LoginForm: FC = () => {
       const returnUrl =
         new URLSearchParams(window.location.search).get('returnUrl') ||
         '/dashboard';
-      router.replace(returnUrl);
+
+      window.location = returnUrl as unknown as Location;
     } catch (error) {
       console.error(error);
     } finally {
@@ -72,30 +81,19 @@ const LoginForm: FC = () => {
     }
   };
 
-  const handleMicrosoftSignIn = async () => {
+  const handleSignIn = async (provider: 'azure-ad' | 'USOS') => {
     try {
-      setIsLoading((prev) => ({ ...prev, microsoft: true }));
-      const returnUrl =
-        new URLSearchParams(window.location.search).get('returnUrl') ||
-        '/dashboard';
-      await signIn('azure-ad', { redirect: true, callbackUrl: returnUrl });
+      setIsLoading((prev) => ({
+        ...prev,
+        [provider === 'azure-ad' ? 'microsoft' : 'usos']: true,
+      }));
 
-      router.replace(returnUrl);
+      await signIn(provider);
     } finally {
-      setIsLoading((prev) => ({ ...prev, microsoft: false }));
-    }
-  };
-
-  const handleUSOSSignIn = async () => {
-    try {
-      setIsLoading((prev) => ({ ...prev, usos: true }));
-      await signIn('USOS');
-      const returnUrl =
-        new URLSearchParams(window.location.search).get('returnUrl') ||
-        '/dashboard';
-      router.replace(returnUrl);
-    } finally {
-      setIsLoading((prev) => ({ ...prev, usos: false }));
+      setIsLoading((prev) => ({
+        ...prev,
+        [provider === 'azure-ad' ? 'microsoft' : 'usos']: false,
+      }));
     }
   };
 
@@ -170,14 +168,14 @@ const LoginForm: FC = () => {
         <div className="mt-6 grid grid-cols-2 gap-3">
           <Button
             variant="outline"
-            onClick={handleMicrosoftSignIn}
+            onClick={() => handleSignIn('azure-ad')}
             disabled={isLoading.microsoft}
           >
             {isLoading.microsoft ? t('login.loading') : t('login.microsoft')}
           </Button>
           <Button
             variant="outline"
-            onClick={handleUSOSSignIn}
+            onClick={() => handleSignIn('USOS')}
             disabled={isLoading.usos}
           >
             {isLoading.usos ? t('login.loading') : t('login.usos')}
