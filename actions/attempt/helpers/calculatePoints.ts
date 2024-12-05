@@ -26,40 +26,53 @@ export const calculatePoints = ({
     const answer = answers.find((a) => a.questionId === question.id);
 
     if (!answer) {
-      return null;
+      return {
+        questionId: question.id,
+        points: 0,
+      };
     }
 
     const accuracy = calculateQuestionAccuracy(question, answer);
     if (!accuracy) {
-      return null;
+      return {
+        questionId: question.id,
+        points: 0,
+      };
     }
 
     const [correct, total] = accuracy;
+    const accuracyRatio = correct / total;
 
-    if (scoringSystem === 'STANDARD' && !allowPartialPoints) {
+    if (scoringSystem === 'STANDARD') {
+      if (!allowPartialPoints) {
+        return {
+          questionId: question.id,
+          points: accuracyRatio === 1 ? points : 0,
+        };
+      }
       return {
         questionId: question.id,
-        points: correct >= total ? points : 0,
+        points: Math.round(accuracyRatio * points * 100) / 100,
       };
     }
 
-    if (scoringSystem === 'STANDARD' && allowPartialPoints) {
+    if (scoringSystem === 'NEGATIVE') {
+      if (!allowPartialPoints) {
+        return {
+          questionId: question.id,
+          points: accuracyRatio === 1 ? points : 0,
+        };
+      }
       return {
         questionId: question.id,
-        points: (correct / total) * points,
-      };
-    }
-
-    if (allowPartialPoints) {
-      return {
-        questionId: question.id,
-        points: 2,
+        points:
+          accuracyRatio === 1 ? points : accuracyRatio >= 0.5 ? points / 2 : 0,
       };
     }
 
     return {
       questionId: question.id,
-      points,
+      points: 0,
     };
   });
 

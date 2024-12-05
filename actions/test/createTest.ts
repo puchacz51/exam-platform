@@ -4,11 +4,17 @@ import db from '@/lib/db';
 import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { TestCreatorTest } from '@/types/test-creator/test';
 import { testsTable } from '@schema/test';
-import { questionGroupsTable } from '@schema/questionGroups';
-import { questionsTable } from '@schema/questions';
+import {
+  InsertQuestionGroup,
+  questionGroupsTable,
+} from '@schema/questionGroups';
+import { InsertQuestion, questionsTable } from '@schema/questions';
 import { auth } from '@/next-auth/auth';
 import { testSettingsTable } from '@schema/testSettings';
-import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
+import {
+  InsertQuestionOnQuestionGroup,
+  questionOnQuestionGroupTable,
+} from '@schema/questionOnQuestionGroup';
 import { validateTestSubmission } from '@actions/test/validateTest';
 import { createQuestionTypeSpecificData } from '@actions/test/questionHandler';
 
@@ -24,6 +30,7 @@ async function createTest(
     test,
     questionGroups,
   });
+
   if (!success) {
     return { success: false, errors };
   }
@@ -39,6 +46,9 @@ async function createTest(
       })
       .returning();
 
+    console.log('Test created successfully:', createdTest.id);
+
+    // Create test settings (unchanged)
     await tx.insert(testSettingsTable).values({
       testId: createdTest.id,
       navigationMode: test.settings.navigationMode,
@@ -58,41 +68,76 @@ async function createTest(
       showFinalScore: test.settings.showFinalScore,
     });
 
+    console.log('createdTest', createdTest);
+
+    const groupInserts: InsertQuestionGroup[] = [];
+    const questionInserts: InsertQuestion[] = [];
+    const questionGroupRelations: InsertQuestionOnQuestionGroup[] = [];
+    const questionTypeData: Promise<void>[] = [];
+
     for (const [i, group] of Object.entries(questionGroups)) {
-      if (!group.questions.length) {
-        continue;
-      }
+      if (!group.questions.length) continue;
 
-      const [createdGroup] = await tx
-        .insert(questionGroupsTable)
-        .values({
-          testId: createdTest.id,
-          name: group.name,
-          order: parseInt(i) + 1,
-        })
-        .returning();
-
-      for (const [index, question] of Object.entries(group.questions)) {
-        const [createdQuestion] = await tx
-          .insert(questionsTable)
-          .values({
-            text: question.text,
-            questionType: question.questionType as 'OPEN',
-            isPublic: question.isPublic,
-            categoryId: question.categoryId,
-            points: question.points,
-          })
-          .returning();
-
-        await createQuestionTypeSpecificData(tx, question, createdQuestion.id);
-
-        await tx.insert(questionOnQuestionGroupTable).values({
-          questionId: createdQuestion.id,
-          questionGroupId: createdGroup.id,
-          order: parseInt(index) + 1,
-        });
-      }
+      groupInserts.push({
+        testId: createdTest.id,
+        name: group.name,
+        order: parseInt(i) + 1,
+      });
     }
+
+    const createdGroups = await tx
+      .insert(questionGroupsTable)
+      .values(groupInserts)
+      .returning();
+
+    questionGroups.forEach((group) => {
+      if (!group.questions.length) return;
+
+      group.questions.forEach((question) => {
+        questionInserts.push({
+          text: question.text,
+          questionType: question.questionType as 'OPEN',
+          isPublic: question.isPublic,
+          categoryId: question.categoryId,
+          points: question.points,
+        });
+      });
+    });
+
+    // Batch insert questions
+    const createdQuestions = await tx
+      .insert(questionsTable)
+      .values(questionInserts)
+      .returning();
+
+    // Create relations and question type data
+    let questionCounter = 0;
+    questionGroups.forEach((group, groupIndex) => {
+      if (!group.questions.length) return;
+      const groupId = createdGroups[groupIndex].id;
+
+      group.questions.forEach((question, questionIndex) => {
+        const questionId = createdQuestions[questionCounter].id;
+
+        questionGroupRelations.push({
+          questionId: questionId,
+          questionGroupId: groupId,
+          order: questionIndex + 1,
+        });
+
+        questionTypeData.push(
+          createQuestionTypeSpecificData(tx, question, questionId)
+        );
+
+        questionCounter++;
+      });
+    });
+
+    // Execute batch operations
+    await Promise.all([
+      tx.insert(questionOnQuestionGroupTable).values(questionGroupRelations),
+      ...questionTypeData,
+    ]);
 
     return createdTest;
   });
@@ -112,6 +157,7 @@ export async function createTestAction(
     }
 
     const userId = session.user.userID;
+    console.log('userId', userId);
     const result = await createTest(test, questionGroups, userId);
     if ('errors' in result) {
       return { success: false, errors: result.errors };

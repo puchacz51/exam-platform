@@ -6,99 +6,84 @@ import { submitAnswers } from '@actions/attempt/submitAnswers';
 import { getUserAttemptWithTestSettings } from '@actions/attempt/getUserAttempt';
 import { calculatePoints } from '@actions/attempt/helpers/calculatePoints';
 
+const logTime = (start: number, label = '') =>
+  console.log(label || 'Execution time', (Date.now() - start) / 1000);
+
 export async function createAnswer(
   testAccessId: string,
   answers: AnswerInput[]
 ) {
-  const strartTime = new Date().getTime();
+  const startTime = Date.now();
 
   const { data: userAttempt, error } =
     await getUserAttemptWithTestSettings(testAccessId);
 
-  if (error || !userAttempt) {
+  if (!userAttempt || error) {
     return { data: null, error: 'Attempt not found' };
   }
 
-  const testSettings = userAttempt.testAccess.test.settings;
-  const allowEdit = testSettings.allowGoBack;
+  const { allowGoBack } = userAttempt.testAccess.test.settings;
+
+  if (!allowGoBack) {
+    return submitAnswers(answers);
+  }
 
   try {
-    const answersToEdit: AnswerInput[] = [];
-    const answerIdsToEdit: string[] = [];
-    const answersToSubmit: AnswerInput[] = [];
-
-    const existingAnswers = answers.map((answer) =>
-      userAttempt.answers.find(
-        (existing) => existing.questionId === answer.questionId
-      )
+    // Process answers in a single pass
+    const { existing, new: newAnswers } = answers.reduce(
+      (acc, answer) => {
+        const found = userAttempt.answers.find(
+          (a) => a.questionId === answer.questionId
+        );
+        if (found) {
+          acc.existing.push({ id: found.id, answer });
+        } else {
+          acc.new.push(answer);
+        }
+        return acc;
+      },
+      {
+        existing: [] as { id: string; answer: AnswerInput }[],
+        new: [] as AnswerInput[],
+      }
     );
 
-    if (allowEdit && existingAnswers.some((answer) => answer)) {
-      answers.forEach((answer, index) => {
-        if (existingAnswers[index]) {
-          answersToEdit.push(answer);
-          answerIdsToEdit.push(existingAnswers[index]!.id);
-        } else {
-          answersToSubmit.push(answer);
-        }
-      });
+    if (!existing.length && !newAnswers.length) {
+      return { data: [], error: null };
+    }
+
+    if (existing.length) {
+      const questions = userAttempt.testAccess.test.QG.flatMap((qg) =>
+        qg.qOnQG.map((q) => q.question)
+      );
 
       const points = calculatePoints({
-        answers: answersToEdit,
-        questions: userAttempt.testAccess.test.QG.flatMap((q) =>
-          q.qOnQG.map((qq) => qq.question)
-        ),
-        settings: testSettings,
+        answers: existing.map((e) => e.answer),
+        questions,
+        settings: userAttempt.testAccess.test.settings,
       });
-      console.log(points);
-      console.log(
-        'createAnswer time1',
-        (new Date().getTime() - strartTime) / 1000
-      );
 
-      const results = await Promise.all([
-        answersToEdit.length > 0
-          ? editAnswers(answerIdsToEdit, answersToEdit)
-          : { data: [], error: null },
-        answersToSubmit.length > 0
-          ? submitAnswers(answersToSubmit)
-          : { data: [], error: null },
-      ]);
-
-      const editError = results[0].error;
-      const submitError = results[1].error;
-
-      if (editError || submitError) {
-        throw new Error('Failed to process answers');
-      }
-
-      console.log('createAnswer time', new Date().getTime() - strartTime);
-      // in seconds
-      console.log(
-        'createAnswer time',
-        (new Date().getTime() - strartTime) / 1000
-      );
-      return {
-        data: [...(results[0].data || []), ...(results[1].data || [])],
-        error: null,
-      };
+      logTime(startTime, 'Points calculation');
     }
 
-    const addedAttempt = await submitAnswers(answers);
+    const [editResult, submitResult] = await Promise.all([
+      existing.length
+        ? editAnswers(
+            existing.map((e) => e.id),
+            existing.map((e) => e.answer)
+          )
+        : { data: [], error: null },
+      newAnswers.length ? submitAnswers(newAnswers) : { data: [], error: null },
+    ]);
 
-    if (addedAttempt.error) {
-      throw new Error('Failed to process answers');
+    if (editResult.error || submitResult.error) {
+      throw new Error(editResult.error || submitResult.error || '');
     }
 
-    console.log('createAnswer time', new Date().getTime() - strartTime);
-    // in seconds
-    console.log(
-      'createAnswer time',
-      (new Date().getTime() - strartTime) / 1000
-    );
+    logTime(startTime);
 
     return {
-      data: addedAttempt.data,
+      data: [...(editResult.data || []), ...(submitResult.data || [])],
       error: null,
     };
   } catch (error) {
