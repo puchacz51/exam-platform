@@ -5,7 +5,6 @@ import { and, asc, eq } from 'drizzle-orm';
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/testAccesss';
 import { auth } from '@/next-auth/auth';
-import { testAttemptsTable } from '@schema/testAttempt';
 import { createUserAttempt } from '@actions/attempt/createUserAttempt';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 import { checkIfNoMoreQuestions } from '@actions/test/helpers/questionResolver';

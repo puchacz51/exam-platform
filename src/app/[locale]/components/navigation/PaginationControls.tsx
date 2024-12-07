@@ -1,20 +1,15 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { usePagination } from '@/hooks/navigation/usePagination';
 
 interface PaginationControlsProps {}
 
 export const PaginationControls = ({}: PaginationControlsProps) => {
-  const {
-    currentPage,
-    totalPages,
-    hasNextPage,
-    hasPreviousPage,
-    nextPage,
-    previousPage,
-  } = usePagination({});
+  const { totalPages, hasNextPage, hasPreviousPage, nextPage, previousPage } =
+    usePagination({});
 
   if (totalPages <= 1) return null;
 

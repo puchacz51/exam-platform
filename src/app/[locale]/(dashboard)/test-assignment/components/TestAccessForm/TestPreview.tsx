@@ -6,7 +6,7 @@ import { CompleteTest } from '@/types/test/test';
 import { OwnedTest } from '@actions/test/getAllTests';
 
 interface TestPreviewProps {
-  test: CompleteTest | OwnedTest; 
+  test: CompleteTest | OwnedTest;
 }
 
 export const TestPreview = ({ test }: TestPreviewProps) => {

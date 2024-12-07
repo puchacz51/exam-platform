@@ -2,13 +2,11 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-interface PaginationOptions<T> {
+interface PaginationOptions {
   totalPages?: number;
 }
 
-export function usePagination<T>({
-  totalPages = 1,
-}: PaginationOptions<T>) {
+export function usePagination({ totalPages = 1 }: PaginationOptions) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 

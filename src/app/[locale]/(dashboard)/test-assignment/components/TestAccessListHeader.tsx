@@ -1,7 +1,9 @@
-import { ChevronLeft, ChevronRight, Search, Users } from 'lucide-react';
+import { FC, useState } from 'react';
+
+import { Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -12,8 +14,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { TestAccessForm } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm';
-import { FC, useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 const TestAccessListHeader: FC = () => {
   const t = useTranslations('testAssignment.list');

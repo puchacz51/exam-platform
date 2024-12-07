@@ -9,5 +9,8 @@ interface TestAccessAttemptsPageProps {
 const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = ({
   params,
 }) => {
+  console.log(params);
   return <div>TestAccessAttemptsPage</div>;
 };
+
+export default TestAccessAttemptsPage;

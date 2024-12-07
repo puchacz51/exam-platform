@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 
 import { getUserGroups } from '@actions/groups/getGroup';
-import { TestAccessForm } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm';
 import { TestAccessList } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessList';
 
 const TestAssignmentPage = async () => {

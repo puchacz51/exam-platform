@@ -1,28 +1,20 @@
 'use client';
-import { FC, HTMLAttributes, useState } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
-import { useTranslations } from 'next-intl';
-import { ChevronLeft, ChevronRight, Search, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-
 import { Separator } from '@/components/ui/separator';
-import { TestAccessForm } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm';
 import { useOwnedAccessQuery } from '@/hooks/useGetOwnedAccessQuery';
-import { usePagination } from '@/hooks/navigation/usePagination';
 import { PaginationControls } from '@/app/[locale]/components/navigation/PaginationControls';
 import { cn } from '@/lib/utils';
 import TestAccessListHeader from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessListHeader';
 import { Link } from '@/i18n/routing';
 
-const ITEMS_PER_PAGE = 10;
+// const ITEMS_PER_PAGE = 10;
 interface TestAccessListProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
-  const t = useTranslations('testAssignment.list');
   const { isLoading, error, data } = useOwnedAccessQuery();
 
   if (error) {
@@ -79,7 +71,7 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <Link href={`/test-assignment`}>
+                        <Link href={'/test-assignment'}>
                           <Button variant="outline">View</Button>
                         </Link>
                       </div>
