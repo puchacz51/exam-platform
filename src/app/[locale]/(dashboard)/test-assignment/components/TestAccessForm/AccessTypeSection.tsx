@@ -19,7 +19,7 @@ import { Group } from '@/types/group/group';
 import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/MultiGroupSelection';
 
 interface AccessTypeSectionProps {
-  initialGroups: Group[];
+  initialGroups?: Group[];
 }
 
 export const AccessTypeSection = ({
@@ -75,7 +75,7 @@ export const AccessTypeSection = ({
 
       {accessType === 'GROUP' && (
         <div className="mt-4">
-          <MultiGroupSelection initialGroups={initialGroups} />
+          <MultiGroupSelection initialGroups={initialGroups || []} />
         </div>
       )}
     </>

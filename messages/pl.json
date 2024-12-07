@@ -207,5 +207,23 @@
                 "false": "Fałsz"
             }
         }
+    },
+    "testAssignment": {
+        "list": {
+            "title": "Zarządzanie Dostępem do Testów",
+            "newAssignment": "Nowe Przypisanie",
+            "searchPlaceholder": "Szukaj testów...",
+            "filterByAccess": "Filtruj po typie dostępu",
+            "allTypes": "Wszystkie typy",
+            "codeAccess": "Kod dostępu",
+            "groupAccess": "Dostęp grupowy",
+            "noAssignments": "Nie znaleziono przypisanych testów",
+            "accessCode": "Kod dostępu: {code}",
+            "groupName": "Grupa: {name}",
+            "manageAccess": "Zarządzaj Dostępem",
+            "previous": "Poprzednia",
+            "next": "Następna",
+            "pageInfo": "Strona {current} z {total}"
+        }
     }
 }

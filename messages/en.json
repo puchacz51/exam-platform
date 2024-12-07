@@ -205,5 +205,23 @@
                 "false": "False"
             }
         }
+    },
+    "testAssignment": {
+        "list": {
+            "title": "Test Access Management",
+            "newAssignment": "New Assignment",
+            "searchPlaceholder": "Search tests...",
+            "filterByAccess": "Filter by access type",
+            "allTypes": "All types",
+            "codeAccess": "Access code",
+            "groupAccess": "Group access",
+            "noAssignments": "No test assignments found",
+            "accessCode": "Access code: {code}",
+            "groupName": "Group: {name}",
+            "manageAccess": "Manage Access",
+            "previous": "Previous",
+            "next": "Next",
+            "pageInfo": "Page {current} of {total}"
+        }
     }
 }

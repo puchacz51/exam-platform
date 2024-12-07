@@ -85,7 +85,6 @@ export async function getAssignmentWithTest(id: string) {
           },
         },
         attempts: {
-          where: eq(testAttemptsTable.userId, session.user.userID),
           with: {
             answers: {
               with: {
@@ -101,10 +100,10 @@ export async function getAssignmentWithTest(id: string) {
         },
       },
     });
-
     if (!assignment) {
       throw new Error('Assignment not found');
     }
+
     const { questionDisplayMode } = assignment.test.settings;
     const questionGroups = assignment.test.QG.map((qg) => ({
       id: qg.id,

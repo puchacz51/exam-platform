@@ -74,7 +74,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
                 size="sm"
                 asChild
               >
-                <Link href="/test/assign">
+                <Link href="/test-assignment">
                   {t('viewList')} <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

@@ -15,11 +15,11 @@ import { ViewMembersModal } from './ViewMembersModal';
 import { TestAccessFormValues } from '../../schema/TestAccessSchema';
 
 interface MultiGroupSelectionProps {
-  initialGroups: Group[];
+  initialGroups?: Group[];
 }
 
 export const MultiGroupSelection = ({
-  initialGroups,
+  initialGroups = [],
 }: MultiGroupSelectionProps) => {
   const { watch, setValue } = useFormContext<TestAccessFormValues>();
   const [searchQuery, setSearchQuery] = useState('');

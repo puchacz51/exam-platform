@@ -1,10 +1,9 @@
 import { getAssignmentWithTest } from '@actions/test/getAssignmentWithTest';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
-
 import {
   AttemptQuestionGroup,
   TestAttemptContent,
-} from './components/TestAttemptContent';
+} from '@/app/[locale]/test-attempt/[id]/components/TestAttemptContent';
 
 interface PageProps {
   params: {
