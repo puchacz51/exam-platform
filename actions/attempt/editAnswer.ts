@@ -27,6 +27,7 @@ export async function editAnswer(
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
+        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
       })
       .where(eq(attemptAnswersTable.id, answerId));
 

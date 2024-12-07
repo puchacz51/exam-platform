@@ -11,9 +11,11 @@ import {
   orderAnswersTable,
 } from '@schema/attemptAnswerDetails';
 import { attemptAnswersTable } from '@schema/attemptAnswers';
+import { console } from 'inspector';
 
 type TransactionFunction = Parameters<typeof db.transaction>[0];
 export type Tx = Parameters<TransactionFunction>[0];
+
 
 export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
   const operation = async (tx: Tx) => {
@@ -23,6 +25,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
+        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
       })
       .returning();
 

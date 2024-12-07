@@ -6,21 +6,41 @@ import { submitAnswers } from '@actions/attempt/submitAnswers';
 import { getUserAttemptWithTestSettings } from '@actions/attempt/getUserAttempt';
 import { calculatePoints } from '@actions/attempt/helpers/calculatePoints';
 
-const logTime = (start: number, label = '') =>
-  console.log(label || 'Execution time', (Date.now() - start) / 1000);
-
 export async function createAnswer(
   testAccessId: string,
   answers: AnswerInput[]
 ) {
-  const startTime = Date.now();
-
   const { data: userAttempt, error } =
     await getUserAttemptWithTestSettings(testAccessId);
 
   if (!userAttempt || error) {
     return { data: null, error: 'Attempt not found' };
   }
+
+  const {
+    testAccess: { test },
+  } = userAttempt;
+
+  const questions = test.QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
+  const calculatedPoints = calculatePoints({
+    questions,
+    answers,
+    settings: test.settings,
+  });
+
+  const answersWithPoints = answers
+    .map((answer) => {
+      const question = calculatedPoints.find(
+        (p) => p.questionId === answer.questionId
+      );
+
+      if (!question) {
+        return null;
+      }
+
+      return { ...answer, points: question.points };
+    })
+    .filter((a) => a !== null);
 
   const { allowGoBack } = userAttempt.testAccess.test.settings;
 
@@ -29,8 +49,7 @@ export async function createAnswer(
   }
 
   try {
-    // Process answers in a single pass
-    const { existing, new: newAnswers } = answers.reduce(
+    const { existing, new: newAnswers } = answersWithPoints.reduce(
       (acc, answer) => {
         const found = userAttempt.answers.find(
           (a) => a.questionId === answer.questionId
@@ -52,20 +71,6 @@ export async function createAnswer(
       return { data: [], error: null };
     }
 
-    if (existing.length) {
-      const questions = userAttempt.testAccess.test.QG.flatMap((qg) =>
-        qg.qOnQG.map((q) => q.question)
-      );
-
-      const points = calculatePoints({
-        answers: existing.map((e) => e.answer),
-        questions,
-        settings: userAttempt.testAccess.test.settings,
-      });
-
-      logTime(startTime, 'Points calculation');
-    }
-
     const [editResult, submitResult] = await Promise.all([
       existing.length
         ? editAnswers(
@@ -79,8 +84,6 @@ export async function createAnswer(
     if (editResult.error || submitResult.error) {
       throw new Error(editResult.error || submitResult.error || '');
     }
-
-    logTime(startTime);
 
     return {
       data: [...(editResult.data || []), ...(submitResult.data || [])],

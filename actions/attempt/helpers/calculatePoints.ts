@@ -40,33 +40,37 @@ export const calculatePoints = ({
       };
     }
 
-    const [correct, total] = accuracy;
-    const accuracyRatio = correct / total;
+    const scoreRatio =
+      Math.max(accuracy.correct - accuracy.incorrect, 0) / accuracy.total;
 
     if (scoringSystem === 'STANDARD') {
       if (!allowPartialPoints) {
         return {
           questionId: question.id,
-          points: accuracyRatio === 1 ? points : 0,
+          points: scoreRatio === 1 ? points : 0,
         };
       }
       return {
         questionId: question.id,
-        points: Math.round(accuracyRatio * points * 100) / 100,
+        points: Math.round(scoreRatio * points * 100) / 100,
       };
     }
+
+    const negativeScoreRatio = scoreRatio - accuracy.incorrect / accuracy.total;
 
     if (scoringSystem === 'NEGATIVE') {
       if (!allowPartialPoints) {
         return {
           questionId: question.id,
-          points: accuracyRatio === 1 ? points : 0,
+          points: negativeScoreRatio === 1 ? points : 0,
         };
       }
       return {
         questionId: question.id,
         points:
-          accuracyRatio === 1 ? points : accuracyRatio >= 0.5 ? points / 2 : 0,
+          negativeScoreRatio === 1
+            ? points
+            : Math.round(negativeScoreRatio * points * 100) / 100,
       };
     }
 
@@ -112,24 +116,36 @@ const calculateChoiceAccuracy = (
   const correctAnswers = question.answers?.filter((a) => a.isCorrect) || [];
   const correctAnswerIds = correctAnswers.map((a) => a.id);
   const userAnswerIds = answer.answers.map((a) => a.answerId);
-  const correct = correctAnswerIds.filter((id) => userAnswerIds.includes(id));
+  const correctCount = correctAnswerIds.filter((id) =>
+    userAnswerIds.includes(id)
+  ).length;
+  const total = correctAnswers.length;
 
-  return [correct.length, correctAnswers.length];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateMatchingAccuracy = (
   question: CompleteQuestion,
   answer: MatchingAnswerInput
 ) => {
-  const correctPairs =
+  const total = question.matchingPairs?.length || 0;
+  const correctCount =
     question.matchingPairs?.filter((pair) => {
       const userPair = answer.pairs.find(
         (p) => p.key === pair.key && p.value === pair.value
       );
       return userPair?.key === pair.key && userPair?.value === pair.value;
-    }) || [];
+    }).length || 0;
 
-  return [correctPairs.length, question.matchingPairs?.length || 0];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateOrderAccuracy = (
@@ -140,9 +156,16 @@ const calculateOrderAccuracy = (
   const userOrder = answer.items
     .sort((a, b) => a?.position - b?.position)
     .map((item) => item.itemId);
-  const correct = correctOrder.filter((id, index) => id === userOrder[index]);
+  const correctCount = correctOrder.filter(
+    (id, index) => id === userOrder[index]
+  ).length;
+  const total = correctOrder.length;
 
-  return [correct.length, correctOrder.length];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateNumericAccuracy = (
@@ -150,14 +173,20 @@ const calculateNumericAccuracy = (
   answer: NumericGroupAnswerInput
 ) => {
   const correctAnswers = question.groupSubQuestions || [];
-  const correct = correctAnswers.filter((a) => {
+  const total = correctAnswers.length;
+  const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
     return (
-      (userAnswer?.value || 0) - (a?.numericAnswer || 0) < (a.tolerance || 0)
+      Math.abs((userAnswer?.value || 0) - (a?.numericAnswer || 0)) <=
+      (a.tolerance || 0)
     );
-  });
+  }).length;
 
-  return [correct.length, correctAnswers.length];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateBooleanAccuracy = (
@@ -165,10 +194,15 @@ const calculateBooleanAccuracy = (
   answer: BooleanGroupAnswerInput
 ) => {
   const correctAnswers = question.groupSubQuestions || [];
-  const correct = correctAnswers.filter((a) => {
+  const total = correctAnswers.length;
+  const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
     return userAnswer?.value === a.booleanAnswer;
-  });
+  }).length;
 
-  return [correct.length, correctAnswers.length];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
