@@ -7,8 +7,8 @@ import { submitAnswer } from '@actions/attempt/submitAnswer';
 export async function submitAnswers(answers: AnswerInput[]) {
   if (!answers?.length) {
     return {
-      data: null,
-      error: 'No answers to submit',
+      data: [],
+      error: null,
     };
   }
 
@@ -20,6 +20,7 @@ export async function submitAnswers(answers: AnswerInput[]) {
       );
 
       const error = results.find((result) => result.error);
+
       if (error) {
         throw new Error(error?.error || '');
       }
@@ -31,7 +32,7 @@ export async function submitAnswers(answers: AnswerInput[]) {
     });
   } catch (error) {
     return {
-      data: null,
+      data: [],
       error:
         error instanceof Error ? error.message : 'Failed to submit answers',
     };

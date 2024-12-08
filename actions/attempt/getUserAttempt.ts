@@ -54,3 +54,10 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
     return { error: 'Error fetching attempt', data: null };
   }
 };
+
+export type UserAttemptResponse = Awaited<
+  ReturnType<typeof getUserAttemptWithTestSettings>
+>;
+
+export type UserAttempt = NonNullable<UserAttemptResponse['data']>;
+export type QG = UserAttempt['testAccess']['test']['QG'][0];

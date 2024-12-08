@@ -62,6 +62,10 @@ export const protectedPathnames = {
     en: '/test-assignment',
     pl: '/przypisanie-testu',
   },
+  '/test-assignment/[id]': {
+    en: '/test-assignment-view/[id]',
+    pl: '/podglad-przypisania-testu/[id]',
+  },
 } as const;
 
 const publicPathnames = {

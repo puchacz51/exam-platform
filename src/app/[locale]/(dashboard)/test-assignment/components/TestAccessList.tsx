@@ -1,7 +1,6 @@
 'use client';
 import { FC, HTMLAttributes } from 'react';
 
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -71,7 +70,12 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <Link href={'/test-assignment'}>
+                        <Link
+                          href={{
+                            pathname: '/test-assignment/[id]',
+                            params: { id: assignment.id },
+                          }}
+                        >
                           <Button variant="outline">View</Button>
                         </Link>
                       </div>

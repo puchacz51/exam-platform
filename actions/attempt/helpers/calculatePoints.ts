@@ -193,16 +193,30 @@ const calculateBooleanAccuracy = (
   question: CompleteQuestion,
   answer: BooleanGroupAnswerInput
 ) => {
-  const correctAnswers = question.groupSubQuestions || [];
-  const total = correctAnswers.length;
-  const correctCount = correctAnswers.filter((a) => {
-    const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
-    return userAnswer?.value === a.booleanAnswer;
-  }).length;
+  const subQuestions = question.groupSubQuestions || [];
+  const total = subQuestions.length;
+  let correctCount = 0;
+  let incorrectCount = 0;
+
+  subQuestions.forEach((subQuestion) => {
+    const userAnswer = answer.answers.find(
+      (ua) => ua.subQuestionId === subQuestion.id
+    );
+    if (userAnswer) {
+      if (userAnswer.value === subQuestion.booleanAnswer) {
+        correctCount += 1;
+      } else {
+        incorrectCount += 1;
+      }
+    } else {
+      // If no answer provided, consider it incorrect
+      incorrectCount += 1;
+    }
+  });
 
   return {
     correct: correctCount,
-    incorrect: total - correctCount,
+    incorrect: incorrectCount,
     total,
   };
 };

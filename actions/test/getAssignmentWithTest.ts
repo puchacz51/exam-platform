@@ -130,6 +130,7 @@ export async function getAssignmentWithTest(id: string) {
       },
       [] as number[]
     );
+
     const totalAnsweredQuestions = questionGroupsAnsweredQuestion.reduce(
       (acc, count) => acc + count,
       0
@@ -160,6 +161,10 @@ export async function getAssignmentWithTest(id: string) {
 
     return {
       ...assignment,
+      test: {
+        ...assignment.test,
+        qOnQG: undefined,
+      },
       questionGroups,
       attempts: assignment.attempts,
       isNoMoreQuestionsToAnswer,
@@ -170,4 +175,6 @@ export async function getAssignmentWithTest(id: string) {
   }
 }
 
-export type AssignmentWithTest = ReturnType<typeof getAssignmentWithTest>;
+export type AssignmentWithTest = Awaited<
+  ReturnType<typeof getAssignmentWithTest>
+>;

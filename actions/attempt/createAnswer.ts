@@ -5,6 +5,7 @@ import { editAnswers } from '@actions/attempt/editAnswers';
 import { submitAnswers } from '@actions/attempt/submitAnswers';
 import { getUserAttemptWithTestSettings } from '@actions/attempt/getUserAttempt';
 import { calculatePoints } from '@actions/attempt/helpers/calculatePoints';
+import { getGroupedAnswers } from '@actions/attempt/helpers/answerAggregation';
 
 export async function createAnswer(
   testAccessId: string,
@@ -49,44 +50,30 @@ export async function createAnswer(
   }
 
   try {
-    const { existing, new: newAnswers } = answersWithPoints.reduce(
-      (acc, answer) => {
-        const found = userAttempt.answers.find(
-          (a) => a.questionId === answer.questionId
-        );
-        if (found) {
-          acc.existing.push({ id: found.id, answer });
-        } else {
-          acc.new.push(answer);
-        }
-        return acc;
-      },
-      {
-        existing: [] as { id: string; answer: AnswerInput }[],
-        new: [] as AnswerInput[],
-      }
-    );
+    const { existing, newAnswers } = getGroupedAnswers(answers, userAttempt);
 
     if (!existing.length && !newAnswers.length) {
       return { data: [], error: null };
     }
 
     const [editResult, submitResult] = await Promise.all([
-      existing.length
-        ? editAnswers(
-            existing.map((e) => e.id),
-            existing.map((e) => e.answer)
-          )
-        : { data: [], error: null },
-      newAnswers.length ? submitAnswers(newAnswers) : { data: [], error: null },
+      editAnswers(
+        existing.map((e) => e.id),
+        existing.map((e) => e.answer)
+      ),
+      submitAnswers(newAnswers),
     ]);
 
     if (editResult.error || submitResult.error) {
       throw new Error(editResult.error || submitResult.error || '');
     }
-
+    editResult.data;
     return {
-      data: [...(editResult.data || []), ...(submitResult.data || [])],
+      data: {
+        prevQuestions: [...editResult.data, ...submitResult.data],
+        newQuestions: newAnswers,
+        isEnd: false,
+      },
       error: null,
     };
   } catch (error) {

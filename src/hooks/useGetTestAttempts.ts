@@ -1,7 +1,10 @@
 import { QueryOptions, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-import { TestAttemptsResponse } from '@actions/attempt/getTestAttempts';
+import {
+  getTestAttempts,
+  TestAttemptsResponse,
+} from '@actions/attempt/getTestAttempts';
 
 interface UseGetTestAttemptsParams {
   testAccessId: string;
@@ -9,22 +12,6 @@ interface UseGetTestAttemptsParams {
   limit?: number;
   options?: QueryOptions<TestAttemptsResponse>;
 }
-
-const fetchTestAttempts = async (
-  testAccessId: string,
-  page: number,
-  limit: number
-): Promise<TestAttemptsResponse> => {
-  const response = await fetch(
-    `/api/test-attempts?testAccessId=${testAccessId}&page=${page}&limit=${limit}`
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch test attempts');
-  }
-
-  return response.json();
-};
 
 export const useGetTestAttempts = ({
   testAccessId,
@@ -37,7 +24,7 @@ export const useGetTestAttempts = ({
 
   return useQuery<TestAttemptsResponse>({
     queryKey: ['testAttempts', testAccessId, page, limit, userId],
-    queryFn: () => fetchTestAttempts(testAccessId, page, limit),
+    queryFn: async () => await getTestAttempts(testAccessId, page, limit),
     enabled: !!testAccessId && !!userId,
     ...options,
   });

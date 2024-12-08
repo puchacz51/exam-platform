@@ -26,7 +26,7 @@ export async function getTestOwnerAssignments(
     const [assignments, totalCountResult] = await Promise.all([
       db
         .select({
-          id: testAccessConfigTable.testId,
+          id: testAccessConfigTable.id,
           testId: testsTable.id,
           testTitle: testsTable.title,
           testDescription: testsTable.description,
