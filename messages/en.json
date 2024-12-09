@@ -43,7 +43,9 @@
             "loading": "Logging in...",
             "alternativeMethods": "Or log in with",
             "microsoft": "Microsoft Teams",
-            "usos": "USOS",
+            "google": "Google",
+            "error": "An error occurred during login",
+            "invalidCredentials": "Invalid email or password",
             "register": "Register"
         },
         "register": {

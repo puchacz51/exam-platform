@@ -6,10 +6,11 @@ import db from '@/lib/db';
 import { AzureADProvider } from '@/next-auth/provider/AzureADProvider';
 import { CredentialsProvider } from '@/next-auth/provider/CredentialsProvider';
 import { authConfigWithProviders } from '@/next-auth/authWithoutProviders';
+import { GoogleProvider } from '@/next-auth/provider/GoogleProvider';
 
 export const authConfig: NextAuthConfig = {
   ...authConfigWithProviders,
-  providers: [AzureADProvider, CredentialsProvider],
+  providers: [AzureADProvider, CredentialsProvider, GoogleProvider],
   callbacks: {
     async session({ session, token }) {
       if (token) {

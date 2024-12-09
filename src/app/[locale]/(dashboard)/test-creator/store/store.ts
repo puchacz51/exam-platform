@@ -87,14 +87,7 @@ const DEFAULT_PROPS: TestProps = {
       questionDisplayMode: 'GROUP',
     },
   },
-  questionGroups: [
-    {
-      id: 'group-1',
-      name: 'test',
-      order: 1,
-      questions: [...mathTest],
-    },
-  ],
+  questionGroups: [],
   currentQuestion: null,
   currentQuestionGroupId: null,
   isTestConfiguratorOpen: false,

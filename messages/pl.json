@@ -43,7 +43,9 @@
             "loading": "Logowanie...",
             "alternativeMethods": "Lub zaloguj się przez",
             "microsoft": "Microsoft Teams",
-            "usos": "USOS",
+            "google": "Google",
+            "error": "Wystąpił błąd podczas logowania",
+            "invalidCredentials": "Nieprawidłowy email lub hasło",
             "register": "Rejestracja"
         },
         "register": {

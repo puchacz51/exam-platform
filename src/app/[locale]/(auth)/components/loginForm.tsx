@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { signIn, useSession } from 'next-auth/react';
+import { AlertCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LoginForm: FC = () => {
   const returnUrl = (new URLSearchParams(window.location.search).get(
@@ -29,8 +31,9 @@ const LoginForm: FC = () => {
   const [isLoading, setIsLoading] = useState({
     credentials: false,
     microsoft: false,
-    usos: false,
+    google: false,
   });
+  const [error, setError] = useState<string | null>(null);
 
   const loginSchema = z.object({
     email: z.string().email(t('validation.email')),
@@ -57,6 +60,7 @@ const LoginForm: FC = () => {
 
   const onSubmit = async (data: LoginForm) => {
     try {
+      setError(null);
       setIsLoading((prev) => ({ ...prev, credentials: true }));
       const result = await signIn('credentials', {
         email: data.email,
@@ -65,7 +69,7 @@ const LoginForm: FC = () => {
       });
 
       if (result?.error) {
-        console.error(result.error);
+        setError(t('login.invalidCredentials'));
         return;
       }
 
@@ -76,23 +80,24 @@ const LoginForm: FC = () => {
       window.location = returnUrl as unknown as Location;
     } catch (error) {
       console.error(error);
+      setError(t('login.error'));
     } finally {
       setIsLoading((prev) => ({ ...prev, credentials: false }));
     }
   };
 
-  const handleSignIn = async (provider: 'azure-ad' | 'USOS') => {
+  const handleSignIn = async (provider: 'azure-ad' | 'Google') => {
     try {
       setIsLoading((prev) => ({
         ...prev,
-        [provider === 'azure-ad' ? 'microsoft' : 'usos']: true,
+        [provider]: true,
       }));
 
       await signIn(provider);
     } finally {
       setIsLoading((prev) => ({
         ...prev,
-        [provider === 'azure-ad' ? 'microsoft' : 'usos']: false,
+        [provider === 'azure-ad' ? 'microsoft' : 'Google']: false,
       }));
     }
   };
@@ -110,6 +115,15 @@ const LoginForm: FC = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4"
           >
+            {error && (
+              <Alert
+                variant="destructive"
+                className="mb-4"
+              >
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="ml-2">{error}</AlertDescription>
+              </Alert>
+            )}
             <FormField
               control={form.control}
               name="email"
@@ -175,10 +189,10 @@ const LoginForm: FC = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => handleSignIn('USOS')}
-            disabled={isLoading.usos}
+            onClick={() => signIn('google',)}
+            disabled={isLoading.google}
           >
-            {isLoading.usos ? t('login.loading') : t('login.usos')}
+            {isLoading.google ? t('login.loading') : t('login.google')}
           </Button>
         </div>
       </CardContent>
