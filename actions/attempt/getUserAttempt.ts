@@ -31,6 +31,7 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
                             groupSubQuestions: true,
                             matchingPairs: true,
                             answers: true,
+                            orderItems: true,
                           },
                         },
                       },
@@ -41,7 +42,16 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
             },
           },
         },
-        answers: true,
+        answers: {
+          with: {
+            booleanAnswers: true,
+            choiceAnswers: true,
+            matchingAnswers: true,
+            numericAnswers: true,
+            openAnswers: true,
+            orderAnswers: true,
+          },
+        },
       },
     });
 

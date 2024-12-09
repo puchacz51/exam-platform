@@ -1,11 +1,9 @@
 import { NextPage } from 'next';
-import { Separator } from "@/components/ui/separator"
-import { Card, CardContent } from "@/components/ui/card"
 
+import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@/components/ui/card';
 import TestAssignmentAttemptList from '@/app/[locale]/(dashboard)/test-assignment/[id]/components/TestAssignmentAttemptList';
-import {
-  getTestAttempts,
-} from '@actions/attempt/getTestAttempts';
+import { getTestAttempts } from '@actions/attempt/getTestAttempts';
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

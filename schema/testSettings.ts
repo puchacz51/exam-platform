@@ -6,7 +6,6 @@ import { groupSettingsTable } from '@schema/groupSettings';
 
 export const navigationModeEnum = pgEnum('navigation_mode', [
   'FREE',
-  'SEQUENTIAL',
   'GROUP_LOCK',
   'ANSWER_LOCK',
 ]);

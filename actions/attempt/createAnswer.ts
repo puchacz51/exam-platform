@@ -50,7 +50,10 @@ export async function createAnswer(
   }
 
   try {
-    const { existing, newAnswers } = getGroupedAnswers(answersWithPoints, userAttempt);
+    const { existing, newAnswers } = getGroupedAnswers(
+      answersWithPoints,
+      userAttempt
+    );
 
     if (!existing.length && !newAnswers.length) {
       return { data: [], error: null };

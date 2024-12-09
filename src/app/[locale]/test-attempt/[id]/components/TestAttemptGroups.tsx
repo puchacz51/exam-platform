@@ -1,6 +1,6 @@
 'use client';
 
-import { FC} from 'react';
+import { FC } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -72,10 +72,16 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({
       <div className="container mx-auto max-w-6xl px-4 py-6">
         <h1 className="mb-6 text-2xl font-bold">Test Assignment</h1>
         <Card className="overflow-hidden">
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-6"
+          >
             <div className="space-y-8">
               {questionGroups.map((group) => (
-                <div key={group.id} className="space-y-4">
+                <div
+                  key={group.id}
+                  className="space-y-4"
+                >
                   <h2 className="text-xl font-bold">{group.name}</h2>
                   <div className="space-y-6">
                     {group.questions.map((question, questionIndex) => (
@@ -90,7 +96,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({
                 </div>
               ))}
             </div>
-            
+
             <div className="mt-8 flex items-center justify-between gap-4 border-t pt-6">
               {allowGoBack && (
                 <Button

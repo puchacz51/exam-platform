@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/routing';
 
 export const HomePageBanner = () => {
   const t = useTranslations('home');
@@ -16,12 +17,14 @@ export const HomePageBanner = () => {
             {t('description')}
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button
-              variant="default"
-              size="lg"
-            >
-              {t('buttons.getStarted')}
-            </Button>
+            <Link href="/dashboard">
+              <Button
+                variant="default"
+                size="lg"
+              >
+                {t('buttons.getStarted')}
+              </Button>
+            </Link>
             <Button
               variant="outline"
               size="lg"
