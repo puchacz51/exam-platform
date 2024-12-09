@@ -21,10 +21,5 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
     return null;
   }
 
-  return (
-    <div>
-      <h1 className="mb-4 text-2xl font-bold">Test </h1>
-      <TestAttemptGroups testAssignmentWithTest={data} />
-    </div>
-  );
+  return <TestAttemptGroups testAssignmentWithTest={data} />;
 };

@@ -85,10 +85,12 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'BOOLEAN_GROUP':
+      case 'BOOLEAN':
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: attemptAnswer.id,
-            subQuestionId: answer.subQuestionId,
+            subQuestionId:
+              input.type === 'BOOLEAN_GROUP' ? answer.subQuestionId : null,
             value: answer.value,
           }))
         );
@@ -110,6 +112,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
     }
     return await db.transaction(operation);
   } catch (error) {
+    console.error('Error submitting answer:', input);
     return { data: null, error: 'Failed to submit answer' };
   }
 }

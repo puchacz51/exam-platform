@@ -69,29 +69,29 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <div className="pt-4">
-        <h1 className="mb-4 text-2xl font-bold">Test Assignment </h1>
-        <Card className="mx-2 max-w-5xl px-1 sm:mx-4 sm:px-2 md:mx-5 lg:mx-auto ">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="container mx-auto p-4"
-          >
-            {questionGroups.map((group) => (
-              <div key={group.id}>
-                <h2 className="mb-2 text-xl font-bold">{group.name}</h2>
-                <div className="flex flex-col gap-y-3 py-4 md:gap-y-5">
-                  {group.questions.map((question, questionIndex) => (
-                    <QuestionItem
-                      key={question.id}
-                      mode="solve"
-                      question={question as Question}
-                      questionIndex={questionIndex}
-                    />
-                  ))}
+      <div className="container mx-auto max-w-6xl px-4 py-6">
+        <h1 className="mb-6 text-2xl font-bold">Test Assignment</h1>
+        <Card className="overflow-hidden">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+            <div className="space-y-8">
+              {questionGroups.map((group) => (
+                <div key={group.id} className="space-y-4">
+                  <h2 className="text-xl font-bold">{group.name}</h2>
+                  <div className="space-y-6">
+                    {group.questions.map((question, questionIndex) => (
+                      <QuestionItem
+                        key={question.id}
+                        mode="solve"
+                        question={question as Question}
+                        questionIndex={questionIndex}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-            <div className="mt-4 flex justify-between">
+              ))}
+            </div>
+            
+            <div className="mt-8 flex items-center justify-between gap-4 border-t pt-6">
               {allowGoBack && (
                 <Button
                   variant="secondary"
@@ -106,6 +106,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({
               <Button
                 type="submit"
                 disabled={isSubmitting}
+                className="px-6"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Test'}
               </Button>
@@ -114,7 +115,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({
                 type="button"
                 disabled={isSubmitting}
               >
-                next
+                Next
               </Button>
             </div>
           </form>

@@ -12,7 +12,7 @@ export async function editAnswers(answerIds: string[], answers: AnswerInput[]) {
   ) {
     return {
       data: [],
-      error: 'Invalid answers or answer IDs',
+      error: null,
     };
   }
 
