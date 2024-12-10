@@ -27,6 +27,7 @@ export async function editAnswer(
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
+        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
       })
       .where(eq(attemptAnswersTable.id, answerId));
 
@@ -139,6 +140,11 @@ export async function editAnswer(
           }))
         );
         break;
+      default:
+        return {
+          data: null,
+          error: 'Invalid answer type',
+        };
     }
 
     return { data: { id: answerId }, error: null };
@@ -150,6 +156,7 @@ export async function editAnswer(
     }
     return await db.transaction(operation);
   } catch (error) {
+    console.log(input, error);
     return { data: null, error: 'Failed to edit answer' };
   }
 }

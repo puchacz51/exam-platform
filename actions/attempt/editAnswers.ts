@@ -11,8 +11,8 @@ export async function editAnswers(answerIds: string[], answers: AnswerInput[]) {
     answerIds.length !== answers.length
   ) {
     return {
-      data: null,
-      error: 'Invalid answers or answer IDs',
+      data: [],
+      error: null,
     };
   }
 
@@ -36,7 +36,7 @@ export async function editAnswers(answerIds: string[], answers: AnswerInput[]) {
     });
   } catch (error) {
     return {
-      data: null,
+      data: [],
       error: error instanceof Error ? error.message : 'Failed to edit answers',
     };
   }

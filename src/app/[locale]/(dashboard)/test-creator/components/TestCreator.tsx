@@ -40,11 +40,7 @@ const TestCreator: FC = () => {
   );
 
   const handleFinishTest = useCallback(async () => {
-    const { success, data, errors, error } = await createTestAction(
-      test,
-      questionGroups
-    );
-    console.log('success', success, data, error, errors);
+    const { success, data } = await createTestAction(test, questionGroups);
 
     if (success && data?.id) {
       router.push({ pathname: '/test/[id]', params: { id: data.id } });

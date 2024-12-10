@@ -23,6 +23,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
+        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
       })
       .returning();
 
@@ -84,14 +85,22 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'BOOLEAN_GROUP':
+      case 'BOOLEAN':
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: attemptAnswer.id,
-            subQuestionId: answer.subQuestionId,
+            subQuestionId:
+              input.type === 'BOOLEAN_GROUP' ? answer.subQuestionId : null,
             value: answer.value,
           }))
         );
         break;
+
+      default:
+        return {
+          data: null,
+          error: 'Invalid answer type',
+        };
     }
 
     return { data: attemptAnswer, error: null };
@@ -103,6 +112,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
     }
     return await db.transaction(operation);
   } catch (error) {
+    console.error('Error submitting answer:', input);
     return { data: null, error: 'Failed to submit answer' };
   }
 }

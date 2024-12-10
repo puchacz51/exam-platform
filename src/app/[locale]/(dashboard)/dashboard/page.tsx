@@ -20,10 +20,15 @@ const DashboardPage: NextPage = async () => {
     return null;
   }
 
-  const tests = user ? await getLatestUserTests(5) : [];
-  const assignedTests = await getBasicUserTestAssignments();
-  const ownedTests = await getTestOwnerAssignments();
-  const groupsData = await getUserGroups(8);
+  const [tests, assignedTests, ownedTestsAssignmentsResponse, groupsData] =
+    await Promise.all([
+      getLatestUserTests(5),
+      getBasicUserTestAssignments(),
+      getTestOwnerAssignments(),
+      getUserGroups(8),
+    ]);
+
+  const ownedTests = ownedTestsAssignmentsResponse.assignments;
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
 

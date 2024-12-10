@@ -7,13 +7,15 @@ import {
   questionTypeIcons,
 } from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
 import { CompleteTest } from '@/types/test/test';
+import { OwnedTest } from '@actions/test/getAllTests';
 
 interface TestStatsProps {
-  test: CompleteTest;
+  test: CompleteTest | OwnedTest;
 }
 
-const countQuestionTypes = (test: CompleteTest) => {
-  return test.QG.reduce(
+const countQuestionTypes = (test: CompleteTest | OwnedTest) => {
+  const questionGroups = 'questionGroups' in test ? test.questionGroups : [];
+  return questionGroups.reduce(
     (acc, group) => {
       group.questions.forEach((question) => {
         acc[question.questionType] = (acc[question.questionType] || 0) + 1;
@@ -34,11 +36,13 @@ const formatDuration = (duration: number) => {
 };
 
 export const TestStats = ({ test }: TestStatsProps) => {
-  const questionCount = test.QG.reduce(
+  const groups = 'questionGroups' in test ? test.questionGroups : test.QG;
+
+  const questionCount = groups.reduce(
     (acc, group) => acc + group.questions.length,
     0
   );
-  const pointsCount = test.QG.reduce(
+  const pointsCount = groups.reduce(
     (acc, group) =>
       acc + group.questions.reduce((acc, question) => acc + question.points, 0),
     0

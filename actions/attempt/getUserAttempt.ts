@@ -29,6 +29,9 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
                         question: {
                           with: {
                             groupSubQuestions: true,
+                            matchingPairs: true,
+                            answers: true,
+                            orderItems: true,
                           },
                         },
                       },
@@ -39,7 +42,16 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
             },
           },
         },
-        answers: true,
+        answers: {
+          with: {
+            booleanAnswers: true,
+            choiceAnswers: true,
+            matchingAnswers: true,
+            numericAnswers: true,
+            openAnswers: true,
+            orderAnswers: true,
+          },
+        },
       },
     });
 
@@ -52,3 +64,10 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
     return { error: 'Error fetching attempt', data: null };
   }
 };
+
+export type UserAttemptResponse = Awaited<
+  ReturnType<typeof getUserAttemptWithTestSettings>
+>;
+
+export type UserAttempt = NonNullable<UserAttemptResponse['data']>;
+export type QG = UserAttempt['testAccess']['test']['QG'][0];

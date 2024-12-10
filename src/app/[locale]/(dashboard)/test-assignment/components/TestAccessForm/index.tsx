@@ -27,26 +27,27 @@ import { DateTimeSection } from '@/app/[locale]/(dashboard)/test-assignment/comp
 import { LimitsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/LimitsSection';
 import { OptionsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/OptionsSection';
 import { Group } from '@/types/group/group';
-import { CompleteTest } from '@/types/test/test';
 import { TestPreview } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TestPreview';
 import { createTestAssignmentAction } from '@actions/test-assigment/createTestAssignment';
+import { OwnedTest } from '@actions/test/getAllTests';
+import { CompleteTest } from '@/types/test/test';
 
 interface TestAccessFormProps {
-  initialGroups: Group[];
-  test?: CompleteTest | null;
+  initialGroups?: Group[];
+  test?: OwnedTest | CompleteTest | null;
   hideTestSelection?: boolean;
 }
 
 export const TestAccessForm = ({
-  initialGroups,
+  initialGroups = [],
   test: initialTest,
   hideTestSelection = false,
 }: TestAccessFormProps) => {
   const { toast } = useToast();
-  const { data: tests = [], isLoading } = useTests();
-  const [selectedTest, setSelectedTest] = useState<CompleteTest | null>(
-    initialTest ?? null
-  );
+  const { data, isLoading } = useTests();
+  const [selectedTest, setSelectedTest] = useState<
+    OwnedTest | CompleteTest | null
+  >(initialTest ?? null);
   const methods = useForm<TestAccessFormValues>({
     resolver: zodResolver(testAccessFormSchema),
     defaultValues: {
@@ -57,7 +58,6 @@ export const TestAccessForm = ({
       endsAt: new Date(Date.now() + 86400000),
       startTime: '00:00',
       endTime: '23:59',
-
       requiresRegistration: true,
       showResultsAfterSubmission: true,
     },
@@ -107,10 +107,10 @@ export const TestAccessForm = ({
               onSubmit={methods.handleSubmit(onSubmit)}
               className="space-y-6"
             >
-              {!hideTestSelection && !isLoading && tests && (
+              {!hideTestSelection && !isLoading && data && (
                 <Select
                   onValueChange={(value) => {
-                    const test = tests?.find((t) => t.id === value);
+                    const test = data.tests?.find((t) => t.id === value);
                     setSelectedTest(test || null);
                   }}
                 >
@@ -118,7 +118,7 @@ export const TestAccessForm = ({
                     <SelectValue placeholder="Select a test" />
                   </SelectTrigger>
                   <SelectContent>
-                    {tests.map((test) => (
+                    {data?.tests?.map((test) => (
                       <SelectItem
                         key={test.id}
                         value={test.id}
@@ -131,7 +131,7 @@ export const TestAccessForm = ({
               )}
               {(selectedTest || hideTestSelection) && (
                 <div className="space-y-6">
-                  <AccessTypeSection initialGroups={initialGroups} />
+                  <AccessTypeSection initialGroups={initialGroups || []} />
                   <DateTimeSection />
                   <LimitsSection />
                   <OptionsSection />

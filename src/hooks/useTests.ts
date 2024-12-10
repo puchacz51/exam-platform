@@ -1,16 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-import { getAllUserTests } from '@actions/test/getAllTests';
-import { CompleteTest } from '@/types/test/test';
+import { getAllUserTests, OwnedTestResponse } from '@actions/test/getAllTests';
 
-export const useTests = () => {
+interface UseTestsProps {
+  page?: number;
+  limit?: number;
+}
+
+export const useTests = ({ limit = 50, page = 1 }: UseTestsProps = {}) => {
   const { data: session } = useSession();
 
-  return useQuery<CompleteTest[]>({
-    queryKey: ['tests', session?.user?.userID],
+  return useQuery<OwnedTestResponse>({
+    queryKey: ['ownedTest', session?.user?.userID],
     queryFn: async () => {
-      const result = await getAllUserTests();
+      const result = await getAllUserTests(page, limit);
       if (!result) throw new Error('No data returned');
       return result;
     },

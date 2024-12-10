@@ -23,14 +23,24 @@ export const prepareFormSubmission = (
 
         case 'SINGLE_CHOICE':
         case 'MULTIPLE_CHOICE':
-          if (!('answers' in questionData)) return;
+          if (
+            !('answers' in questionData) ||
+            !Array.isArray(questionData.answers) ||
+            !questionData.answers.length
+          )
+            return;
           return {
             ...baseAnswer,
             answers: questionData.answers,
           };
 
         case 'MATCHING':
-          if (!('pairs' in questionData)) return;
+          if (
+            !('pairs' in questionData) ||
+            !Array.isArray(questionData.pairs) ||
+            !questionData.pairs.length
+          )
+            return;
           return {
             ...baseAnswer,
             pairs: questionData.pairs,

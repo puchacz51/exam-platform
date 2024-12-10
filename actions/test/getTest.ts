@@ -78,6 +78,7 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
     if (revalidate) {
       revalidatePath(`/test/${testId}`);
     }
+
     return test as unknown as CompleteTest;
   } catch (error) {
     console.error('Error fetching test2:', error);
