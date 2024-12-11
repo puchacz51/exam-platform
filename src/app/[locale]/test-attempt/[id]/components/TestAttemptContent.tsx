@@ -2,24 +2,46 @@
 
 import { FC } from 'react';
 
-import { AssignmentWithTest } from '@actions/test/getAssignmentWithTest';
+import { useParams } from 'next/navigation';
+
 import TestAttemptGroups from '@/app/[locale]/test-attempt/[id]/components/TestAttemptGroups';
 import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest';
+import { UserAttemptFlowResponse } from '@actions/attempt/getUsetAttemptFlow';
+import { Alert } from '@/components/ui/alert';
+import TestAttemptQuestion from '@/app/[locale]/test-attempt/[id]/components/TestAttemptQuestion';
 
 interface TestAttemptContentProps {
-  assignmentWithTest: AssignmentWithTest;
+  assignmentWithTest: UserAttemptFlowResponse['data'];
 }
 
 export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   assignmentWithTest,
 }) => {
-  const { data } = useGetAssignmentWithTestQuery(assignmentWithTest.id, {
-    initialData: assignmentWithTest,
-  });
+  const params = useParams();
+  const testAssignmentId = params.id as string;
+  const { data } = useGetAssignmentWithTestQuery(
+    {
+      assignmentId: testAssignmentId,
+    },
+    { initialData: assignmentWithTest }
+  );
 
   if (!data) {
-    return null;
+    return <Alert>Failed to load test assignment</Alert>;
+  }
+  if (data.type == 'QUESTION') {
+    return (
+      <TestAttemptQuestion
+        key={data.currentQuestionId}
+        userAttemptFlow={data}
+      />
+    );
   }
 
-  return <TestAttemptGroups testAssignmentWithTest={data} />;
+  return (
+    <TestAttemptGroups
+      key={data.currentGroupId}
+      userAttemptFlow={data}
+    />
+  );
 };

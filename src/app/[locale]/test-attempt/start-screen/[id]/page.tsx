@@ -27,7 +27,7 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
     );
   }
 
-  if (testAssignment.attempts.length > 0) {
+  if (testAssignment?.attempts.length > 0) {
     redirect({
       pathname: '/test-attempt/[id]',
       params: { id: testAssignment.id },

@@ -29,6 +29,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
 
     switch (input.type) {
       case 'OPEN':
+        if (!input.answer.text) break;
         await tx.insert(openAnswersTable).values({
           attemptAnswerId: attemptAnswer.id,
           text: input.answer.text,
@@ -37,6 +38,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
 
       case 'SINGLE_CHOICE':
       case 'MULTIPLE_CHOICE':
+        if (!input.answers.length) break;
         await tx.insert(choiceAnswersTable).values(
           input.answers.map(({ answerId }) => ({
             attemptAnswerId: attemptAnswer.id,
@@ -46,6 +48,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'MATCHING':
+        if (!input.pairs.length) break;
         await tx.insert(matchingAnswersTable).values(
           input.pairs.map((pair) => ({
             attemptAnswerId: attemptAnswer.id,
@@ -56,6 +59,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'ORDER':
+        if (!input.items.length) break;
         await tx.insert(orderAnswersTable).values(
           input.items.map((item) => ({
             attemptAnswerId: attemptAnswer.id,
@@ -66,6 +70,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'NUMERIC':
+        if (!input.answers.length) break;
         await tx.insert(numericAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: attemptAnswer.id,
@@ -75,6 +80,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         break;
 
       case 'NUMERIC_GROUP':
+        if (!input.answers.length) break;
         await tx.insert(numericAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: attemptAnswer.id,
@@ -86,6 +92,7 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
 
       case 'BOOLEAN_GROUP':
       case 'BOOLEAN':
+        if (!input.answers.length) break;
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: attemptAnswer.id,

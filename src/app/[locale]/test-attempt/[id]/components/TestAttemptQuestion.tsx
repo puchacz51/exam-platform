@@ -14,14 +14,17 @@ import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest'
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
-import { GroupFlowResponse } from '../../../../../../types/attempt';
+import {
+  GroupFlowResponse,
+  QuestionFlowResponse,
+} from '../../../../../../types/attempt';
 import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 
 interface TestAttemptGroupsProps {
-  userAttemptFlow: GroupFlowResponse;
+  userAttemptFlow: QuestionFlowResponse;
 }
 
-const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
+const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const params = useParams();
   const testAssignmentId = params.id as string;
 
@@ -29,25 +32,24 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const { refetch } = useGetAssignmentWithTestQuery({
     assignmentId: testAssignmentId,
     navOptions: {
-      groupId: userAttemptFlow.nextGroupId,
+      questionId: userAttemptFlow.nextQuestionId,
     },
   });
 
   const {
-    currentGroupId,
     questionsGroups,
     attemptId,
-    nextGroupId,
-    previousGroupId,
+    nextQuestionId,
+    previousQuestionId,
+    currentQuestionId,
   } = userAttemptFlow;
-  const currentGroup = questionsGroups.find(
-    (group) => group.id === currentGroupId
-  );
+
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
       questions:
-        prepareQuestionToForm(currentGroup?.questions || [], { attemptId }) ||
-        [],
+        prepareQuestionToForm(questionsGroups[0]?.questions || [], {
+          attemptId,
+        }) || [],
     },
     mode: 'onChange',
   });
@@ -56,8 +58,6 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  console.log(methods.watch());
 
   const onSubmit = async (data: TestAttemptFormData) => {
     const formattedAnswers = prepareFormSubmission(data, attemptId);
@@ -81,22 +81,24 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
           >
             <div className="space-y-8">
               <div className="space-y-4">
-                <h2 className="text-xl font-bold">{currentGroup?.id}</h2>
+                <h2 className="text-xl font-bold">{currentQuestionId}</h2>
                 <div className="space-y-6">
-                  {currentGroup?.questions.map((question, questionIndex) => (
-                    <QuestionItem
-                      key={question.id}
-                      mode="solve"
-                      question={question as Question}
-                      questionIndex={questionIndex}
-                    />
-                  ))}
+                  {questionsGroups[0].questions.map(
+                    (question, questionIndex) => (
+                      <QuestionItem
+                        key={question.id}
+                        mode="solve"
+                        question={question as Question}
+                        questionIndex={questionIndex}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             </div>
 
             <div className="mt-8 flex items-center justify-between gap-4 border-t pt-6">
-              {allowGoBack && previousGroupId && (
+              {allowGoBack && previousQuestionId && (
                 <Button
                   variant="secondary"
                   type="button"
@@ -110,7 +112,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                 disabled={isSubmitting}
                 className="px-6"
               >
-                {nextGroupId ? 'Next' : 'Submit'}
+                {nextQuestionId ? 'Next' : 'Submit'}
               </Button>
             </div>
           </form>
@@ -120,7 +122,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   );
 };
 
-export default TestAttemptGroups;
+export default TestAttemptQuestion;
 
 const prepareQuestionToForm = (
   questions: GroupFlowResponse['questionsGroups'][number]['questions'],

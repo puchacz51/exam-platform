@@ -44,7 +44,6 @@ export async function isUserAssignedToTest(id: string) {
         },
       },
     });
-    console.log('accessConfig:', accessConfig?.attempts);
 
     if (!accessConfig) return false;
 
@@ -58,3 +57,7 @@ export async function isUserAssignedToTest(id: string) {
     throw new Error('Failed to check test access');
   }
 }
+
+export type isUserAssignedToTestResponse = Awaited<
+  ReturnType<typeof isUserAssignedToTest>
+>;

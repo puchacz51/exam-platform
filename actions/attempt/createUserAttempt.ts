@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { testAttemptsTable } from '@schema/testAttempt';

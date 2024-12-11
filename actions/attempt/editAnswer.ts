@@ -76,6 +76,7 @@ export async function editAnswer(
 
     switch (input.type) {
       case 'OPEN':
+        if (!input.answer) break;
         await tx.insert(openAnswersTable).values({
           attemptAnswerId: answerId,
           text: input.answer.text,
@@ -84,6 +85,7 @@ export async function editAnswer(
 
       case 'SINGLE_CHOICE':
       case 'MULTIPLE_CHOICE':
+        if (!input.answers.length) break;
         await tx.insert(choiceAnswersTable).values(
           input.answers.map(({ answerId: choiceId }) => ({
             attemptAnswerId: answerId,
@@ -93,6 +95,7 @@ export async function editAnswer(
         break;
 
       case 'MATCHING':
+        if (!input.pairs.length) break;
         await tx.insert(matchingAnswersTable).values(
           input.pairs.map((pair) => ({
             attemptAnswerId: answerId,
@@ -103,6 +106,7 @@ export async function editAnswer(
         break;
 
       case 'ORDER':
+        if (!input.items.length) break;
         await tx.insert(orderAnswersTable).values(
           input.items.map((item) => ({
             attemptAnswerId: answerId,
@@ -113,15 +117,17 @@ export async function editAnswer(
         break;
 
       case 'NUMERIC':
-        await tx.insert(numericAnswersTable).values(
-          input.answers.map((answer) => ({
+        if (!input.answers.length) break;
+        await tx.insert(numericAnswersTable)?.values(
+          input.answers?.map((answer) => ({
             attemptAnswerId: answerId,
             value: answer.value,
-          }))
+          })) || []
         );
         break;
 
       case 'NUMERIC_GROUP':
+        if (!input.answers.length) break
         await tx.insert(numericAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
@@ -132,6 +138,8 @@ export async function editAnswer(
         break;
 
       case 'BOOLEAN_GROUP':
+      case 'BOOLEAN':
+        if (!input.answers.length) break;
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
@@ -141,6 +149,7 @@ export async function editAnswer(
         );
         break;
       default:
+        console.log(input);
         return {
           data: null,
           error: 'Invalid answer type',

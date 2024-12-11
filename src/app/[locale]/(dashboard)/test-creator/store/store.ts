@@ -6,7 +6,6 @@ import { TestConfiguration } from '@actions/test/getTestConfiguration';
 import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
-import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
 import { Question } from '@/types/questions';
 
 export type TestCreatorAnswer = {
@@ -70,9 +69,7 @@ const DEFAULT_PROPS: TestProps = {
     title: '',
     description: '',
     settings: {
-      navigationMode: 'FREE',
       allowGoBack: true,
-      confirmBeforeGroupChange: true,
       scoringSystem: 'STANDARD',
       allowPartialPoints: true,
       shuffleQuestionsInGroup: false,
@@ -80,11 +77,11 @@ const DEFAULT_PROPS: TestProps = {
       showProgressBar: true,
       showTimeRemaining: true,
       showQuestionPoints: true,
-      allowQuestionFlagging: true,
       showCorrectAnswers: false,
       showPointsPerQuestion: true,
       showFinalScore: true,
       questionDisplayMode: 'GROUP',
+      navigationMode: 'ANSWER_LOCK',
     },
   },
   questionGroups: [],

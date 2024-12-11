@@ -17,7 +17,6 @@ const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = async ({
   params,
 }) => {
   const testAttempts = await getTestAttempts(params.id, 1, 10);
-
   return (
     <div className="space-y-6 p-6">
       <div>
@@ -29,7 +28,13 @@ const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = async ({
       <Separator />
       <Card>
         <CardContent className="p-6">
-          <TestAssignmentAttemptList initialData={testAttempts} />
+          {testAttempts.attempts.length > 0 ? (
+            <TestAssignmentAttemptList initialData={testAttempts} />
+          ) : (
+            <div className="text-center text-muted-foreground">
+              No attempts found
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

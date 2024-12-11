@@ -2,21 +2,35 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
 import {
-  AssignmentWithTest,
-  getAssignmentWithTest,
-} from '@actions/test/getAssignmentWithTest';
+  getUserAttemptFlow,
+  UserAttemptFlowResponse,
+} from '@actions/attempt/getUsetAttemptFlow';
+
+import { NavOptions } from '../../types/attempt';
 
 export const useGetAssignmentWithTestQuery = (
-  assignmentId: string,
-  options?: Omit<UseQueryOptions<AssignmentWithTest>, 'queryKey' | 'queryFn'>
+  {
+    assignmentId,
+    navOptions,
+  }: { assignmentId: string; navOptions?: NavOptions },
+  options?: Omit<
+    UseQueryOptions<UserAttemptFlowResponse['data']>,
+    'queryKey' | 'queryFn'
+  >
 ) => {
   const session = useSession();
   const userId = session?.data?.user.userID || '';
-  return useQuery<AssignmentWithTest>({
+  return useQuery<UserAttemptFlowResponse['data']>({
     ...options,
     enabled: false,
     queryFn: async () => {
-      return getAssignmentWithTest(assignmentId);
+      const response = await getUserAttemptFlow(assignmentId, navOptions);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      return response.data;
     },
     queryKey: ['assignmentWithTest', userId, assignmentId],
   });

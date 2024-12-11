@@ -14,7 +14,7 @@ export const shiftArrayLeftByUUID = <T>(
   array: Array<T>,
   uuid: string
 ): Array<T> => {
-  const shiftBy = uuidToNumber(uuid);
+  const shiftBy = uuidToNumber(uuid) % array.length;
   return shiftArrayLeft(array, shiftBy);
 };
 

@@ -5,7 +5,6 @@ import { testsTable } from '@schema/test';
 import { groupSettingsTable } from '@schema/groupSettings';
 
 export const navigationModeEnum = pgEnum('navigation_mode', [
-  'FREE',
   'GROUP_LOCK',
   'ANSWER_LOCK',
 ]);
@@ -29,23 +28,19 @@ export const testSettingsTable = pgTable('test_settings', {
 
   navigationMode: navigationModeEnum('navigation_mode').notNull(),
   allowGoBack: boolean('allow_go_back').default(true),
-  confirmBeforeGroupChange: boolean('confirm_before_group_change').default(
-    true
-  ),
 
   scoringSystem: scoringSystemEnum('scoring_system').notNull(),
   allowPartialPoints: boolean('allow_partial_points').default(true),
-
   questionDisplayMode: questionDisplayModeEnum(
     'question_display_mode'
   ).notNull(),
+
   shuffleQuestionsInGroup: boolean('shuffle_questions_in_group').default(false),
   shuffleAnswers: boolean('shuffle_answers').default(true),
 
   showProgressBar: boolean('show_progress_bar').default(true),
   showTimeRemaining: boolean('show_time_remaining').default(true),
   showQuestionPoints: boolean('show_question_points').default(true),
-  allowQuestionFlagging: boolean('allow_question_flagging').default(true),
 
   showCorrectAnswers: boolean('show_correct_answers').default(false),
   showPointsPerQuestion: boolean('show_points_per_question').default(true),

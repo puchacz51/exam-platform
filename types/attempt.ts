@@ -1,3 +1,5 @@
+import { QuestionGroups } from '@actions/attempt/getUserAttempt';
+
 export type NavOptions =
   | {
       groupId: string;
@@ -12,10 +14,7 @@ export type GroupFlowResponse = {
   type: 'GROUP';
   attemptId: string;
   testSettings: any;
-  questionsGroups: Array<{
-    id: string;
-    questions: Array<any>;
-  }>;
+  questionsGroups: QuestionGroups[];
   currentGroupId: string | null;
   currentQuestionId: null;
   nextGroupId: string | null;
@@ -25,10 +24,8 @@ export type GroupFlowResponse = {
 export type QuestionFlowResponse = {
   type: 'QUESTION';
   attemptId: string;
-  testSettings: any; 
-  questionsGroups: Array<{
-    id: string;
-    questions: Array<any>;
+  testSettings: any;
+  questionsGroups: QuestionGroups[];
   currentGroupId: null;
   currentQuestionId: string;
   nextQuestionId: string | null;

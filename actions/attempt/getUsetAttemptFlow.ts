@@ -18,6 +18,7 @@ export const getUserAttemptFlow = async (
   const { data: userAttempt, error } = userAttemptWithTestSettings;
 
   if (error || !userAttempt) {
+
     return { data: null, error };
   }
 
@@ -46,7 +47,7 @@ export const getUserAttemptFlow = async (
 
     if (navigationMode === 'ANSWER_LOCK') {
       return handleAnswerLockWithBackNavigation(
-        navOptions,
+        navOptions || { questionId: '' },
         QG,
         userId,
         userAttempt.id,
@@ -69,3 +70,7 @@ export const getUserAttemptFlow = async (
 
   return { data: null, error: 'Unsupported navigation mode' };
 };
+
+export type UserAttemptFlowResponse = Awaited<
+  ReturnType<typeof getUserAttemptFlow>
+>;

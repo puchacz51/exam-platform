@@ -42,7 +42,7 @@ export const protectedPathnames = {
   },
   '/test': '/test',
   '/test/[id]': '/test/[id]',
-  'test/[id]/assign': {
+  '/test/[id]/assign': {
     en: '/test/[id]/assign',
     pl: '/test/[id]/przypisanie',
   },

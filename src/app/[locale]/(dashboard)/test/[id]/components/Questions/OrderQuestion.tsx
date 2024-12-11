@@ -40,10 +40,8 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const { id } = question;
   const { setValue } = useFormContext<TestAttemptFormDataOrder>();
 
-  // Track the current order of items in component state
   const [orderedItems, setOrderedItems] = React.useState(question.orderItems);
 
-  // Initialize form on first render for 'solve' mode
   React.useEffect(() => {
     if (mode === 'solve') {
       setValue(
@@ -72,11 +70,9 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
       const oldIndex = orderedItems.findIndex((item) => item.id === active.id);
       const newIndex = orderedItems.findIndex((item) => item.id === over.id);
 
-      // Update the ordered items state
       const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
       setOrderedItems(newOrderedItems);
 
-      // Update form values with new positions
       setValue(
         `questions.${id}.items`,
         newOrderedItems.map((item, index) => ({

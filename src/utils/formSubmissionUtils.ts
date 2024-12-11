@@ -12,6 +12,7 @@ export const prepareFormSubmission = (
         attemptId,
         type: questionData.type,
       };
+      console.log(questionData.type, questionData);
 
       switch (questionData.type) {
         case 'OPEN':

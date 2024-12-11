@@ -89,28 +89,6 @@ const TestCreatorTestNavigation: FC = () => {
         )}
       />
 
-      <FormField
-        control={form.control}
-        name="settings.confirmBeforeGroupChange"
-        render={({ field }) => (
-          <FormItem className="flex items-center justify-between rounded-lg border p-4">
-            <div className="space-y-0.5">
-              <FormLabel className="font-semibold">
-                Potwierdzaj zmianę grupy
-              </FormLabel>
-              <FormDescription>
-                Wymagaj potwierdzenia przed przejściem do następnej grupy pytań
-              </FormDescription>
-            </div>
-            <FormControl>
-              <Switch
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
     </TabsContent>
   );
 };

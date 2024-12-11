@@ -24,12 +24,6 @@ export const TestDetails = ({ settings }: TestDetailsProps) => {
           label: 'Allow Going Back',
           value: <BooleanIndicator value={!!settings.allowGoBack} />,
         },
-        {
-          label: 'Confirm Group Change',
-          value: (
-            <BooleanIndicator value={!!settings.confirmBeforeGroupChange} />
-          ),
-        },
       ],
     },
     {

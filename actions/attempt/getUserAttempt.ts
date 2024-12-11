@@ -71,3 +71,8 @@ export type UserAttemptResponse = Awaited<
 
 export type UserAttempt = NonNullable<UserAttemptResponse['data']>;
 export type QG = UserAttempt['testAccess']['test']['QG'][0];
+export type TestSettings = UserAttempt['testAccess']['test']['settings'];
+export type QuestionGroups = {
+  id: string;
+  questions: UserAttempt['testAccess']['test']['QG'][number]['qOnQG'][number]['question'][];
+};

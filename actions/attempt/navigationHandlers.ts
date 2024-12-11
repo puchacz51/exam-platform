@@ -1,15 +1,25 @@
 import { SelectTestSettings } from '@schema/testSettings';
+import {
+  QG,
+  QuestionGroups,
+  TestSettings,
+  UserAttempt,
+} from '@actions/attempt/getUserAttempt';
 
-import { GroupFlowResponse } from '../../types/attempt';
+import {
+  GroupFlowResponse,
+  NavOptions,
+  QuestionFlowResponse,
+} from '../../types/attempt';
 import { shiftArrayLeftByUUID } from './helpers/shiftArrayLeft';
 
 export const handleGroupLockWithBackNavigation = (
   selectedGroupId: string,
-  QG: any[],
+  QG: QG[],
   userId: string,
   attemptId: string,
   testSettings: SelectTestSettings,
-  questionsGroups: any[]
+  questionsGroups: QuestionGroups[]
 ): { data: GroupFlowResponse | null; error?: string } => {
   const selectedGroupIndex = QG.findIndex(
     (group) => group.id === selectedGroupId
@@ -18,11 +28,16 @@ export const handleGroupLockWithBackNavigation = (
   if (selectedGroupIndex === -1) {
     return { data: null, error: 'Group not found' };
   }
-
+  const { shuffleQuestionsInGroup } = testSettings;
   const selectedGroup = QG[selectedGroupIndex];
   const nextGroupId = QG[selectedGroupIndex + 1]?.id || null;
   const previousGroupId = QG[selectedGroupIndex - 1]?.id || null;
-
+  const selectedGroupQuestions = questionsGroups.find(
+    (group) => group.id === selectedGroupId
+  );
+  const shuffledTestQuestions =
+    shuffleQuestionsInGroup &&
+    shiftArrayLeftByUUID(selectedGroupQuestions?.questions || [], userId);
   return {
     data: {
       type: 'GROUP',
@@ -32,7 +47,7 @@ export const handleGroupLockWithBackNavigation = (
         id: group.id,
         questions:
           group.id === selectedGroup.id
-            ? shiftArrayLeftByUUID(group.questions, userId)
+            ? shuffledTestQuestions || selectedGroupQuestions?.questions || []
             : [],
       })),
       currentGroupId: selectedGroup.id,
@@ -44,11 +59,11 @@ export const handleGroupLockWithBackNavigation = (
 };
 
 export const handleAnswerLockWithBackNavigation = (
-  navOptions: { questionId?: string },
-  QG: any[],
+  navOptions: NavOptions,
+  QG: QG[],
   userId: string,
   attemptId: string,
-  testSettings: any,
+  testSettings: TestSettings,
   shuffleQuestionsInGroup: boolean
 ): { data: QuestionFlowResponse | null; error?: string } => {
   const testQuestions = QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
@@ -70,7 +85,7 @@ export const handleAnswerLockWithBackNavigation = (
       questionsGroups: [
         {
           id: 'all',
-          questions: shuffledTestQuestions,
+          questions: [selectedQuestion],
         },
       ],
       currentGroupId: null,
@@ -82,11 +97,11 @@ export const handleAnswerLockWithBackNavigation = (
 };
 
 export const handleGroupLockWithoutBack = (
-  questionsGroups: any[],
-  userAttempt: any,
+  questionsGroups: QuestionGroups[],
+  userAttempt: UserAttempt,
   userId: string,
   attemptId: string,
-  testSettings: any,
+  testSettings: TestSettings,
   shuffleQuestionsInGroup: boolean
 ): { data: GroupFlowResponse | null; error?: string } => {
   const answeredGroups = questionsGroups.filter((group) =>

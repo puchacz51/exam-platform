@@ -18,7 +18,7 @@ export const getTestAttempts = async (
     }
 
     const offset = (page - 1) * limit;
-    console.log('testAccessId', testAccessId);
+
     const getAttempts = () =>
       db.query.testAttempts.findMany({
         where: eq(testAttemptsTable.testAccessId, testAccessId),
