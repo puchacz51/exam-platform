@@ -44,7 +44,11 @@ export const sendConfirmationEmail = async ({
       html: emailHTML,
     };
 
-    await mailTransporter.sendMail(mailOptions);
+    const reponse = await mailTransporter.sendMail(mailOptions);
+
+    if (reponse.rejected.length > 0) {
+      throw new Error('Failed to send confirmation email');
+    }
 
     return { success: 'Confirmation email sent successfully' };
   } catch (error) {
