@@ -1,6 +1,6 @@
 import {
-  verificationTokensTable,
   InsertEmailVerificationToken,
+  verificationTokensTable,
 } from '@schema/email_verification_tokens';
 import db from '@/lib/db';
 
@@ -27,7 +27,8 @@ function generateUniqueToken(): string {
 }
 
 export async function generateEmailVerificationToken(
-  email: string
+  email: string,
+  tx = db
 ): Promise<string> {
   const token = generateUniqueToken();
   const expiresAt = new Date();
@@ -39,7 +40,7 @@ export async function generateEmailVerificationToken(
     expiresAt,
   };
 
-  await db.insert(verificationTokensTable).values(newToken);
+  await tx.insert(verificationTokensTable).values(newToken);
 
   return token;
 }

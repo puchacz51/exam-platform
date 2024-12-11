@@ -189,7 +189,7 @@ const LoginForm: FC = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => signIn('google',)}
+            onClick={() => signIn('google')}
             disabled={isLoading.google}
           >
             {isLoading.google ? t('login.loading') : t('login.google')}

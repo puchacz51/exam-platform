@@ -13,18 +13,20 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 
 import {
   GroupFlowResponse,
   QuestionFlowResponse,
 } from '../../../../../../types/attempt';
-import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 
 interface TestAttemptGroupsProps {
   userAttemptFlow: QuestionFlowResponse;
 }
 
-const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
+const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
+  userAttemptFlow,
+}) => {
   const params = useParams();
   const testAssignmentId = params.id as string;
 
@@ -32,7 +34,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) =>
   const { refetch } = useGetAssignmentWithTestQuery({
     assignmentId: testAssignmentId,
     navOptions: {
-      questionId: userAttemptFlow.nextQuestionId,
+      questionId: userAttemptFlow.nextQuestionId as string,
     },
   });
 

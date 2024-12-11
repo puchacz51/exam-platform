@@ -5,8 +5,8 @@ import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
 import { InsertUser, usersTable } from '@schema/users';
-import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 import db from '@/lib/db';
+import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 
 const registrationSchema = z.object({
   firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
@@ -51,17 +51,20 @@ export async function registerUser(formData: FormData) {
       createdAt: new Date(),
     };
 
-    const [insertedUser] = await db
-      .insert(usersTable)
-      .values(newUser)
-      .returning();
+    return await db.transaction(async (tx) => {
+      const [insertedUser] = await tx
+        .insert(usersTable)
+        .values(newUser)
+        .returning();
 
-    sendConfirmationEmail({
-      ...insertedUser,
-      locale: 'pl',
+      await sendConfirmationEmail({
+        ...insertedUser,
+        locale: 'pl',
+        tx,
+      });
+
+      return { success: true, userId: insertedUser.id };
     });
-
-    return { success: true, userId: insertedUser.id };
   } catch (error) {
     console.error('Błąd podczas rejestracji użytkownika:', error);
     return {

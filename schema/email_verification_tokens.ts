@@ -7,7 +7,7 @@ export const verificationTokensTable = pgTable('email_verification_tokens', {
   token: varchar('token', { length: 64 }).primaryKey(),
   userEmail: varchar('user_email')
     .notNull()
-    .references(() => usersTable.email),
+    .references(() => usersTable.email, { onDelete: 'cascade' }),
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });

@@ -64,13 +64,13 @@ export const handleAnswerLockWithBackNavigation = (
   userId: string,
   attemptId: string,
   testSettings: TestSettings,
-  shuffleQuestionsInGroup: boolean
+  // shuffleQuestionsInGroup: boolean
 ): { data: QuestionFlowResponse | null; error?: string } => {
   const testQuestions = QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
   const selectedQuestionId = navOptions?.questionId || testQuestions[0].id;
-  const shuffledTestQuestions = shuffleQuestionsInGroup
-    ? shiftArrayLeftByUUID(testQuestions, userId)
-    : testQuestions;
+  // const shuffledTestQuestions = shuffleQuestionsInGroup
+  //   ? shiftArrayLeftByUUID(testQuestions, userId)
+  //   : testQuestions;
 
   const selectedQuestionIndex = testQuestions.findIndex(
     (question) => question.id === selectedQuestionId

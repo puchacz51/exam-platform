@@ -51,8 +51,8 @@ export const getUserAttemptFlow = async (
         QG,
         userId,
         userAttempt.id,
-        userAttemptWithTestSettings.data.testAccess.test.settings,
-        !!shuffleQuestionsInGroup
+        userAttemptWithTestSettings.data.testAccess.test.settings
+        // !!shuffleQuestionsInGroup
       );
     }
   }

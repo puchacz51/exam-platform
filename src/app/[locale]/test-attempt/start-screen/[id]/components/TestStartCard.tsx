@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import {  useRouter } from '@/i18n/routing';
+import { useRouter } from '@/i18n/routing';
 import { createUserAttempt } from '@actions/attempt/createUserAttempt';
 
 interface TestStartCardProps {

@@ -23,7 +23,6 @@ export async function getTestAssignment(id: string) {
         startsAt: true,
         endsAt: true,
         timeLimit: true,
-        requiresRegistration: true,
         showResultsAfterSubmission: true,
       },
       with: {

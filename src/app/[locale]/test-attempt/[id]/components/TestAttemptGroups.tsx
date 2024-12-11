@@ -13,9 +13,9 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 
 import { GroupFlowResponse } from '../../../../../../types/attempt';
-import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 
 interface TestAttemptGroupsProps {
   userAttemptFlow: GroupFlowResponse;
@@ -29,7 +29,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const { refetch } = useGetAssignmentWithTestQuery({
     assignmentId: testAssignmentId,
     navOptions: {
-      groupId: userAttemptFlow.nextGroupId,
+      groupId: userAttemptFlow.nextGroupId as string,
     },
   });
 

@@ -19,8 +19,6 @@ export async function GET(
       );
     }
 
-
- 
     const result = await getTestAttempts(testAccessId, page, limit);
 
     return NextResponse.json(result);
