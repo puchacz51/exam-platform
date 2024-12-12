@@ -1,19 +1,58 @@
-import { Provider } from '@auth/core/providers';
+import Google from 'next-auth/providers/google';
+import { eq } from 'drizzle-orm';
 
-export const GoogleProvider: Provider = {
-  id: 'google',
-  name: 'google',
-  type: 'oauth',
-  authorization: {
-    url: 'https://accounts.google.com/o/oauth2/v2/auth',
-    params: {
-      prompt: 'consent',
-      access_type: 'offline',
-      response_type: 'code',
-    },
-  },
-  token: 'https://oauth2.googleapis.com/token',
-  userinfo: 'https://www.googleapis.com/oauth2/v2/userinfo',
+import { usersTable } from '@schema/users';
+import db from '@/lib/db';
+
+export const GoogleProvider = Google({
   clientId: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-};
+  profile: async (profile, tokens) => {
+    const email = profile.email;
+    const [existingUser] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .execute();
+
+    if (!existingUser) {
+      const [newUser] = await db
+        .insert(usersTable)
+        .values({
+          email: email,
+          passwordHash: '',
+          profileNeedsCompletion: true,
+          authProvider: 'google',
+          emailConfirmed: new Date(),
+        })
+        .returning()
+        .execute();
+
+      return {
+        authProvider: 'google',
+        createdAt: newUser.createdAt,
+        emailConfirmed: newUser.emailConfirmed,
+        email: newUser.email,
+        firstname: '',
+        lastname: '',
+        profileNeedsCompletion: newUser.profileNeedsCompletion,
+        userID: newUser.id,
+        accessToken: tokens['access_token'] as string,
+        refreshToken: tokens['refresh_token'] as string,
+      };
+    }
+
+    return {
+      authProvider: 'google',
+      createdAt: existingUser.createdAt,
+      emailConfirmed: existingUser.emailConfirmed,
+      email: existingUser.email,
+      firstname: existingUser.firstname,
+      lastname: existingUser.lastname,
+      profileNeedsCompletion: existingUser.profileNeedsCompletion,
+      userID: existingUser.id,
+      accessToken: tokens['access_token'] as string,
+      refreshToken: tokens['refresh_token'] as string,
+    };
+  },
+});
