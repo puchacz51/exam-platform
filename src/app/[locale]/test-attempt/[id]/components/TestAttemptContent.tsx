@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -18,13 +18,15 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
   assignmentWithTest,
 }) => {
   const params = useParams();
-  const testAssignmentId = params.id as string;
-  const { data } = useGetAssignmentWithTestQuery(
-    {
-      assignmentId: testAssignmentId,
-    },
-    { initialData: assignmentWithTest }
-  );
+
+  const { data, refetch } = useGetAssignmentWithTestQuery({
+    initialData: assignmentWithTest,
+  });
+
+  useEffect(() => {
+    refetch();
+    console.log('refetch');
+  }, [params]);
 
   if (!data) {
     return <Alert>Failed to load test assignment</Alert>;

@@ -45,7 +45,7 @@ export const questionRelations = relations(questionsTable, ({ one, many }) => ({
   answers: many(answersTable),
   orderItems: many(orderItemsTable),
   matchingPairs: many(matchingPairsTable),
-  groupSubQuestions: many(groupSubQuestionsTable),
+  GSQ: many(groupSubQuestionsTable),
 }));
 
 export type InsertQuestion = typeof questionsTable.$inferInsert;

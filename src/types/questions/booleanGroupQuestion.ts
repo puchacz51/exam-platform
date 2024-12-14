@@ -7,5 +7,5 @@ export interface BooleanGroupQuestionWithoutSubQuestions extends BaseQuestion {
 
 export interface BooleanGroupQuestion
   extends BooleanGroupQuestionWithoutSubQuestions {
-  groupSubQuestions: SelectGroupSubQuestion[];
+  GSQ: SelectGroupSubQuestion[];
 }

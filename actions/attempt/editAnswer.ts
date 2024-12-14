@@ -127,7 +127,7 @@ export async function editAnswer(
         break;
 
       case 'NUMERIC_GROUP':
-        if (!input.answers.length) break
+        if (!input.answers.length) break;
         await tx.insert(numericAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
@@ -143,13 +143,15 @@ export async function editAnswer(
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
-            subQuestionId: answer.subQuestionId,
             value: answer.value,
+            ...((input.type === 'BOOLEAN_GROUP' && {
+              subQuestionId: answer.subQuestionId,
+            }) ||
+              {}),
           }))
         );
         break;
       default:
-        console.log(input);
         return {
           data: null,
           error: 'Invalid answer type',
@@ -165,7 +167,6 @@ export async function editAnswer(
     }
     return await db.transaction(operation);
   } catch (error) {
-    console.log(input, error);
     return { data: null, error: 'Failed to edit answer' };
   }
 }

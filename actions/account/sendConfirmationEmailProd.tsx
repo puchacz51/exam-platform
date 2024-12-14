@@ -24,7 +24,6 @@ export const sendConfirmationEmailProd = async ({
     const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
     const emailMessages = await getEmailMessages(locale);
-    console.log('emailMessages', email);
     const { error } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: email,
@@ -39,7 +38,6 @@ export const sendConfirmationEmailProd = async ({
         />
       ),
     });
-    console.log('error', error);
     if (error) {
       throw new Error('Failed to send confirmation email');
     }

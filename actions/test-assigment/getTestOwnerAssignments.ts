@@ -18,7 +18,6 @@ export async function getTestOwnerAssignments(
   if (!sessions?.user?.userID) {
     throw new Error('Unauthorized');
   }
-  console.log('page', page);
   const userId = sessions.user.userID;
   const offset = (page - 1) * limit;
 

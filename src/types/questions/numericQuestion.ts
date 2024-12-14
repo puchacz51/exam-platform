@@ -14,9 +14,9 @@ export interface NumericGroupSubQuestion
 
 export interface NumericQuestionWithoutSubQuestions extends BaseQuestion {
   questionType: 'NUMERIC';
-  groupSubQuestions: NumericGroupSubQuestionWithoutAnswer[];
+  GSQ: NumericGroupSubQuestionWithoutAnswer[];
 }
 
 export interface NumericQuestion extends NumericQuestionWithoutSubQuestions {
-  groupSubQuestions: NumericGroupSubQuestion[];
+  GSQ: NumericGroupSubQuestion[];
 }

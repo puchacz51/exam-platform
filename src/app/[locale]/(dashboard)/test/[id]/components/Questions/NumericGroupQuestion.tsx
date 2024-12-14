@@ -28,7 +28,7 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
-  const { id, groupSubQuestions } = question;
+  const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { control, setValue } =
     useFormContext<TestAttemptFormDataNumericGroup>();
@@ -51,7 +51,7 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
 
   return (
     <div className="grid gap-4">
-      {groupSubQuestions?.map((subQuestion) => {
+      {GSQ?.map((subQuestion) => {
         return (
           <Card
             key={subQuestion.id}

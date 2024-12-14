@@ -11,7 +11,6 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
 
   if (!context.auth?.user) return context;
 
-  console.log(context.auth?.user?.profileNeedsCompletion);
 
   if (context.auth?.user?.profileNeedsCompletion) {
     if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl)) {

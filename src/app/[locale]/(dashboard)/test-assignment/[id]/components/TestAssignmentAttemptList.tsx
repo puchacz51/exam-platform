@@ -23,7 +23,6 @@ interface TestAssignmentAttemptListProps {
 const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
   initialData,
 }) => {
-  console.log(initialData);
   const { data } = useGetTestAttempts({
     testAccessId: initialData.attempts[0].testAccessId,
     limit: 10,

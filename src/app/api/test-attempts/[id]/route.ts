@@ -11,7 +11,7 @@ export async function GET(
     const testAccessId = (await params).id;
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
-    console.log('testAccessId', testAccessId);
+
     if (!testAccessId) {
       return NextResponse.json(
         { error: 'Test access ID is required' },

@@ -5,8 +5,7 @@ import postgres from 'postgres';
 
 import { schema } from '@schema/index';
 
-const { DATABASE_URL = '', DATABASE_URL_DATABASE_URL = '' } = process.env;
-console.log(DATABASE_URL, DATABASE_URL_DATABASE_URL);
+const { DATABASE_URL = '' } = process.env;
 declare global {
   // eslint-disable-next-line no-var -- only var works here
   var db: PostgresJsDatabase<typeof schema> | undefined;

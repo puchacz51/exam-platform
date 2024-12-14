@@ -57,7 +57,7 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
                     },
                     matchingPairs: true,
                     answers: true,
-                    groupSubQuestions: true,
+                    GSQ: true,
                   },
                 },
               },

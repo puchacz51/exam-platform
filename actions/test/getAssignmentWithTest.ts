@@ -57,7 +57,7 @@ export async function getAssignmentWithTest(id: string) {
                   with: {
                     question: {
                       with: {
-                        groupSubQuestions: {
+                        GSQ: {
                           columns: {
                             id: true,
                             tolerance: true,
@@ -178,3 +178,4 @@ export async function getAssignmentWithTest(id: string) {
 export type AssignmentWithTest = Awaited<
   ReturnType<typeof getAssignmentWithTest>
 >;
+

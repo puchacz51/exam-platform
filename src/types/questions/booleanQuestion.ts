@@ -13,7 +13,7 @@ export interface BooleanGroupSubQuestion
 
 export interface BooleanQuestionWithoutAnswers extends BaseQuestion {
   questionType: 'BOOLEAN';
-  groupSubQuestions: BooleanGroupSubQuestionWithoutAnswer[];
+  GSQ: BooleanGroupSubQuestionWithoutAnswer[];
 }
 
 export interface BooleanQuestion extends BooleanQuestionWithoutAnswers {

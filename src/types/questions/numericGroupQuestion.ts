@@ -6,10 +6,10 @@ import {
 
 export interface NumericGroupQuestionWithoutAnswer extends BaseQuestion {
   questionType: 'NUMERIC_GROUP';
-  groupSubQuestions: NumericGroupSubQuestionWithoutAnswer[];
+  GSQ: NumericGroupSubQuestionWithoutAnswer[];
 }
 
 export interface NumericGroupQuestion
   extends NumericGroupQuestionWithoutAnswer {
-  groupSubQuestions: NumericGroupSubQuestion[];
+  GSQ: NumericGroupSubQuestion[];
 }

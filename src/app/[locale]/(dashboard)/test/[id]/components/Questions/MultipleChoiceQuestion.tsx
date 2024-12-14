@@ -67,8 +67,9 @@ const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = ({
             }
             disabled={mode === 'view'}
             checked={
-              mode === 'solve' &&
-              fields.some((field) => field.answerId === answer.id)
+              mode === 'solve'
+                ? fields.some((field) => field.answerId === answer.id)
+                : !!answers.find((ans) => ans.id === answer.id)?.isCorrect
             }
             onCheckedChange={(checked) =>
               mode === 'solve' && handleCheckboxChange(answer.id, !!checked)

@@ -7,12 +7,11 @@ import { TestAccessForm } from '@/app/[locale]/(dashboard)/test-assignment/compo
 import { getTestTestAccess } from '@actions/test-access/getTestTestAccess';
 
 const TestAssignmentPage = async ({ params }: { params: { id: string } }) => {
-  const [groupsResponse, test, testAccess] = await Promise.all([
+  const [groupsResponse, test] = await Promise.all([
     getUserGroups(),
     getTest(params.id),
     getTestTestAccess(params.id),
   ]);
-  console.log(testAccess, test, groupsResponse);
 
   if (!test) {
     return notFound();

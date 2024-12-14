@@ -24,7 +24,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
-
+  console.log(test);
   const testSettings = {
     changeable: true,
     timeLimit: 30,

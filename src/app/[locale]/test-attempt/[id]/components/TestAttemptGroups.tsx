@@ -26,12 +26,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const testAssignmentId = params.id as string;
 
   const { allowGoBack } = userAttemptFlow?.testSettings;
-  const { refetch } = useGetAssignmentWithTestQuery({
-    assignmentId: testAssignmentId,
-    navOptions: {
-      groupId: userAttemptFlow.nextGroupId as string,
-    },
-  });
+  const { refetch } = useGetAssignmentWithTestQuery();
 
   const {
     currentGroupId,
@@ -56,8 +51,6 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  console.log(methods.watch());
 
   const onSubmit = async (data: TestAttemptFormData) => {
     const formattedAnswers = prepareFormSubmission(data, attemptId);
@@ -116,6 +109,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
           </form>
         </Card>
       </div>
+      <div className="h-20" />
     </FormProvider>
   );
 };
@@ -183,7 +177,7 @@ const prepareQuestionToForm = (
           questionId: question.id,
           attemptId,
           answers:
-            question.groupSubQuestions.map((answer) => ({
+            question.GSQ.map((answer) => ({
               subQuestionId: answer.id,
               value: answer.numericAnswer,
             })) || [],
@@ -198,7 +192,7 @@ const prepareQuestionToForm = (
           type: question.questionType,
           questionId: question.id,
           attemptId,
-          answers: question.groupSubQuestions.map((subQuestion) => ({
+          answers: question.GSQ.map((subQuestion) => ({
             subQuestionId: subQuestion.id,
             booleanAnswer: subQuestion.booleanAnswer,
           })),

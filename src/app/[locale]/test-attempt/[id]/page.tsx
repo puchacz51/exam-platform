@@ -10,7 +10,6 @@ interface PageProps {
 
 const TestAttemptPage = async ({ params }: PageProps) => {
   const test = await getUserAttemptFlow(params.id);
-  console.log(test, '233232');
 
   return (
     <ReactQueryProvider>

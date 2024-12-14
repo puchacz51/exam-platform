@@ -26,7 +26,7 @@ export const numericAnswerRelations = relations(
       fields: [numericAnswersTable.attemptAnswerId],
       references: [attemptAnswersTable.id],
     }),
-    subQuestion: one(groupSubQuestionsTable, {
+    GSQ: one(groupSubQuestionsTable, {
       fields: [numericAnswersTable.subQuestionId],
       references: [groupSubQuestionsTable.id],
     }),

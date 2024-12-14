@@ -46,7 +46,6 @@ async function createTest(
       })
       .returning();
 
-    console.log('Test created successfully:', createdTest.id);
 
     // Create test settings (unchanged)
     await tx.insert(testSettingsTable).values({
@@ -66,7 +65,6 @@ async function createTest(
       showFinalScore: test.settings.showFinalScore,
     });
 
-    console.log('createdTest', createdTest);
 
     const groupInserts: InsertQuestionGroup[] = [];
     const questionInserts: InsertQuestion[] = [];
@@ -155,7 +153,6 @@ export async function createTestAction(
     }
 
     const userId = session.user.userID;
-    console.log('userId', userId);
     const result = await createTest(test, questionGroups, userId);
     if ('errors' in result) {
       return { success: false, errors: result.errors };

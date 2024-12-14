@@ -3,14 +3,13 @@
 import { FC } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 import { Question } from '@/types/questions';
 import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
 import { prepareFormSubmission } from '@/utils/formSubmissionUtils';
 import { createAnswer } from '@actions/attempt/createAnswer';
-import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AnswerInput } from '@/types/answers/testAttemptAnswers';
@@ -27,17 +26,11 @@ interface TestAttemptGroupsProps {
 const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
   userAttemptFlow,
 }) => {
+  const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   const testAssignmentId = params.id as string;
-
   const { allowGoBack } = userAttemptFlow?.testSettings;
-  const { refetch } = useGetAssignmentWithTestQuery({
-    assignmentId: testAssignmentId,
-    navOptions: {
-      questionId: userAttemptFlow.nextQuestionId as string,
-    },
-  });
-
   const {
     questionsGroups,
     attemptId,
@@ -45,7 +38,6 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     previousQuestionId,
     currentQuestionId,
   } = userAttemptFlow;
-
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
       questions:
@@ -58,18 +50,20 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isSubmitted },
   } = methods;
+
+  const moveToQuestion = (questionId: string) => {
+    router.replace(`${pathname}?questionId=${questionId}`, {
+      scroll: false,
+    });
+  };
 
   const onSubmit = async (data: TestAttemptFormData) => {
     const formattedAnswers = prepareFormSubmission(data, attemptId);
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
-
-    if (!result.error) {
-      await refetch();
-      methods.reset();
-    }
+    console.log('onSubmit', result);
   };
 
   return (
@@ -109,13 +103,24 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                   Go back
                 </Button>
               )}
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-6"
-              >
-                {nextQuestionId ? 'Next' : 'Submit'}
-              </Button>
+
+              {!isSubmitted ? (
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6"
+                >
+                  {nextQuestionId ? 'Submit Question' : 'Submit Test'}
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => moveToQuestion(nextQuestionId as string)}
+                  disabled={isSubmitting}
+                  className="px-6"
+                >
+                  Next
+                </Button>
+              )}
             </div>
           </form>
         </Card>
@@ -187,7 +192,7 @@ const prepareQuestionToForm = (
           questionId: question.id,
           attemptId,
           answers:
-            question.groupSubQuestions.map((answer) => ({
+            question.GSQ.map((answer) => ({
               subQuestionId: answer.id,
               value: answer.numericAnswer,
             })) || [],
@@ -202,7 +207,7 @@ const prepareQuestionToForm = (
           type: question.questionType,
           questionId: question.id,
           attemptId,
-          answers: question.groupSubQuestions.map((subQuestion) => ({
+          answers: question.GSQ.map((subQuestion) => ({
             subQuestionId: subQuestion.id,
             booleanAnswer: subQuestion.booleanAnswer,
           })),

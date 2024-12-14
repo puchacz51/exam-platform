@@ -13,12 +13,12 @@ export const getUserAttemptFlow = async (
   testAccessId: string,
   navOptions?: NavOptions
 ) => {
+  console.log('getUserAttemptFlow', testAccessId, navOptions);
   const userAttemptWithTestSettings =
     await getUserAttemptWithTestSettings(testAccessId);
   const { data: userAttempt, error } = userAttemptWithTestSettings;
 
   if (error || !userAttempt) {
-
     return { data: null, error };
   }
 
@@ -51,8 +51,7 @@ export const getUserAttemptFlow = async (
         QG,
         userId,
         userAttempt.id,
-        userAttemptWithTestSettings.data.testAccess.test.settings
-        // !!shuffleQuestionsInGroup
+        userAttemptWithTestSettings.data.testAccess.test.settings,
       );
     }
   }

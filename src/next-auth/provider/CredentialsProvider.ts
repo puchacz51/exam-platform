@@ -15,14 +15,13 @@ export const CredentialsProvider = Credentials({
       email: string;
       password: string;
     };
-    console.log('CredentialsProvider');
     try {
       const [user] = await db
         .select()
         .from(usersTable)
         .where(eq(usersTable.email, email))
         .execute();
-      console.log(user);
+
       if (!user) {
         throw new Error('Invalid credentials');
       }

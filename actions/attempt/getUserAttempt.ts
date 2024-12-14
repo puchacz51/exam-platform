@@ -28,7 +28,7 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
                       with: {
                         question: {
                           with: {
-                            groupSubQuestions: true,
+                            GSQ: true,
                             matchingPairs: true,
                             answers: true,
                             orderItems: true,

@@ -50,7 +50,7 @@ export const getAllUserTests = async (page: number = 1, limit: number = 10) => {
                       },
                       matchingPairs: true,
                       answers: true,
-                      groupSubQuestions: true,
+                      GSQ: true,
                     },
                   },
                 },
