@@ -8,6 +8,7 @@ import { getLocale, getMessages } from 'next-intl/server';
 import { auth } from '@/next-auth/auth';
 import DashboardHeader from '@/app/[locale]/(dashboard)/components/DashboardHeader';
 import DashboardFooter from '@/app/[locale]/(dashboard)/components/DashboardFooter';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -23,13 +24,15 @@ const RootLayout = async ({ children }: Readonly<RootLayoutProps>) => {
         locale={locale}
         messages={messages}
       >
-        <SessionProvider session={session}>
-          <div className="flex min-h-screen flex-col">
-            <DashboardHeader />
-            <main className="flex-grow">{children}</main>
-            <DashboardFooter />
-          </div>
-        </SessionProvider>
+        <ReactQueryProvider>
+          <SessionProvider session={session}>
+            <div className="flex min-h-screen flex-col">
+              <DashboardHeader />
+              <main className="flex-grow">{children}</main>
+              <DashboardFooter />
+            </div>
+          </SessionProvider>
+        </ReactQueryProvider>
       </NextIntlClientProvider>
     </>
   );

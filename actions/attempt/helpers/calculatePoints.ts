@@ -40,6 +40,8 @@ export const calculatePoints = ({
       };
     }
 
+    console.log('accuracy', accuracy);
+
     const scoreRatio =
       Math.max(accuracy.correct - accuracy.incorrect, 0) / accuracy.total;
 
@@ -119,7 +121,7 @@ const calculateChoiceAccuracy = (
   const correctCount = correctAnswerIds.filter((id) =>
     userAnswerIds.includes(id)
   ).length;
-  const total = correctAnswers.length;
+  const total = question.answers?.length || 0;
 
   return {
     correct: correctCount,
@@ -173,7 +175,6 @@ const calculateNumericAccuracy = (
   answer: NumericGroupAnswerInput
 ) => {
   const correctAnswers = question.groupSubQuestions || [];
-  const total = correctAnswers.length;
   const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
     return (
@@ -181,6 +182,7 @@ const calculateNumericAccuracy = (
       (a.tolerance || 0)
     );
   }).length;
+  const total = question.groupSubQuestions?.length || 0;
 
   return {
     correct: correctCount,
@@ -193,8 +195,10 @@ const calculateBooleanAccuracy = (
   question: CompleteQuestion,
   answer: BooleanGroupAnswerInput
 ) => {
+  console.log('question', question);
+  console.log('answer', answer);
   const subQuestions = question.groupSubQuestions || [];
-  const total = subQuestions.length;
+  const total = subQuestions.length || 1;
   let correctCount = 0;
   let incorrectCount = 0;
 

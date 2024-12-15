@@ -23,48 +23,39 @@ export const getUserAttemptFlow = async (
   }
 
   const { userId, testAccess } = userAttempt;
+  // const { timeLimit } = testAccess;
   if (!userId) return { data: null, error: 'No userId provided' };
+  // const isTimeOver =
+  //   timeLimit &&
+  //   Date.now() > new Date(startedAt).getTime() + timeLimit * 60 * 1000;
+  // const isTestFinished = userAttempt.finishedAt || isTimeOver;
+
+  // if (isTestFinished) {
+  //   return { data: null, error: 'Test is finished' };
+  // }
 
   const { settings, QG } = testAccess.test;
-  const { navigationMode, allowGoBack, shuffleQuestionsInGroup } = settings;
-
-  const questionsGroups = QG.map((qg) => ({
-    id: qg.id,
-    questions: qg.qOnQG.map((q) => q.question),
-  }));
-
+  const { navigationMode, allowGoBack } = settings;
   if (allowGoBack) {
     if (navigationMode === 'GROUP_LOCK') {
       return handleGroupLockWithBackNavigation(
-        navOptions?.groupId || questionsGroups[0].id,
+        navOptions?.groupId,
         QG,
-        userId,
-        userAttempt.id,
-        userAttemptWithTestSettings.data.testAccess.test.settings,
-        questionsGroups
+        userAttempt
       );
     }
 
     if (navigationMode === 'ANSWER_LOCK') {
       return handleAnswerLockWithBackNavigation(
-        navOptions || { questionId: '' },
+        navOptions?.questionId,
         QG,
-        userId,
-        userAttempt.id,
-        userAttemptWithTestSettings.data.testAccess.test.settings,
+        userAttempt
       );
     }
   }
 
   if (navigationMode === 'GROUP_LOCK') {
-    return handleGroupLockWithoutBack(
-      questionsGroups,
-      userAttempt,
-      userId,
-      userAttempt.id,
-      userAttemptWithTestSettings.data.testAccess.test.settings,
-      !!shuffleQuestionsInGroup
-    );
+    return handleGroupLockWithoutBack(QG, userAttempt);
   }
 
   return { data: null, error: 'Unsupported navigation mode' };

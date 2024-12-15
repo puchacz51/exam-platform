@@ -3,14 +3,13 @@
 import { FC } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 import { Question } from '@/types/questions';
 import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
 import { prepareFormSubmission } from '@/utils/formSubmissionUtils';
 import { createAnswer } from '@actions/attempt/createAnswer';
-import { useGetAssignmentWithTestQuery } from '@/hooks/useGetAssignmentWithTest';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AnswerInput } from '@/types/answers/testAttemptAnswers';
@@ -22,11 +21,11 @@ interface TestAttemptGroupsProps {
 }
 
 const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
+  const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   const testAssignmentId = params.id as string;
-
   const { allowGoBack } = userAttemptFlow?.testSettings;
-  const { refetch } = useGetAssignmentWithTestQuery();
 
   const {
     currentGroupId,
@@ -52,14 +51,21 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
     formState: { isSubmitting },
   } = methods;
 
+  const moveToQuestionGroup = (questionId: string) => {
+    router.replace(`${pathname}?groupId=${questionId}`, {
+      scroll: false,
+    });
+  };
+
   const onSubmit = async (data: TestAttemptFormData) => {
     const formattedAnswers = prepareFormSubmission(data, attemptId);
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
 
     if (!result.error) {
-      await refetch();
-      methods.reset();
+      if (nextGroupId) {
+        moveToQuestionGroup(nextGroupId);
+      }
     }
   };
 
@@ -74,7 +80,9 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
           >
             <div className="space-y-8">
               <div className="space-y-4">
-                <h2 className="text-xl font-bold">{currentGroup?.id}</h2>
+                <h2 className="text-xl font-bold">
+                  {/* {currentGroup?.name || 'test'} */}
+                </h2>
                 <div className="space-y-6">
                   {currentGroup?.questions.map((question, questionIndex) => (
                     <QuestionItem

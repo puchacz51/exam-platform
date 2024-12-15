@@ -5,7 +5,6 @@ import { SessionProvider } from 'next-auth/react';
 import { getMessages } from 'next-intl/server';
 
 import Header from '@/app/[locale]/(auth)/components/layout/Header';
-import { LanguageSwitcher } from '@/app/[locale]/(public)/components/layout/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,9 +26,7 @@ const RootLayout = async ({
             messages={messages}
             locale={locale}
           >
-            <Header>
-              <LanguageSwitcher />
-            </Header>
+            <Header />
             {children}
           </NextIntlClientProvider>
         </SessionProvider>

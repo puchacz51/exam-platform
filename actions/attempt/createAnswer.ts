@@ -43,7 +43,8 @@ export async function createAnswer(
     })
     .filter((a) => a !== null);
 
-  const { allowGoBack } = userAttempt.testAccess.test.settings;
+  const { allowGoBack, showPointsPerQuestion } =
+    userAttempt.testAccess.test.settings;
 
   if (!allowGoBack) {
     return submitAnswers(answers);
@@ -56,7 +57,12 @@ export async function createAnswer(
     );
 
     if (!existing.length && !newAnswers.length) {
-      return { data: [], error: null };
+      return {
+        data: {
+          points: showPointsPerQuestion ? calculatedPoints : [],
+        },
+        error: null,
+      };
     }
 
     const [editResult, submitResult] = await Promise.all([
@@ -70,12 +76,10 @@ export async function createAnswer(
     if (editResult.error || submitResult.error) {
       throw new Error(editResult.error || submitResult.error || '');
     }
-    editResult.data;
+
     return {
       data: {
-        prevQuestions: [...editResult.data, ...submitResult.data],
-        newQuestions: newAnswers,
-        isEnd: false,
+        points: showPointsPerQuestion ? calculatedPoints : [],
       },
       error: null,
     };

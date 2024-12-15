@@ -51,6 +51,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
   const {
     handleSubmit,
     formState: { isSubmitting, isSubmitted },
+    setValue,
   } = methods;
 
   const moveToQuestion = (questionId: string) => {
@@ -64,6 +65,17 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
     console.log('onSubmit', result);
+    const questionPoints =
+      !!result.data &&
+      'points' in result.data &&
+      result.data.points.find(
+        (point) => point.questionId === currentQuestionId
+      );
+    console.log('questionPoints', questionPoints);
+
+    if (questionPoints) {
+      setValue(`questions.${currentQuestionId}.points`, questionPoints.points);
+    }
   };
 
   return (
@@ -142,6 +154,7 @@ const prepareQuestionToForm = (
           type: 'ORDER',
           questionId: question.id,
           attemptId: attemptId,
+          points: null,
           items:
             question.orderItems.map((item) => ({
               id: item.id,
@@ -158,6 +171,7 @@ const prepareQuestionToForm = (
           type: 'MATCHING',
           questionId: question.id,
           attemptId,
+          points: null,
           pairs:
             question.matchingPairs.map((pair) => ({
               key: pair.key,
@@ -176,6 +190,7 @@ const prepareQuestionToForm = (
           type: question.questionType,
           questionId: question.id,
           attemptId,
+          points: null,
           answers:
             question.answers.map((answer) => ({
               answerId: answer.id,
@@ -191,6 +206,7 @@ const prepareQuestionToForm = (
           type: question.questionType,
           questionId: question.id,
           attemptId,
+          points: null,
           answers:
             question.GSQ.map((answer) => ({
               subQuestionId: answer.id,
@@ -207,6 +223,7 @@ const prepareQuestionToForm = (
           type: question.questionType,
           questionId: question.id,
           attemptId,
+          points: null,
           answers: question.GSQ.map((subQuestion) => ({
             subQuestionId: subQuestion.id,
             booleanAnswer: subQuestion.booleanAnswer,
@@ -218,6 +235,7 @@ const prepareQuestionToForm = (
         acc[question.id] = {
           type: 'OPEN',
           questionId: question.id,
+          points: null,
           attemptId,
           answer: {
             text: '',

@@ -1,8 +1,11 @@
 'use client';
 
+import { useFormContext } from 'react-hook-form';
+
 import QuestionSelector from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionSelector';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
 import { Question } from '@/types/questions';
 import { questionDisplayModeEnum } from '@schema/testSettings';
 
@@ -20,6 +23,9 @@ export const QuestionItem = ({
   mode = 'view',
   displayMode = 'SINGLE',
 }: QuestionItemProps) => {
+  const { watch } = useFormContext<TestAttemptFormData>();
+  const points = watch(`questions.${question.id}.points`);
+
   return (
     <Card className="p-4 transition-shadow hover:shadow-md">
       <div className="mb-4 flex items-center justify-between">
@@ -29,7 +35,11 @@ export const QuestionItem = ({
           </span>
           Question
         </h4>
-        <Badge variant="outline">{question.points} points</Badge>
+        <Badge variant="outline">
+          {typeof points === 'number'
+            ? `${points} / ${question.points} points`
+            : `${question.points} points`}
+        </Badge>
       </div>
       <p className="mb-4">{question.text}</p>
       <QuestionSelector

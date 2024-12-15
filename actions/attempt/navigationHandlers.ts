@@ -1,54 +1,55 @@
-import { SelectTestSettings } from '@schema/testSettings';
-import {
-  QG,
-  QuestionGroups,
-  TestSettings,
-  UserAttempt,
-} from '@actions/attempt/getUserAttempt';
+import { QG, UserAttempt } from '@actions/attempt/getUserAttempt';
 
-import {
-  GroupFlowResponse,
-  NavOptions,
-  QuestionFlowResponse,
-} from '../../types/attempt';
+import { GroupFlowResponse, QuestionFlowResponse } from '../../types/attempt';
 import { shiftArrayLeftByUUID } from './helpers/shiftArrayLeft';
 
 export const handleGroupLockWithBackNavigation = (
-  selectedGroupId: string,
+  selectedGroupId: string | undefined,
   QG: QG[],
-  userId: string,
-  attemptId: string,
-  testSettings: SelectTestSettings,
-  questionsGroups: QuestionGroups[]
+  attempt: UserAttempt
 ): { data: GroupFlowResponse | null; error?: string } => {
+  const { userId, testAccess } = attempt;
+  const {
+    test: { settings: testSettings },
+  } = testAccess;
+  const questionsGroups = QG.map((qg) => ({
+    id: qg.id,
+    name: qg.name,
+    questions: qg.qOnQG.map((q) => q.question),
+  }));
+
   const selectedGroupIndex = QG.findIndex(
-    (group) => group.id === selectedGroupId
+    (group) => group.id === (selectedGroupId || questionsGroups[0].id)
   );
 
   if (selectedGroupIndex === -1) {
     return { data: null, error: 'Group not found' };
   }
+
+
   const { shuffleQuestionsInGroup } = testSettings;
   const selectedGroup = QG[selectedGroupIndex];
   const nextGroupId = QG[selectedGroupIndex + 1]?.id || null;
   const previousGroupId = QG[selectedGroupIndex - 1]?.id || null;
   const selectedGroupQuestions = questionsGroups.find(
-    (group) => group.id === selectedGroupId
+    (group) => group.id === selectedGroup.id
   );
-  const shuffledTestQuestions =
-    shuffleQuestionsInGroup &&
-    shiftArrayLeftByUUID(selectedGroupQuestions?.questions || [], userId);
+  const shuffledTestQuestions = shuffleQuestionsInGroup
+    ? shiftArrayLeftByUUID(
+        selectedGroupQuestions?.questions || [],
+        userId as string
+      )
+    : selectedGroupQuestions?.questions;
+
   return {
     data: {
       type: 'GROUP',
-      attemptId,
+      attemptId: attempt.id,
       testSettings,
       questionsGroups: questionsGroups.map((group) => ({
         id: group.id,
         questions:
-          group.id === selectedGroup.id
-            ? shuffledTestQuestions || selectedGroupQuestions?.questions || []
-            : [],
+          group.id === selectedGroup.id ? shuffledTestQuestions || [] : [],
       })),
       currentGroupId: selectedGroup.id,
       currentQuestionId: null,
@@ -59,17 +60,19 @@ export const handleGroupLockWithBackNavigation = (
 };
 
 export const handleAnswerLockWithBackNavigation = (
-  navOptions: NavOptions,
+  questionId: string | undefined,
   QG: QG[],
-  userId: string,
-  attemptId: string,
-  testSettings: TestSettings
+  attempt: UserAttempt
 ): { data: QuestionFlowResponse | null; error?: string } => {
+  const { userId, testAccess } = attempt;
+  const {
+    test: { settings: testSettings },
+  } = testAccess;
   const { shuffleQuestionsInGroup } = testSettings;
   const testQuestions = QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
-  const selectedQuestionId = navOptions?.questionId || testQuestions[0].id;
+  const selectedQuestionId = questionId || testQuestions[0].id;
   const shuffledTestQuestions = shuffleQuestionsInGroup
-    ? shiftArrayLeftByUUID(testQuestions, userId)
+    ? shiftArrayLeftByUUID(testQuestions, userId as string)
     : testQuestions;
 
   const selectedQuestionIndex = testQuestions.findIndex(
@@ -80,7 +83,7 @@ export const handleAnswerLockWithBackNavigation = (
   return {
     data: {
       type: 'QUESTION',
-      attemptId,
+      attemptId: attempt.id,
       testSettings,
       questionsGroups: [
         {
@@ -97,16 +100,24 @@ export const handleAnswerLockWithBackNavigation = (
 };
 
 export const handleGroupLockWithoutBack = (
-  questionsGroups: QuestionGroups[],
-  userAttempt: UserAttempt,
-  userId: string,
-  attemptId: string,
-  testSettings: TestSettings,
-  shuffleQuestionsInGroup: boolean
+  QG: QG[],
+  attempt: UserAttempt
 ): { data: GroupFlowResponse | null; error?: string } => {
+  const {
+    userId,
+    testAccess: {
+      test: { settings: testSettings },
+    },
+  } = attempt;
+  const { shuffleQuestionsInGroup } = testSettings;
+  const questionsGroups = QG.map((qg) => ({
+    id: qg.id,
+    name: qg.name,
+    questions: qg.qOnQG.map((q) => q.question),
+  }));
   const answeredGroups = questionsGroups.filter((group) =>
     group.questions.some((question) =>
-      userAttempt.answers.some((answer) => answer.questionId === question.id)
+      attempt.answers.some((answer) => answer.questionId === question.id)
     )
   );
 
@@ -129,7 +140,7 @@ export const handleGroupLockWithoutBack = (
   return {
     data: {
       type: 'GROUP',
-      attemptId,
+      attemptId: attempt.id,
       testSettings,
       currentGroupId: null,
       currentQuestionId: null,
@@ -138,7 +149,7 @@ export const handleGroupLockWithoutBack = (
         {
           ...nextGroup,
           questions: shuffleQuestionsInGroup
-            ? shiftArrayLeftByUUID(nextGroup.questions, userId)
+            ? shiftArrayLeftByUUID(nextGroup.questions, userId as string)
             : nextGroup.questions,
         },
       ],
