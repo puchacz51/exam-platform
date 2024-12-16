@@ -10,18 +10,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { navigationModeEnum } from '@schema/testSettings';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestNavigation: FC = () => {
@@ -32,40 +23,6 @@ const TestCreatorTestNavigation: FC = () => {
       value="navigation"
       className="space-y-6"
     >
-      <FormField
-        control={form.control}
-        name="settings.navigationMode"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-semibold">Tryb nawigacji</FormLabel>
-            <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-            >
-              <FormControl>
-                <SelectTrigger className="border-gray-200">
-                  <SelectValue placeholder="Wybierz tryb nawigacji" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {navigationModeEnum.enumValues.map((mode) => (
-                  <SelectItem
-                    key={mode}
-                    value={mode}
-                  >
-                    {mode}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormDescription>
-              Określ sposób poruszania się po teście
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
       <FormField
         control={form.control}
         name="settings.allowGoBack"

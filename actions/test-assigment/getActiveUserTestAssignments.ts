@@ -62,7 +62,6 @@ export async function getActiveUserTestAssignments() {
                       id: true,
                       text: true,
                       points: true,
-                      isPublic: true,
                     },
                     with: {
                       orderItems: {

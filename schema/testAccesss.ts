@@ -17,7 +17,7 @@ import { testAccessGroupsTable } from '@schema/testAccessGroups';
 export const testAccessTypeEnum = pgEnum('test_access_type', [
   'GROUP',
   'CODE',
-  'EMAIL',
+  'CODE_GROUP',
 ]);
 
 export const testAccessConfigTable = pgTable('test_access_configs', {
@@ -30,9 +30,6 @@ export const testAccessConfigTable = pgTable('test_access_configs', {
   startsAt: timestamp('starts_at'),
   endsAt: timestamp('ends_at'),
   timeLimit: integer('time_limit'),
-  showResultsAfterSubmission: boolean('show_results_after_submission').default(
-    true
-  ),
   assignedBy: uuid('assigned_by')
     .notNull()
     .references(() => usersTable.id),

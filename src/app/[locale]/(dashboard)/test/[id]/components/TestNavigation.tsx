@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 interface TestNavigationProps {
   currentGroupIndex: number;
   totalGroups: number;
-  isChangeable: boolean;
   onPrevious: () => void;
   onNext: () => void;
 }
@@ -13,7 +12,6 @@ interface TestNavigationProps {
 export const TestNavigation = ({
   currentGroupIndex,
   totalGroups,
-  isChangeable,
   onPrevious,
   onNext,
 }: TestNavigationProps) => (
@@ -21,7 +19,6 @@ export const TestNavigation = ({
     <Button
       variant="outline"
       onClick={onPrevious}
-      disabled={currentGroupIndex === 0 || isChangeable}
       className="gap-2"
     >
       <ChevronLeft className="h-4 w-4" /> Previous Group

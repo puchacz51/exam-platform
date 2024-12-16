@@ -23,7 +23,7 @@ export const DateTimeSection = () => {
     useFormContext<TestAccessFormValues>();
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 flex-wrap">
       <FormField
         control={control}
         name="startsAt"
@@ -58,7 +58,7 @@ export const DateTimeSection = () => {
                   <FormControl>
                     <Input
                       type="time"
-                      className="w-[120px]"
+                      className="sm:w-[120px]"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e.target.value);
@@ -115,7 +115,7 @@ export const DateTimeSection = () => {
                   <FormControl>
                     <Input
                       type="time"
-                      className="w-[120px]"
+                      className="sm:w-[120px]"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e.target.value);

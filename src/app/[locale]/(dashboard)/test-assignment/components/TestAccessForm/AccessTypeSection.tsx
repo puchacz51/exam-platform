@@ -48,14 +48,14 @@ export const AccessTypeSection = ({
               <SelectContent>
                 <SelectItem value="CODE">Access Code</SelectItem>
                 <SelectItem value="GROUP">Group Access</SelectItem>
-                <SelectItem value="EMAIL">Email Access</SelectItem>
+                <SelectItem value="EMAIL">Access Code + Group</SelectItem>
               </SelectContent>
             </Select>
           </FormItem>
         )}
       />
 
-      {accessType === 'CODE' && (
+      {accessType !== 'GROUP' && (
         <FormField
           control={control}
           name="accessCode"
@@ -73,7 +73,7 @@ export const AccessTypeSection = ({
         />
       )}
 
-      {accessType === 'GROUP' && (
+      {accessType !== 'CODE' && (
         <div className="mt-4">
           <MultiGroupSelection initialGroups={initialGroups || []} />
         </div>

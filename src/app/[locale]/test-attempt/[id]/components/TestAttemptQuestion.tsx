@@ -12,12 +12,9 @@ import { prepareFormSubmission } from '@/utils/formSubmissionUtils';
 import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AnswerInput } from '@/types/answers/testAttemptAnswers';
+import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
 
-import {
-  GroupFlowResponse,
-  QuestionFlowResponse,
-} from '../../../../../../types/attempt';
+import { QuestionFlowResponse } from '../../../../../../types/attempt';
 
 interface TestAttemptGroupsProps {
   userAttemptFlow: QuestionFlowResponse;
@@ -41,7 +38,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
       questions:
-        prepareQuestionToForm(questionsGroups[0]?.questions || [], {
+        prepareQuestionToAttempt(questionsGroups[0]?.questions || [], {
           attemptId,
         }) || [],
     },
@@ -64,14 +61,13 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     const formattedAnswers = prepareFormSubmission(data, attemptId);
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
-    console.log('onSubmit', result);
+
     const questionPoints =
       !!result.data &&
       'points' in result.data &&
       result.data.points.find(
         (point) => point.questionId === currentQuestionId
       );
-    console.log('questionPoints', questionPoints);
 
     if (questionPoints) {
       setValue(`questions.${currentQuestionId}.points`, questionPoints.points);
@@ -142,108 +138,3 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
 };
 
 export default TestAttemptQuestion;
-
-const prepareQuestionToForm = (
-  questions: GroupFlowResponse['questionsGroups'][number]['questions'],
-  { attemptId }: { attemptId: string }
-) =>
-  questions.reduce(
-    (acc, question) => {
-      if (question.questionType === 'ORDER') {
-        acc[question.id] = {
-          type: 'ORDER',
-          questionId: question.id,
-          attemptId: attemptId,
-          points: null,
-          items:
-            question.orderItems.map((item) => ({
-              id: item.id,
-              position: item.order,
-              order: item.order,
-              text: item.text,
-              questionId: question.id,
-            })) || [],
-        };
-      }
-
-      if (question.questionType === 'MATCHING') {
-        acc[question.id] = {
-          type: 'MATCHING',
-          questionId: question.id,
-          attemptId,
-          points: null,
-          pairs:
-            question.matchingPairs.map((pair) => ({
-              key: pair.key,
-              value: pair.value,
-              id: pair.id,
-              questionId: question.id,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'SINGLE_CHOICE' ||
-        question.questionType === 'MULTIPLE_CHOICE'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          points: null,
-          answers:
-            question.answers.map((answer) => ({
-              answerId: answer.id,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'NUMERIC' ||
-        question.questionType === 'NUMERIC_GROUP'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          points: null,
-          answers:
-            question.GSQ.map((answer) => ({
-              subQuestionId: answer.id,
-              value: answer.numericAnswer,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'BOOLEAN_GROUP' ||
-        question.questionType === 'BOOLEAN'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          points: null,
-          answers: question.GSQ.map((subQuestion) => ({
-            subQuestionId: subQuestion.id,
-            booleanAnswer: subQuestion.booleanAnswer,
-          })),
-        };
-      }
-
-      if (question.questionType === 'OPEN') {
-        acc[question.id] = {
-          type: 'OPEN',
-          questionId: question.id,
-          points: null,
-          attemptId,
-          answer: {
-            text: '',
-          },
-        };
-      }
-
-      return acc;
-    },
-    {} as Record<string, AnswerInput>
-  );

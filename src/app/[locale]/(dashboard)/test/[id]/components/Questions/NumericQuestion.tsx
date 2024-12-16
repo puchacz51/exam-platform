@@ -30,7 +30,7 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
   const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { setValue, watch } = useFormContext<TestAttemptFormDataNumeric>();
-
+  console.log('watch(fieldKey)', question);
   const handleInputChange = (value: string) => {
     setValue(fieldKey, [{ subQuestionId: GSQ[0].id, value: Number(value) }]);
   };
@@ -53,10 +53,8 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
         value={answerValue}
         onChange={(e) => mode === 'solve' && handleInputChange(e.target.value)}
       />
-      {!!tolerance && (
-        <div className="space-y-1 text-sm text-muted-foreground">
-          <p>Tolerance range: ±{tolerance}</p>
-        </div>
+      {tolerance && (
+        <p className="text-sm text-muted-foreground">Tolerance: ±{tolerance}</p>
       )}
     </div>
   );

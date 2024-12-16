@@ -92,7 +92,10 @@ export const AiQuestionGenerator = () => {
     try {
       const { data: questions, error } = await generateQuestions(data);
       if (!!questions) {
-        setAiQuestions(questions as Question[]);
+        setAiQuestions((prev) => [
+          ...(questions as Question[]),
+          ...(prev || []),
+        ]);
         setValue('step', 'configure');
       }
 

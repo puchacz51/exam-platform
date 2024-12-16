@@ -122,52 +122,6 @@ const TestCreatorTestDisplay: FC = () => {
       <div className="space-y-4">
         <FormField
           control={form.control}
-          name="settings.showProgressBar"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż pasek postępu
-                </FormLabel>
-                <FormDescription>
-                  Wyświetlaj postęp rozwiązywania testu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.showTimeRemaining"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż pozostały czas
-                </FormLabel>
-                <FormDescription>
-                  Wyświetlaj licznik pozostałego czasu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="settings.showQuestionPoints"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">

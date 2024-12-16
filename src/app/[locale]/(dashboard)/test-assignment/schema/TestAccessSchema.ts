@@ -17,8 +17,6 @@ export const testAccessFormSchema = z
         (val) => !val || val >= 1,
         'Time limit must be at least 1 minute'
       ),
-    requiresRegistration: z.boolean().default(true),
-    showResultsAfterSubmission: z.boolean().default(true),
   })
   .superRefine((data, ctx) => {
     if (!data.endsAt) return true;

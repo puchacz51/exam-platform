@@ -81,8 +81,15 @@ export const MultiGroupSelection = ({
                     )}
                   >
                     <div
+                      tabIndex={-1}
+                      role="button"
                       className="flex-1"
-                      onClick={() => toggleGroup(group.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        toggleGroup(group.id);
+                      }}
                     >
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium">{group.name}</h4>
@@ -118,6 +125,7 @@ export const MultiGroupSelection = ({
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
+                        e.preventDefault();
                         setSelectedGroupForMembers({
                           id: group.id,
                           name: group.name,

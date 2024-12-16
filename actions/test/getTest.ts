@@ -31,7 +31,6 @@ export async function getTest(testId: string, options: GetTestOptions = {}) {
                     id: true,
                     text: true,
                     points: true,
-                    isPublic: true,
                   },
                   with: {
                     ...(includeAnswers && {

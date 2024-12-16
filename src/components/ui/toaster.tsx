@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode } from 'react';
 
 import {
   Toast,
@@ -18,17 +18,13 @@ interface ToastProps {
 
 export const ToastCustomProvider: FC<ToastProps> = ({ children }) => {
   const { toasts } = useToast();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   return (
     <ToastProvider>
-      {children}
-      {isClient &&
-        toasts.map(function ({ id, title, description, action, ...props }) {
+      <>
+        <ToastViewport />
+        {children}
+        {toasts.map(function ({ id, title, description, action, ...props }) {
           return (
             <Toast
               key={id}
@@ -45,7 +41,7 @@ export const ToastCustomProvider: FC<ToastProps> = ({ children }) => {
             </Toast>
           );
         })}
-      <ToastViewport />
+      </>
     </ToastProvider>
   );
 };

@@ -58,7 +58,7 @@ export interface TestState extends TestProps {
     questionGroups: Updater<TestCreatorQuestionGroup[]>
   ) => void;
   setIsSortFormOpen: (isOpen: Updater<boolean>) => void;
-  setAiQuestions: (questions: Question[] | null) => void;
+  setAiQuestions: (questions: Updater<Question[] | null>) => void;
   clearAiQuestions: () => void;
   setIsAiGeneratorOpen: (isOpen: Updater<boolean>) => void;
 }
@@ -74,14 +74,11 @@ const DEFAULT_PROPS: TestProps = {
       allowPartialPoints: true,
       shuffleQuestionsInGroup: false,
       shuffleAnswers: false,
-      showProgressBar: true,
-      showTimeRemaining: true,
       showQuestionPoints: true,
       showCorrectAnswers: false,
       showPointsPerQuestion: true,
       showFinalScore: true,
       questionDisplayMode: 'GROUP',
-      navigationMode: 'ANSWER_LOCK',
     },
   },
   questionGroups: [],
@@ -254,7 +251,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
     setAiQuestions: (questions) =>
       set((prev) => ({
         ...prev,
-        aiQuestions: questions,
+        aiQuestions: applyUpdater(prev.aiQuestions, questions),
       })),
 
     clearAiQuestions: () =>

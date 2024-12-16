@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils';
 import TestAccessListHeader from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessListHeader';
 import { Link } from '@/i18n/routing';
 
-// const ITEMS_PER_PAGE = 10;
 interface TestAccessListProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {

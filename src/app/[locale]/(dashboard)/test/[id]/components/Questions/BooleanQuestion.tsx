@@ -30,12 +30,13 @@ const BooleanQuestion: FC<BooleanQuestionProps> = ({
   const { id } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { setValue, watch } = useFormContext<TestAttemptFormDataBoolean>();
-
   const selectedValue =
     mode === 'solve'
       ? watch(fieldKey)?.[0]?.value?.toString()
-      : 'booleanAnswer' in question
-        ? question.booleanAnswer?.toString()
+      : 'answers' in question
+        ? 'isCorrect' in question.answers[0]
+          ? question.answers[0].isCorrect?.toString()
+          : undefined
         : undefined;
 
   const handleRadioChange = (value: string) => {

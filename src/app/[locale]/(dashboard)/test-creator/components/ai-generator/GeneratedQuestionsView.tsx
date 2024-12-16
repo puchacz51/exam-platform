@@ -32,6 +32,7 @@ export const GeneratedQuestionsView = ({
 }: GeneratedQuestionsViewProps) => {
   const form = useFormContext<AiGeneratorFormData>();
   const questions = useTestContext((state) => state.aiQuestions);
+  const setAiQuestion = useTestContext((state) => state.setAiQuestions);
 
   const selectedGroupId = form.watch('selectedGroupId');
   const selectedQuestionIds = form.watch('selectedQuestionIds');
@@ -75,8 +76,18 @@ export const GeneratedQuestionsView = ({
       ];
     });
 
+    setAiQuestion((prev) =>
+      (prev || [])?.filter((q) => !selectedQuestionIds.includes(q.id))
+    );
+
     form.setValue('selectedQuestionIds', []);
   }, [selectedGroupId, selectedQuestionIds, questions, form]);
+
+  const handleReject = useCallback(() => {
+    setAiQuestion((prev) =>
+      (prev || []).filter((q) => !selectedQuestionIds.includes(q.id))
+    );
+  }, [form]);
 
   const handleGroupChange = useCallback(
     (groupId: string) => {
@@ -112,6 +123,7 @@ export const GeneratedQuestionsView = ({
           </Select>
           <div className="flex gap-2">
             <Button
+              onClick={handleReject}
               type="button"
               variant="outline"
               size="sm"

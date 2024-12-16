@@ -19,8 +19,19 @@ export async function createAnswer(
   }
 
   const {
-    testAccess: { test },
+    testAccess: { test, timeLimit },
   } = userAttempt;
+  const { finishedAt, startedAt } = userAttempt;
+  if (finishedAt) {
+    return { data: null, error: 'Test is finished' };
+  }
+
+  if (
+    timeLimit &&
+    Date.now() > new Date(startedAt).getTime() + timeLimit * 60 * 1000
+  ) {
+    return { data: null, error: 'Time is over' };
+  }
 
   const questions = test.QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
   const calculatedPoints = calculatePoints({

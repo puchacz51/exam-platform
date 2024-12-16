@@ -12,7 +12,7 @@ import { prepareFormSubmission } from '@/utils/formSubmissionUtils';
 import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AnswerInput } from '@/types/answers/testAttemptAnswers';
+import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
 
 import { GroupFlowResponse } from '../../../../../../types/attempt';
 
@@ -40,15 +40,17 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
       questions:
-        prepareQuestionToForm(currentGroup?.questions || [], { attemptId }) ||
-        [],
+        prepareQuestionToAttempt(currentGroup?.questions || [], {
+          attemptId,
+        }) || [],
     },
     mode: 'onChange',
   });
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isSubmitted },
+    setValue,
   } = methods;
 
   const moveToQuestionGroup = (questionId: string) => {
@@ -62,10 +64,17 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
 
-    if (!result.error) {
-      if (nextGroupId) {
-        moveToQuestionGroup(nextGroupId);
-      }
+    const points =
+      !!result.data && 'points' in result.data && result.data.points;
+
+    if (points) {
+      points.forEach((point) => {
+        if (currentGroup?.questions.some((q) => q.id === point.questionId)) {
+          setValue(`questions.${point.questionId}.points`, point.points);
+        }
+
+        setValue(`questions.${point.questionId}.points`, point.points);
+      });
     }
   };
 
@@ -106,13 +115,26 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                   Go back
                 </Button>
               )}
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-6"
-              >
-                {nextGroupId ? 'Next' : 'Submit'}
-              </Button>
+              {isSubmitted ? (
+                <Button
+                  type="button"
+                  onClick={() =>
+                    nextGroupId && moveToQuestionGroup(nextGroupId)
+                  }
+                  disabled={isSubmitting}
+                  className="px-6"
+                >
+                  {nextGroupId ? 'next group' : 'show results'}
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6"
+                >
+                  {nextGroupId ? 'Submit Question' : 'Submit Test'}
+                </Button>
+              )}
             </div>
           </form>
         </Card>
@@ -123,102 +145,3 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
 };
 
 export default TestAttemptGroups;
-
-const prepareQuestionToForm = (
-  questions: GroupFlowResponse['questionsGroups'][number]['questions'],
-  { attemptId }: { attemptId: string }
-) =>
-  questions.reduce(
-    (acc, question) => {
-      if (question.questionType === 'ORDER') {
-        acc[question.id] = {
-          type: 'ORDER',
-          questionId: question.id,
-          attemptId: attemptId,
-          items:
-            question.orderItems.map((item) => ({
-              id: item.id,
-              position: item.order,
-              order: item.order,
-              text: item.text,
-              questionId: question.id,
-            })) || [],
-        };
-      }
-
-      if (question.questionType === 'MATCHING') {
-        acc[question.id] = {
-          type: 'MATCHING',
-          questionId: question.id,
-          attemptId,
-          pairs:
-            question.matchingPairs.map((pair) => ({
-              key: pair.key,
-              value: pair.value,
-              id: pair.id,
-              questionId: question.id,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'SINGLE_CHOICE' ||
-        question.questionType === 'MULTIPLE_CHOICE'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          answers:
-            question.answers.map((answer) => ({
-              answerId: answer.id,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'NUMERIC' ||
-        question.questionType === 'NUMERIC_GROUP'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          answers:
-            question.GSQ.map((answer) => ({
-              subQuestionId: answer.id,
-              value: answer.numericAnswer,
-            })) || [],
-        };
-      }
-
-      if (
-        question.questionType === 'BOOLEAN_GROUP' ||
-        question.questionType === 'BOOLEAN'
-      ) {
-        acc[question.id] = {
-          type: question.questionType,
-          questionId: question.id,
-          attemptId,
-          answers: question.GSQ.map((subQuestion) => ({
-            subQuestionId: subQuestion.id,
-            booleanAnswer: subQuestion.booleanAnswer,
-          })),
-        };
-      }
-
-      if (question.questionType === 'OPEN') {
-        acc[question.id] = {
-          type: 'OPEN',
-          questionId: question.id,
-          attemptId,
-          answer: {
-            text: '',
-          },
-        };
-      }
-
-      return acc;
-    },
-    {} as Record<string, AnswerInput>
-  );

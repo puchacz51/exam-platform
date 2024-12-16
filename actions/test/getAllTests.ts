@@ -33,7 +33,6 @@ export const getAllUserTests = async (page: number = 1, limit: number = 10) => {
                       id: true,
                       text: true,
                       points: true,
-                      isPublic: true,
                     },
                     with: {
                       orderItems: {

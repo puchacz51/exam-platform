@@ -4,18 +4,12 @@ import { relations } from 'drizzle-orm';
 import { testsTable } from '@schema/test';
 import { groupSettingsTable } from '@schema/groupSettings';
 
-export const navigationModeEnum = pgEnum('navigation_mode', [
-  'GROUP_LOCK',
-  'ANSWER_LOCK',
-]);
-
 export const scoringSystemEnum = pgEnum('scoring_system', [
   'STANDARD',
   'NEGATIVE',
 ]);
 
 export const questionDisplayModeEnum = pgEnum('question_display_mode', [
-  'ALL',
   'GROUP',
   'SINGLE',
 ]);
@@ -26,7 +20,6 @@ export const testSettingsTable = pgTable('test_settings', {
     onDelete: 'cascade',
   }),
 
-  navigationMode: navigationModeEnum('navigation_mode').notNull(),
   allowGoBack: boolean('allow_go_back').default(true),
 
   scoringSystem: scoringSystemEnum('scoring_system').notNull(),
@@ -38,8 +31,6 @@ export const testSettingsTable = pgTable('test_settings', {
   shuffleQuestionsInGroup: boolean('shuffle_questions_in_group').default(false),
   shuffleAnswers: boolean('shuffle_answers').default(true),
 
-  showProgressBar: boolean('show_progress_bar').default(true),
-  showTimeRemaining: boolean('show_time_remaining').default(true),
   showQuestionPoints: boolean('show_question_points').default(true),
 
   showCorrectAnswers: boolean('show_correct_answers').default(false),

@@ -1,19 +1,17 @@
 'use server';
 
 import { getUserAttemptWithTestSettings } from '@actions/attempt/getUserAttempt';
-
 import {
-  handleAnswerLockWithBackNavigation,
-  handleGroupLockWithBackNavigation,
-  handleGroupLockWithoutBack,
-} from './navigationHandlers';
+  handleGroupNavigation,
+  handleQuestionNavigation,
+} from '@actions/attempt/navigationHandlers';
+
 import { NavOptions } from '../../types/attempt';
 
 export const getUserAttemptFlow = async (
   testAccessId: string,
   navOptions?: NavOptions
 ) => {
-  console.log('getUserAttemptFlow', testAccessId, navOptions);
   const userAttemptWithTestSettings =
     await getUserAttemptWithTestSettings(testAccessId);
   const { data: userAttempt, error } = userAttemptWithTestSettings;
@@ -35,27 +33,14 @@ export const getUserAttemptFlow = async (
   // }
 
   const { settings, QG } = testAccess.test;
-  const { navigationMode, allowGoBack } = settings;
-  if (allowGoBack) {
-    if (navigationMode === 'GROUP_LOCK') {
-      return handleGroupLockWithBackNavigation(
-        navOptions?.groupId,
-        QG,
-        userAttempt
-      );
-    }
+  const { questionDisplayMode } = settings;
 
-    if (navigationMode === 'ANSWER_LOCK') {
-      return handleAnswerLockWithBackNavigation(
-        navOptions?.questionId,
-        QG,
-        userAttempt
-      );
-    }
+  if (questionDisplayMode === 'GROUP') {
+    return handleGroupNavigation(navOptions?.groupId, QG, userAttempt);
   }
 
-  if (navigationMode === 'GROUP_LOCK') {
-    return handleGroupLockWithoutBack(QG, userAttempt);
+  if (questionDisplayMode === 'SINGLE') {
+    return handleQuestionNavigation(navOptions?.questionId, QG, userAttempt);
   }
 
   return { data: null, error: 'Unsupported navigation mode' };

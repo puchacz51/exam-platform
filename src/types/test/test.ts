@@ -12,7 +12,7 @@ export type CompleteQuestion = SelectQuestion & {
   answers?: SelectAnswer[];
   matchingPairs?: SelectMatchingPair[];
   orderItems?: SelectOrderItem[];
-  groupSubQuestions?: SelectGroupSubQuestion[];
+  GSQ?: SelectGroupSubQuestion[];
 };
 
 export type CompleteQuestionGroup = SelectQuestionGroup & {

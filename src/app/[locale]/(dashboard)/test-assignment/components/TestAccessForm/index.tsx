@@ -25,7 +25,6 @@ import {
 import { AccessTypeSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/AccessTypeSection';
 import { DateTimeSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/DateTimeSection';
 import { LimitsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/LimitsSection';
-import { OptionsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/OptionsSection';
 import { Group } from '@/types/group/group';
 import { TestPreview } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TestPreview';
 import { createTestAssignmentAction } from '@actions/test-assigment/createTestAssignment';
@@ -58,8 +57,6 @@ export const TestAccessForm = ({
       endsAt: new Date(Date.now() + 86400000),
       startTime: '00:00',
       endTime: '23:59',
-      requiresRegistration: true,
-      showResultsAfterSubmission: true,
     },
   });
 
@@ -86,6 +83,7 @@ export const TestAccessForm = ({
         description: 'Test assignment created successfully',
       });
       router.refresh();
+      methods.reset();
     } else {
       toast({
         variant: 'destructive',
@@ -134,7 +132,6 @@ export const TestAccessForm = ({
                   <AccessTypeSection initialGroups={initialGroups || []} />
                   <DateTimeSection />
                   <LimitsSection />
-                  <OptionsSection />
                   <Button type="submit">Save Settings</Button>
                   {selectedTest && <TestPreview test={selectedTest} />}
                 </div>

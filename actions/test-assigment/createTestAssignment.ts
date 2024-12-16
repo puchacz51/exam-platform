@@ -22,7 +22,6 @@ async function createTestAssignment(
         startsAt: data.startsAt,
         endsAt: data.endsAt,
         timeLimit: data.timeLimit,
-        showResultsAfterSubmission: data.showResultsAfterSubmission,
       })
       .returning();
 

@@ -46,25 +46,19 @@ async function createTest(
       })
       .returning();
 
-
-    // Create test settings (unchanged)
     await tx.insert(testSettingsTable).values({
       testId: createdTest.id,
-      navigationMode: test.settings.navigationMode,
       allowGoBack: test.settings.allowGoBack,
       scoringSystem: test.settings.scoringSystem,
       allowPartialPoints: test.settings.allowPartialPoints,
       questionDisplayMode: test.settings.questionDisplayMode,
       shuffleQuestionsInGroup: test.settings.shuffleQuestionsInGroup,
       shuffleAnswers: test.settings.shuffleAnswers,
-      showProgressBar: test.settings.showProgressBar,
-      showTimeRemaining: test.settings.showTimeRemaining,
       showQuestionPoints: test.settings.showQuestionPoints,
       showCorrectAnswers: test.settings.showCorrectAnswers,
       showPointsPerQuestion: test.settings.showPointsPerQuestion,
       showFinalScore: test.settings.showFinalScore,
     });
-
 
     const groupInserts: InsertQuestionGroup[] = [];
     const questionInserts: InsertQuestion[] = [];
@@ -93,7 +87,6 @@ async function createTest(
         questionInserts.push({
           text: question.text,
           questionType: question.questionType as 'OPEN',
-          isPublic: question.isPublic,
           categoryId: question.categoryId,
           points: question.points,
         });

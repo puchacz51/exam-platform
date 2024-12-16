@@ -75,7 +75,6 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       ...question,
       id: nanoid(),
       categoryId: category.id,
-      isPublic: true,
     }));
 
     const validateQuestions = questionsWithIds.filter((question, index) => {

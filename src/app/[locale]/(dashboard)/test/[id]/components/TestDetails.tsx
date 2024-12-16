@@ -16,16 +16,7 @@ const BooleanIndicator = ({ value }: { value: boolean }) =>
 
 export const TestDetails = ({ settings }: TestDetailsProps) => {
   const settingGroups = [
-    {
-      title: 'Navigation Settings',
-      settings: [
-        { label: 'Navigation Mode', value: settings.navigationMode },
-        {
-          label: 'Allow Going Back',
-          value: <BooleanIndicator value={!!settings.allowGoBack} />,
-        },
-      ],
-    },
+
     {
       title: 'Scoring Settings',
       settings: [

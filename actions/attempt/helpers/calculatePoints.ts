@@ -174,7 +174,7 @@ const calculateNumericAccuracy = (
   question: CompleteQuestion,
   answer: NumericGroupAnswerInput
 ) => {
-  const correctAnswers = question.groupSubQuestions || [];
+  const correctAnswers = question.GSQ || [];
   const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
     return (
@@ -182,7 +182,7 @@ const calculateNumericAccuracy = (
       (a.tolerance || 0)
     );
   }).length;
-  const total = question.groupSubQuestions?.length || 0;
+  const total = question.GSQ?.length || 0;
 
   return {
     correct: correctCount,
@@ -195,9 +195,20 @@ const calculateBooleanAccuracy = (
   question: CompleteQuestion,
   answer: BooleanGroupAnswerInput
 ) => {
-  console.log('question', question);
-  console.log('answer', answer);
-  const subQuestions = question.groupSubQuestions || [];
+  if (question.questionType === 'BOOLEAN') {
+    const correctAnswer = !!question?.answers?.[0]?.isCorrect;
+    const userAnswer = !!answer.answers[0]?.value;
+    const correctCount = correctAnswer === userAnswer ? 1 : 0;
+    const total = 1;
+
+    return {
+      correct: correctCount,
+      incorrect: total - correctCount,
+      total,
+    };
+  }
+
+  const subQuestions = question.GSQ || [];
   const total = subQuestions.length || 1;
   let correctCount = 0;
   let incorrectCount = 0;
@@ -213,7 +224,6 @@ const calculateBooleanAccuracy = (
         incorrectCount += 1;
       }
     } else {
-      // If no answer provided, consider it incorrect
       incorrectCount += 1;
     }
   });

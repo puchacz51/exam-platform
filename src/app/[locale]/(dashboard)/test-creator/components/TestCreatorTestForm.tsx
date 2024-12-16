@@ -66,39 +66,39 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
           onValueChange={setActiveTab}
           className="w-full"
         >
-          <div className="relative mb-4 sm:mb-6">
-            <TabsList className="flex h-max w-full snap-x snap-mandatory gap-2 overflow-x-auto [&>*]:flex-shrink-0">
+          <div className="relative mx-auto mb-4 w-full overflow-x-auto sm:mb-6">
+            <TabsList className="flex h-max w-max items-center gap-2 xl:w-full xl:justify-center [&>*]:flex-shrink-0">
               <TabsTrigger
                 value="basic"
-                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+                className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Settings2 className="h-5 w-5" />
                 <span className="text-base">Podstawowe</span>
               </TabsTrigger>
               <TabsTrigger
                 value="navigation"
-                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+                className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Layout className="h-5 w-5" />
                 <span className="text-base">Nawigacja</span>
               </TabsTrigger>
               <TabsTrigger
                 value="scoring"
-                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+                className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Medal className="h-5 w-5" />
                 <span className="text-base">Punktacja</span>
               </TabsTrigger>
               <TabsTrigger
                 value="display"
-                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+                className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Eye className="h-5 w-5" />
                 <span className="text-base">Wyświetlanie</span>
               </TabsTrigger>
               <TabsTrigger
                 value="results"
-                className="flex min-w-[180px] items-center justify-start gap-2 rounded-lg px-4 py-3"
+                className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Save className="h-5 w-5" />
                 <span className="text-base">Wyniki</span>

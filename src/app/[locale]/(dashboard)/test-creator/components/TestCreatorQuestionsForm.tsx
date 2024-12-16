@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -144,30 +143,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
         />
       </div>
 
-      <FormField
-        control={control}
-        name="isPublic"
-        render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-                className="data-[state=checked]:bg-blue-500"
-              />
-            </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel className="text-sm font-medium text-gray-700">
-                Public Question
-              </FormLabel>
-              <FormDescription className="text-xs text-gray-500">
-                Check if this question should be publicly available
-              </FormDescription>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+
 
       <FormField
         control={form.control}

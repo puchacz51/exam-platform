@@ -23,7 +23,6 @@ import { QuestionType } from '@/types/test-creator/answers';
 
 const initialQuestion = {
   text: '',
-  isPublic: false,
   points: 1,
 };
 interface TestCreatorQuestionsFormProps

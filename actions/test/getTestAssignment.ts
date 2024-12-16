@@ -23,7 +23,6 @@ export async function getTestAssignment(id: string) {
         startsAt: true,
         endsAt: true,
         timeLimit: true,
-        showResultsAfterSubmission: true,
       },
       with: {
         TAGroup: {

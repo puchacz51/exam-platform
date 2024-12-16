@@ -31,7 +31,6 @@ export const questionsTable = pgTable('questions', {
   id: uuid('id').primaryKey().defaultRandom(),
   text: text('text').notNull(),
   questionType: questionTypeEnum('question_type').notNull(),
-  isPublic: boolean('is_public').default(false),
   categoryId: uuid('category_id').references(() => categoriesTable.id),
   points: real('points').notNull().default(1),
 });

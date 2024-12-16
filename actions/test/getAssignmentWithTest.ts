@@ -25,7 +25,6 @@ export async function getAssignmentWithTest(id: string) {
         accessType: true,
         endsAt: true,
         timeLimit: true,
-        showResultsAfterSubmission: true,
         startsAt: true,
       },
       with: {
@@ -136,12 +135,9 @@ export async function getAssignmentWithTest(id: string) {
       0
     );
 
-    const isAllQuestionsAnswered =
-      totalAnsweredQuestions === questionGroups.flat().length;
     const groupLength = questionGroups.length;
     const isNoMoreQuestionsToAnswer = checkIfNoMoreQuestions(
       totalAnsweredQuestions,
-      isAllQuestionsAnswered,
       questionDisplayMode,
       groupLength
     );
@@ -178,4 +174,3 @@ export async function getAssignmentWithTest(id: string) {
 export type AssignmentWithTest = Awaited<
   ReturnType<typeof getAssignmentWithTest>
 >;
-

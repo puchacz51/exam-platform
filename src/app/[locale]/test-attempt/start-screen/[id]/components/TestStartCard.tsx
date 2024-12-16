@@ -41,7 +41,7 @@ export const TestStartCard = ({
     if (data) {
       router.replace({
         pathname: '/test-attempt/[id]',
-        params: { id: data.id },
+        params: { id: data.testAccessId },
       });
     }
   };

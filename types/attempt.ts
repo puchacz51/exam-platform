@@ -19,6 +19,7 @@ export type GroupFlowResponse = {
   currentQuestionId: null;
   nextGroupId: string | null;
   previousGroupId?: string | null;
+  userAttemptAnswers: any;
 };
 
 export type QuestionFlowResponse = {
@@ -30,6 +31,7 @@ export type QuestionFlowResponse = {
   currentQuestionId: string;
   nextQuestionId: string | null;
   previousQuestionId: string | null;
+  userAttemptAnswers: any;
 };
 
 export type FlowResponse = GroupFlowResponse | QuestionFlowResponse;

@@ -6,7 +6,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Ile to jest 5 + 3?',
     questionType: 'NUMERIC',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 1,
     correctAnswer: 8,
@@ -15,7 +15,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Wybierz poprawną odpowiedź: 12 * 3 = ?',
     questionType: 'SINGLE_CHOICE',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 1,
     answers: [
@@ -29,7 +29,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Czy liczba 17 jest liczbą pierwszą?',
     questionType: 'BOOLEAN',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 1,
     correctAnswer: true,
@@ -38,7 +38,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Ułóż liczby w kolejności rosnącej: 4, 2, 9, 7',
     questionType: 'ORDER',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 2,
     orderItems: [
@@ -52,7 +52,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Odpowiedz na pytanie: Ile wynosi pierwiastek kwadratowy z 81?',
     questionType: 'OPEN',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 1,
     answers: [{ id: generateId(), text: '9' }],
@@ -61,7 +61,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Które z poniższych są liczbami parzystymi?',
     questionType: 'MULTIPLE_CHOICE',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 2,
     answers: [
@@ -75,7 +75,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Uporządkuj struktury danych od najmniej do najbardziej złożonej:',
     questionType: 'ORDER',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 2,
     orderItems: [
@@ -89,7 +89,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Oceń prawdziwość stwierdzeń o tablicach:',
     questionType: 'BOOLEAN_GROUP',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 3,
     subQuestions: [
@@ -117,7 +117,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Ile elementów mogą przechowywać następujące struktury (podaj maksymalną liczbę)?',
     questionType: 'NUMERIC_GROUP',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 4,
     subQuestions: [
@@ -146,7 +146,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Podaj złożoność przestrzenną algorytmu rekurencyjnego liczenia silni:',
     questionType: 'NUMERIC',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 2,
     correctAnswer: 1,
@@ -156,7 +156,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Zaznacz wszystkie algorytmy sortowania stabilnego:',
     questionType: 'MULTIPLE_CHOICE',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 3,
     answers: [
@@ -170,7 +170,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Oceń złożoność czasową następujących operacji:',
     questionType: 'BOOLEAN_GROUP',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 3,
     subQuestions: [
@@ -198,7 +198,7 @@ export const mathTest: TestCreatorQuestion[] = [
     id: generateId(),
     text: 'Dopasuj opis do odpowiedniego operatora:',
     questionType: 'MATCHING',
-    isPublic: true,
+
     categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
     points: 3,
     matchingPairs: [
