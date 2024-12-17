@@ -2,21 +2,21 @@ import { NextResponse } from 'next/server';
 
 import { Middleware } from '@/types/middlewares/middlewareChain';
 import { getPathname } from '@/i18n/routing';
-
+const APP_URL = process.env.NEXT_PUBLIC_URL;
 export const profileCompletionMiddleware: Middleware = async (context) => {
   const completeProfileUrl = getPathname({
-    locale: context.locale || 'pl',
+    locale: 'pl',
     href: '/complete-registration',
   });
-
   if (!context.auth?.user) return context;
 
-
   if (context.auth?.user?.profileNeedsCompletion) {
-    if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl)) {
-      const confirmPath = context.req.nextUrl.clone();
-      const confirmUrl = new URL(confirmPath.pathname, context.req.url);
-
+    if (!context.req.nextUrl.pathname.includes(completeProfileUrl)) {
+      const confirmUrl = APP_URL + completeProfileUrl;
+      console.log(
+        'confirmUrl',
+        context.req.nextUrl.pathname
+      );
       return { ...context, res: NextResponse.redirect(confirmUrl) };
     }
 

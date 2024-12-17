@@ -27,7 +27,7 @@ export const GoogleProvider = Google({
         })
         .returning()
         .execute();
-
+      console.log('newUser, tokens', newUser, tokens);
       return {
         authProvider: 'google',
         createdAt: newUser.createdAt,

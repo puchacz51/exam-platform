@@ -12,10 +12,6 @@ const AlternativeSignUpMethods: FC = () => {
     signIn('azure-ad', { callbackUrl: '/dashboard' });
   };
 
-  const handleUSOSSignUp = () => {
-    signIn('usos', { callbackUrl: '/dashboard' });
-  };
-
   const handleGoogleSignUp = () => {
     signIn('google', { callbackUrl: '/dashboard' });
   };
@@ -39,12 +35,6 @@ const AlternativeSignUpMethods: FC = () => {
           onClick={handleMicrosoftSignUp}
         >
           {t('alternativeMethods.microsoft')}
-        </Button>
-        <Button
-          variant="outline"
-          onClick={handleUSOSSignUp}
-        >
-          {t('alternativeMethods.usos')}
         </Button>
         <Button
           variant="outline"
