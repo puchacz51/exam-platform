@@ -34,12 +34,14 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     nextQuestionId,
     previousQuestionId,
     currentQuestionId,
+    userAttemptAnswers,
   } = userAttemptFlow;
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
       questions:
         prepareQuestionToAttempt(questionsGroups[0]?.questions || [], {
           attemptId,
+          userAttemptAnswers,
         }) || [],
     },
     mode: 'onChange',
