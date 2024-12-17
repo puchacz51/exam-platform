@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { auth } from '@/next-auth/auth';
@@ -28,10 +28,16 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
                       with: {
                         question: {
                           with: {
-                            GSQ: true,
+                            GSQ: {
+                              orderBy: sql`Random()`,
+                            },
                             matchingPairs: true,
-                            answers: true,
-                            orderItems: true,
+                            answers: {
+                              orderBy: sql`Random()`,
+                            },
+                            orderItems: {
+                              orderBy: sql`Random()`,
+                            },
                           },
                         },
                       },
@@ -72,6 +78,7 @@ export type UserAttemptResponse = Awaited<
 export type UserAttempt = NonNullable<UserAttemptResponse['data']>;
 export type QG = UserAttempt['testAccess']['test']['QG'][0];
 export type TestSettings = UserAttempt['testAccess']['test']['settings'];
+export type UserAttemptAnswers = UserAttempt['answers'];
 export type QuestionGroups = {
   id: string;
   questions: UserAttempt['testAccess']['test']['QG'][number]['qOnQG'][number]['question'][];

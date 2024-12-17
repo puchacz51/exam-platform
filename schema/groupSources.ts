@@ -1,6 +1,7 @@
 import { pgEnum, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { groupsTable } from './groups';
+
+import { groupsTable } from '@schema/groups';
 
 export const groupSourceTypeEnum = pgEnum('group_source_type', [
   'INTERNAL',

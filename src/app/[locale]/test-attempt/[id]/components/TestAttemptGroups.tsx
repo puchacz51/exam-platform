@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
+import { useRouter as useI18Router } from '@/i18n/routing';
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 import { Question } from '@/types/questions';
 import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
@@ -13,6 +14,7 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
+import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
 
 import { GroupFlowResponse } from '../../../../../../types/attempt';
 
@@ -24,15 +26,16 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
+  const i18nRouter = useI18Router();
   const testAssignmentId = params.id as string;
   const { allowGoBack } = userAttemptFlow?.testSettings;
-
   const {
     currentGroupId,
     questionsGroups,
     attemptId,
     nextGroupId,
     previousGroupId,
+    userAttemptAnswers,
   } = userAttemptFlow;
   const currentGroup = questionsGroups.find(
     (group) => group.id === currentGroupId
@@ -42,6 +45,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
       questions:
         prepareQuestionToAttempt(currentGroup?.questions || [], {
           attemptId,
+          userAttemptAnswers,
         }) || [],
     },
     mode: 'onChange',
@@ -57,6 +61,18 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
     router.replace(`${pathname}?groupId=${questionId}`, {
       scroll: false,
     });
+  };
+
+  const endTest = async () => {
+    const { data, error } = await setAttemptPoints(attemptId);
+    console.log(data);
+    console.log(error);
+    if (data) {
+      i18nRouter.replace({
+        params: { id: attemptId },
+        pathname: '/test-attempt/[id]/score',
+      });
+    }
   };
 
   const onSubmit = async (data: TestAttemptFormData) => {
@@ -135,6 +151,13 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                   {nextGroupId ? 'Submit Question' : 'Submit Test'}
                 </Button>
               )}
+
+              <Button
+                type="button"
+                onClick={endTest}
+              >
+                end test
+              </Button>
             </div>
           </form>
         </Card>

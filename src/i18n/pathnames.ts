@@ -58,6 +58,10 @@ export const protectedPathnames = {
     en: '/test-attempt/[id]',
     pl: '/podejscie-do-testu/[id]',
   },
+  '/test-attempt/[id]/score': {
+    en: '/score/[id]',
+    pl: '/wynik-testu/[id]',
+  },
   '/test-assignment': {
     en: '/test-assignment',
     pl: '/przypisanie-testu',

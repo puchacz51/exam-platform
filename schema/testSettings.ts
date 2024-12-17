@@ -2,7 +2,6 @@ import { boolean, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from '@schema/test';
-import { groupSettingsTable } from '@schema/groupSettings';
 
 export const scoringSystemEnum = pgEnum('scoring_system', [
   'STANDARD',
@@ -43,12 +42,11 @@ export const testSettingsTable = pgTable('test_settings', {
 
 export const testSettingsRelations = relations(
   testSettingsTable,
-  ({ one, many }) => ({
+  ({ one }) => ({
     test: one(testsTable, {
       fields: [testSettingsTable.testId],
       references: [testsTable.id],
     }),
-    groupSettings: many(groupSettingsTable),
   })
 );
 

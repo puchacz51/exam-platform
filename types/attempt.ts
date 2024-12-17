@@ -1,4 +1,7 @@
-import { QuestionGroups } from '@actions/attempt/getUserAttempt';
+import {
+  QuestionGroups,
+  UserAttemptAnswers,
+} from '@actions/attempt/getUserAttempt';
 
 export type NavOptions =
   | {
@@ -19,7 +22,7 @@ export type GroupFlowResponse = {
   currentQuestionId: null;
   nextGroupId: string | null;
   previousGroupId?: string | null;
-  userAttemptAnswers: any;
+  userAttemptAnswers: UserAttemptAnswers;
 };
 
 export type QuestionFlowResponse = {

@@ -56,7 +56,6 @@ import {
 import { testAttemptsRelations, testAttemptsTable } from '@schema/testAttempt';
 
 export const schema = {
-  // Tables
   answers: answersTable,
   attemptAnswers: attemptAnswersTable,
   booleanAnswers: booleanAnswersTable,
