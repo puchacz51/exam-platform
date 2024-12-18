@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ChevronRight, FolderPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -8,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { TestWithCategory } from '@/types/test/testWithCategory';
 
 import { TestItem } from './TestItem';
+import Link from 'next/link';
 
 interface RecentTestsProps {
   tests: TestWithCategory[];
@@ -30,7 +30,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
             asChild
           >
             <Link
-              href="/tests"
+              href="/test"
               className="gap-2"
             >
               {t('viewAll')} <ChevronRight className="h-4 w-4" />
@@ -74,7 +74,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
             asChild
           >
             <Link
-              href="/tests"
+              href="/test"
               className="gap-2"
             >
               View All Tests <ChevronRight className="h-4 w-4" />
