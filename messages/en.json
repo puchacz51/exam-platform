@@ -191,6 +191,12 @@
                 "title": "Teams Groups",
                 "description": "Your Microsoft Teams synchronized groups"
             }
+        },
+        "finishedAttempts": {
+            "title": "Finished Attempts",
+            "empty": "No finished attempts",
+            "viewDetails": "View Details",
+            "pointsTooltip": "Number of points scored in this attempt"
         }
     },
     "test": {

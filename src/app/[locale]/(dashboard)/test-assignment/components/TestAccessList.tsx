@@ -42,9 +42,9 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
             </div>
           )}
 
-          {!!data?.assignments && (
+          {!!data?.items && (
             <div className="space-y-4">
-              {data.assignments.map((assignment) => (
+              {data.items.map((assignment) => (
                 <Card key={assignment.id}>
                   <CardContent>
                     <div className="flex items-center justify-between">

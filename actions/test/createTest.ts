@@ -93,13 +93,11 @@ async function createTest(
       });
     });
 
-    // Batch insert questions
     const createdQuestions = await tx
       .insert(questionsTable)
       .values(questionInserts)
       .returning();
 
-    // Create relations and question type data
     let questionCounter = 0;
     questionGroups.forEach((group, groupIndex) => {
       if (!group.questions.length) return;
@@ -122,7 +120,6 @@ async function createTest(
       });
     });
 
-    // Execute batch operations
     await Promise.all([
       tx.insert(questionOnQuestionGroupTable).values(questionGroupRelations),
       ...questionTypeData,

@@ -193,6 +193,12 @@
                 "title": "Grupy Teams",
                 "description": "Twoje zsynchronizowane grupy Microsoft Teams"
             }
+        },
+        "finishedAttempts": {
+            "title": "Zakończone próby",
+            "empty": "Brak zakończonych prób",
+            "viewDetails": "Zobacz szczegóły",
+            "pointsTooltip": "Liczba punktów uzyskanych w tej próbie"
         }
     },
     "test": {

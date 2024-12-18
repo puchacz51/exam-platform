@@ -18,6 +18,7 @@ export async function getTestOwnerAssignments(
   if (!sessions?.user?.userID) {
     throw new Error('Unauthorized');
   }
+
   const userId = sessions.user.userID;
   const offset = (page - 1) * limit;
 
@@ -59,10 +60,13 @@ export async function getTestOwnerAssignments(
     ]);
 
     return {
-      assignments,
-      totalCount: totalCountResult[0].count,
-      currentPage: page,
-      totalPages: Math.ceil(totalCountResult[0].count / limit),
+      items: assignments,
+      metadata: {
+        totalCount: totalCountResult[0].count,
+        currentPage: page,
+        totalPages: Math.ceil(totalCountResult[0].count / limit),
+        limit,
+      },
     };
   } catch (error) {
     console.error('Error fetching assignments:', error);
@@ -70,8 +74,6 @@ export async function getTestOwnerAssignments(
   }
 }
 
-export type TestOwnerAssignmentsResponse = Awaited<
+export type TestOwnerAssignment = Awaited<
   ReturnType<typeof getTestOwnerAssignments>
 >;
-export type TestOwnerAssignment =
-  TestOwnerAssignmentsResponse['assignments'][0];

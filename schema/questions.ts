@@ -1,11 +1,4 @@
-import {
-  boolean,
-  pgEnum,
-  pgTable,
-  real,
-  text,
-  uuid,
-} from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, real, text, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { matchingPairsTable } from '@schema/matchingPairs';

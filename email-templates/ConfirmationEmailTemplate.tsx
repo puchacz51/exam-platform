@@ -22,7 +22,6 @@ interface WelcomeTemplateProps {
 const EmailTemplate = ({
   name,
   locale,
-  activationLink,
   verificationCode,
   translations,
 }: WelcomeTemplateProps) => {
@@ -39,15 +38,6 @@ const EmailTemplate = ({
 
           <Section style={codeContainer}>
             <Text style={codeStyle}>{verificationCode}</Text>
-          </Section>
-
-          <Section style={buttonContainer}>
-            <Button
-              style={buttonStyle}
-              href={activationLink}
-            >
-              {t.activateButton}
-            </Button>
           </Section>
 
           <Hr style={hrStyle} />
