@@ -233,5 +233,11 @@
             "next": "Następna",
             "pageInfo": "Strona {current} z {total}"
         }
+    },
+    "testAttempt": {
+        "title": "Próba Testowa",
+        "startAt": "Rozpoczęcie: {date}",
+        "timeLeft": "Pozostały czas",
+        "finishTest": "Zakończ Test"
     }
 }

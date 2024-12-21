@@ -1,13 +1,12 @@
 import { ChevronRight, FolderPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { TestWithCategory } from '@/types/test/testWithCategory';
-
-import { TestItem } from './TestItem';
-import Link from 'next/link';
+import { TestItem } from '@/app/[locale]/(dashboard)/dashboard/components/RecentTests/TestItem';
 
 interface RecentTestsProps {
   tests: TestWithCategory[];

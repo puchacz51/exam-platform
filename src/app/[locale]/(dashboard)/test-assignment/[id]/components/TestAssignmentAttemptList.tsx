@@ -64,7 +64,9 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
             <TableHead>Email</TableHead>
             <TableHead>Started At</TableHead>
             <TableHead>Finished At</TableHead>
-            <TableHead>Total Points</TableHead>
+            <TableHead>Points</TableHead>
+            <TableHead>Max Points</TableHead>
+            <TableHead>Percents (%)</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -90,6 +92,14 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
                     : '-'}
                 </TableCell>
                 <TableCell>{attempt.totalPoints ?? '-'}</TableCell>
+                <TableCell>{data.maxPoints}</TableCell>
+                <TableCell>
+                  {attempt.totalPoints && data.maxPoints
+                    ? ((attempt.totalPoints / data.maxPoints) * 100).toFixed(
+                        2
+                      ) + '%'
+                    : '-'}
+                </TableCell>
               </TableRow>
             );
           })}

@@ -20,17 +20,20 @@ export const getUserAttemptFlow = async (
     return { data: null, error };
   }
 
-  const { userId, testAccess } = userAttempt;
-  // const { timeLimit } = testAccess;
-  if (!userId) return { data: null, error: 'No userId provided' };
-  // const isTimeOver =
-  //   timeLimit &&
-  //   Date.now() > new Date(startedAt).getTime() + timeLimit * 60 * 1000;
-  // const isTestFinished = userAttempt.finishedAt || isTimeOver;
+  const { userId, testAccess, startedAt } = userAttempt;
 
-  // if (isTestFinished) {
-  //   return { data: null, error: 'Test is finished' };
-  // }
+  const { timeLimit } = testAccess;
+
+  if (!userId) return { data: null, error: 'No userId provided' };
+  const isTimeOver =
+    timeLimit &&
+    Date.now() > new Date(startedAt).getTime() + timeLimit * 60 * 1000;
+
+  const isTestFinished = userAttempt.finishedAt || isTimeOver;
+
+  if (isTestFinished) {
+    return { data: null, error: 'Test is finished' };
+  }
 
   const { settings, QG } = testAccess.test;
   const { questionDisplayMode } = settings;

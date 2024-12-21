@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
-import { useRouter as useI18Router } from '@/i18n/routing';
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
 import { Question } from '@/types/questions';
 import { TestAttemptFormData } from '@/types/forms/testAttemptForm';
@@ -14,7 +13,6 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
-import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
 
 import { GroupFlowResponse } from '../../../../../../types/attempt';
 
@@ -26,7 +24,6 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
-  const i18nRouter = useI18Router();
   const testAssignmentId = params.id as string;
   const { allowGoBack } = userAttemptFlow?.testSettings;
   const {
@@ -48,34 +45,23 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
           userAttemptAnswers,
         }) || [],
     },
-    mode: 'onChange',
+    mode: 'all',
+    criteriaMode: 'all',
   });
 
   const {
     handleSubmit,
-    formState: { isSubmitting, isSubmitted },
+    formState: { isSubmitting },
     setValue,
   } = methods;
-
   const moveToQuestionGroup = (questionId: string) => {
     router.replace(`${pathname}?groupId=${questionId}`, {
       scroll: false,
     });
   };
 
-  const endTest = async () => {
-    const { data, error } = await setAttemptPoints(attemptId);
-    console.log(data);
-    console.log(error);
-    if (data) {
-      i18nRouter.replace({
-        params: { id: attemptId },
-        pathname: '/test-attempt/[id]/score',
-      });
-    }
-  };
-
   const onSubmit = async (data: TestAttemptFormData) => {
+    console.log(data);
     const formattedAnswers = prepareFormSubmission(data, attemptId);
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
@@ -106,7 +92,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-xl font-bold">
-                  {/* {currentGroup?.name || 'test'} */}
+                  {currentGroup?.name || ''}
                 </h2>
                 <div className="space-y-6">
                   {currentGroup?.questions.map((question, questionIndex) => (
@@ -126,12 +112,23 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                 <Button
                   variant="secondary"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => {
+                    moveToQuestionGroup(previousGroupId);
+                  }}
                 >
                   Go back
                 </Button>
               )}
-              {isSubmitted ? (
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6"
+              >
+                Submit Question
+              </Button>
+
+              {!!nextGroupId && (
                 <Button
                   type="button"
                   onClick={() =>
@@ -140,24 +137,9 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                   disabled={isSubmitting}
                   className="px-6"
                 >
-                  {nextGroupId ? 'next group' : 'show results'}
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-6"
-                >
-                  {nextGroupId ? 'Submit Question' : 'Submit Test'}
+                  next group
                 </Button>
               )}
-
-              <Button
-                type="button"
-                onClick={endTest}
-              >
-                end test
-              </Button>
             </div>
           </form>
         </Card>

@@ -231,5 +231,11 @@
             "next": "Next",
             "pageInfo": "Page {current} of {total}"
         }
+    },
+    "testAttempt": {
+        "title": "Test Attempt",
+        "startAt": "Start At: {date}",
+        "timeLeft": "Time Left",
+        "finishTest": "Finish Test"
     }
 }

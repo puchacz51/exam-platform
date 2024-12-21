@@ -1,8 +1,8 @@
 'use client';
 
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, UseFormGetValues } from 'react-hook-form';
 import {
   closestCenter,
   DndContext,
@@ -36,24 +36,45 @@ interface OrderQuestionSolveProps {
 
 type OrderQuestionProps = OrderQuestionViewProps | OrderQuestionSolveProps;
 
+const getInitialOrderedItems = (
+  mode: 'view' | 'solve',
+  getValues: UseFormGetValues<TestAttemptFormDataOrder>,
+  id: string,
+  orderItems: OrderQuestionWithoutAnswer[]
+) => {
+  if (mode === 'solve') {
+    const savedOrder = getValues(`questions.${id}.items`) as {
+      itemId: string;
+      position: number;
+    }[];
+
+    const savedOrderSorted = savedOrder
+      ? (savedOrder
+          .sort((a, b) => a.position - b.position)
+          .map((item) =>
+            orderItems.find((orderItem) => orderItem.id === item.itemId)
+          ) as OrderQuestionWithoutAnswer[])
+      : orderItems;
+
+    return savedOrderSorted.length === orderItems.length
+      ? savedOrderSorted
+      : orderItems;
+  }
+  return orderItems;
+};
+
 const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const { id } = question;
-  const { setValue } = useFormContext<TestAttemptFormDataOrder>();
+  const { setValue, getValues } = useFormContext<TestAttemptFormDataOrder>();
 
-  const [orderedItems, setOrderedItems] = React.useState(question.orderItems);
-
-  React.useEffect(() => {
-    if (mode === 'solve') {
-      setValue(
-        `questions.${id}.items`,
-        question.orderItems.map((item, index) => ({
-          itemId: item.id,
-          position: index + 1,
-        }))
-      );
-      setOrderedItems(question.orderItems);
-    }
-  }, [id, mode, question.orderItems, setValue]);
+  const initialOrderedItems = getInitialOrderedItems(
+    mode,
+    getValues,
+    id,
+    question.orderItems as unknown as OrderQuestionWithoutAnswer[]
+  );
+  console.log(initialOrderedItems);
+  const [orderedItems, setOrderedItems] = useState(initialOrderedItems);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -72,7 +93,7 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
 
       const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
       setOrderedItems(newOrderedItems);
-
+      console.log(newOrderedItems);
       setValue(
         `questions.${id}.items`,
         newOrderedItems.map((item, index) => ({
@@ -84,28 +105,31 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        disabled={mode === 'view'}
-        items={orderedItems.map((item) => item.id)}
-        strategy={verticalListSortingStrategy}
+    <div>
+      {mode === 'solve'}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
       >
-        <div className="space-y-2">
-          {orderedItems.map((item, index) => (
-            <SortableItem
-              key={item.id}
-              id={item.id}
-              text={item.text}
-              index={index}
-            />
-          ))}
-        </div>
-      </SortableContext>
-    </DndContext>
+        <SortableContext
+          disabled={mode === 'view'}
+          items={orderedItems.map((item) => item.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-2">
+            {orderedItems.map((item, index) => (
+              <SortableItem
+                key={item.id}
+                id={item.id}
+                text={item.text}
+                index={index}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
+    </div>
   );
 };
 

@@ -45,16 +45,21 @@ export const handleGroupNavigation = (
   const previousGroupId = allowGoBack
     ? questionsGroups[selectedGroupIndex - 1]?.id || null
     : null;
-  const userAttemptAnswers = attempt.answers;
-
+  const userAttemptAnswers = allowGoBack
+    ? attempt.answers.map((a) => ({ ...a, points: null }))
+    : attempt.answers;
+    
   return {
     data: {
       type: 'GROUP',
       attemptId: attempt.id,
+      duration: attempt.testAccess.timeLimit || 0,
       testSettings,
+      startAt: attempt.startedAt,
       questionsGroups: [
         {
           id: selectedGroup.id,
+          name: selectedGroup.name || '',
           questions: shuffledQuestions,
         },
       ],
@@ -105,10 +110,13 @@ export const handleQuestionNavigation = (
     data: {
       type: 'QUESTION',
       attemptId: attempt.id,
+      startAt: attempt.startedAt,
+      duration: attempt.testAccess.timeLimit || 0,
       testSettings,
       questionsGroups: [
         {
           id: 'single',
+          name: '',
           questions: [selectedQuestion],
         },
       ],

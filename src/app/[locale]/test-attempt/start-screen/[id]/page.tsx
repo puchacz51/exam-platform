@@ -27,33 +27,31 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
     );
   }
 
-  if (testAssignment?.attempts.length > 0) {
-    redirect({
-      pathname: '/test-attempt/[id]',
-      params: { id: testAssignment.id },
-    });
-  }
+  const attempt = testAssignment.attempts[0];
 
   const now = new Date();
-  const startDate = testAssignment.startsAt
-    ? new Date(testAssignment.startsAt)
-    : now;
+  const startDate = attempt?.startedAt ? attempt?.startedAt : now;
 
-  if (testAssignment.timeLimit && testAssignment.timeLimit < 1) {
+  if (
+    (testAssignment.timeLimit &&
+      testAssignment.timeLimit * 60 * 1000 + startDate.getTime() <
+        now.getTime()) ||
+    (testAssignment.endsAt && new Date(testAssignment.endsAt) < now)
+  ) {
     return (
       <ErrorAlert
-        title="Invalid Test Configuration"
-        description="Time limit must be at least 1 minute."
+        title="You exceeded the time limit"
+        description="You have exceeded the time limit for this test."
       />
     );
   }
 
-  const endDate = testAssignment.endsAt
-    ? new Date(testAssignment.endsAt)
-    : null;
-
   const hasStarted = now >= startDate;
-  const hasEnded = endDate ? now >= endDate : false;
+  const hasEnded =
+    (testAssignment.timeLimit &&
+      testAssignment.timeLimit * 60 * 1000 + startDate.getTime() <
+        now.getTime()) ||
+    (testAssignment.endsAt && new Date(testAssignment.endsAt) < now);
 
   if (hasEnded) {
     return (
@@ -62,6 +60,13 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
         description="The time limit for this test has expired."
       />
     );
+  }
+
+  if (testAssignment?.attempts.length > 0) {
+    redirect({
+      pathname: '/test-attempt/[id]',
+      params: { id: testAssignment.id },
+    });
   }
 
   return (

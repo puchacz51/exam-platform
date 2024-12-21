@@ -81,5 +81,6 @@ export type TestSettings = UserAttempt['testAccess']['test']['settings'];
 export type UserAttemptAnswers = UserAttempt['answers'];
 export type QuestionGroups = {
   id: string;
+  name: string;
   questions: UserAttempt['testAccess']['test']['QG'][number]['qOnQG'][number]['question'][];
 };

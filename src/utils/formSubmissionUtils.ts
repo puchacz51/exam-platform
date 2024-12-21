@@ -47,7 +47,12 @@ export const prepareFormSubmission = (
           };
 
         case 'ORDER':
-          if (!('items' in questionData)) return;
+          if (
+            !('items' in questionData) ||
+            !Array.isArray(questionData.items) ||
+            !questionData.items.length
+          )
+            return;
           return {
             ...baseAnswer,
             items: questionData.items,
@@ -64,7 +69,6 @@ export const prepareFormSubmission = (
           };
 
         default:
-          throw new Error(`Unsupported question type: ${questionData.type}`);
       }
     })
     .filter(Boolean) as AnswerInput[];

@@ -42,9 +42,9 @@ export async function getBasicUserTestAssignments(
         userGroupsTable,
         and(eq(userGroupsTable.groupId, groupsTable.id))
       )
-      .innerJoin(
+      .leftJoin(
         testAttemptsTable,
-        and(eq(testAttemptsTable.testAccessId, testAccessConfigTable.id))
+        eq(testAttemptsTable.testAccessId, testAccessConfigTable.id)
       )
       .where(
         and(
@@ -80,6 +80,10 @@ export async function getBasicUserTestAssignments(
         userGroupsTable,
         and(eq(userGroupsTable.groupId, groupsTable.id))
       )
+      .leftJoin(
+        testAttemptsTable,
+        eq(testAttemptsTable.testAccessId, testAccessConfigTable.id)
+      )
       .where(
         and(
           or(
@@ -93,7 +97,8 @@ export async function getBasicUserTestAssignments(
               isNull(testAccessConfigTable.endsAt)
             )
           ),
-          eq(userGroupsTable.userId, session.user.userID)
+          eq(userGroupsTable.userId, session.user.userID),
+          isNull(testAttemptsTable.finishedAt)
         )
       ),
   ]);

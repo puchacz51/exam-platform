@@ -2,6 +2,7 @@ import {
   QuestionGroups,
   UserAttemptAnswers,
 } from '@actions/attempt/getUserAttempt';
+import { SelectTestSettings } from '@schema/testSettings';
 
 export type NavOptions =
   | {
@@ -16,8 +17,10 @@ export type NavOptions =
 export type GroupFlowResponse = {
   type: 'GROUP';
   attemptId: string;
-  testSettings: any;
+  testSettings: SelectTestSettings;
+  startAt: Date;
   questionsGroups: QuestionGroups[];
+  duration: number;
   currentGroupId: string | null;
   currentQuestionId: null;
   nextGroupId: string | null;
@@ -28,13 +31,15 @@ export type GroupFlowResponse = {
 export type QuestionFlowResponse = {
   type: 'QUESTION';
   attemptId: string;
-  testSettings: any;
+  testSettings: SelectTestSettings;
+  duration: number;
+  startAt: Date;
   questionsGroups: QuestionGroups[];
   currentGroupId: null;
   currentQuestionId: string;
   nextQuestionId: string | null;
   previousQuestionId: string | null;
-  userAttemptAnswers: any;
+  userAttemptAnswers: UserAttemptAnswers;
 };
 
 export type FlowResponse = GroupFlowResponse | QuestionFlowResponse;

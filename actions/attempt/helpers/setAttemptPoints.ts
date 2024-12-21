@@ -8,7 +8,7 @@ import { getUserPoints } from '@actions/attempt/helpers/getUserPoints';
 
 export const setAttemptPoints = async (attemptId: string) => {
   const session = await auth();
-  console.log('session', session);
+
   if (!session?.user.userID)
     return {
       error: 'User not authenticated',
