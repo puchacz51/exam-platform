@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 
 import { pgEnum } from 'drizzle-orm/pg-core';
-import {  object, string, z } from 'zod';
+import { object, string, z } from 'zod';
 
 export const questionTypeEnum = pgEnum('question_type', [
   'OPEN',

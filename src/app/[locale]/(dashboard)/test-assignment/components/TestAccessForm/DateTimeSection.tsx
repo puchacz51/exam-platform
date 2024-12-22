@@ -23,7 +23,7 @@ export const DateTimeSection = () => {
     useFormContext<TestAccessFormValues>();
 
   return (
-    <div className="flex gap-4 flex-wrap">
+    <div className="flex flex-wrap gap-4">
       <FormField
         control={control}
         name="startsAt"

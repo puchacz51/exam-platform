@@ -1,18 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-import { getTestOwnerAssignments } from '@actions/test-assigment/getTestOwnerAssignments';
 import { usePagination } from '@/hooks/navigation/usePagination';
+import { TestOwnerAssignment } from '@actions/test-assigment/getTestOwnerAssignments';
+
+const getTestOwnerAssignments = async (userId: string, page: number) => {
+  console.log('GET /api/test-access/owned');
+  const response = await fetch(`/api/test-access/owned?page=${page}`);
+
+  return response.json() as unknown as TestOwnerAssignment;
+};
 
 export const useOwnedAccessQuery = () => {
-  const session = useSession();
-  const userId = session?.data?.user?.userID;
+  const { data } = useSession();
+  const userId = data?.user?.userID;
   const { currentPage } = usePagination({});
 
   return useQuery({
     queryKey: ['owned-access', userId, currentPage],
+    enabled: !!userId,
     queryFn: async () => {
-      const result = await getTestOwnerAssignments();
+      if (!userId) {
+        throw new Error('Unauthorized');
+      }
+
+      const result = getTestOwnerAssignments(userId, currentPage);
       return result;
     },
   });

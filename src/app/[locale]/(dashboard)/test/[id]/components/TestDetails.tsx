@@ -16,7 +16,6 @@ const BooleanIndicator = ({ value }: { value: boolean }) =>
 
 export const TestDetails = ({ settings }: TestDetailsProps) => {
   const settingGroups = [
-
     {
       title: 'Scoring Settings',
       settings: [

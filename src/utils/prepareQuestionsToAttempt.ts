@@ -1,7 +1,6 @@
 import { AnswerInput } from '@/types/answers/testAttemptAnswers';
 import { UserAttemptAnswers } from '@actions/attempt/getUserAttempt';
 
-
 import { GroupFlowResponse } from '../../types/attempt';
 
 export const prepareQuestionToAttempt = (

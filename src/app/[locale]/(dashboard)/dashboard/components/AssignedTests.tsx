@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
+
 import { ChevronRight, ClipboardList } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -6,19 +7,18 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@/i18n/routing';
-
-interface AssignedTest {
-  id: string;
-  title: string;
-  startsAt: Date | null;
-  endsAt: Date | null;
-}
+import { useGetAssignedAccessQuery } from '@/hooks/useGetAssignedAccessQuery';
+import { BasicUserTestAssignmentsResponse } from '@actions/test-assigment/getBasicUserTestAssignments';
 
 interface AssignedTestsProps {
-  assignedTests: AssignedTest[];
+  assignedTests: BasicUserTestAssignmentsResponse;
 }
 
-const getTimeStatus = (startsAt: Date | null, endsAt: Date | null, t: any) => {
+const getTimeStatus = (
+  startsAt: Date | null,
+  endsAt: Date | null,
+  t: ReturnType<typeof useTranslations>
+) => {
   if (!startsAt) return null;
 
   const now = new Date();
@@ -44,6 +44,10 @@ const getTimeStatus = (startsAt: Date | null, endsAt: Date | null, t: any) => {
 export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
   const t = useTranslations('dashboard.assignedTests');
 
+  const { data } = useGetAssignedAccessQuery({
+    initialData: assignedTests,
+  });
+
   return (
     <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between">
@@ -51,15 +55,15 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             {t('title')}
           </h2>
-          {assignedTests.length > 0 && (
+          {!!data?.items?.length && (
             <p className="text-sm text-muted-foreground">
-              {t('subTitle', { count: assignedTests.length })}
+              {t('subTitle', { count: data?.items.length })}
             </p>
           )}
         </div>
       </div>
       <Separator className="my-4" />
-      {assignedTests.length === 0 ? (
+      {data?.items.length === 0 ? (
         <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <ClipboardList className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
@@ -68,7 +72,7 @@ export const AssignedTests = ({ assignedTests }: AssignedTestsProps) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {assignedTests.map((test) => (
+          {data?.items.map((test) => (
             <div
               key={test.id}
               className="flex items-center justify-between rounded-lg border p-4"

@@ -21,7 +21,6 @@ const DashboardPage: NextPage = async () => {
   if (!user) {
     return null;
   }
-
   const [
     tests,
     assignedTestsResponse,
@@ -39,7 +38,7 @@ const DashboardPage: NextPage = async () => {
   const ownedTests = ownedTestsAssignmentsResponse.items;
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
-  const assignedTests = assignedTestsResponse.items;
+  const assignedTests = assignedTestsResponse;
   const finishedAttempts = finishedAttemptsResponse;
 
   return (

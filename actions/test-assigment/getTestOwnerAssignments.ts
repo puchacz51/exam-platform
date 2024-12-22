@@ -13,13 +13,14 @@ export async function getTestOwnerAssignments(
   page: number = 1,
   limit: number = 10
 ) {
-  const sessions = await auth();
+  const data = await auth();
+  const userID = data?.user?.userID;
 
-  if (!sessions?.user?.userID) {
+  if (!userID) {
     throw new Error('Unauthorized');
   }
 
-  const userId = sessions.user.userID;
+  const userId = userID;
   const offset = (page - 1) * limit;
 
   try {

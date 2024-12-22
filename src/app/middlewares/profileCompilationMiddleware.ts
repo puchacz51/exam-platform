@@ -13,10 +13,7 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
   if (context.auth?.user?.profileNeedsCompletion) {
     if (!context.req.nextUrl.pathname.includes(completeProfileUrl)) {
       const confirmUrl = APP_URL + completeProfileUrl;
-      console.log(
-        'confirmUrl',
-        context.req.nextUrl.pathname
-      );
+      console.log('confirmUrl', context.req.nextUrl.pathname);
       return { ...context, res: NextResponse.redirect(confirmUrl) };
     }
 

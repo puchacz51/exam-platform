@@ -80,10 +80,10 @@ export const TestAccessForm = ({
     if (result.success) {
       toast({
         title: 'Success',
-        description: 'Test assignment created successfully',
+        description: 'Test assignment created successfully test',
       });
-      router.refresh();
       methods.reset();
+      router.refresh();
     } else {
       toast({
         variant: 'destructive',

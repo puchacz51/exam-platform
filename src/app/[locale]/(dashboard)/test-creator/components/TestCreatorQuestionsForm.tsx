@@ -143,8 +143,6 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
         />
       </div>
 
-
-
       <FormField
         control={form.control}
         name="categoryId"
