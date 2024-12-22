@@ -1,6 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import {
   FormControl,
@@ -19,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
 
 export const DateTimeSection = () => {
+  const t = useTranslations('dashboard.testAssignment');
   const { control, getValues, setValue } =
     useFormContext<TestAccessFormValues>();
 
@@ -29,7 +31,7 @@ export const DateTimeSection = () => {
         name="startsAt"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>Start Date & Time</FormLabel>
+            <FormLabel>{t('startDateTime')}</FormLabel>
             <div className="flex gap-2">
               <Popover>
                 <PopoverTrigger asChild>
@@ -39,7 +41,7 @@ export const DateTimeSection = () => {
                     type="button"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {field.value ? format(field.value, 'PPP') : 'Pick date'}
+                    {field.value ? format(field.value, 'PPP') : t('pickDate')}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -86,7 +88,7 @@ export const DateTimeSection = () => {
         name="endsAt"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>End Date & Time</FormLabel>
+            <FormLabel>{t('endDateTime')}</FormLabel>
             <div className="flex gap-2">
               <Popover>
                 <PopoverTrigger asChild>
@@ -96,7 +98,7 @@ export const DateTimeSection = () => {
                     type="button"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {field.value ? format(field.value, 'PPP') : 'Pick date'}
+                    {field.value ? format(field.value, 'PPP') : t('pickDate')}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">

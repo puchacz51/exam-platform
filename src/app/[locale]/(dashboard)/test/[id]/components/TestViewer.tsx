@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { AlertCircle } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Card,
@@ -21,6 +22,7 @@ interface TestViewerProps {
 }
 
 const TestViewer = ({ testId }: TestViewerProps) => {
+  const t = useTranslations('dashboard.testViewer');
   const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
@@ -34,9 +36,9 @@ const TestViewer = ({ testId }: TestViewerProps) => {
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
+        <AlertTitle>{t('error.title')}</AlertTitle>
         <AlertDescription>
-          Test not found. Please check the test ID and try again.
+          {t('error.description')}
         </AlertDescription>
       </Alert>
     );

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { useToast } from '@/hooks/useToast';
 import { useTests } from '@/hooks/useTests';
@@ -42,6 +43,7 @@ export const TestAccessForm = ({
   test: initialTest,
   hideTestSelection = false,
 }: TestAccessFormProps) => {
+  const t = useTranslations('dashboard.testAssignment');
   const { toast } = useToast();
   const { data, isLoading } = useTests();
   const [selectedTest, setSelectedTest] = useState<
@@ -66,8 +68,8 @@ export const TestAccessForm = ({
     if (!selectedTest && !hideTestSelection) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Please select a test first',
+        title: t('error'),
+        description: t('pleaseSelectTest'),
       });
       return;
     }
@@ -79,16 +81,16 @@ export const TestAccessForm = ({
 
     if (result.success) {
       toast({
-        title: 'Success',
-        description: 'Test assignment created successfully test',
+        title: t('success'),
+        description: t('testAssignmentCreated'),
       });
       methods.reset();
       router.refresh();
     } else {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: result.error || 'Failed to create test assignment',
+        title: t('error'),
+        description: result.error || t('failedToCreateTestAssignment'),
       });
     }
   }
@@ -96,7 +98,7 @@ export const TestAccessForm = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Test Access Settings</CardTitle>
+        <CardTitle>{t('testAccessSettings')}</CardTitle>
       </CardHeader>
       <CardContent>
         <FormProvider {...methods}>
@@ -113,7 +115,7 @@ export const TestAccessForm = ({
                   }}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a test" />
+                    <SelectValue placeholder={t('selectTest')} />
                   </SelectTrigger>
                   <SelectContent>
                     {data?.tests?.map((test) => (
@@ -132,7 +134,7 @@ export const TestAccessForm = ({
                   <AccessTypeSection initialGroups={initialGroups || []} />
                   <DateTimeSection />
                   <LimitsSection />
-                  <Button type="submit">Save Settings</Button>
+                  <Button type="submit">{t('saveSettings')}</Button>
                   {selectedTest && <TestPreview test={selectedTest} />}
                 </div>
               )}

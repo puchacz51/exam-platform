@@ -76,7 +76,7 @@ export const RecentTests = ({ tests }: RecentTestsProps) => {
               href="/test"
               className="gap-2"
             >
-              View All Tests <ChevronRight className="h-4 w-4" />
+              {t('viewAllTests')} <ChevronRight className="h-4 w-4" />
             </Link>
           </Button>
         </>

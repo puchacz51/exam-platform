@@ -96,13 +96,14 @@
         "recentTests": {
             "title": "Ostatnie testy",
             "viewAll": "Zobacz wszystkie",
+            "viewAllTests": "Zobacz wszystkie testy",
             "empty": {
                 "title": "Brak utworzonych testów",
                 "description": "Utwórz swój pierwszy test, aby rozpocząć",
                 "action": "Utwórz pierwszy test"
             },
             "item": {
-                "questions": "{count} pytań"
+                "questions": "{count} pytania"
             }
         },
         "assignedTests": {
@@ -121,7 +122,8 @@
             "empty": "Nie przypisałeś jeszcze żadnych testów",
             "viewList": "Zobacz listę",
             "assignedTo": "Przypisano do: {group}",
-            "accessType": "Typ dostępu: {type}"
+            "accessType": "Typ dostępu: {type}",
+            "viewAssignment": "Zobacz przypisanie"
         },
         "groups": {
             "title": "Twoje grupy",
@@ -174,10 +176,14 @@
             },
             "members": {
                 "title": "Członkowie Grupy",
+                "delete": "Usuń",
+                "add": "Dodaj",
+                "close": "Zamknij",
                 "addButton": "Dodaj Członków",
                 "addDialog": {
                     "title": "Dodaj Członków",
-                    "description": "Wyszukaj i wybierz użytkowników do dodania do grupy."
+                    "description": "Wyszukaj i wybierz użytkowników do dodania do grupy.",
+                    "searchPlaceholder": "Szukaj użytkowników..."
                 }
             },
             "owned": {
@@ -198,9 +204,72 @@
             "empty": "Brak zakończonych prób",
             "viewDetails": "Zobacz szczegóły",
             "pointsTooltip": "Liczba punktów uzyskanych w tej próbie"
+        },
+        "testViewer": {
+            "error": {
+                "title": "Błąd",
+                "description": "Nie znaleziono testu. Sprawdź identyfikator testu i spróbuj ponownie."
+            },
+            "previousGroup": "Poprzednia Grupa",
+            "nextGroup": "Następna Grupa"
+        },
+        "testStats": {
+            "duration": "Czas trwania",
+            "questions": "Pytania",
+            "maxPoints": "Maksymalna liczba punktów",
+            "scoringSystem": "System punktacji"
+        },
+        "testList": {
+            "yourTests": "Twoje testy",
+            "noDescription": "Brak opisu",
+            "questions": "Pytania:",
+            "page": "Strona {currentPage} z {totalPages}"
+        },
+        "testAssignment": {
+            "assignTestAccess": "Przypisz dostęp do testu",
+            "viewMembers": "Zobacz członków",
+            "selectedGroups": "Wybrane grupy",
+            "searchGroups": "Szukaj grup...",
+            "noMatchingGroups": "Nie znaleziono pasujących grup",
+            "tryAdjustingSearch": "Spróbuj dostosować wyszukiwanie",
+            "timeLimit": "Limit czasu (minuty)",
+            "startDateTime": "Data i godzina rozpoczęcia",
+            "endDateTime": "Data i godzina zakończenia",
+            "accessType": "Typ dostępu",
+            "accessCode": "Kod dostępu",
+            "enterAccessCode": "Wprowadź kod dostępu",
+            "saveSettings": "Zapisz ustawienia",
+            "testAccessSettings": "Ustawienia dostępu do testu",
+            "selectTest": "Wybierz test",
+            "error": "Błąd",
+            "pleaseSelectTest": "Proszę najpierw wybrać test",
+            "success": "Sukces",
+            "testAssignmentCreated": "Przypisanie testu utworzone pomyślnie",
+            "failedToCreateTestAssignment": "Nie udało się utworzyć przypisania testu",
+            "pickDate": "Wybierz datę",
+            "selectAccessType": "Wybierz typ dostępu",
+            "accessCodeGroup": "Kod dostępu + Grupa",
+            "groupAccess": "Dostęp grupowy"
+        },
+        "testPage": {
+            "backToTests": "Powrót do testów",
+            "assignTest": "Przypisz test"
         }
     },
     "test": {
+        "header": {
+            "createdAt": "Utworzono dnia",
+            "questionsCount": "{count} pytań"
+        },
+        "details": {
+            "scoringSettings": "Ustawienia punktacji",
+            "displaySettings": "Ustawienia wyświetlania",
+            "scoringSystem": "System punktacji",
+            "allowPartialPoints": "Zezwól na częściowe punkty",
+            "questionDisplayMode": "Tryb wyświetlania pytań",
+            "shuffleQuestions": "Tasuj pytania",
+            "shuffleAnswers": "Tasuj odpowiedzi"
+        },
         "questions": {
             "matching": {
                 "selectPlaceholder": "Wybierz pasujący element..."
@@ -212,7 +281,11 @@
             "booleanGroup": {
                 "true": "Prawda",
                 "false": "Fałsz"
-            }
+            },
+            "questions": "Pytania",
+            "addQuestion": "Dodaj pytanie",
+            "editQuestion": "Edytuj pytanie",
+            "group": "Grupa {index}"
         }
     },
     "testAssignment": {
@@ -230,7 +303,10 @@
             "manageAccess": "Zarządzaj Dostępem",
             "previous": "Poprzednia",
             "next": "Następna",
-            "pageInfo": "Strona {current} z {total}"
+            "pageInfo": "Strona {current} z {total}",
+            "loading": "Ładowanie...",
+            "failedToLoad": "Nie udało się załadować przypisań",
+            "view": "Zobacz"
         }
     },
     "testAttempt": {

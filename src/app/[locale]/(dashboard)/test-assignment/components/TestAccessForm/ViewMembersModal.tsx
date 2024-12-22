@@ -1,4 +1,5 @@
 import { Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { useGroupMembers } from '@/hooks/useGroupMembers';
 import { Badge } from '@/components/ui/badge';
@@ -24,6 +25,7 @@ export const ViewMembersModal = ({
   isOpen,
   onClose,
 }: ViewMembersModalProps) => {
+  const t = useTranslations('dashboard.testAssignment');
   const { data: members, isLoading } = useGroupMembers(groupId, isOpen);
 
   return (
@@ -35,7 +37,7 @@ export const ViewMembersModal = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Users size={20} />
-            {groupName} Members
+            {groupName} {t('viewMembers')}
           </DialogTitle>
         </DialogHeader>
         {isLoading ? (

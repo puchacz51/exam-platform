@@ -110,7 +110,7 @@ export const GroupItem = ({ group }: GroupItemProps) => {
                       variant="secondary"
                       className="ml-auto"
                     >
-                      Member
+                      {t('card.member')}
                     </Badge>
                   </div>
                 ))}

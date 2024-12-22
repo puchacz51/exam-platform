@@ -96,6 +96,7 @@
         "recentTests": {
             "title": "Recent Tests",
             "viewAll": "View all",
+            "viewAllTests": "View All Tests",
             "empty": {
                 "title": "No tests created",
                 "description": "Create your first test to get started",
@@ -121,7 +122,8 @@
             "empty": "You haven't assigned any tests yet",
             "viewList": "View list",
             "assignedTo": "Assigned to: {group}",
-            "accessType": "Access type: {type}"
+            "accessType": "Access type: {type}",
+            "viewAssignment": "View Assignment"
         },
         "groups": {
             "title": "Your Groups",
@@ -174,10 +176,14 @@
             },
             "members": {
                 "title": "Group Members",
+                "delete": "Delete",
+                "add": "Add",
+                "close": "Close",
                 "addButton": "Add Members",
                 "addDialog": {
                     "title": "Add Members",
-                    "description": "Search and select users to add to the group."
+                    "description": "Search and select users to add to the group.",
+                    "searchPlaceholder": "Search users..."
                 }
             },
             "owned": {
@@ -198,9 +204,72 @@
             "empty": "No finished attempts",
             "viewDetails": "View details",
             "pointsTooltip": "Points earned in this attempt"
+        },
+        "testViewer": {
+            "error": {
+                "title": "Error",
+                "description": "Test not found. Please check the test ID and try again."
+            },
+            "previousGroup": "Previous Group",
+            "nextGroup": "Next Group"
+        },
+        "testStats": {
+            "duration": "Duration",
+            "questions": "Questions",
+            "maxPoints": "Max Points",
+            "scoringSystem": "Scoring System"
+        },
+        "testList": {
+            "yourTests": "Your Tests",
+            "noDescription": "No description provided",
+            "questions": "Questions:",
+            "page": "Page {currentPage} of {totalPages}"
+        },
+        "testAssignment": {
+            "assignTestAccess": "Assign Test Access",
+            "viewMembers": "View Members",
+            "selectedGroups": "Selected Groups",
+            "searchGroups": "Search groups...",
+            "noMatchingGroups": "No matching groups found",
+            "tryAdjustingSearch": "Try adjusting your search",
+            "timeLimit": "Time Limit (minutes)",
+            "startDateTime": "Start Date & Time",
+            "endDateTime": "End Date & Time",
+            "accessType": "Access Type",
+            "accessCode": "Access Code",
+            "enterAccessCode": "Enter access code",
+            "saveSettings": "Save Settings",
+            "testAccessSettings": "Test Access Settings",
+            "selectTest": "Select a test",
+            "error": "Error",
+            "pleaseSelectTest": "Please select a test first",
+            "success": "Success",
+            "testAssignmentCreated": "Test assignment created successfully",
+            "failedToCreateTestAssignment": "Failed to create test assignment",
+            "pickDate": "Pick date",
+            "selectAccessType": "Select access type",
+            "accessCodeGroup": "Access Code + Group",
+            "groupAccess": "Group Access"
+        },
+        "testPage": {
+            "backToTests": "Back to tests",
+            "assignTest": "Assign test"
         }
     },
     "test": {
+        "header": {
+            "createdAt": "Created At",
+            "questionsCount": "{count} questions"
+        },
+        "details": {
+            "scoringSettings": "Scoring Settings",
+            "displaySettings": "Display Settings",
+            "scoringSystem": "Scoring System",
+            "allowPartialPoints": "Allow Partial Points",
+            "questionDisplayMode": "Question Display Mode",
+            "shuffleQuestions": "Shuffle Questions",
+            "shuffleAnswers": "Shuffle Answers"
+        },
         "questions": {
             "matching": {
                 "selectPlaceholder": "Select matching element..."
@@ -212,7 +281,11 @@
             "booleanGroup": {
                 "true": "True",
                 "false": "False"
-            }
+            },
+            "questions": "Questions",
+            "addQuestion": "Add Question",
+            "editQuestion": "Edit Question",
+            "group": "Group {index}"
         }
     },
     "testAssignment": {
@@ -230,7 +303,10 @@
             "manageAccess": "Manage Access",
             "previous": "Previous",
             "next": "Next",
-            "pageInfo": "Page {current} of {total}"
+            "pageInfo": "Page {current} of {total}",
+            "loading": "Loading...",
+            "failedToLoad": "Failed to load assignments",
+            "view": "View"
         }
     },
     "testAttempt": {

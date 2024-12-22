@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +16,7 @@ interface TestListProps {
 }
 
 export const TestList = ({ initialData, onPageChange }: TestListProps) => {
+  const t = useTranslations('dashboard.testList');
   const [currentData, setCurrentData] = useState(initialData);
 
   const handlePageChange = async (page: number) => {
@@ -40,7 +42,7 @@ export const TestList = ({ initialData, onPageChange }: TestListProps) => {
               <CardContent>
                 <div className="space-y-3">
                   <div className="line-clamp-2 text-sm text-muted-foreground">
-                    {test.description || 'No description provided'}
+                    {test.description || t('noDescription')}
                   </div>
 
                   <div className="flex flex-wrap gap-2">
@@ -56,7 +58,7 @@ export const TestList = ({ initialData, onPageChange }: TestListProps) => {
 
                   <div className="flex items-center justify-between pt-2 text-sm">
                     <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground">Questions:</span>
+                      <span className="text-muted-foreground">{t('questions')}</span>
                       <span className="font-medium">{test.questionCount}</span>
                     </div>
                     <div className="text-muted-foreground">

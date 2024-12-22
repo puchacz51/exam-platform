@@ -84,7 +84,7 @@ export const GroupMembers = ({ groupId, isOwner }: GroupMembersProps) => {
               </AlertDialogHeader>
               <div className="py-4">
                 <Input
-                  placeholder="Search users..."
+                  placeholder={t('addDialog.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="mb-4"
@@ -115,7 +115,7 @@ export const GroupMembers = ({ groupId, isOwner }: GroupMembersProps) => {
                           size="sm"
                           onClick={() => handleAddMember(user.id)}
                         >
-                          Add
+                          {t('add')}
                         </Button>
                       </div>
                     ))}
@@ -123,7 +123,7 @@ export const GroupMembers = ({ groupId, isOwner }: GroupMembersProps) => {
                 </ScrollArea>
               </div>
               <AlertDialogFooter>
-                <AlertDialogCancel>Close</AlertDialogCancel>
+                <AlertDialogCancel>{t('close')}</AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

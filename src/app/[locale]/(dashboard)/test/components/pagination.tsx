@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 
@@ -15,6 +16,8 @@ export const Pagination = ({
   totalPages,
   onPageChange,
 }: PaginationProps) => {
+  const t = useTranslations('dashboard.testList');
+
   return (
     <div className="flex items-center justify-center space-x-2">
       <Button
@@ -25,9 +28,7 @@ export const Pagination = ({
       >
         <ChevronLeftIcon className="h-4 w-4" />
       </Button>
-      <span className="text-sm">
-        Page {currentPage} of {totalPages}
-      </span>
+      <span className="text-sm">{t('page', { currentPage, totalPages })}</span>
       <Button
         variant="outline"
         size="icon"

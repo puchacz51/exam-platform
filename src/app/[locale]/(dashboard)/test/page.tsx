@@ -1,12 +1,14 @@
 import { TestList } from '@/app/[locale]/(dashboard)/test/components/test-list';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getUserTests } from '@actions/test/getUserTests';
+import { getTranslations } from 'next-intl/server';
 
 interface TestsPageProps {
   searchParams: { page?: string };
 }
 
 const TestsPage = async ({ searchParams }: TestsPageProps) => {
+  const t = await getTranslations('dashboard.testList');
   const page = Number(searchParams.page) || 1;
   const initialData = await getUserTests(page);
 
@@ -19,7 +21,7 @@ const TestsPage = async ({ searchParams }: TestsPageProps) => {
     <div className="container mx-auto py-6">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Your Tests</CardTitle>
+          <CardTitle>{t('yourTests')}</CardTitle>
         </CardHeader>
         <CardContent>
           <TestList

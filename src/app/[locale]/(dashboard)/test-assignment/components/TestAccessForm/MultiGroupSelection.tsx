@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useFormContext } from 'react-hook-form';
 import { Check, Eye, Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -21,6 +22,7 @@ interface MultiGroupSelectionProps {
 export const MultiGroupSelection = ({
   initialGroups = [],
 }: MultiGroupSelectionProps) => {
+  const t = useTranslations('dashboard.testAssignment');
   const { watch, setValue } = useFormContext<TestAccessFormValues>();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGroupForMembers, setSelectedGroupForMembers] = useState<{
@@ -48,11 +50,11 @@ export const MultiGroupSelection = ({
       <Card>
         <CardHeader className="space-y-4">
           <CardTitle className="flex items-center justify-between">
-            Selected Groups
+            {t('selectedGroups')}
             <Badge variant="secondary">{selectedGroups.length} selected</Badge>
           </CardTitle>
           <Input
-            placeholder="Search groups..."
+            placeholder={t('searchGroups')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full"
@@ -66,8 +68,8 @@ export const MultiGroupSelection = ({
                   size={48}
                   className="mb-4 text-gray-400"
                 />
-                <p className="text-lg font-medium">No matching groups found</p>
-                <p className="text-sm">Try adjusting your search</p>
+                <p className="text-lg font-medium">{t('noMatchingGroups')}</p>
+                <p className="text-sm">{t('tryAdjustingSearch')}</p>
               </div>
             ) : (
               <div className="space-y-4">

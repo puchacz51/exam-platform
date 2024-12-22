@@ -1,5 +1,6 @@
 'use client';
 import { FC, HTMLAttributes } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,13 +14,14 @@ import { Link } from '@/i18n/routing';
 interface TestAccessListProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
+  const t = useTranslations('testAssignment.list');
   const { isLoading, error, data } = useOwnedAccessQuery();
 
   if (error) {
     return (
       <Card className="p-4">
         <div className="text-center text-red-500">
-          Failed to load assignments
+          {t('failedToLoad')}
         </div>
       </Card>
     );
@@ -32,13 +34,13 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
 
       {isLoading ? (
         <div className="flex min-h-[200px] items-center justify-center">
-          <div className="text-muted-foreground">Loading...</div>
+          <div className="text-muted-foreground">{t('loading')}</div>
         </div>
       ) : (
         <div className="space-y-4">
           {!!error && (
             <div className="text-center text-red-500">
-              Failed to load assignments
+              {t('failedToLoad')}
             </div>
           )}
 
@@ -75,7 +77,7 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
                             params: { id: assignment.id },
                           }}
                         >
-                          <Button variant="outline">View</Button>
+                          <Button variant="outline">{t('view')}</Button>
                         </Link>
                       </div>
                     </div>

@@ -1,4 +1,5 @@
 import { Book, Brain, Clock, Target } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -36,6 +37,7 @@ const formatDuration = (duration: number) => {
 };
 
 export const TestStats = ({ test }: TestStatsProps) => {
+  const t = useTranslations('dashboard.testStats');
   const groups = 'questionGroups' in test ? test.questionGroups : test.QG;
 
   const questionCount = groups.reduce(
@@ -52,22 +54,22 @@ export const TestStats = ({ test }: TestStatsProps) => {
   const mainStats = [
     {
       icon: <Clock className="h-8 w-8 text-blue-500" />,
-      label: 'Duration',
+      label: t('duration'),
       value: formatDuration(30),
     },
     {
       icon: <Book className="h-8 w-8 text-green-500" />,
-      label: 'Questions',
+      label: t('questions'),
       value: questionCount,
     },
     {
       icon: <Target className="h-8 w-8 text-purple-500" />,
-      label: 'Max Points',
+      label: t('maxPoints'),
       value: `${pointsCount}pts`,
     },
     {
       icon: <Brain className="h-8 w-8 text-yellow-500" />,
-      label: 'Scoring System',
+      label: t('scoringSystem'),
       value: test.settings.scoringSystem,
     },
   ];

@@ -1,11 +1,8 @@
 import { Metadata, NextPage } from 'next';
 import { notFound } from 'next/navigation';
 import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
-import { eq } from 'drizzle-orm';
 
 import { Button } from '@/components/ui/button';
-import db from '@/lib/db';
-import { testsTable } from '@schema/test';
 import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
 import { getTest } from '@actions/test/getTest';
 import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
@@ -13,6 +10,7 @@ import { TestStats } from '@/app/[locale]/(dashboard)/test/[id]/components/TestS
 import { TestDetails } from '@/app/[locale]/(dashboard)/test/[id]/components/TestDetails';
 import { CompleteTest } from '@/types/test/test';
 import { Link } from '@/i18n/routing';
+import { getTranslations } from 'next-intl/server';
 
 interface TestPageProps {
   params: {
@@ -23,27 +21,13 @@ interface TestPageProps {
 export async function generateMetadata({
   params,
 }: TestPageProps): Promise<Metadata> {
-  const result = await db
-    .select()
-    .from(testsTable)
-    .where(eq(testsTable.id, params.id))
-    .limit(1);
-
-  const test = result[0];
-
-  if (!test) {
-    return {
-      title: 'Test not found',
-    };
-  }
-
   return {
-    title: `Test: ${test.title}`,
-    description: test.description || 'View test details',
+    title: `Test: ${params.id}`,
   };
 }
 
 const TestPage: NextPage<TestPageProps> = async ({ params }) => {
+  const t = await getTranslations('dashboard.testPage');
   const test = await getTest(params.id);
 
   if (!test) {
@@ -60,7 +44,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
         >
           <Link href="/test">
             <ChevronLeft className="h-4 w-4" />
-            Back to tests
+            {t('backToTests')}
           </Link>
         </Button>
 
@@ -76,7 +60,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
             }}
           >
             <LinkIcon className="h-4 w-4" />
-            Assign test
+            {t('assignTest')}
           </Link>
         </Button>
       </div>

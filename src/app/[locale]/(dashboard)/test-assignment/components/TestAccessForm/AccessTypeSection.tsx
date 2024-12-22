@@ -1,4 +1,5 @@
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   FormControl,
@@ -25,6 +26,7 @@ interface AccessTypeSectionProps {
 export const AccessTypeSection = ({
   initialGroups,
 }: AccessTypeSectionProps) => {
+  const t = useTranslations('dashboard.testAssignment');
   const { control, watch } = useFormContext<TestAccessFormValues>();
   const accessType = watch('accessType');
 
@@ -35,20 +37,20 @@ export const AccessTypeSection = ({
         name="accessType"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Access Type</FormLabel>
+            <FormLabel>{t('accessType')}</FormLabel>
             <Select
               onValueChange={field.onChange}
               defaultValue={field.value}
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select access type" />
+                  <SelectValue placeholder={t('selectAccessType')} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="CODE">Access Code</SelectItem>
-                <SelectItem value="GROUP">Group Access</SelectItem>
-                <SelectItem value="EMAIL">Access Code + Group</SelectItem>
+                <SelectItem value="CODE">{t('accessCode')}</SelectItem>
+                <SelectItem value="GROUP">{t('groupAccess')}</SelectItem>
+                <SelectItem value="EMAIL">{t('accessCodeGroup')}</SelectItem>
               </SelectContent>
             </Select>
           </FormItem>
@@ -61,11 +63,11 @@ export const AccessTypeSection = ({
           name="accessCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Access Code</FormLabel>
+              <FormLabel>{t('accessCode')}</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Enter access code"
+                  placeholder={t('enterAccessCode')}
                 />
               </FormControl>
             </FormItem>
