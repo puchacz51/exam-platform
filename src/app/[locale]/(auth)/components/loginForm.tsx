@@ -72,14 +72,12 @@ const LoginForm: FC = () => {
         setError(t('login.invalidCredentials'));
         return;
       }
+      if (typeof window !== 'undefined') {
+        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') ||
+              '/dashboard';
 
-      const returnUrl =
-        typeof window === 'undefined'
-          ? ''
-          : new URLSearchParams(window.location.search).get('returnUrl') ||
-            '/dashboard';
-
-      window.location = returnUrl as unknown as Location;
+        window.location = returnUrl as unknown as Location;
+      }
     } catch (error) {
       console.error(error);
       setError(t('login.error'));

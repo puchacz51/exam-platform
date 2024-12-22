@@ -131,7 +131,6 @@
                 "title": "Brak utworzonych grup",
                 "action": "Utwórz pierwszą grupę"
             },
-            "members": "{count} {count, plural, one {członek} few {członków} many {członków} other {członka}}",
             "view": "Zobacz",
             "viewMembers": "Zobacz członków",
             "hideMembers": "Ukryj członków",

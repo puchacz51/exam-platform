@@ -2,18 +2,18 @@
     "email": {
         "confirmation": {
             "greeting": "Hello {name}!",
-            "thankYou": "Thank you for creating an account with us.",
+            "thankYou": "Thank you for creating an account in our service.",
             "activationInstructions": "To start using your account, please activate it by clicking the button below:",
             "activateButton": "Activate Your Account",
-            "activationWarning": "If you did not create this account, please ignore this email.",
+            "activationWarning": "If you didn't create this account, please ignore this message.",
             "welcomeSubject": "Activate Your Account",
             "accountCreated": "Account created and activation email sent",
-            "error": "An error occurred while creating the account or sending the email"
+            "error": "An error occurred while creating account or sending email"
         }
     },
     "home": {
         "title": "QuizSow - Engineering Project",
-        "description": "Project developed as part of engineering thesis at Bydgoszcz University of Science and Technology. AI-powered test management system.",
+        "description": "Project implemented as part of engineering thesis at Bydgoszcz University of Science and Technology. Test management system with artificial intelligence support.",
         "buttons": {
             "getStarted": "Get Started",
             "learnMore": "Learn More"
@@ -21,16 +21,16 @@
         "features": {
             "title": "About Project",
             "aiSupport": {
-                "title": "AI-Powered Test Creation",
+                "title": "AI Support in Test Creation",
                 "description": "Using Gemini API for generating test questions and supporting the learning process"
             },
             "msIntegration": {
                 "title": "Microsoft Integration",
-                "description": "Azure AD authentication and Microsoft Teams integration"
+                "description": "Using Azure AD for authentication and Microsoft Teams integration"
             },
             "academic": {
                 "title": "Academic Project",
-                "description": "Engineering thesis conducted under supervision at the Faculty of Telecommunications, Computer Science and Electrical Engineering"
+                "description": "Engineering thesis conducted under supervisor's guidance at the Faculty of Telecommunications, Computer Science and Electrical Engineering"
             }
         }
     },
@@ -49,14 +49,14 @@
             "register": "Register"
         },
         "register": {
-            "title": "Create new account",
-            "firstName": "First name",
-            "lastName": "Last name",
+            "title": "Register new account",
+            "firstName": "First Name",
+            "lastName": "Last Name",
             "email": "Email",
             "password": "Password",
-            "confirmPassword": "Confirm password",
-            "submit": "Sign up",
-            "alternativeMethods": "Or sign up with",
+            "confirmPassword": "Confirm Password",
+            "submit": "Register",
+            "alternativeMethods": "Or register with",
             "login": "Login"
         },
         "verification": {
@@ -64,42 +64,42 @@
             "code": "Verification code",
             "submit": "Verify"
         },
-        "completeProfile": {
-            "title": "Complete your profile",
-            "firstName": "First name",
-            "lastName": "Last name",
-            "submit": "Update profile",
-            "validation": {
-                "firstNameLength": "First name must be at least 2 characters",
-                "lastNameLength": "Last name must be at least 2 characters"
-            }
-        },
         "validation": {
             "email": "Invalid email address",
             "required": "This field is required",
             "minLength": "Minimum {length} characters",
-            "passwordMatch": "Passwords don't match"
+            "passwordMatch": "Passwords do not match"
         },
         "alternativeMethods": {
-            "title": "Or sign up with",
+            "title": "Or register with",
             "microsoft": "Microsoft Teams",
             "usos": "USOS",
             "google": "Google"
+        },
+        "completeProfile": {
+            "title": "Complete Profile",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "submit": "Update Profile",
+            "validation": {
+                "firstNameLength": "First name must be at least 2 characters",
+                "lastNameLength": "Last name must be at least 2 characters"
+            }
         }
     },
     "dashboard": {
         "header": {
             "title": "Dashboard",
-            "welcome": "Welcome to your test management dashboard",
-            "createTest": "Create New Test"
+            "welcome": "Welcome to test management panel",
+            "createTest": "Create new test"
         },
         "recentTests": {
             "title": "Recent Tests",
-            "viewAll": "View All",
+            "viewAll": "View all",
             "empty": {
-                "title": "No tests created yet",
+                "title": "No tests created",
                 "description": "Create your first test to get started",
-                "action": "Create your first test"
+                "action": "Create first test"
             },
             "item": {
                 "questions": "{count} questions"
@@ -107,16 +107,16 @@
         },
         "assignedTests": {
             "title": "Upcoming Tests",
-            "subTitle": "{count} {count, plural, one {test} other {tests}} assigned to you",
+            "subTitle": "{count} {count, plural, one {test assigned} other {tests assigned}} to you",
             "empty": "No upcoming tests",
             "startsIn": "Starts in {hours}h",
             "endsIn": "Ends in {hours}h",
-            "startDate": "Starts: {date}",
-            "attemptTest": "Attempt the test"
+            "startDate": "Start: {date}",
+            "attemptTest": "Start test"
         },
         "ownedTests": {
-            "title": "Tests You've Assigned",
-            "subTitle": "{count} {count, plural, one {test} other {tests}} assigned by you",
+            "title": "Tests Assigned by You",
+            "subTitle": "{count} {count, plural, one {test assigned} other {tests assigned}} by you",
             "assignTest": "Assign test",
             "empty": "You haven't assigned any tests yet",
             "viewList": "View list",
@@ -125,13 +125,12 @@
         },
         "groups": {
             "title": "Your Groups",
-            "subTitle": "{count} total {count, plural, one {group} other {groups}}",
-            "viewAll": "View All",
+            "subTitle": "Total {count} {count, plural, one {group} other {groups}}",
+            "viewAll": "View all",
             "empty": {
-                "title": "No groups created yet",
-                "action": "Create your first group"
+                "title": "No groups created",
+                "action": "Create first group"
             },
-            "members": "{count} {count, plural, one {member} other {members}}",
             "view": "View",
             "viewMembers": "View members",
             "hideMembers": "Hide members",
@@ -139,36 +138,38 @@
                 "title": "Group Details",
                 "edit": "Edit",
                 "cancel": "Cancel",
-                "deleteGroup": "Delete Group",
+                "deleteGroup": "Delete group",
                 "deleteConfirm": {
                     "title": "Are you sure?",
-                    "description": "This action cannot be undone. This will permanently delete the group and remove all members."
+                    "description": "This action cannot be undone. The group will be permanently deleted and all members will be removed."
                 },
-                "save": "Save Changes",
-                "groupName": "Group Name",
+                "save": "Save changes",
+                "groupName": "Group name",
                 "description": "Description",
-                "noDescription": "No description provided"
+                "noDescription": "No description"
             },
             "list": {
                 "searchPlaceholder": "Search groups...",
-                "noResults": "No groups found matching your search",
+                "noResults": "No groups found matching search",
                 "noGroups": "No groups available",
-                "showAll": "Show All"
+                "showAll": "Show all"
+            },
+            "card": {
+                "member": "Member"
             },
             "create": {
-                "name": "Group Name",
+                "name": "Group name",
                 "namePlaceholder": "Enter group name",
                 "description": "Description",
                 "descriptionPlaceholder": "Enter group description",
-                "addUsers": "Add Users",
+                "addUsers": "Add users",
                 "searchUsers": "Search users...",
-                "create": "Create Group",
+                "create": "Create group",
                 "creating": "Creating...",
-                "sectionTitle": "Create New Group",
-                "description": "Set up a new group and invite members to collaborate."
+                "sectionTitle": "Create New Group"
             },
             "management": {
-                "title": "Groups Management",
+                "title": "Group Management",
                 "description": "Create and manage your groups, add members and organize your team."
             },
             "members": {
@@ -181,7 +182,7 @@
             },
             "owned": {
                 "title": "My Groups",
-                "description": "Groups you have created and manage",
+                "description": "Groups you created and manage",
                 "empty": {
                     "title": "No groups found",
                     "description": "Create a new group to get started"
@@ -189,20 +190,20 @@
             },
             "teams": {
                 "title": "Teams Groups",
-                "description": "Your Microsoft Teams synchronized groups"
+                "description": "Your synchronized Microsoft Teams groups"
             }
         },
         "finishedAttempts": {
             "title": "Finished Attempts",
             "empty": "No finished attempts",
-            "viewDetails": "View Details",
-            "pointsTooltip": "Number of points scored in this attempt"
+            "viewDetails": "View details",
+            "pointsTooltip": "Points earned in this attempt"
         }
     },
     "test": {
         "questions": {
             "matching": {
-                "selectPlaceholder": "Select matching item..."
+                "selectPlaceholder": "Select matching element..."
             },
             "boolean": {
                 "true": "True",
@@ -223,7 +224,7 @@
             "allTypes": "All types",
             "codeAccess": "Access code",
             "groupAccess": "Group access",
-            "noAssignments": "No test assignments found",
+            "noAssignments": "No assigned tests found",
             "accessCode": "Access code: {code}",
             "groupName": "Group: {name}",
             "manageAccess": "Manage Access",
@@ -234,8 +235,8 @@
     },
     "testAttempt": {
         "title": "Test Attempt",
-        "startAt": "Start At: {date}",
-        "timeLeft": "Time Left",
+        "startAt": "Start: {date}",
+        "timeLeft": "Time left",
         "finishTest": "Finish Test"
     }
 }
