@@ -1,8 +1,9 @@
+import { useTranslations } from 'next-intl';
+
 import { Badge } from '@/components/ui/badge';
 import { CompleteQuestionGroup } from '@/types/test/test';
 import { Question } from '@/types/questions';
 import { QuestionItem } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionItem';
-import { useTranslations } from 'next-intl';
 
 interface QuestionGroupProps {
   group: CompleteQuestionGroup;

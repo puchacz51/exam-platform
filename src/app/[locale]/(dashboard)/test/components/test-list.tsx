@@ -58,7 +58,9 @@ export const TestList = ({ initialData, onPageChange }: TestListProps) => {
 
                   <div className="flex items-center justify-between pt-2 text-sm">
                     <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground">{t('questions')}</span>
+                      <span className="text-muted-foreground">
+                        {t('questions')}
+                      </span>
                       <span className="font-medium">{test.questionCount}</span>
                     </div>
                     <div className="text-muted-foreground">

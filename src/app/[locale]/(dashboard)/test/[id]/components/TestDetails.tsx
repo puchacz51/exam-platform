@@ -32,7 +32,10 @@ export const TestDetails = ({ settings }: TestDetailsProps) => {
     {
       title: t('displaySettings'),
       settings: [
-        { label: t('questionDisplayMode'), value: settings.questionDisplayMode },
+        {
+          label: t('questionDisplayMode'),
+          value: settings.questionDisplayMode,
+        },
 
         {
           label: t('shuffleQuestions'),

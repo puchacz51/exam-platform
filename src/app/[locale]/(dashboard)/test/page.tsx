@@ -1,7 +1,8 @@
+import { getTranslations } from 'next-intl/server';
+
 import { TestList } from '@/app/[locale]/(dashboard)/test/components/test-list';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getUserTests } from '@actions/test/getUserTests';
-import { getTranslations } from 'next-intl/server';
 
 interface TestsPageProps {
   searchParams: { page?: string };

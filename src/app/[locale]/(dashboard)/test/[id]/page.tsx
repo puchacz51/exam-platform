@@ -1,6 +1,7 @@
 import { Metadata, NextPage } from 'next';
 import { notFound } from 'next/navigation';
 import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 import { Button } from '@/components/ui/button';
 import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
@@ -10,7 +11,6 @@ import { TestStats } from '@/app/[locale]/(dashboard)/test/[id]/components/TestS
 import { TestDetails } from '@/app/[locale]/(dashboard)/test/[id]/components/TestDetails';
 import { CompleteTest } from '@/types/test/test';
 import { Link } from '@/i18n/routing';
-import { getTranslations } from 'next-intl/server';
 
 interface TestPageProps {
   params: {

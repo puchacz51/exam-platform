@@ -39,10 +39,13 @@ export const TestHeader = ({
             )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="h-4 w-4" />
-              {t('createdAt', { date: new Date(createdAt).toLocaleDateString() })}
+              {t('createdAt', {
+                date: new Date(createdAt).toLocaleDateString(),
+              })}
               {questionsCount !== undefined && (
                 <span className="flex items-center gap-1">
-                  • <BookOpen className="h-4 w-4" /> {t('questionsCount', { count: questionsCount })}
+                  • <BookOpen className="h-4 w-4" />{' '}
+                  {t('questionsCount', { count: questionsCount })}
                 </span>
               )}
             </div>

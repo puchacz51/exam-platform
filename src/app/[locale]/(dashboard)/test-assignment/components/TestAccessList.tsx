@@ -1,5 +1,6 @@
 'use client';
 import { FC, HTMLAttributes } from 'react';
+
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
@@ -20,9 +21,7 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
   if (error) {
     return (
       <Card className="p-4">
-        <div className="text-center text-red-500">
-          {t('failedToLoad')}
-        </div>
+        <div className="text-center text-red-500">{t('failedToLoad')}</div>
       </Card>
     );
   }
@@ -39,9 +38,7 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
       ) : (
         <div className="space-y-4">
           {!!error && (
-            <div className="text-center text-red-500">
-              {t('failedToLoad')}
-            </div>
+            <div className="text-center text-red-500">{t('failedToLoad')}</div>
           )}
 
           {!!data?.items && (

@@ -1,7 +1,6 @@
 import { Clock } from 'lucide-react';
 
 import { Progress } from '@/components/ui/progress';
-import { useTranslations } from 'next-intl';
 
 interface TestProgressProps {
   timeLimit: number;

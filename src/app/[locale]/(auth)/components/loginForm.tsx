@@ -73,8 +73,9 @@ const LoginForm: FC = () => {
         return;
       }
       if (typeof window !== 'undefined') {
-        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') ||
-              '/dashboard';
+        const returnUrl =
+          new URLSearchParams(window.location.search).get('returnUrl') ||
+          '/dashboard';
 
         window.location = returnUrl as unknown as Location;
       }
