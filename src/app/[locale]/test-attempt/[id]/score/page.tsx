@@ -1,8 +1,11 @@
+import Link from 'next/link';
+
 import { auth } from '@/next-auth/auth';
 import { getUserPoints } from '@actions/attempt/helpers/getUserPoints';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 const TestScorePage = async ({ params }: { params: { id: string } }) => {
   const session = await auth();
@@ -86,6 +89,11 @@ const TestScorePage = async ({ params }: { params: { id: string } }) => {
           </div>
         </CardContent>
       </Card>
+      <div className="mt-6 flex justify-center">
+        <Button asChild>
+          <Link href="/dashboard">Return to Dashboard</Link>
+        </Button>
+      </div>
     </div>
   );
 };

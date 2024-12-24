@@ -10,7 +10,7 @@ const { auth } = NextAuth(authConfigWithProviders);
 export const authMiddleware: Middleware = async (context) => {
   const session = await auth();
   const locale = context.req.nextUrl.locale || 'en';
-  console.log('confirmUrl', context.req.nextUrl.pathname);
+
   if (!session) {
     const loginPath = pathnames['/login'][locale as Locale];
     const loginUrl = new URL(loginPath, context.req.url);

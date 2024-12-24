@@ -7,7 +7,7 @@ import { schema } from '@schema/index';
 
 const { DATABASE_URL = '' } = process.env;
 declare global {
-  // eslint-disable-next-line no-var -- only var works here
+  // eslint-disable-next-line no-var -- only var works 
   var db: PostgresJsDatabase<typeof schema> | undefined;
 }
 

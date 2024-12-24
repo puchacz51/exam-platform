@@ -29,6 +29,7 @@ export interface TestProps {
   aiQuestions: Question[] | null;
   isAiGeneratorOpen: boolean;
 }
+
 type Updater<T> = T | ((prev: T) => T);
 
 export interface TestState extends TestProps {

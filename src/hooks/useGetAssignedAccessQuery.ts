@@ -5,7 +5,6 @@ import { usePagination } from '@/hooks/navigation/usePagination';
 import { BasicUserTestAssignmentsResponse } from '@actions/test-assigment/getBasicUserTestAssignments';
 
 const GetAssignedAccess = async (page: string) => {
-  console.log('GET /api/test-access/owned');
   const response = await fetch(
     `/api/test-access/assigned?${new URLSearchParams({
       page,

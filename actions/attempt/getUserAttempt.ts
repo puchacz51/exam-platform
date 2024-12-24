@@ -4,7 +4,10 @@ import db from '@/lib/db';
 import { auth } from '@/next-auth/auth';
 import { testAttemptsTable } from '@schema/testAttempt';
 
-export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
+export const getUserAttemptWithTestSettings = async (
+  assignmentId: string,
+  showAnswer = false
+) => {
   const session = await auth();
 
   if (!session?.user.userID) {
@@ -30,13 +33,37 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
                           with: {
                             GSQ: {
                               orderBy: sql`Random()`,
+                              columns: {
+                                id: true,
+                                text: true,
+                                type: true,
+                                tolerance: true,
+                                ...(showAnswer && {
+                                  booleanAnswer: true,
+                                  choiceAnswer: true,
+                                }),
+                              },
                             },
                             matchingPairs: true,
                             answers: {
                               orderBy: sql`Random()`,
+                              columns: {
+                                id: true,
+                                text: true,
+                                ...(showAnswer && {
+                                  isCorrect: true,
+                                }),
+                              },
                             },
                             orderItems: {
                               orderBy: sql`Random()`,
+                              columns: {
+                                id: true,
+                                text: true,
+                                ...(showAnswer && {
+                                  order: true,
+                                }),
+                              },
                             },
                           },
                         },
@@ -65,7 +92,44 @@ export const getUserAttemptWithTestSettings = async (assignmentId: string) => {
       return { data: userAttempt, error: 'Attempt not found' };
     }
 
-    return { data: userAttempt, error: null };
+    const QGWithRandomizedQuestions = userAttempt.testAccess.test.QG.map(
+      (qg) => ({
+        ...qg,
+        qOnQG: qg.qOnQG.map((qOnQG) => ({
+          ...qOnQG,
+          question: {
+            ...qOnQG.question,
+            GSQ: qOnQG.question.GSQ.sort(() => Math.random() - 0.5),
+            matchingPairs: (() => {
+              if (!qOnQG.question.matchingPairs) return [];
+              const shuffledValues = [...qOnQG.question.matchingPairs]
+                .map((mp) => mp.value)
+                .sort(() => Math.random() - 0.5);
+
+              return qOnQG.question.matchingPairs.map((mp, index) => ({
+                id: mp.id,
+                questionId: mp.questionId,
+                key: mp.key,
+                value: shuffledValues[index],
+              }));
+            })(),
+          },
+        })),
+      })
+    );
+    return {
+      data: {
+        ...userAttempt,
+        testAccess: {
+          ...userAttempt.testAccess,
+          test: {
+            ...userAttempt.testAccess.test,
+            QG: QGWithRandomizedQuestions,
+          },
+        },
+      },
+      error: null,
+    };
   } catch (error) {
     return { error: 'Error fetching attempt', data: null };
   }

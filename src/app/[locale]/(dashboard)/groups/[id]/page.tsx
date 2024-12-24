@@ -15,8 +15,10 @@ interface GroupPageProps {
 }
 
 const GroupPage = async ({ params }: GroupPageProps) => {
-  const t = await getTranslations('dashboard.groups');
-  const response = await getGroupById(params.id);
+  const [t, response] = await Promise.all([
+    getTranslations('dashboard.groups'),
+    getGroupById(params.id)
+  ]);
 
   if (!response.success || !response.data) {
     notFound();

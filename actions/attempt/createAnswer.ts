@@ -6,13 +6,16 @@ import { submitAnswers } from '@actions/attempt/submitAnswers';
 import { getUserAttemptWithTestSettings } from '@actions/attempt/getUserAttempt';
 import { calculatePoints } from '@actions/attempt/helpers/calculatePoints';
 import { getGroupedAnswers } from '@actions/attempt/helpers/answerAggregation';
+import { CompleteQuestion } from '@/types/test/test';
 
 export async function createAnswer(
   testAccessId: string,
   answers: AnswerInput[]
 ) {
-  const { data: userAttempt, error } =
-    await getUserAttemptWithTestSettings(testAccessId);
+  const { data: userAttempt, error } = await getUserAttemptWithTestSettings(
+    testAccessId,
+    true
+  );
 
   if (!userAttempt || error) {
     return { data: null, error: 'Attempt not found' };
@@ -33,7 +36,16 @@ export async function createAnswer(
     return { data: null, error: 'Time is over' };
   }
 
-  const questions = test.QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
+  const questions = test.QG.flatMap((qg) =>
+    qg.qOnQG.map((q) => q.question)
+  ) as unknown as CompleteQuestion[];
+
+  console.log(
+    'questions',
+    questions
+      .filter((q) => q.questionType === 'BOOLEAN_GROUP')
+      .map((q) => q.GSQ)
+  );
   const calculatedPoints = calculatePoints({
     questions,
     answers,

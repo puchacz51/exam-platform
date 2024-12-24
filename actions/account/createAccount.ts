@@ -1,7 +1,8 @@
 'use server';
 
+import { createHash, randomBytes } from 'node:crypto';
+
 import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
 import { InsertUser, usersTable } from '@schema/users';
@@ -40,13 +41,17 @@ export async function registerUser(formData: FormData) {
       return { error: 'Użytkownik o podanym adresie email już istnieje' };
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const salt = randomBytes(16).toString('hex');
+    const passwordHash = createHash('sha256')
+      .update(password + salt)
+      .digest('hex');
 
     const newUser: InsertUser = {
       firstname,
       lastname,
       email,
       passwordHash,
+      salt,
       authProvider: 'local',
       createdAt: new Date(),
     };
@@ -66,7 +71,6 @@ export async function registerUser(formData: FormData) {
       return { success: true, userId: insertedUser.id };
     });
   } catch (error) {
-    console.error('Błąd podczas rejestracji użytkownika:', error);
     return {
       error: 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.',
     };

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { Middleware } from '@/types/middlewares/middlewareChain';
 import { getPathname } from '@/i18n/routing';
 const APP_URL = process.env.NEXT_PUBLIC_URL || process.env.VERCEL_URL;
-console.log('APP_URL', APP_URL);
+
 export const profileCompletionMiddleware: Middleware = async (context) => {
   const completeProfileUrl = getPathname({
     locale: 'pl',

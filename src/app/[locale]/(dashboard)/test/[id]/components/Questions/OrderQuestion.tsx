@@ -65,7 +65,8 @@ const getInitialOrderedItems = (
 
 const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const { id } = question;
-  const { setValue, getValues } = useFormContext<TestAttemptFormDataOrder>();
+  const { setValue, getValues, watch } =
+    useFormContext<TestAttemptFormDataOrder>();
 
   const initialOrderedItems = getInitialOrderedItems(
     mode,
@@ -73,7 +74,6 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
     id,
     question.orderItems as unknown as OrderQuestionWithoutAnswer[]
   );
-  console.log(initialOrderedItems);
   const [orderedItems, setOrderedItems] = useState(initialOrderedItems);
 
   const sensors = useSensors(
@@ -93,7 +93,6 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
 
       const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
       setOrderedItems(newOrderedItems);
-      console.log(newOrderedItems);
       setValue(
         `questions.${id}.items`,
         newOrderedItems.map((item, index) => ({
@@ -104,9 +103,34 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
     }
   };
 
+  const questionFormItems = watch(`questions.${id}.items`) || [];
+  const hasFormValues = questionFormItems.length > 0;
+
   return (
     <div>
       {mode === 'solve'}
+      {!hasFormValues && mode === 'solve' && (
+        <div className="mt-4">
+          <button
+            type="button"
+            className="mb-2 rounded bg-green-400 px-3 py-2 text-white"
+            onClick={() => {
+              setOrderedItems(
+                question.orderItems as unknown as OrderQuestionWithoutAnswer[]
+              );
+              setValue(
+                `questions.${id}.items`,
+                question.orderItems.map((item, index) => ({
+                  itemId: item.id,
+                  position: index + 1,
+                }))
+              );
+            }}
+          >
+            set current order
+          </button>
+        </div>
+      )}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

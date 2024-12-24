@@ -37,7 +37,10 @@ const LoginForm: FC = () => {
 
   const loginSchema = z.object({
     email: z.string().email(t('validation.email')),
-    password: z.string().min(1, t('validation.required')),
+    password: z
+      .string()
+      .min(8, t('validation.minLength', { length: 8 }))
+      .regex(/[A-Z]/, t('validation.passwordRequirements')),
   });
 
   type LoginForm = z.infer<typeof loginSchema>;

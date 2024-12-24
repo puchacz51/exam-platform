@@ -12,9 +12,12 @@ export const getUserAttemptFlow = async (
   testAccessId: string,
   navOptions?: NavOptions
 ) => {
+  console.log('userAttempt', navOptions);
+
   const userAttemptWithTestSettings =
     await getUserAttemptWithTestSettings(testAccessId);
   const { data: userAttempt, error } = userAttemptWithTestSettings;
+
 
   if (error || !userAttempt) {
     return { data: null, error };

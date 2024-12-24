@@ -46,6 +46,7 @@
             "google": "Google",
             "error": "An error occurred during login",
             "invalidCredentials": "Invalid email or password",
+            "missingCredentials": "Missing credentials",
             "register": "Register"
         },
         "register": {
@@ -57,7 +58,10 @@
             "confirmPassword": "Confirm Password",
             "submit": "Register",
             "alternativeMethods": "Or register with",
-            "login": "Login"
+            "login": "Login",
+            "invalidFormData": "Invalid form data",
+            "emailAlreadyExists": "Email already in use",
+            "registrationFailed": "An error occurred during registration. Please try again later."
         },
         "verification": {
             "title": "Email verification",
@@ -68,7 +72,8 @@
             "email": "Invalid email address",
             "required": "This field is required",
             "minLength": "Minimum {length} characters",
-            "passwordMatch": "Passwords do not match"
+            "passwordMatch": "Passwords do not match",
+            "passwordRequirements": "Password must contain at least 8 characters and one uppercase letter"
         },
         "alternativeMethods": {
             "title": "Or register with",

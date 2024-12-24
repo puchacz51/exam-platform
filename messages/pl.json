@@ -46,6 +46,7 @@
             "google": "Google",
             "error": "Wystąpił błąd podczas logowania",
             "invalidCredentials": "Nieprawidłowy email lub hasło",
+            "missingCredentials": "Brak danych logowania",
             "register": "Rejestracja"
         },
         "register": {
@@ -57,7 +58,10 @@
             "confirmPassword": "Potwierdź hasło",
             "submit": "Zarejestruj się",
             "alternativeMethods": "Lub zarejestruj się przez",
-            "login": "Logowanie"
+            "login": "Logowanie",
+            "invalidFormData": "Nieprawidłowe dane formularza",
+            "emailAlreadyExists": "Użytkownik o podanym adresie email już istnieje",
+            "registrationFailed": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później."
         },
         "verification": {
             "title": "Weryfikacja email",
@@ -68,7 +72,8 @@
             "email": "Nieprawidłowy adres email",
             "required": "To pole jest wymagane",
             "minLength": "Minimum {length} znaków",
-            "passwordMatch": "Hasła nie są identyczne"
+            "passwordMatch": "Hasła nie są identyczne",
+            "passwordRequirements": "Hasło musi zawierać minimum 8 znaków i jedną wielką literę"
         },
         "alternativeMethods": {
             "title": "Lub zarejestruj się przez",

@@ -10,9 +10,9 @@ import { GroupsList } from '@/app/[locale]/(dashboard)/dashboard/components/Grou
 import { getUserGroups } from '@actions/groups/getGroup';
 import { getUserTests } from '@actions/test/getUserTests';
 import { getUserFinishedAttempts } from '@actions/attempt/getUserFinishedAttempt';
+import { OwnedTests } from '@/app/[locale]/(dashboard)/dashboard/components/OwnedTests';
+import { FinishedAttempts } from '@/app/[locale]/(dashboard)/dashboard/components/FinishedAttempts';
 
-import { OwnedTests } from './components/OwnedTests';
-import { FinishedAttempts } from './components/FinishedAttempts';
 
 const DashboardPage: NextPage = async () => {
   const session = await auth();

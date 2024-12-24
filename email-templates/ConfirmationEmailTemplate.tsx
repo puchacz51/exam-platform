@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   Body,
-  Button,
+  // Button,z bibl
   Container,
   Head,
   Hr,
@@ -95,25 +95,25 @@ const codeStyle = {
   letterSpacing: '4px',
 };
 
-const buttonContainer = {
-  textAlign: 'center' as const,
-  margin: '32px 0',
-};
+// const buttonContainer = {
+//   textAlign: 'center' as const,
+//   margin: '32px 0',
+// };
 
-const buttonStyle = {
-  backgroundColor: '#4f46e5',
-  borderRadius: '6px',
-  color: '#ffffff',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-  padding: '12px 32px',
-  border: 'none',
-  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-  transition: 'background-color 0.2s ease',
-};
+// const buttonStyle = {
+//   backgroundColor: '#4f46e5',
+//   borderRadius: '6px',
+//   color: '#ffffff',
+//   fontSize: '16px',
+//   fontWeight: 'bold',
+//   textDecoration: 'none',
+//   textAlign: 'center' as const,
+//   display: 'inline-block',
+//   padding: '12px 32px',
+//   border: 'none',
+//   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+//   transition: 'background-color 0.2s ease',
+// };
 
 const hrStyle = {
   borderColor: '#e6ebf1',

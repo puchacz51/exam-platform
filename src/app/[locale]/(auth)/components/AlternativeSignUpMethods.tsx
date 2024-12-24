@@ -29,7 +29,7 @@ const AlternativeSignUpMethods: FC = () => {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-3">
+      <div className="mt-6 flex justify-around">
         <Button
           variant="outline"
           onClick={handleMicrosoftSignUp}
