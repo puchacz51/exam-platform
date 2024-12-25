@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
@@ -19,6 +20,7 @@ import { TabsContent } from '@/components/ui/tabs';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestBasic: FC = () => {
+  const t = useTranslations('testCreator.settings.basic');
   const {
     formState: { errors },
     control,
@@ -38,17 +40,15 @@ const TestCreatorTestBasic: FC = () => {
         name="title"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-semibold">Tytuł testu</FormLabel>
+            <FormLabel className="font-semibold">{t('title')}</FormLabel>
             <FormControl>
               <Input
-                placeholder="Wprowadź tytuł testu"
+                placeholder={t('titlePlaceholder')}
                 className="border-gray-200"
                 {...field}
               />
             </FormControl>
-            <FormDescription>
-              Nadaj swojemu testowi unikalny tytuł
-            </FormDescription>
+            <FormDescription>{t('titleDescription')}</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -59,17 +59,15 @@ const TestCreatorTestBasic: FC = () => {
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-semibold">Opis</FormLabel>
+            <FormLabel className="font-semibold">{t('description')}</FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Wprowadź opis testu"
+                placeholder={t('descriptionPlaceholder')}
                 className="min-h-32 border-gray-200"
                 {...field}
               />
             </FormControl>
-            <FormDescription>
-              Opisz czego dotyczy test i jakie są jego cele
-            </FormDescription>
+            <FormDescription>{t('descriptionHelp')}</FormDescription>
             <FormMessage />
           </FormItem>
         )}

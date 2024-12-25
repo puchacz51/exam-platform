@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Form,
@@ -15,6 +16,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { OpenQuestion } from '@/types/test-creator/question';
 
 const OpenEndedQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.open');
   const form = useFormContext<OpenQuestion>();
 
   return (
@@ -26,11 +28,11 @@ const OpenEndedQuestionForm = () => {
             name="text"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Treść pytania</FormLabel>
+                <FormLabel>{t('questionContent')}</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder="Wprowadź treść pytania"
+                    placeholder={t('questionPlaceholder')}
                     className="min-h-[100px]"
                   />
                 </FormControl>
@@ -48,11 +50,11 @@ const OpenEndedQuestionForm = () => {
             name="correctAnswer"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Przykładowa poprawna odpowiedź</FormLabel>
+                <FormLabel>{t('sampleAnswer')}</FormLabel>
                 <FormControl>
                   <Textarea
                     value={field.value}
-                    placeholder="Wprowadź przykładową poprawną odpowiedź"
+                    placeholder={t('sampleAnswerPlaceholder')}
                     className="min-h-[100px]"
                   />
                 </FormControl>

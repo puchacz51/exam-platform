@@ -3,6 +3,7 @@ import React, { FC, HTMLAttributes, useState } from 'react';
 import { Form, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Eye, Layout, Medal, Save, Settings2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +19,7 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
 
 const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
+  const t = useTranslations('testCreator.settings');
   const test = useTestContext((state) => state.test);
   const isAddedGeneralConfiguration = useTestContext(
     (state) => state.isAddedGeneralConfiguration
@@ -56,7 +58,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Settings2 className="h-5 w-5 text-primary" />
-            <CardTitle>Konfiguracja testu</CardTitle>
+            <CardTitle>{t('title')}</CardTitle>
           </div>
         </div>
       </CardHeader>
@@ -73,35 +75,35 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
                 className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Settings2 className="h-5 w-5" />
-                <span className="text-base">Podstawowe</span>
+                <span className="text-base">{t('basic.title')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="navigation"
                 className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Layout className="h-5 w-5" />
-                <span className="text-base">Nawigacja</span>
+                <span className="text-base">{t('navigation.title')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="scoring"
                 className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Medal className="h-5 w-5" />
-                <span className="text-base">Punktacja</span>
+                <span className="text-base">{t('scoring.title')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="display"
                 className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Eye className="h-5 w-5" />
-                <span className="text-base">Wyświetlanie</span>
+                <span className="text-base">{t('display.title')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="results"
                 className="flex items-center justify-start gap-2 rounded-lg px-4 py-3 sm:min-w-[180px]"
               >
                 <Save className="h-5 w-5" />
-                <span className="text-base">Wyniki</span>
+                <span className="text-base">{t('results.title')}</span>
               </TabsTrigger>
             </TabsList>
           </div>
@@ -123,7 +125,7 @@ const TestCreatorForm: FC<HTMLAttributes<HTMLDivElement>> = ({ className }) => {
                   type="submit"
                   className="w-full sm:w-auto"
                 >
-                  Zapisz konfigurację
+                  {t('saveConfiguration')}
                 </Button>
               </div>
             </Form>

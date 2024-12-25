@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { HelpCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
@@ -31,6 +32,7 @@ interface TestCreatorQuestionsFormProps
 const TestCreatorQuestionsAddForm: FC<TestCreatorQuestionsFormProps> = ({
   className,
 }) => {
+  const t = useTranslations('testCreator.questions');
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
@@ -69,7 +71,7 @@ const TestCreatorQuestionsAddForm: FC<TestCreatorQuestionsFormProps> = ({
       <div className="relative z-10 flex items-center justify-between border-b bg-emerald-50 p-4">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold text-gray-800">
-            Question Details
+            {t('questionDetails')}
           </h2>
           <TooltipProvider>
             <Tooltip>
@@ -78,8 +80,7 @@ const TestCreatorQuestionsAddForm: FC<TestCreatorQuestionsFormProps> = ({
               </TooltipTrigger>
               <TooltipContent>
                 <p className="w-64">
-                  Create and configure your test question here. Choose the type,
-                  set points, and add your content.
+                  {t('questionDetailsHelp')}
                 </p>
               </TooltipContent>
             </Tooltip>

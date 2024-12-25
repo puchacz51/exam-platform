@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AlertCircle, ArrowRightLeft, Plus, Trash2 } from 'lucide-react';
 
@@ -19,6 +20,7 @@ import { MatchingQuestion } from '@/types/test-creator/question';
 import { generateId } from '@/utils/generateId';
 
 const MatchingQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.matching');
   const form = useFormContext<MatchingQuestion>();
   const { control } = form;
 
@@ -41,14 +43,12 @@ const MatchingQuestionForm = () => {
         name="text"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-base font-medium text-gray-700">
-              Treść pytania
-            </FormLabel>
+            <FormLabel>{t('questionContent')}</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Wprowadź treść pytania..."
-                className="min-h-[100px] resize-y bg-white"
+                placeholder={t('questionPlaceholder')}
+                className="min-h-[100px]"
               />
             </FormControl>
             <FormMessage />
@@ -60,7 +60,7 @@ const MatchingQuestionForm = () => {
           <div className="mb-6">
             <div className="flex items-center justify-between">
               <FormLabel className="text-lg font-medium text-gray-700">
-                Pary do dopasowania
+                {t('pairs')}
               </FormLabel>
               <Button
                 type="button"
@@ -75,7 +75,7 @@ const MatchingQuestionForm = () => {
                 className="border-blue-200 bg-white hover:bg-gray-50"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Dodaj parę
+                {t('addPair')}
               </Button>
             </div>
             {fields.length < 2 && (
@@ -84,9 +84,7 @@ const MatchingQuestionForm = () => {
                 className="mt-4"
               >
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Wymagane są co najmniej dwie pary do dopasowania
-                </AlertDescription>
+                <AlertDescription>{t('minPairsWarning')}</AlertDescription>
               </Alert>
             )}
           </div>
@@ -104,12 +102,12 @@ const MatchingQuestionForm = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm font-medium text-gray-600">
-                          Element {index + 1}
+                          {t('firstElement', { number: index + 1 })}
                         </FormLabel>
                         <FormControl>
                           <Input
                             {...field}
-                            placeholder="Wprowadź pierwszy element..."
+                            placeholder={t('firstElementPlaceholder')}
                             className="bg-gray-50 transition-colors focus:bg-white"
                           />
                         </FormControl>
@@ -129,12 +127,12 @@ const MatchingQuestionForm = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-600">
-                            Dopasowanie {index + 1}
+                            {t('secondElement', { number: index + 1 })}
                           </FormLabel>
                           <FormControl>
                             <Input
                               {...field}
-                              placeholder="Wprowadź element do dopasowania..."
+                              placeholder={t('secondElementPlaceholder')}
                               className="bg-gray-50 transition-colors focus:bg-white"
                             />
                           </FormControl>
@@ -154,7 +152,7 @@ const MatchingQuestionForm = () => {
                     className="absolute -right-2 -top-2 h-8 w-8 border bg-white opacity-0 shadow-sm transition-opacity hover:bg-red-50 group-hover:opacity-100"
                   >
                     <Trash2 className="h-4 w-4 text-red-500" />
-                    <span className="sr-only">Usuń parę</span>
+                    <span className="sr-only">{t('deletePair')}</span>
                   </Button>
                 )}
               </div>

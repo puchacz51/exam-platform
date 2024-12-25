@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import {
   Dialog,
   DialogContent,
@@ -10,6 +12,7 @@ import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/st
 import TestCreatorQuestionsEditForm from '@/app/[locale]/(dashboard)/test-creator/components/TestCreatorQuestionsEditForm';
 
 export const QuestionEditModal = () => {
+  const t = useTranslations('testCreator.modals');
   const currentQuestion = useTestContext((state) => state.currentQuestion);
   const setCurrentQuestion = useTestContext(
     (state) => state.setCurrentQuestion
@@ -22,7 +25,7 @@ export const QuestionEditModal = () => {
     >
       <DialogContent className="flex h-[90vh] max-w-4xl flex-col p-0">
         <DialogHeader className="flex-shrink-0 border-b px-6 py-4">
-          <DialogTitle>Edit Question</DialogTitle>
+          <DialogTitle>{t('editQuestion')}</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-auto px-6 py-4">
           <TestCreatorQuestionsEditForm />

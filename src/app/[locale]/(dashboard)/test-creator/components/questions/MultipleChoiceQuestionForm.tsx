@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Plus, Trash2 } from 'lucide-react';
 
@@ -20,6 +21,7 @@ import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { generateId } from '@/utils/generateId';
 
 export const MultipleChoiceQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.multipleChoice');
   const form = useFormContext<TestCreatorQuestion>();
   const { control } = form;
 
@@ -42,11 +44,11 @@ export const MultipleChoiceQuestionForm = () => {
           name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Treść pytania</FormLabel>
+              <FormLabel>{t('questionContent')}</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="Wprowadź treść pytania"
+                  placeholder={t('questionPlaceholder')}
                   className="min-h-[100px]"
                 />
               </FormControl>
@@ -56,7 +58,7 @@ export const MultipleChoiceQuestionForm = () => {
         />
         <Card>
           <CardContent className="pt-6">
-            <FormLabel className="mb-4 block">Odpowiedzi</FormLabel>
+            <FormLabel className="mb-4 block">{t('answers')}</FormLabel>
             <div className="space-y-4">
               {fields.map((field, index) => (
                 <div
@@ -118,7 +120,7 @@ export const MultipleChoiceQuestionForm = () => {
               }
               className="mt-4"
             >
-              <Plus className="mr-2 h-4 w-4" /> Dodaj odpowiedź
+              <Plus className="mr-2 h-4 w-4" /> {t('addAnswer')}
             </Button>
           </CardContent>
         </Card>

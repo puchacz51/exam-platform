@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AlertCircle, Plus, Trash2 } from 'lucide-react';
 
@@ -21,6 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { BooleanGroupQuestion } from '@/types/test-creator/question';
 
 const BooleanGroupQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.booleanGroup');
   const form = useFormContext<BooleanGroupQuestion>();
   const { control } = form;
 
@@ -44,12 +46,12 @@ const BooleanGroupQuestionForm = () => {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-lg font-semibold">
-              Treść głównego pytania
+              {t('mainQuestion')}
             </FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Wprowadź treść głównego pytania..."
+                placeholder={t('mainQuestionPlaceholder')}
                 className="min-h-[120px] text-base"
               />
             </FormControl>
@@ -61,7 +63,7 @@ const BooleanGroupQuestionForm = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Podpytania prawda/fałsz</span>
+            <span>{t('subQuestions')}</span>
             <Button
               type="button"
               onClick={() =>
@@ -74,15 +76,13 @@ const BooleanGroupQuestionForm = () => {
               className="ml-auto"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Dodaj podpytanie
+              {t('addSubQuestion')}
             </Button>
           </CardTitle>
           {fields.length < 2 && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                Wymagane są co najmniej dwa podpytania
-              </AlertDescription>
+              <AlertDescription>{t('minSubQuestionsWarning')}</AlertDescription>
             </Alert>
           )}
         </CardHeader>

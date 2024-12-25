@@ -1,5 +1,6 @@
 import { Info } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Select,
@@ -33,6 +34,7 @@ export const ConfigurationSection = ({
 }: ConfigurationSectionProps) => {
   const form = useFormContext<AiGeneratorFormData>();
   const selectedTypes = form.watch('selectedTypes');
+  const t = useTranslations('aiGenerator.configuration');
 
   return (
     <div className="grid gap-8 rounded-lg border bg-background/60 p-6 shadow-sm">
@@ -44,7 +46,7 @@ export const ConfigurationSection = ({
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-base font-semibold">
-                  Category
+                  {t('category')}
                 </FormLabel>
                 <Select
                   onValueChange={(value) => {
@@ -58,10 +60,10 @@ export const ConfigurationSection = ({
                   <FormControl>
                     <SelectTrigger className="h-11 px-3 py-2">
                       <SelectValue
-                        placeholder="Select a category"
+                        placeholder={t('selectCategory')}
                         className="text-muted-foreground"
                       >
-                        {field.value?.name || 'Select a category'}
+                        {field.value?.name || t('selectCategory')}
                       </SelectValue>
                     </SelectTrigger>
                   </FormControl>
@@ -87,11 +89,11 @@ export const ConfigurationSection = ({
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel className="text-base font-semibold">
-                  Main Topic
+                  {t('mainTopic')}
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="e.g., JavaScript Basics"
+                    placeholder={t('topicPlaceholder')}
                     className="h-11 px-3 py-2"
                     {...field}
                   />
@@ -108,11 +110,11 @@ export const ConfigurationSection = ({
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel className="text-base font-semibold">
-                Topic Details
+                {t('topicDetails')}
               </FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Add specific requirements or context for the questions..."
+                  placeholder={t('detailsPlaceholder')}
                   className="min-h-[180px] resize-none px-3 py-2"
                   {...field}
                 />
@@ -130,7 +132,7 @@ export const ConfigurationSection = ({
           </label>
           <Info className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />
           <span className="ml-auto text-sm font-medium text-muted-foreground">
-            Total questions: {totalQuestions}/12
+            {t('totalQuestions', { count: totalQuestions })}
           </span>
         </div>
         <ScrollArea className="h-[140px] rounded-md border bg-background/40 p-4 shadow-inner">

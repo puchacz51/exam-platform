@@ -2,35 +2,35 @@
     "email": {
         "confirmation": {
             "greeting": "Hello {name}!",
-            "thankYou": "Thank you for creating an account in our service.",
+            "thankYou": "Thank you for creating an account on our service.",
             "activationInstructions": "To start using your account, please activate it by clicking the button below:",
             "activateButton": "Activate Your Account",
-            "activationWarning": "If you didn't create this account, please ignore this message.",
+            "activationWarning": "If you did not create this account, please ignore this message.",
             "welcomeSubject": "Activate Your Account",
             "accountCreated": "Account created and activation email sent",
-            "error": "An error occurred while creating account or sending email"
+            "error": "An error occurred while creating the account or sending the email"
         }
     },
     "home": {
         "title": "QuizSow - Engineering Project",
-        "description": "Project implemented as part of engineering thesis at Bydgoszcz University of Science and Technology. Test management system with artificial intelligence support.",
+        "description": "A project carried out as part of an engineering thesis at the Bydgoszcz University of Technology. A system for managing tests using artificial intelligence.",
         "buttons": {
             "getStarted": "Get Started",
             "learnMore": "Learn More"
         },
         "features": {
-            "title": "About Project",
+            "title": "About the Project",
             "aiSupport": {
                 "title": "AI Support in Test Creation",
-                "description": "Using Gemini API for generating test questions and supporting the learning process"
+                "description": "Using the Gemini API to generate test questions and support the learning process"
             },
             "msIntegration": {
                 "title": "Microsoft Integration",
-                "description": "Using Azure AD for authentication and Microsoft Teams integration"
+                "description": "Using Azure AD for authentication and integration with Microsoft Teams"
             },
             "academic": {
                 "title": "Academic Project",
-                "description": "Engineering thesis conducted under supervisor's guidance at the Faculty of Telecommunications, Computer Science and Electrical Engineering"
+                "description": "An engineering thesis carried out under the supervision of a promoter at the Faculty of Telecommunications, Informatics and Electrical Engineering"
             }
         }
     },
@@ -44,13 +44,13 @@
             "alternativeMethods": "Or log in with",
             "microsoft": "Microsoft Teams",
             "google": "Google",
-            "error": "An error occurred during login",
+            "error": "An error occurred while logging in",
             "invalidCredentials": "Invalid email or password",
-            "missingCredentials": "Missing credentials",
+            "missingCredentials": "Missing login credentials",
             "register": "Register"
         },
         "register": {
-            "title": "Register new account",
+            "title": "Register a new account",
             "firstName": "First Name",
             "lastName": "Last Name",
             "email": "Email",
@@ -58,14 +58,14 @@
             "confirmPassword": "Confirm Password",
             "submit": "Register",
             "alternativeMethods": "Or register with",
-            "login": "Login",
+            "login": "Log in",
             "invalidFormData": "Invalid form data",
-            "emailAlreadyExists": "Email already in use",
+            "emailAlreadyExists": "A user with the given email already exists",
             "registrationFailed": "An error occurred during registration. Please try again later."
         },
         "verification": {
-            "title": "Email verification",
-            "code": "Verification code",
+            "title": "Email Verification",
+            "code": "Verification Code",
             "submit": "Verify"
         },
         "validation": {
@@ -73,7 +73,7 @@
             "required": "This field is required",
             "minLength": "Minimum {length} characters",
             "passwordMatch": "Passwords do not match",
-            "passwordRequirements": "Password must contain at least 8 characters and one uppercase letter"
+            "passwordRequirements": "Password must be at least 8 characters long and contain one uppercase letter"
         },
         "alternativeMethods": {
             "title": "Or register with",
@@ -95,17 +95,17 @@
     "dashboard": {
         "header": {
             "title": "Dashboard",
-            "welcome": "Welcome to test management panel",
-            "createTest": "Create new test"
+            "welcome": "Welcome to the test management panel",
+            "createTest": "Create a new test"
         },
         "recentTests": {
             "title": "Recent Tests",
-            "viewAll": "View all",
+            "viewAll": "View All",
             "viewAllTests": "View All Tests",
             "empty": {
                 "title": "No tests created",
                 "description": "Create your first test to get started",
-                "action": "Create first test"
+                "action": "Create First Test"
             },
             "item": {
                 "questions": "{count} questions"
@@ -117,67 +117,67 @@
             "empty": "No upcoming tests",
             "startsIn": "Starts in {hours}h",
             "endsIn": "Ends in {hours}h",
-            "startDate": "Start: {date}",
-            "attemptTest": "Start test"
+            "startDate": "Start Date: {date}",
+            "attemptTest": "Start Test"
         },
         "ownedTests": {
             "title": "Tests Assigned by You",
             "subTitle": "{count} {count, plural, one {test assigned} other {tests assigned}} by you",
-            "assignTest": "Assign test",
-            "empty": "You haven't assigned any tests yet",
-            "viewList": "View list",
+            "assignTest": "Assign Test",
+            "empty": "You have not assigned any tests yet",
+            "viewList": "View List",
             "assignedTo": "Assigned to: {group}",
-            "accessType": "Access type: {type}",
+            "accessType": "Access Type: {type}",
             "viewAssignment": "View Assignment"
         },
         "groups": {
             "title": "Your Groups",
             "subTitle": "Total {count} {count, plural, one {group} other {groups}}",
-            "viewAll": "View all",
+            "viewAll": "View All",
             "empty": {
                 "title": "No groups created",
-                "action": "Create first group"
+                "action": "Create First Group"
             },
             "view": "View",
-            "viewMembers": "View members",
-            "hideMembers": "Hide members",
+            "viewMembers": "View Members",
+            "hideMembers": "Hide Members",
             "details": {
                 "title": "Group Details",
                 "edit": "Edit",
                 "cancel": "Cancel",
-                "deleteGroup": "Delete group",
+                "deleteGroup": "Delete Group",
                 "deleteConfirm": {
                     "title": "Are you sure?",
                     "description": "This action cannot be undone. The group will be permanently deleted and all members will be removed."
                 },
-                "save": "Save changes",
-                "groupName": "Group name",
+                "save": "Save Changes",
+                "groupName": "Group Name",
                 "description": "Description",
                 "noDescription": "No description"
             },
             "list": {
                 "searchPlaceholder": "Search groups...",
-                "noResults": "No groups found matching search",
-                "noGroups": "No groups available",
-                "showAll": "Show all"
+                "noResults": "No groups matching the search",
+                "noGroups": "No available groups",
+                "showAll": "Show All"
             },
             "card": {
                 "member": "Member"
             },
             "create": {
-                "name": "Group name",
+                "name": "Group Name",
                 "namePlaceholder": "Enter group name",
                 "description": "Description",
                 "descriptionPlaceholder": "Enter group description",
-                "addUsers": "Add users",
+                "addUsers": "Add Users",
                 "searchUsers": "Search users...",
-                "create": "Create group",
+                "create": "Create Group",
                 "creating": "Creating...",
                 "sectionTitle": "Create New Group"
             },
             "management": {
                 "title": "Group Management",
-                "description": "Create and manage your groups, add members and organize your team."
+                "description": "Create and manage your groups, add members, and organize your team."
             },
             "members": {
                 "title": "Group Members",
@@ -207,13 +207,13 @@
         "finishedAttempts": {
             "title": "Finished Attempts",
             "empty": "No finished attempts",
-            "viewDetails": "View details",
-            "pointsTooltip": "Points earned in this attempt"
+            "viewDetails": "View Details",
+            "pointsTooltip": "Number of points obtained in this attempt"
         },
         "testViewer": {
             "error": {
                 "title": "Error",
-                "description": "Test not found. Please check the test ID and try again."
+                "description": "Test not found. Check the test ID and try again."
             },
             "previousGroup": "Previous Group",
             "nextGroup": "Next Group"
@@ -221,12 +221,12 @@
         "testStats": {
             "duration": "Duration",
             "questions": "Questions",
-            "maxPoints": "Max Points",
+            "maxPoints": "Maximum Points",
             "scoringSystem": "Scoring System"
         },
         "testList": {
             "yourTests": "Your Tests",
-            "noDescription": "No description provided",
+            "noDescription": "No description",
             "questions": "Questions:",
             "page": "Page {currentPage} of {totalPages}"
         },
@@ -236,34 +236,34 @@
             "selectedGroups": "Selected Groups",
             "searchGroups": "Search groups...",
             "noMatchingGroups": "No matching groups found",
-            "tryAdjustingSearch": "Try adjusting your search",
+            "tryAdjustingSearch": "Try adjusting the search",
             "timeLimit": "Time Limit (minutes)",
-            "startDateTime": "Start Date & Time",
-            "endDateTime": "End Date & Time",
+            "startDateTime": "Start Date and Time",
+            "endDateTime": "End Date and Time",
             "accessType": "Access Type",
             "accessCode": "Access Code",
             "enterAccessCode": "Enter access code",
             "saveSettings": "Save Settings",
             "testAccessSettings": "Test Access Settings",
-            "selectTest": "Select a test",
+            "selectTest": "Select Test",
             "error": "Error",
             "pleaseSelectTest": "Please select a test first",
             "success": "Success",
             "testAssignmentCreated": "Test assignment created successfully",
             "failedToCreateTestAssignment": "Failed to create test assignment",
-            "pickDate": "Pick date",
+            "pickDate": "Pick a date",
             "selectAccessType": "Select access type",
             "accessCodeGroup": "Access Code + Group",
             "groupAccess": "Group Access"
         },
         "testPage": {
-            "backToTests": "Back to tests",
-            "assignTest": "Assign test"
+            "backToTests": "Back to Tests",
+            "assignTest": "Assign Test"
         }
     },
     "test": {
         "header": {
-            "createdAt": "Created At",
+            "createdAt": "Created on",
             "questionsCount": "{count} questions"
         },
         "details": {
@@ -290,7 +290,30 @@
             "questions": "Questions",
             "addQuestion": "Add Question",
             "editQuestion": "Edit Question",
-            "group": "Group {index}"
+            "group": "Group {index}",
+            "testCreatorQuestion": {
+                "title": "Test Question Title",
+                "description": "Enter test question description"
+            },
+            "questionType": "Question Type",
+            "selectQuestionType": "Select question type",
+            "points": "Points",
+            "pointsDescription": "Number of points for the question",
+            "enterPoints": "Enter number of points",
+            "questionDetails": "Question Details",
+            "questionDetailsHelp": "Enter additional question details",
+            "createQuestion": "Create Question",
+            "types": {
+                "single_choice": "Single Choice",
+                "multiple_choice": "Multiple Choice",
+                "boolean": "True/False",
+                "boolean_group": "True/False Group",
+                "numeric": "Numeric",
+                "numeric_group": "Numeric Group",
+                "matching": "Matching",
+                "order": "Order",
+                "open": "Open"
+            }
         }
     },
     "testAssignment": {
@@ -299,11 +322,11 @@
             "newAssignment": "New Assignment",
             "searchPlaceholder": "Search tests...",
             "filterByAccess": "Filter by access type",
-            "allTypes": "All types",
-            "codeAccess": "Access code",
-            "groupAccess": "Group access",
-            "noAssignments": "No assigned tests found",
-            "accessCode": "Access code: {code}",
+            "allTypes": "All Types",
+            "codeAccess": "Access Code",
+            "groupAccess": "Group Access",
+            "noAssignments": "No test assignments found",
+            "accessCode": "Access Code: {code}",
             "groupName": "Group: {name}",
             "manageAccess": "Manage Access",
             "previous": "Previous",
@@ -317,7 +340,236 @@
     "testAttempt": {
         "title": "Test Attempt",
         "startAt": "Start: {date}",
-        "timeLeft": "Time left",
+        "timeLeft": "Time Left",
         "finishTest": "Finish Test"
+    },
+    "aiGenerator": {
+        "title": "AI Question Generator",
+        "steps": {
+            "selectTypes": "1. Select Types",
+            "configureQuestions": "2. Configure Questions"
+        },
+        "language": {
+            "select": "Select Language",
+            "en": "English",
+            "pl": "Polish"
+        },
+        "buttons": {
+            "randomSelection": "Random Selection",
+            "back": "← Back",
+            "generate": "Generate Questions",
+            "generating": "Generating..."
+        },
+        "configuration": {
+            "category": "Category",
+            "selectCategory": "Select category",
+            "mainTopic": "Main Topic",
+            "topicPlaceholder": "e.g., JavaScript Basics",
+            "topicDetails": "Topic Details",
+            "detailsPlaceholder": "Add detailed requirements or context for the questions...",
+            "selectedTypes": "Selected Question Types",
+            "totalQuestions": "Total questions: {count}/12",
+            "categoryDescription": "Category Description"
+        },
+        "generatedQuestions": {
+            "title": "Generated Questions",
+            "selectGroup": "Select question group",
+            "reject": "Reject",
+            "addSelected": "Add Selected ({count})",
+            "question": "Question {number}"
+        },
+        "error": "Failed to generate questions. Please try again.",
+        "typeSelection": {
+            "questionType": "Question Type",
+            "selectLanguage": "Select Language",
+            "languages": {
+                "en": "English",
+                "pl": "Polish"
+            }
+        },
+        "selectedType": {
+            "remove": "Remove question type",
+            "decrease": "Decrease number of questions",
+            "increase": "Increase number of questions"
+        }
+    },
+    "testCreator": {
+        "questions": {
+            "boolean": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content",
+                "correctAnswer": "Correct Answer",
+                "true": "True",
+                "false": "False"
+            },
+            "booleanGroup": {
+                "mainQuestion": "Main Question Content",
+                "mainQuestionPlaceholder": "Enter main question content...",
+                "subQuestions": "True/False Sub-questions",
+                "addSubQuestion": "Add Sub-question",
+                "minSubQuestionsWarning": "At least two sub-questions are required",
+                "subQuestionPlaceholder": "Enter sub-question content...",
+                "deleteSubQuestion": "Delete Sub-question"
+            },
+            "multipleChoice": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content",
+                "answers": "Answers",
+                "answerPlaceholder": "Answer {number}",
+                "addAnswer": "Add Answer",
+                "deleteAnswer": "Delete Answer",
+                "minAnswersWarning": "At least two answers are required",
+                "selectOneCorrectAnswer": "Select exactly one correct answer",
+                "correctAnswer": "Correct"
+            },
+            "matching": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content...",
+                "pairs": "Matching Pairs",
+                "addPair": "Add Pair",
+                "minPairsWarning": "At least two matching pairs are required",
+                "firstElement": "Element {number}",
+                "firstElementPlaceholder": "Enter first element...",
+                "secondElement": "Match {number}",
+                "secondElementPlaceholder": "Enter matching element...",
+                "deletePair": "Delete Pair"
+            },
+            "numeric": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content",
+                "correctAnswer": "Correct Answer",
+                "correctAnswerPlaceholder": "Enter correct numeric answer",
+                "tolerance": "Tolerance",
+                "tolerancePlaceholder": "Enter tolerance (e.g., 0.1)"
+            },
+            "numericGroup": {
+                "mainQuestion": "Main Question Content",
+                "mainQuestionPlaceholder": "Enter main question content...",
+                "subQuestions": "Numeric Sub-questions",
+                "addSubQuestion": "Add Sub-question",
+                "minSubQuestionsWarning": "At least two sub-questions are required",
+                "subQuestionPlaceholder": "Enter sub-question content...",
+                "correctAnswer": "Correct Answer",
+                "tolerance": "Error Tolerance",
+                "tolerancePlaceholder": "e.g., 0.1",
+                "deleteSubQuestion": "Delete Sub-question"
+            },
+            "order": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content",
+                "items": "Items to Order",
+                "itemLabel": "Item {number}",
+                "itemPlaceholder": "Enter item to order...",
+                "namePlaceholder": "Enter item name",
+                "addItem": "Add Item",
+                "deleteItem": "Delete Item",
+                "dragDescription": "Drag to reorder"
+            },
+            "open": {
+                "questionContent": "Question Content",
+                "questionPlaceholder": "Enter question content",
+                "sampleAnswer": "Sample Correct Answer",
+                "sampleAnswerPlaceholder": "Enter sample correct answer"
+            },
+            "testCreatorQuestion": {
+                "title": "Test Question Title",
+                "description": "Enter test question description"
+            },
+            "types": {
+                "single_choice": "Single Choice",
+                "multiple_choice": "Multiple Choice",
+                "boolean": "True/False",
+                "boolean_group": "True/False Group",
+                "numeric": "Numeric",
+                "numeric_group": "Numeric Group",
+                "matching": "Matching",
+                "order": "Order",
+                "open": "Open"
+            },
+            "questionType": "Question Type",
+            "selectQuestionType": "Select question type",
+            "points": "Points",
+            "pointsDescription": "Number of points for the question",
+            "enterPoints": "Enter number of points",
+            "questionDetails": "Question Details",
+            "questionDetailsHelp": "Enter additional question details",
+            "createQuestion": "Create Question",
+            "category": "Category",
+            "categoryDescription": "Category Description"
+        },
+        "navigation": {
+            "questionList": "Question List",
+            "emptyList": "The question list is empty",
+            "addFirstQuestion": "Click \"Add Question\" to get started",
+            "dragHere": "Drag question here",
+            "title": "Test Navigation"
+        },
+        "modals": {
+            "editQuestion": "Edit Question",
+            "groupSettings": {
+                "title": "Question Group Settings",
+                "groupName": "Group Name",
+                "deleteGroup": "Delete Group",
+                "deleteConfirm": {
+                    "title": "Are you sure you want to delete this group?",
+                    "description": "This action will delete the group along with all its questions. This operation cannot be undone."
+                },
+                "cancel": "Cancel",
+                "save": "Save",
+                "namePlaceholder": "Enter group name",
+                "order": "Order"
+            }
+        },
+        "actions": {
+            "addGroup": "Add Group",
+            "aiGenerator": "AI Generator"
+        },
+        "settings": {
+            "title": "Test Settings",
+            "basic": {
+                "title": "Test Title",
+                "titlePlaceholder": "Enter test title",
+                "titleDescription": "Give your test a unique title",
+                "description": "Description",
+                "descriptionPlaceholder": "Enter test description",
+                "descriptionHelp": "Describe what the test is about and its objectives"
+            },
+            "scoring": {
+                "scoringSystem": "Scoring System",
+                "scoringSystemPlaceholder": "Select scoring system",
+                "scoringDescription": "Choose how points are awarded",
+                "partialPoints": "Partial Points",
+                "partialPointsDescription": "Allow partial points for partially correct answers",
+                "title": "Scoring"
+            },
+            "display": {
+                "questionMode": "Question Display Mode",
+                "questionModePlaceholder": "Select display mode",
+                "questionModeDescription": "Specify how questions will be displayed in the test",
+                "shuffleQuestions": "Shuffle Questions",
+                "shuffleQuestionsDescription": "Questions will be displayed in random order",
+                "shuffleAnswers": "Shuffle Answers",
+                "shuffleAnswersDescription": "Answers will be displayed in random order",
+                "showPoints": "Show Points",
+                "showPointsDescription": "Display available points for each question",
+                "modes": {
+                    "one_by_one": "One by One",
+                    "all_at_once": "All at Once",
+                    "by_groups": "By Groups"
+                },
+                "title": "Display"
+            },
+            "navigation": {
+                "title": "Navigation",
+                "allowGoBack": "Allow going back to previous questions",
+                "allowGoBackDescription": "Participants can go back to previous questions"
+            },
+            "results": {
+                "showCorrectAnswers": "Show Correct Answers",
+                "showCorrectAnswersDescription": "Display correct answers after the test is completed",
+                "title": "Results"
+            },
+            "saveConfiguration": "Save Configuration"
+        }
     }
 }

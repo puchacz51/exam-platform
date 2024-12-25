@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AlertCircle, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +21,7 @@ import { OpenQuestion } from '@/types/test-creator/question';
 import { generateId } from '@/utils/generateId';
 
 export const SingleChoiceQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.multipleChoice');
   const form = useFormContext<OpenQuestion>();
   const {
     control,
@@ -52,11 +54,11 @@ export const SingleChoiceQuestionForm = () => {
         name="text"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Treść pytania</FormLabel>
+            <FormLabel>{t('questionContent')}</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Wprowadź treść pytania"
+                placeholder={t('questionPlaceholder')}
                 className="min-h-[100px]"
               />
             </FormControl>
@@ -68,16 +70,14 @@ export const SingleChoiceQuestionForm = () => {
       <Card>
         <CardContent className="pt-6">
           <div className="mb-4">
-            <FormLabel>Odpowiedzi</FormLabel>
+            <FormLabel>{t('answers')}</FormLabel>
             {fields.length < 2 && (
               <Alert
                 variant="destructive"
                 className="mt-2"
               >
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  Wymagane są co najmniej dwie odpowiedzi
-                </AlertDescription>
+                <AlertDescription>{t('minAnswersWarning')}</AlertDescription>
               </Alert>
             )}
             {fields.filter((field) => field.isCorrect).length !== 1 &&
@@ -85,7 +85,7 @@ export const SingleChoiceQuestionForm = () => {
                 <Alert className="mt-2">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Wybierz dokładnie jedną poprawną odpowiedź
+                    {t('selectOneCorrectAnswer')}
                   </AlertDescription>
                 </Alert>
               )}
@@ -105,7 +105,7 @@ export const SingleChoiceQuestionForm = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={`Odpowiedź ${index + 1}`}
+                          placeholder={t('answerPlaceholder', { number: index + 1 })}
                         />
                       </FormControl>
                       <FormMessage />
@@ -134,12 +134,11 @@ export const SingleChoiceQuestionForm = () => {
                               htmlFor={`correct-${index}`}
                               className="text-sm text-muted-foreground"
                             >
-                              Poprawna
+                              {t('correctAnswer')}
                             </FormLabel>
                           </div>
                         </RadioGroup>
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -153,7 +152,7 @@ export const SingleChoiceQuestionForm = () => {
                     className="flex-shrink-0"
                   >
                     <Trash2 className="h-4 w-4" />
-                    <span className="sr-only">Usuń odpowiedź</span>
+                    <span className="sr-only">{t('deleteAnswer')}</span>
                   </Button>
                 )}
               </div>
@@ -173,7 +172,7 @@ export const SingleChoiceQuestionForm = () => {
             className="mt-4"
           >
             <Plus className="mr-2 h-4 w-4" />
-            Dodaj odpowiedź
+            {t('addAnswer')}
           </Button>
         </CardContent>
       </Card>

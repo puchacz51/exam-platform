@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -17,6 +18,7 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestNavigation: FC = () => {
   const form = useFormContext<TestCreatorTest>();
+  const t = useTranslations('testCreator.settings.navigation');
 
   return (
     <TabsContent
@@ -30,11 +32,9 @@ const TestCreatorTestNavigation: FC = () => {
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <FormLabel className="font-semibold">
-                Pozwól na powrót do poprzednich pytań
+                {t('allowGoBack')}
               </FormLabel>
-              <FormDescription>
-                Uczestnik może wracać do wcześniejszych pytań
-              </FormDescription>
+              <FormDescription>{t('allowGoBackDescription')}</FormDescription>
             </div>
             <FormControl>
               <Switch

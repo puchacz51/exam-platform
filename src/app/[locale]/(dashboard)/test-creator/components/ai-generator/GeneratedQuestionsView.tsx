@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 import { Check, X } from 'lucide-react';
 
@@ -30,6 +31,7 @@ interface GeneratedQuestionsViewProps {
 export const GeneratedQuestionsView = ({
   questionGroups,
 }: GeneratedQuestionsViewProps) => {
+  const t = useTranslations('aiGenerator');
   const form = useFormContext<AiGeneratorFormData>();
   const questions = useTestContext((state) => state.aiQuestions);
   const setAiQuestion = useTestContext((state) => state.setAiQuestions);
@@ -100,7 +102,7 @@ export const GeneratedQuestionsView = ({
     <Card className="mt-6">
       <CardHeader className="flex-row items-center justify-between space-y-0 border-b bg-white pb-4">
         <CardTitle className="text-lg font-medium">
-          Generated Questions
+          {t('generatedQuestions.title')}
         </CardTitle>
         <div className="flex items-center gap-4">
           <Select
@@ -108,7 +110,7 @@ export const GeneratedQuestionsView = ({
             onValueChange={handleGroupChange}
           >
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select question group" />
+              <SelectValue placeholder={t('generatedQuestions.selectGroup')} />
             </SelectTrigger>
             <SelectContent>
               {questionGroups.map((group) => (
@@ -129,7 +131,7 @@ export const GeneratedQuestionsView = ({
               size="sm"
             >
               <X className="mr-2 h-4 w-4" />
-              Reject
+              {t('generatedQuestions.reject')}
             </Button>
             <Button
               type="button"
@@ -138,7 +140,9 @@ export const GeneratedQuestionsView = ({
               disabled={!selectedGroupId || selectedQuestionIds.length === 0}
             >
               <Check className="mr-2 h-4 w-4" />
-              Add Selected ({selectedQuestionIds.length})
+              {t('generatedQuestions.addSelected', {
+                count: selectedQuestionIds.length,
+              })}
             </Button>
           </div>
         </div>

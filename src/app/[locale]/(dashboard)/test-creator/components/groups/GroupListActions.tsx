@@ -1,9 +1,11 @@
 import { Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
 
 export const GroupListActions = () => {
+  const t = useTranslations('testCreator.actions');
   const setIsAiGeneratorOpen = useTestContext(
     (state) => state.setIsAiGeneratorOpen
   );
@@ -18,7 +20,7 @@ export const GroupListActions = () => {
         className="flex items-center gap-2"
       >
         <Sparkles className="h-4 w-4" />
-        AI Generator
+        {t('aiGenerator')}
       </Button>
       <Button
         variant="outline"
@@ -26,7 +28,7 @@ export const GroupListActions = () => {
         onClick={() => addQuestionGroup()}
         className="flex items-center gap-2"
       >
-        Add Group
+        {t('addGroup')}
       </Button>
     </div>
   );

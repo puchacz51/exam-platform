@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/utils';
 import SortableItem from '@/app/[locale]/(dashboard)/test-creator/components/navigation/drag-and-drop/SortableItem';
@@ -22,6 +23,7 @@ const QuestionGroup: FC<QuestionGroupProps> = ({
   items = [],
   isOver,
 }) => {
+  const t = useTranslations('testCreator.navigation');
   const {
     attributes,
     listeners,
@@ -80,7 +82,7 @@ const QuestionGroup: FC<QuestionGroupProps> = ({
               </SortableContext>
             ) : (
               <div className="flex h-full w-full items-center justify-center rounded border-2 border-dashed text-sm text-gray-400">
-                Przeciągnij tutaj pytanie
+                {t('dragHere')}
               </div>
             )}
           </div>

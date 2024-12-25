@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -25,6 +26,7 @@ import { scoringSystemEnum } from '@schema/testSettings';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestScoring: FC = () => {
+  const t = useTranslations('testCreator.settings.scoring');
   const form = useFormContext<TestCreatorTest>();
 
   return (
@@ -37,14 +39,16 @@ const TestCreatorTestScoring: FC = () => {
         name="settings.scoringSystem"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-semibold">System punktacji</FormLabel>
+            <FormLabel className="font-semibold">
+              {t('scoringSystem')}
+            </FormLabel>
             <Select
               onValueChange={field.onChange}
               defaultValue={field.value}
             >
               <FormControl>
                 <SelectTrigger className="border-gray-200">
-                  <SelectValue placeholder="Wybierz system punktacji" />
+                  <SelectValue placeholder={t('scoringSystemPlaceholder')} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -58,9 +62,7 @@ const TestCreatorTestScoring: FC = () => {
                 ))}
               </SelectContent>
             </Select>
-            <FormDescription>
-              Wybierz sposób przyznawania punktów
-            </FormDescription>
+            <FormDescription>{t('scoringDescription')}</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -72,11 +74,10 @@ const TestCreatorTestScoring: FC = () => {
         render={({ field }) => (
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
-              <FormLabel className="font-semibold">Punkty cząstkowe</FormLabel>
-              <FormDescription>
-                Pozwól na przyznawanie części punktów za częściowo poprawne
-                odpowiedzi
-              </FormDescription>
+              <FormLabel className="font-semibold">
+                {t('partialPoints')}
+              </FormLabel>
+              <FormDescription>{t('partialPointsDescription')}</FormDescription>
             </div>
             <FormControl>
               <Switch
