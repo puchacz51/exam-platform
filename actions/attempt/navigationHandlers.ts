@@ -48,7 +48,7 @@ export const handleGroupNavigation = (
   const userAttemptAnswers = allowGoBack
     ? attempt.answers.map((a) => ({ ...a, points: null }))
     : attempt.answers;
-    
+
   return {
     data: {
       type: 'GROUP',

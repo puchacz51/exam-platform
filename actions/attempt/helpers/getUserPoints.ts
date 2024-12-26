@@ -33,6 +33,28 @@ export const getUserPoints = async (attemptId: string) => {
           },
         },
       },
+      testAccess: {
+        with: {
+          test: {
+            with: {
+              QG: {
+                with: {
+                  qOnQG: {
+                    with: {
+                      question: {
+                        columns: {
+                          points: true,
+                          questionType: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 
@@ -45,8 +67,16 @@ export const getUserPoints = async (attemptId: string) => {
     return acc + (answer.points || 0);
   }, 0);
 
-  const totalPoints = attempt.answers.reduce((acc, answer) => {
-    return acc + (answer.question.points || 0);
+  // const totalPoints = attempt.answers.reduce((acc, answer) => {
+  //   return acc + (answer.question.points || 0);
+  // }, 0);
+  const totalPoints = attempt.testAccess.test.QG.reduce((acc, qg) => {
+    return (
+      acc +
+      qg.qOnQG.reduce((acc, q) => {
+        return acc + (q.question.points || 0);
+      }, 0)
+    );
   }, 0);
 
   const receivedPointsPercentage = Math.round(
@@ -71,6 +101,7 @@ export const getUserPoints = async (attemptId: string) => {
     Math.round(
       (receivedPointsWithoutOpenQuestions / pointsFromClosedQuestions) * 100
     ) || 0;
+
   return {
     data: {
       receivedPoints,

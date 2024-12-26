@@ -202,6 +202,12 @@
             "teams": {
                 "title": "Teams Groups",
                 "description": "Your synchronized Microsoft Teams groups"
+            },
+            "selected": "Selected groups",
+            "search": "Search groups",
+            "types": {
+                "all": "All",
+                "teams": "Teams"
             }
         },
         "finishedAttempts": {
@@ -254,7 +260,13 @@
             "pickDate": "Pick a date",
             "selectAccessType": "Select access type",
             "accessCodeGroup": "Access Code + Group",
-            "groupAccess": "Group Access"
+            "groupAccess": "Group Access",
+            "teamsGroups": {
+                "title": "Teams Groups",
+                "description": "Your Microsoft Teams groups",
+                "noGroups": "No Teams groups available",
+                "tryAdjustingSearch": "Try adjusting your search"
+            }
         },
         "testPage": {
             "backToTests": "Back to Tests",
@@ -358,7 +370,9 @@
             "randomSelection": "Random Selection",
             "back": "← Back",
             "generate": "Generate Questions",
-            "generating": "Generating..."
+            "generating": "Generating...",
+            "reject": "Reject",
+            "addSelected": "Add Selected ({count})"
         },
         "configuration": {
             "category": "Category",
@@ -369,7 +383,10 @@
             "detailsPlaceholder": "Add detailed requirements or context for the questions...",
             "selectedTypes": "Selected Question Types",
             "totalQuestions": "Total questions: {count}/12",
-            "categoryDescription": "Category Description"
+            "categoryDescription": "Category Description",
+            "selectedTypesHeader": "Selected Question Types",
+            "selectedTypesInfo": "Select question types to generate",
+            "selectedCount": "Selected types: {count}"
         },
         "generatedQuestions": {
             "title": "Generated Questions",
@@ -391,6 +408,13 @@
             "remove": "Remove question type",
             "decrease": "Decrease number of questions",
             "increase": "Increase number of questions"
+        },
+        "dialog": {
+            "title": "AI Question Generator",
+            "tabs": {
+                "type": "Question Type",
+                "config": "Configuration"
+            }
         }
     },
     "testCreator": {

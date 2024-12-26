@@ -41,6 +41,7 @@ export const getUserAttemptWithTestSettings = async (
                                 ...(showAnswer && {
                                   booleanAnswer: true,
                                   choiceAnswer: true,
+                                  numericAnswer: true,
                                 }),
                               },
                             },

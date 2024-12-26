@@ -15,7 +15,6 @@ export const testAccessGroupsTable = pgTable('test_access_groups', {
     .notNull()
     .references(() => testAccessConfigTable.id, { onDelete: 'cascade' }),
   groupId: uuid('group_id')
-    .notNull()
     .references(() => groupsTable.id, { onDelete: 'cascade' }),
   sourceType: testAccessGroupSourceTypeEnum('source_type')
     .notNull()

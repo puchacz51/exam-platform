@@ -75,11 +75,13 @@ export const prepareQuestionToAttempt = (
         question.questionType === 'NUMERIC' ||
         question.questionType === 'NUMERIC_GROUP'
       ) {
+        console.log(answer);
         const answers =
           (answer &&
             (answer.type === 'NUMERIC' || answer.type === 'NUMERIC_GROUP') &&
             answer.numericAnswers.map((a) => ({
               subQuestionId: a.subQuestionId,
+              points: typeof answer?.points === 'number' ? answer.points : null,
               value: a.value,
             }))) ||
           [];

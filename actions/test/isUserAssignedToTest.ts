@@ -47,8 +47,8 @@ export async function isUserAssignedToTest(id: string) {
     if (!accessConfig) return false;
 
     return accessConfig.TAGroup.some((group) =>
-      group.group.testAccessGroups.some(
-        (group) => group.group.userGroups.length > 0
+      group.group?.testAccessGroups.some(
+        (group) => (group?.group?.userGroups?.length || 0) > 0
       )
     );
   } catch (error) {

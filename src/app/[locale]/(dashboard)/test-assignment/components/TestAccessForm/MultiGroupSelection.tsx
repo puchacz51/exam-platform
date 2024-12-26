@@ -1,19 +1,20 @@
 import { useState } from 'react';
 
 import { useFormContext } from 'react-hook-form';
-import { Check, Eye, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useSession } from 'next-auth/react';
 
 import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import { Group } from '@/types/group/group';
-import { Button } from '@/components/ui/button';
-
-import { ViewMembersModal } from './ViewMembersModal';
-import { TestAccessFormValues } from '../../schema/TestAccessSchema';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTeamsGroups } from '@/hooks/useTeamsGroups';
+import { Spinner } from '@/components/ui/spinner';
+import TeamsGrupList from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TeamsGroupList';
+import GroupList from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/GroupList';
+import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
+import { ViewMembersModal } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/ViewMembersModal';
 
 interface MultiGroupSelectionProps {
   initialGroups?: Group[];
@@ -22,14 +23,21 @@ interface MultiGroupSelectionProps {
 export const MultiGroupSelection = ({
   initialGroups = [],
 }: MultiGroupSelectionProps) => {
-  const t = useTranslations('dashboard.testAssignment');
+  const session = useSession();
+  const isTeamsUser = session?.data?.user?.authProvider === 'azure-ad';
+  const { data: teamsGroups, isLoading: isLoadingTeamsGroups } =
+    useTeamsGroups(isTeamsUser);
+  const t = useTranslations('dashboard');
+
   const { watch, setValue } = useFormContext<TestAccessFormValues>();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGroupForMembers, setSelectedGroupForMembers] = useState<{
     id: string;
     name: string;
   } | null>(null);
+
   const selectedGroups = watch('groupIds') || [];
+  const selectedTeamsGroups = watch('teamsIds') || [];
 
   const filteredGroups = initialGroups.filter(
     (group) =>
@@ -45,104 +53,78 @@ export const MultiGroupSelection = ({
     setValue('groupIds', newGroups, { shouldValidate: true });
   };
 
-  return (
-    <>
-      <Card>
-        <CardHeader className="space-y-4">
-          <CardTitle className="flex items-center justify-between">
-            {t('selectedGroups')}
-            <Badge variant="secondary">{selectedGroups.length} selected</Badge>
-          </CardTitle>
-          <Input
-            placeholder={t('searchGroups')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full"
-          />
-        </CardHeader>
-        <CardContent>
-          <ScrollArea className="h-[300px] pr-4">
-            {!filteredGroups.length ? (
-              <div className="flex flex-col items-center justify-center p-8 text-gray-500">
-                <Users
-                  size={48}
-                  className="mb-4 text-gray-400"
-                />
-                <p className="text-lg font-medium">{t('noMatchingGroups')}</p>
-                <p className="text-sm">{t('tryAdjustingSearch')}</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredGroups.map((group) => (
-                  <div
-                    key={group.id}
-                    className={cn(
-                      'flex cursor-pointer items-start space-x-4 rounded-lg border p-4 transition-colors hover:bg-accent',
-                      selectedGroups.includes(group.id) &&
-                        'border-primary bg-primary/5'
-                    )}
-                  >
-                    <div
-                      tabIndex={-1}
-                      role="button"
-                      className="flex-1"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
+  const toggleTeamsGroup = (groupId: string) => {
+    const currentGroups = selectedTeamsGroups;
+    const newGroups = currentGroups.includes(groupId)
+      ? currentGroups.filter((id) => id !== groupId)
+      : [...currentGroups, groupId];
+    setValue('teamsIds', newGroups, { shouldValidate: true });
+  };
 
-                        toggleGroup(group.id);
-                      }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium">{group.name}</h4>
-                        {selectedGroups.includes(group.id) && (
-                          <Check className="h-4 w-4 text-primary" />
-                        )}
-                      </div>
-                      {group.description && (
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {group.description}
-                        </p>
-                      )}
-                      <div className="mt-2 flex items-center gap-2">
-                        <Badge
-                          variant="secondary"
-                          className="text-xs"
-                        >
-                          {group.memberCount.value} members
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className="text-xs"
-                        >
-                          Created{' '}
-                          {new Date(group.createdAt).toLocaleDateString()}
-                        </Badge>
-                      </div>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="ml-2"
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        setSelectedGroupForMembers({
-                          id: group.id,
-                          name: group.name,
-                        });
-                      }}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </ScrollArea>
-        </CardContent>
-      </Card>
+  return (
+    <Card>
+      <CardHeader className="space-y-4">
+        <CardTitle className="flex items-center justify-between">
+          {t('groups.selected', {
+            count: selectedGroups.length + selectedTeamsGroups.length,
+          })}
+          <Badge variant="secondary">
+            {selectedGroups.length + selectedTeamsGroups.length} selected
+          </Badge>
+        </CardTitle>
+        <Input
+          placeholder={t('groups.search')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full"
+        />
+      </CardHeader>
+      <CardContent>
+        {isTeamsUser ? (
+          <Tabs defaultValue="regular">
+            <TabsList className="mb-4">
+              <TabsTrigger value="regular">{t('groups.types.all')}</TabsTrigger>
+              <TabsTrigger value="teams">{t('groups.types.teams')}</TabsTrigger>
+            </TabsList>
+            <TabsContent value="regular">
+              <GroupList
+                groups={filteredGroups}
+                selectedGroups={selectedGroups}
+                onGroupSelect={toggleGroup}
+                onViewMembers={(group) => setSelectedGroupForMembers(group)}
+              />
+            </TabsContent>
+            <TabsContent value="teams">
+              {isLoadingTeamsGroups ? (
+                <div className="flex justify-center p-4">
+                  <Spinner className="h-6 w-6" />
+                </div>
+              ) : teamsGroups?.length ? (
+                <TeamsGrupList
+                  groups={teamsGroups.filter((group) =>
+                    group.displayName
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase())
+                  )}
+                  selectedGroups={selectedTeamsGroups}
+                  onGroupSelect={toggleTeamsGroup}
+                />
+              ) : (
+                <div className="p-4 text-center text-muted-foreground">
+                  {t('testAssignment.teamsGroups.noGroups')}
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        ) : (
+          <GroupList
+            groups={filteredGroups}
+            selectedGroups={selectedGroups}
+            onGroupSelect={toggleGroup}
+            onViewMembers={(group) => setSelectedGroupForMembers(group)}
+          />
+        )}
+      </CardContent>
       {selectedGroupForMembers && (
         <ViewMembersModal
           groupId={selectedGroupForMembers.id}
@@ -151,6 +133,6 @@ export const MultiGroupSelection = ({
           onClose={() => setSelectedGroupForMembers(null)}
         />
       )}
-    </>
+    </Card>
   );
 };

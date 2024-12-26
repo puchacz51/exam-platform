@@ -30,7 +30,6 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
   const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { setValue, watch } = useFormContext<TestAttemptFormDataNumeric>();
-  console.log('watch(fieldKey)', question);
   const handleInputChange = (value: string) => {
     setValue(fieldKey, [{ subQuestionId: GSQ[0].id, value: Number(value) }]);
   };

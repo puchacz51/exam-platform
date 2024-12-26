@@ -20,8 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/schema';
-
-import SelectedTypesBadge from './SelectedTypesBadge';
+import SelectedTypesBadge from '@/app/[locale]/(dashboard)/test-creator/components/ai-generator/SelectedTypesBadge';
 
 interface ConfigurationSectionProps {
   totalQuestions: number;
@@ -128,11 +127,11 @@ export const ConfigurationSection = ({
       <div className="space-y-3 pt-2">
         <div className="flex items-center gap-2 pb-2">
           <label className="text-base font-semibold">
-            Selected Question Types
+            {t('selectedTypesHeader')}
           </label>
           <Info className="h-4 w-4 text-muted-foreground transition-colors hover:text-foreground" />
           <span className="ml-auto text-sm font-medium text-muted-foreground">
-            {t('totalQuestions', { count: totalQuestions })}
+            {t('selectedCount', { count: selectedTypes.length })}
           </span>
         </div>
         <ScrollArea className="h-[140px] rounded-md border bg-background/40 p-4 shadow-inner">

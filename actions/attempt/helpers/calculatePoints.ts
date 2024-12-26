@@ -184,23 +184,20 @@ const calculateNumericAccuracy = (
 ) => {
   if (!answer.answers.length) return null;
   const correctAnswers = question.GSQ || [];
-  console.log('correctAnswers', correctAnswers);
   const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
-    console.log('userAnswer', userAnswer);
-    console.log('a', a.numericAnswer);
     return (
       Math.abs((userAnswer?.value || 0) - (a?.numericAnswer || 0)) <=
       (a.tolerance || 0)
     );
   }).length;
 
-  const incorrectCount = correctAnswers.length - correctCount;
+  const incorrectCount = answer.answers.length - correctCount;
 
   const total = question.GSQ?.length || 0;
   return {
     correct: correctCount,
-    incorrect: total - correctCount,
+    incorrect: incorrectCount,
     total,
   };
 };

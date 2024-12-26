@@ -202,6 +202,12 @@
             "teams": {
                 "title": "Grupy Teams",
                 "description": "Twoje zsynchronizowane grupy Microsoft Teams"
+            },
+            "selected": "Wybrane grupy",
+            "search": "Szukaj grup",
+            "types": {
+                "all": "Wszystkie",
+                "teams": "Teams"
             }
         },
         "finishedAttempts": {
@@ -254,7 +260,13 @@
             "pickDate": "Wybierz datę",
             "selectAccessType": "Wybierz typ dostępu",
             "accessCodeGroup": "Kod dostępu + Grupa",
-            "groupAccess": "Dostęp grupowy"
+            "groupAccess": "Dostęp grupowy",
+            "teamsGroups": {
+                "title": "Grupy Teams",
+                "description": "Twoje grupy Microsoft Teams",
+                "noGroups": "Brak dostępnych grup Teams",
+                "tryAdjustingSearch": "Spróbuj dostosować wyszukiwanie"
+            }
         },
         "testPage": {
             "backToTests": "Powrót do testów",
@@ -313,6 +325,9 @@
                 "matching": "Dopasowanie",
                 "order": "Kolejność",
                 "open": "Otwarte"
+            },
+            "groups":{
+                
             }
         }
     },
@@ -358,7 +373,9 @@
             "randomSelection": "Losowy Wybór",
             "back": "← Wstecz",
             "generate": "Generuj Pytania",
-            "generating": "Generowanie..."
+            "generating": "Generowanie...",
+            "reject": "Odrzuć",
+            "addSelected": "Dodaj Wybrane ({count})"
         },
         "configuration": {
             "category": "Kategoria",
@@ -369,7 +386,10 @@
             "detailsPlaceholder": "Dodaj szczegółowe wymagania lub kontekst dla pytań...",
             "selectedTypes": "Wybrane Typy Pytań",
             "totalQuestions": "Łączna liczba pytań: {count}/12",
-            "categoryDescription": "Opis kategorii"
+            "categoryDescription": "Opis kategorii",
+            "selectedTypesHeader": "Wybrane Typy Pytań",
+            "selectedTypesInfo": "Wybierz rodzaje pytań do wygenerowania",
+            "selectedCount": "Wybrano typów: {count}"
         },
         "generatedQuestions": {
             "title": "Wygenerowane Pytania",
@@ -391,6 +411,13 @@
             "remove": "Usuń typ pytania",
             "decrease": "Zmniejsz liczbę pytań",
             "increase": "Zwiększ liczbę pytań"
+        },
+        "dialog": {
+            "title": "Generator Pytań AI",
+            "tabs": {
+                "type": "Typ pytania",
+                "config": "Konfiguracja"
+            }
         }
     },
     "testCreator": {

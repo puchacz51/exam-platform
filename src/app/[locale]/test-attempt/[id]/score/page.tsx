@@ -27,7 +27,6 @@ const TestScorePage = async ({ params }: { params: { id: string } }) => {
   const {
     receivedPoints,
     receivedPointsPercentage,
-    pointsFromOpenQuestions,
     pointsFromClosedQuestions,
     receivedPointsPercentageWithoutOpenQuestions,
   } = data;
@@ -73,14 +72,6 @@ const TestScorePage = async ({ params }: { params: { id: string } }) => {
                     </span>
                     <span className="ml-2 text-sm text-muted-foreground">
                       ({receivedPointsPercentageWithoutOpenQuestions}%)
-                    </span>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Open Questions</TableCell>
-                  <TableCell className="text-right">
-                    <span className="font-bold text-primary">
-                      {pointsFromOpenQuestions}
                     </span>
                   </TableCell>
                 </TableRow>

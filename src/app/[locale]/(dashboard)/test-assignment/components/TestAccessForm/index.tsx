@@ -59,6 +59,7 @@ export const TestAccessForm = ({
       endsAt: new Date(Date.now() + 86400000),
       startTime: '00:00',
       endTime: '23:59',
+      teamsIds: [],
     },
   });
 
@@ -84,6 +85,7 @@ export const TestAccessForm = ({
         title: t('success'),
         description: t('testAssignmentCreated'),
       });
+      
       methods.reset();
       router.refresh();
     } else {

@@ -9,6 +9,7 @@ export const testAccessFormSchema = z
     endsAt: z.date().optional(),
     startTime: z.string().optional(),
     endTime: z.string().optional(),
+    teamsIds: z.array(z.string()).optional(),
     timeLimit: z
       .number()
       .int()

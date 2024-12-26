@@ -27,7 +27,7 @@ export const GroupItem = ({ group }: GroupItemProps) => {
   const { data: members, isLoading } = useGroupMembers(group.id, isExpanded);
 
   return (
-    <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
+    <Card className="h-max overflow-hidden transition-all duration-200 hover:shadow-lg">
       <div className="border-b bg-gray-50/50 p-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
