@@ -92,6 +92,7 @@ export const handleQuestionNavigation = (
   let selectedQuestionIndex = shuffledQuestions.findIndex(
     (question) => question.id === questionId
   );
+  
   if (selectedQuestionIndex === -1) {
     selectedQuestionIndex = 0;
   }

@@ -214,7 +214,9 @@
             "title": "Zakończone próby",
             "empty": "Brak zakończonych prób",
             "viewDetails": "Zobacz szczegóły",
-            "pointsTooltip": "Liczba punktów uzyskanych w tej próbie"
+            "pointsTooltip": "Liczba punktów uzyskanych w tej próbie",
+            "subtitle": "Historia Twoich wcześniejszych prób",
+            "points": "Punkty"
         },
         "testViewer": {
             "error": {

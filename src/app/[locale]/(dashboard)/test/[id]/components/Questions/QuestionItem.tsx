@@ -15,6 +15,7 @@ interface QuestionItemProps {
   mode?: 'view' | 'solve';
   attemptId?: string | null;
   displayMode?: (typeof questionDisplayModeEnum.enumValues)[number];
+  disableAnswers?: boolean;
 }
 
 export const QuestionItem = ({
@@ -22,12 +23,17 @@ export const QuestionItem = ({
   questionIndex,
   mode = 'view',
   displayMode = 'SINGLE',
+  disableAnswers = false,
 }: QuestionItemProps) => {
   const { watch } = useFormContext<TestAttemptFormData>();
   const points = watch(`questions.${question.id}.points`);
+  const answered = watch(`questions.${question.id}.answered`);
 
   return (
-    <Card className="p-4 transition-shadow hover:shadow-md">
+    <Card className="relative p-4 transition-shadow hover:shadow-md">
+      {disableAnswers && answered && (
+        <div className="absolute inset-0 bg-slate-500/20" />
+      )}
       <div className="mb-4 flex items-center justify-between">
         <h4 className="text-md flex items-center gap-2 font-medium">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">

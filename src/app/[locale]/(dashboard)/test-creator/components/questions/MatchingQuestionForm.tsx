@@ -58,7 +58,7 @@ const MatchingQuestionForm = () => {
       <Card className="border-t-4 border-t-blue-500">
         <CardContent className="pt-6">
           <div className="mb-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <FormLabel className="text-lg font-medium text-gray-700">
                 {t('pairs')}
               </FormLabel>

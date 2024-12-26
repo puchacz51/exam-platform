@@ -10,7 +10,9 @@ import {
 
 export interface TestAttemptFormData {
   questions: {
-    [questionId: string]: Omit<AnswerInput, 'questionId'>;
+    [questionId: string]: Omit<AnswerInput, 'questionId'> & {
+      answered?: boolean;
+    };
   };
 }
 

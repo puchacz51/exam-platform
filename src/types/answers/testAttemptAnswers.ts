@@ -13,6 +13,7 @@ export interface BaseAnswerInput {
   points?: number | null;
   questionId: string;
   attemptId: string;
+  answered?: boolean;
 }
 
 export type OpenAnswerInput = Omit<BaseAnswerInput, 'type'> & {

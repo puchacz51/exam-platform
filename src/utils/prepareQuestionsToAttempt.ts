@@ -17,12 +17,13 @@ export const prepareQuestionToAttempt = (
       );
       if (question.questionType === 'ORDER') {
         const answers =
-          answer &&
-          answer.type === 'ORDER' &&
-          answer.orderAnswers.map((a) => ({
-            position: a.position,
-            itemId: a.itemId,
-          }));
+          (answer &&
+            answer.type === 'ORDER' &&
+            answer.orderAnswers.map((a) => ({
+              position: a.position,
+              itemId: a.itemId,
+            }))) ||
+          [];
 
         acc[question.id] = {
           type: 'ORDER',
@@ -30,6 +31,7 @@ export const prepareQuestionToAttempt = (
           attemptId: attemptId,
           points: typeof answer?.points === 'number' ? answer.points : null,
           items: !!answers ? answers : [],
+          answered: !!answers?.length,
         };
       }
 
@@ -48,6 +50,7 @@ export const prepareQuestionToAttempt = (
           attemptId,
           points: typeof answer?.points === 'number' ? answer.points : null,
           pairs: !!answers ? answers : [{}],
+          answered: !!answers?.length,
         };
       }
 
@@ -68,6 +71,7 @@ export const prepareQuestionToAttempt = (
           attemptId,
           points: typeof answer?.points === 'number' ? answer.points : null,
           answers: !!answers ? answers : [],
+          answered: !!answers?.length,
         };
       }
 
@@ -92,6 +96,7 @@ export const prepareQuestionToAttempt = (
           attemptId,
           points: typeof answer?.points === 'number' ? answer.points : null,
           answers: !!answers ? answers : [],
+          answered: !!answers?.length,
         };
       }
 
@@ -113,6 +118,7 @@ export const prepareQuestionToAttempt = (
           attemptId,
           points: typeof answer?.points === 'number' ? answer.points : null,
           answers: !!answers ? answers : [],
+          answered: !!answers?.length,
         };
       }
 
@@ -125,6 +131,7 @@ export const prepareQuestionToAttempt = (
           points: typeof answer?.points === 'number' ? answer.points : null,
           attemptId,
           answer: { text: answers[0]?.text || '' },
+          answered: !!answers?.length,
         };
       }
 

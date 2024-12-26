@@ -62,7 +62,7 @@ const BooleanGroupQuestionForm = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+          <CardTitle className="flex flex-wrap items-center justify-between gap-2">
             <span>{t('subQuestions')}</span>
             <Button
               type="button"
@@ -94,7 +94,7 @@ const BooleanGroupQuestionForm = () => {
                   <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-muted font-medium">
                     {index + 1}
                   </span>
-                  <div className="flex flex-grow items-center gap-4">
+                  <div className="flex flex-grow flex-col items-center  gap-4 md:flex-row ">
                     <FormField
                       control={control}
                       name={`subQuestions.${index}.text`}

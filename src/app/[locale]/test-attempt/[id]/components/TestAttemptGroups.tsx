@@ -61,13 +61,16 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
   };
 
   const onSubmit = async (data: TestAttemptFormData) => {
-    console.log(data);
     const formattedAnswers = prepareFormSubmission(data, attemptId);
 
     const result = await createAnswer(testAssignmentId, formattedAnswers);
 
     const points =
       !!result.data && 'points' in result.data && result.data.points;
+    const answeredQuestions =
+      !!result.data &&
+      'answeredQuestions' in result.data &&
+      result.data.answeredQuestions;
 
     if (points) {
       points.forEach((point) => {
@@ -76,6 +79,12 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
         }
 
         setValue(`questions.${point.questionId}.points`, point.points);
+      });
+    }
+    if (answeredQuestions) {
+      console.log(answeredQuestions);
+      answeredQuestions.forEach((questionId) => {
+        setValue(`questions.${questionId}.answered`, true);
       });
     }
   };
@@ -101,6 +110,7 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
                       mode="solve"
                       question={question as Question}
                       questionIndex={questionIndex}
+                      disableAnswers={!allowGoBack}
                     />
                   ))}
                 </div>

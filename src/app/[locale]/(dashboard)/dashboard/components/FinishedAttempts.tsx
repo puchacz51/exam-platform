@@ -14,11 +14,10 @@ export const FinishedAttempts = ({ attempts }: FinishedAttemptsProps) => {
   const t = useTranslations('dashboard.finishedAttempts');
 
   return (
-    <Card className="p-4 sm:p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-          {t('title')}
-        </h2>
+    <Card className="rounded bg-white p-4 shadow sm:p-6">
+      <div className="mb-4 rounded-lg bg-white p-4 shadow">
+        <h2 className="mb-2 text-xl font-semibold">{t('title')}</h2>
+        <p className="text-gray-500">{t('subtitle')}</p>
       </div>
       <Separator className="my-4" />
       {attempts.data?.length === 0 ? (
@@ -35,29 +34,34 @@ export const FinishedAttempts = ({ attempts }: FinishedAttemptsProps) => {
             return (
               <div
                 key={attempt.id}
-                className="flex items-center justify-between rounded-lg border p-4"
+                className="mb-4 rounded-lg bg-white p-4 shadow"
               >
-                <div>
-                  <h3 className="font-medium">
-                    {attempt.testAccess.test.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {endsAt && formatDate(endsAt)}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span className="font-semibold">points:</span>{' '}
-                  {attempt.totalPoints}
-                </div>
-                <Link
-                  href={{
-                    pathname: '/test-attempt/[id]/score',
-                    params: { id: attempt.id },
-                  }}
-                  className="text-blue-500 hover:underline"
+                <div
+                  key={attempt.id}
+                  className="flex items-center justify-between rounded-lg border p-4"
                 >
-                  {t('viewDetails')}
-                </Link>
+                  <div>
+                    <h3 className="font-medium">
+                      {attempt.testAccess.test.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {endsAt && formatDate(endsAt)}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-semibold">{t('points')}:</span>{' '}
+                    {attempt.totalPoints}
+                  </div>
+                  <Link
+                    href={{
+                      pathname: '/test-attempt/[id]/score',
+                      params: { id: attempt.id },
+                    }}
+                    className="hover:underline"
+                  >
+                    {t('viewDetails')}
+                  </Link>
+                </div>
               </div>
             );
           })}

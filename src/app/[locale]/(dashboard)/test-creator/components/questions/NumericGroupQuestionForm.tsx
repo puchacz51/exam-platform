@@ -69,7 +69,7 @@ const NumericGroupQuestionForm = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+          <CardTitle className="flex flex-wrap items-center justify-between gap-2">
             <span>{t('subQuestions')}</span>
             <Button
               type="button"

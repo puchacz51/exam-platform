@@ -50,7 +50,7 @@ export async function createAnswer(
     questions,
     answers,
     settings: test.settings,
-  });
+  }).filter((p) => typeof p.points === 'number');
 
   const answersWithPoints = answers
     .map((answer) => {
@@ -83,6 +83,7 @@ export async function createAnswer(
       return {
         data: {
           points: showPointsPerQuestion ? calculatedPoints : [],
+          answeredQuestions: calculatedPoints.map((p) => p.questionId),
         },
         error: null,
       };
@@ -103,6 +104,7 @@ export async function createAnswer(
     return {
       data: {
         points: showPointsPerQuestion ? calculatedPoints : [],
+        answeredQuestions: calculatedPoints.map((p) => p.questionId),
       },
       error: null,
     };

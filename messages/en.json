@@ -214,7 +214,9 @@
             "title": "Finished Attempts",
             "empty": "No finished attempts",
             "viewDetails": "View Details",
-            "pointsTooltip": "Number of points obtained in this attempt"
+            "pointsTooltip": "Number of points obtained in this attempt",
+            "subtitle": "History of your previous attempts",
+            "points": "Points"
         },
         "testViewer": {
             "error": {
