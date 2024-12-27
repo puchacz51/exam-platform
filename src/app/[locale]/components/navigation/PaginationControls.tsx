@@ -5,11 +5,13 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePagination } from '@/hooks/navigation/usePagination';
 
-interface PaginationControlsProps {}
+interface PaginationControlsProps {
+  totalPages: number;
+}
 
-export const PaginationControls = ({}: PaginationControlsProps) => {
-  const { totalPages, hasNextPage, hasPreviousPage, nextPage, previousPage } =
-    usePagination({});
+export const PaginationControls = ({ totalPages }: PaginationControlsProps) => {
+  const { hasNextPage, hasPreviousPage, nextPage, previousPage } =
+    usePagination({ totalPages });
 
   if (totalPages <= 1) return null;
 

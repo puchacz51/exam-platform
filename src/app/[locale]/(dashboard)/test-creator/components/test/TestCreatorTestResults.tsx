@@ -19,7 +19,7 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 const TestCreatorTestResults: FC = () => {
   const t = useTranslations('testCreator.settings.results');
   const form = useFormContext<TestCreatorTest>();
-
+  // const watch = form.watch;
   return (
     <TabsContent
       value="results"

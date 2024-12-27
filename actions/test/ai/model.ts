@@ -10,6 +10,51 @@ import { AiGeneratorFormData } from '@/app/[locale]/(dashboard)/test-creator/com
 import { Question } from '@/types/test-creator/question';
 
 dotenv.config();
+
+
+function buildPrompt(options: AiGeneratorFormData, schemasExample: string) {
+  const { detail = '', selectedTypes, topic = '', language = 'en' } = options;
+  const totalCount = selectedTypes.reduce((sum, t) => sum + t.count, 0) || 5;
+  const typeRequirements =
+    selectedTypes.length > 0
+      ? `Generate questions with the following distribution:\n${selectedTypes
+          .map(({ count, type }) => `- ${count} questions of type ${type}`)
+          .join('\n')}`
+      : '';
+  const prompt = `
+    Generate ${totalCount} questions on the topic of "${topic}" ${detail ? `focusing on: ${detail}` : ''}.
+    Generate the content in ${language === 'pl' ? 'Polish' : 'English'} language.
+    ${typeRequirements}
+    
+    Use these example schemas as reference for each question type:
+    ${schemasExample}
+    
+    Return the questions in PLAIN JSON format matching the structure of the examples above.
+    I want only JSON, no other formats.
+  `;
+  return prompt;
+}
+
+function parseQuestions(responseText: string) {
+  return JSON.parse(responseText);
+}
+
+function attachQuestionIds(questions: Question[], categoryId: string) {
+  const nanoid = customAlphabet('1234567890abcdef', 24);
+  return questions.map((q) => ({ ...q, id: nanoid(), categoryId }));
+}
+
+function validateGeneratedQuestions(questions: Question[]) {
+  return questions.filter((q, i) => {
+    const parsedQuestion = questionTypeSchema.safeParse(q);
+    if (!parsedQuestion.success) {
+      console.error(`Error in question ${i + 1}:`, parsedQuestion.error.errors);
+      return false;
+    }
+    return true;
+  });
+}
+
 const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || '');
 
 const generation_config: GenerationConfig = {
@@ -26,17 +71,9 @@ const model = genAI.getGenerativeModel({
 
 export async function generateQuestions(options: AiGeneratorFormData) {
   try {
-    const {
-      detail = '',
-      selectedTypes,
-      topic = '',
-      category = { name: '', id: '' },
-      language = 'en',
-    } = options;
+    const { selectedTypes, category = { name: '', id: '' } } = options;
 
-    const totalCount =
-      selectedTypes.reduce((sum, config) => sum + config.count, 0) || 5;
-
+ 
     const uniqueTypes = [
       ...Array.from(new Set(selectedTypes.map((config) => config.type))),
     ];
@@ -45,49 +82,14 @@ export async function generateQuestions(options: AiGeneratorFormData) {
       .map(([type, schema]) => `Example for ${type}:\n${schema}`)
       .join('\n\n');
 
-    const typeRequirements =
-      selectedTypes.length > 0
-        ? `Generate questions with the following distribution:\n${selectedTypes
-            .map(
-              (config) => `- ${config.count} questions of type ${config.type}`
-            )
-            .join('\n')}`
-        : '';
-
-    const prompt = `
-      Generate ${totalCount} questions on the topic of "${topic}" ${detail ? `focusing on: ${detail}` : ''}.
-      Generate the content in ${language === 'pl' ? 'Polish' : 'English'} language.
-      ${typeRequirements}
-      
-      Use these example schemas as reference for each question type:
-      ${schemasExample}
-      
-      Return the questions in PLAIN JSON format matching the structure of the examples above.
-      I want only JSON, no other formats.
-    `;
+    const prompt = buildPrompt(options, schemasExample);
 
     const result = await model.generateContent(prompt);
-    const questions: Question[] = JSON.parse(result.response.text());
+    const questions: Question[] = parseQuestions(result.response.text());
 
-    const nanoid = customAlphabet('1234567890abcdef', 24);
+    const questionsWithIds = attachQuestionIds(questions, category.id);
 
-    const questionsWithIds = questions.map((question) => ({
-      ...question,
-      id: nanoid(),
-      categoryId: category.id,
-    }));
-
-    const validateQuestions = questionsWithIds.filter((question, index) => {
-      const parsedQuestion = questionTypeSchema.safeParse(question);
-      if (!parsedQuestion.success) {
-        console.error(
-          `Error in question ${index + 1}:`,
-          parsedQuestion.error.errors
-        );
-        return false;
-      }
-      return true;
-    });
+    const validateQuestions = validateGeneratedQuestions(questionsWithIds);
 
     if (!validateQuestions.length)
       throw new Error('No valid questions generated');

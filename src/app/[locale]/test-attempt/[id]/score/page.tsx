@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
 
 const TestScorePage = async ({ params }: { params: { id: string } }) => {
   const session = await auth();
@@ -29,7 +30,12 @@ const TestScorePage = async ({ params }: { params: { id: string } }) => {
     receivedPointsPercentage,
     pointsFromClosedQuestions,
     receivedPointsPercentageWithoutOpenQuestions,
+    attempt: {
+      testAccess: { test },
+    },
   } = data;
+
+  const testSettings = test?.settings || {};
 
   return (
     <div className="container mx-auto py-8">
@@ -85,6 +91,9 @@ const TestScorePage = async ({ params }: { params: { id: string } }) => {
           <Link href="/dashboard">Return to Dashboard</Link>
         </Button>
       </div>
+      {testSettings && testSettings.showCorrectAnswers && (
+        <TestViewer testId={test.id} />
+      )}
     </div>
   );
 };

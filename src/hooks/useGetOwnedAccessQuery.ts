@@ -5,7 +5,6 @@ import { usePagination } from '@/hooks/navigation/usePagination';
 import { TestOwnerAssignment } from '@actions/test-assigment/getTestOwnerAssignments';
 
 const getTestOwnerAssignments = async (userId: string, page: number) => {
-  console.log('GET /api/test-access/owned');
   const response = await fetch(`/api/test-access/owned?page=${page}`);
 
   return response.json() as unknown as TestOwnerAssignment;

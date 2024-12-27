@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 
 import { useGetTestAttempts } from '@/hooks/useGetTestAttempts';
@@ -23,6 +24,8 @@ interface TestAssignmentAttemptListProps {
 const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
   initialData,
 }) => {
+  const t = useTranslations('dashboard.testAssignment.attemptList');
+
   const { data } = useGetTestAttempts({
     testAccessId: initialData.attempts[0].testAccessId,
     limit: 10,
@@ -60,13 +63,13 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Student</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Started At</TableHead>
-            <TableHead>Finished At</TableHead>
-            <TableHead>Points</TableHead>
-            <TableHead>Max Points</TableHead>
-            <TableHead>Percents (%)</TableHead>
+            <TableHead>{t('student')}</TableHead>
+            <TableHead>{t('email')}</TableHead>
+            <TableHead>{t('startedAt')}</TableHead>
+            <TableHead>{t('finishedAt')}</TableHead>
+            <TableHead>{t('points')}</TableHead>
+            <TableHead>{t('maxPoints')}</TableHead>
+            <TableHead>{t('percents')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

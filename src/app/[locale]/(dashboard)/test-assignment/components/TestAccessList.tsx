@@ -16,6 +16,7 @@ interface TestAccessListProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
   const t = useTranslations('testAssignment.list');
+  const tAccessList = useTranslations('testAssignment');
   const { isLoading, error, data } = useOwnedAccessQuery();
 
   if (error) {
@@ -81,7 +82,14 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
                   </CardContent>
                 </Card>
               ))}
-              <PaginationControls />
+              <PaginationControls totalPages={data.metadata.totalPages} />
+            </div>
+          )}
+
+          {!data?.items && (
+            <div className="text-center">
+              <h2>{tAccessList('list.title')}</h2>
+              <p>{tAccessList('list.noAssignments')}</p>
             </div>
           )}
         </div>

@@ -268,6 +268,21 @@
                 "description": "Your Microsoft Teams groups",
                 "noGroups": "No Teams groups available",
                 "tryAdjustingSearch": "Try adjusting your search"
+            },
+            "testAccessList": {
+                "title": "Test Access List",
+                "noAccess": "No assigned access",
+                "strart": "Start",
+                "end": "End"
+            },
+            "attemptList": {
+                "student": "Student",
+                "email": "Email",
+                "startedAt": "Started At",
+                "finishedAt": "Finished At",
+                "points": "Points",
+                "maxPoints": "Max Points",
+                "percents": "Percents (%)"
             }
         },
         "testPage": {

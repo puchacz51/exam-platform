@@ -4,10 +4,10 @@ import { and, eq } from 'drizzle-orm';
 
 import { testAttemptsTable } from '@schema/testAttempt';
 import { auth } from '@/next-auth/auth';
+import db from '@/lib/db';
 
 export const getUserPoints = async (attemptId: string) => {
   const session = await auth();
-  console.log('session', session);
   if (!session?.user.userID)
     return {
       error: 'User not authenticated',
@@ -51,6 +51,7 @@ export const getUserPoints = async (attemptId: string) => {
                   },
                 },
               },
+              settings: true,
             },
           },
         },
