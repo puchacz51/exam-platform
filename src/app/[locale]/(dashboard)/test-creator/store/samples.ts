@@ -50,15 +50,6 @@ export const mathTest: TestCreatorQuestion[] = [
   },
   {
     id: generateId(),
-    text: 'Odpowiedz na pytanie: Ile wynosi pierwiastek kwadratowy z 81?',
-    questionType: 'OPEN',
-
-    categoryId: 'd8f8f587-54bd-4415-89d7-6f36d822a790',
-    points: 1,
-    answers: [{ id: generateId(), text: '9' }],
-  },
-  {
-    id: generateId(),
     text: 'Które z poniższych są liczbami parzystymi?',
     questionType: 'MULTIPLE_CHOICE',
 

@@ -85,16 +85,12 @@ export const getUserPoints = async (attemptId: string) => {
   );
   const receivedPointsWithoutOpenQuestions = attempt.answers.reduce(
     (acc, answer) => {
-      return (
-        acc + (answer.question.questionType !== 'OPEN' ? answer.points || 0 : 0)
-      );
+      return acc + (answer.points || 0);
     },
     0
   );
   const pointsFromOpenQuestions = attempt.answers.reduce((acc, answer) => {
-    return (
-      acc + (answer.question.questionType === 'OPEN' ? answer.points || 0 : 0)
-    );
+    return acc + (answer.points || 0);
   }, 0);
 
   const pointsFromClosedQuestions = totalPoints - pointsFromOpenQuestions;

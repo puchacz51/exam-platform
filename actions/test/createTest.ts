@@ -86,7 +86,7 @@ async function createTest(
       group.questions.forEach((question) => {
         questionInserts.push({
           text: question.text,
-          questionType: question.questionType as 'OPEN',
+          questionType: question.questionType as 'NUMERIC',
           categoryId: question.categoryId,
           points: question.points,
         });

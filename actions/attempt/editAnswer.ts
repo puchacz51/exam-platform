@@ -27,17 +27,17 @@ export async function editAnswer(
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
-        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
+        points: input.points,
       })
       .where(eq(attemptAnswersTable.id, answerId));
 
     const deleteDetails = async () => {
       switch (input.type) {
-        case 'OPEN':
-          await tx
-            .delete(openAnswersTable)
-            .where(eq(openAnswersTable.attemptAnswerId, answerId));
-          break;
+        // case 'OPEN':
+        //   await tx
+        //     .delete(openAnswersTable)
+        //     .where(eq(openAnswersTable.attemptAnswerId, answerId));
+        //   break;
         case 'SINGLE_CHOICE':
         case 'MULTIPLE_CHOICE':
           await tx
@@ -75,13 +75,13 @@ export async function editAnswer(
     await deleteDetails();
 
     switch (input.type) {
-      case 'OPEN':
-        if (!input.answer) break;
-        await tx.insert(openAnswersTable).values({
-          attemptAnswerId: answerId,
-          text: input.answer.text,
-        });
-        break;
+      // case 'OPEN':
+      //   if (!input.answer) break;
+      //   await tx.insert(openAnswersTable).values({
+      //     attemptAnswerId: answerId,
+      //     text: input.answer.text,
+      //   });
+      //   break;
 
       case 'SINGLE_CHOICE':
       case 'MULTIPLE_CHOICE':

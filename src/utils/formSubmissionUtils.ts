@@ -14,13 +14,6 @@ export const prepareFormSubmission = (
       };
 
       switch (questionData.type) {
-        case 'OPEN':
-          if (!('answer' in questionData)) return;
-          return {
-            ...baseAnswer,
-            answer: questionData.answer,
-          };
-
         case 'SINGLE_CHOICE':
         case 'MULTIPLE_CHOICE':
           if (

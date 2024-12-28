@@ -47,7 +47,6 @@ export type BooleanGroupAnswerInput = Omit<BaseAnswerInput, 'type'> & {
 };
 
 export type AnswerInput =
-  | OpenAnswerInput
   | ChoiceAnswerInput
   | MatchingAnswerInput
   | OrderAnswerInput

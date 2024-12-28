@@ -122,18 +122,18 @@ export const prepareQuestionToAttempt = (
         };
       }
 
-      if (question.questionType === 'OPEN') {
-        const answers =
-          (answer && answer.type === 'OPEN' && answer.openAnswers) || [];
-        acc[question.id] = {
-          type: 'OPEN',
-          questionId: question.id,
-          points: typeof answer?.points === 'number' ? answer.points : null,
-          attemptId,
-          answer: { text: answers[0]?.text || '' },
-          answered: !!answers?.length,
-        };
-      }
+      // if (question.questionType === 'OPEN') {
+      //   const answers =
+      //     (answer && answer.type === 'OPEN' && answer.openAnswers) || [];
+      //   acc[question.id] = {
+      //     type: 'OPEN',
+      //     questionId: question.id,
+      //     points: typeof answer?.points === 'number' ? answer.points : null,
+      //     attemptId,
+      //     answer: { text: answers[0]?.text || '' },
+      //     answered: !!answers?.length,
+      //   };
+      // }
 
       return acc;
     },

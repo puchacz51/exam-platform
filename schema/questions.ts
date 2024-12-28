@@ -9,7 +9,6 @@ import { groupSubQuestionsTable } from '@schema/groupSubQuestions';
 import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
 
 export const questionTypeEnum = pgEnum('question_type', [
-  'OPEN',
   'SINGLE_CHOICE',
   'MULTIPLE_CHOICE',
   'ORDER',

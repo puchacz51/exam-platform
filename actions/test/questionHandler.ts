@@ -24,9 +24,9 @@ export const createQuestionTypeSpecificData = async (
   questionId: string
 ) => {
   switch (question.questionType) {
-    case 'OPEN':
-      await handleOpenQuestion(tx, question as OpenQuestion, questionId);
-      break;
+    // case 'OPEN':
+    //   await handleOpenQuestion(tx, question as OpenQuestion, questionId);
+    //   break;
     case 'SINGLE_CHOICE':
     case 'MULTIPLE_CHOICE':
       await handleChoiceQuestion(

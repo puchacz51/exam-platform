@@ -38,12 +38,12 @@ export const orderItemSchema = object({
   order: number(),
 });
 
-export const questionOpenSchema = questionBaseSchema.extend({
-  questionType: literal('OPEN'),
-  answers: array(answerSchema)
-    .max(1, 'Pytanie otwarte może mieć tylko jedną odpowiedź')
-    .optional(),
-});
+// export const questionOpenSchema = questionBaseSchema.extend({
+//   questionType: literal('OPEN'),
+//   answers: array(answerSchema)
+//     .max(1, 'Pytanie otwarte może mieć tylko jedną odpowiedź')
+//     .optional(),
+// });
 
 export const questionSingleChoiceSchema = questionBaseSchema.extend({
   questionType: literal('SINGLE_CHOICE'),
@@ -109,7 +109,7 @@ export const questionNumericGroupSchema = questionBaseSchema.extend({
 });
 
 export const questionTypeSchema = discriminatedUnion('questionType', [
-  questionOpenSchema,
+  // questionOpenSchema,
   questionSingleChoiceSchema,
   questionMultipleChoiceSchema,
   questionOrderSchema,

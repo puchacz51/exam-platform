@@ -3,20 +3,18 @@ import { getTestAssignment } from '@actions/test/getTestAssignment';
 import { TestStartCard } from '@/app/[locale]/test-attempt/start-screen/[id]/components/TestStartCard';
 import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/components/ErrorAlert';
 import { redirect } from '@/i18n/routing';
+import { auth } from '@/next-auth/auth';
 
 const TestStartScreen = async ({ params }: { params: { id: string } }) => {
-  const hasAccess = await isUserAssignedToTest(params.id);
+  const [session, hasAccess, testAssignment] = await Promise.all([
+    auth(),
+    isUserAssignedToTest(params.id),
+    getTestAssignment(params.id),
+  ]);
 
-  if (!hasAccess) {
-    return (
-      <ErrorAlert
-        title="Access Denied"
-        description="You do not have permission to access this test."
-      />
-    );
+  if (!session?.user.userID) {
+    return <div>Unauthorized</div>;
   }
-
-  const testAssignment = await getTestAssignment(params.id);
 
   if (!testAssignment) {
     return (
@@ -67,6 +65,15 @@ const TestStartScreen = async ({ params }: { params: { id: string } }) => {
       pathname: '/test-attempt/[id]',
       params: { id: testAssignment.id },
     });
+  }
+
+  if (!hasAccess) {
+    return (
+      <ErrorAlert
+        title="Access Denied"
+        description="You do not have permission to access this test."
+      />
+    );
   }
 
   return (

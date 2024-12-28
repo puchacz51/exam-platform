@@ -1,9 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Bell, Settings } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
 import LanguageSwitcher from '@/app/[locale]/components/LanguageSwitcher';
 
@@ -22,20 +20,7 @@ const DashboardHeader = () => {
           </div>
           <nav className="flex items-center space-x-2 sm:space-x-4">
             <LanguageSwitcher />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 transition-colors hover:bg-gray-100 sm:h-10 sm:w-10"
-            >
-              <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 transition-colors hover:bg-gray-100 sm:h-10 sm:w-10"
-            >
-              <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Button>
+
             <ProfileDropdown />
           </nav>
         </div>

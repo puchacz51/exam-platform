@@ -7,7 +7,6 @@ import {
   choiceAnswersTable,
   matchingAnswersTable,
   numericAnswersTable,
-  openAnswersTable,
   orderAnswersTable,
 } from '@schema/attemptAnswerDetails';
 import { attemptAnswersTable } from '@schema/attemptAnswers';
@@ -23,18 +22,19 @@ export async function submitAnswer(input: AnswerInput, externalTx?: Tx) {
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
-        ...(input.type !== 'OPEN' ? { points: input.points } : {}),
+        points: input.points,
+        // ...(input.type !== 'OPEN' ? { points: input.points } : {}),
       })
       .returning();
 
     switch (input.type) {
-      case 'OPEN':
-        if (!input.answer.text) break;
-        await tx.insert(openAnswersTable).values({
-          attemptAnswerId: attemptAnswer.id,
-          text: input.answer.text,
-        });
-        break;
+      // case 'OPEN':
+      //   if (!input.answer.text) break;
+      //   await tx.insert(openAnswersTable).values({
+      //     attemptAnswerId: attemptAnswer.id,
+      //     text: input.answer.text,
+      //   });
+      //   break;
 
       case 'SINGLE_CHOICE':
       case 'MULTIPLE_CHOICE':

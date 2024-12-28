@@ -13,6 +13,7 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
+import { useToast } from '@/hooks/useToast'; // Import useToast
 
 import { QuestionFlowResponse } from '../../../../../../types/attempt';
 
@@ -53,26 +54,40 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     setValue,
   } = methods;
 
+  const { toast } = useToast(); // Initialize toast
+
   const moveToQuestion = (questionId: string) => {
+    console.log('moveToQuestion', questionId);
     router.replace(`${pathname}?questionId=${questionId}`, {
       scroll: false,
     });
   };
 
   const onSubmit = async (data: TestAttemptFormData) => {
-    const formattedAnswers = prepareFormSubmission(data, attemptId);
+    try {
+      const formattedAnswers = prepareFormSubmission(data, attemptId);
+      const result = await createAnswer(testAssignmentId, formattedAnswers);
 
-    const result = await createAnswer(testAssignmentId, formattedAnswers);
+      const questionPoints =
+        !!result.data &&
+        'points' in result.data &&
+        result.data.points.find(
+          (point) => point.questionId === currentQuestionId
+        );
 
-    const questionPoints =
-      !!result.data &&
-      'points' in result.data &&
-      result.data.points.find(
-        (point) => point.questionId === currentQuestionId
-      );
-
-    if (questionPoints) {
-      setValue(`questions.${currentQuestionId}.points`, questionPoints.points);
+      if (questionPoints) {
+        setValue(
+          `questions.${currentQuestionId}.points`,
+          questionPoints.points
+        );
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description:
+          'An unexpected error occurred while submitting your answer.',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -108,7 +123,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                 <Button
                   variant="secondary"
                   type="button"
-                  onClick={() => {}}
+                  onClick={() => moveToQuestion(previousQuestionId as string)}
                 >
                   Go back
                 </Button>

@@ -13,6 +13,7 @@ import { createAnswer } from '@actions/attempt/createAnswer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
+import { useToast } from '@/hooks/useToast'; // Import useToast
 
 import { GroupFlowResponse } from '../../../../../../types/attempt';
 
@@ -60,31 +61,41 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
     });
   };
 
+  const { toast } = useToast(); // Initialize toast
+
   const onSubmit = async (data: TestAttemptFormData) => {
-    const formattedAnswers = prepareFormSubmission(data, attemptId);
+    try {
+      const formattedAnswers = prepareFormSubmission(data, attemptId);
+      const result = await createAnswer(testAssignmentId, formattedAnswers);
 
-    const result = await createAnswer(testAssignmentId, formattedAnswers);
+      const points =
+        !!result.data && 'points' in result.data && result.data.points;
+      const answeredQuestions =
+        !!result.data &&
+        'answeredQuestions' in result.data &&
+        result.data.answeredQuestions;
 
-    const points =
-      !!result.data && 'points' in result.data && result.data.points;
-    const answeredQuestions =
-      !!result.data &&
-      'answeredQuestions' in result.data &&
-      result.data.answeredQuestions;
+      if (points) {
+        points.forEach((point) => {
+          if (currentGroup?.questions.some((q) => q.id === point.questionId)) {
+            setValue(`questions.${point.questionId}.points`, point.points);
+          }
 
-    if (points) {
-      points.forEach((point) => {
-        if (currentGroup?.questions.some((q) => q.id === point.questionId)) {
           setValue(`questions.${point.questionId}.points`, point.points);
-        }
-
-        setValue(`questions.${point.questionId}.points`, point.points);
-      });
-    }
-    if (answeredQuestions) {
-      console.log(answeredQuestions);
-      answeredQuestions.forEach((questionId) => {
-        setValue(`questions.${questionId}.answered`, true);
+        });
+      }
+      if (answeredQuestions) {
+        console.log(answeredQuestions);
+        answeredQuestions.forEach((questionId) => {
+          setValue(`questions.${questionId}.answered`, true);
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description:
+          'An unexpected error occurred while submitting your answer.',
+        variant: 'destructive',
       });
     }
   };

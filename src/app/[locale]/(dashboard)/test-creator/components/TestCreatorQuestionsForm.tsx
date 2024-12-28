@@ -27,7 +27,7 @@ import { MultipleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-crea
 import { BooleanQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanQuestionForm';
 import { OrderQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/OrderQuestionForm';
 import MatchingQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/MatchingQuestionForm';
-import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
+// import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
 import BooleanGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanGroupQuestionForm';
 import NumericGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericGroupQuestionForm';
 import { cn } from '@/lib/utils';
@@ -54,8 +54,8 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     switch (questionType) {
       case 'SINGLE_CHOICE':
         return SingleChoiceQuestionForm;
-      case 'OPEN':
-        return OpenEndedQuestionForm;
+      // case 'OPEN':
+      //   return OpenEndedQuestionForm;
       case 'NUMERIC':
         return NumericQuestionForm;
       case 'MULTIPLE_CHOICE':
