@@ -5,13 +5,7 @@ import { eq, max, sql } from 'drizzle-orm';
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { testAttemptsTable } from '@schema/testAttempt';
-import { testAccessConfigTable } from '@schema/testAccesss';
-import { testsTable } from '@schema/test';
-import { questionGroupsTable } from '@schema/questionGroups';
-import { questionOnQuestionGroupTable } from '@schema/questionOnQuestionGroup';
-import { questionsTable } from '@schema/questions';
-import { usersTable } from '@schema/users';
-import test from 'node:test';
+import { getTestAccessInfo } from '../test-access/getTestAccessInfo';
 
 export const getTestAttempts = async (
   testAccessId: string,
@@ -42,35 +36,13 @@ export const getTestAttempts = async (
           },
         },
       });
-    const getMaxPoints = () =>
-      db.query.testAccess
-        .findFirst({
-          where: eq(testAttemptsTable.id, testAccessId),
-          with: {
-            test: {
-              with: {
-                QG: {
-                  with: {
-                    qOnQG: {
-                      with: {
-                        question: {
-                          columns: {
-                            points: true,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        })
-        .then((testAccess) =>
-          testAccess?.test.QG.flatMap((qg) =>
-            qg.qOnQG.flatMap((qOnQG) => qOnQG.question.points)
-          ).reduce((a, b) => a + b, 0)
-        );
+      
+    const getMaxPoints = async () => {
+      const testAccess = await getTestAccessInfo(testAccessId);
+      return testAccess?.test.QG.flatMap((qg) =>
+        qg.qOnQG.flatMap((qOnQG) => qOnQG.question.points)
+      ).reduce((a, b) => a + b, 0);
+    };
 
     const getTotalCount = () =>
       db

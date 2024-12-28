@@ -45,7 +45,7 @@ export async function isUserAssignedToTest(id: string, code?: string) {
         },
       },
     });
-
+    
     if (code && accessConfig?.accessCode === code) return true;
 
     const hasUserAccessInGroup = accessConfig?.TAGroup.some((group) =>

@@ -19,10 +19,12 @@ import { cn } from '@/lib/utils';
 
 interface TestAssignmentAttemptListProps {
   initialData: TestAttemptsResponse;
+  maxPoints: number;
 }
 
 const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
   initialData,
+  maxPoints,
 }) => {
   const t = useTranslations('dashboard.testAssignment.attemptList');
 
@@ -97,10 +99,8 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
                 <TableCell>{attempt.totalPoints ?? '-'}</TableCell>
                 <TableCell>{data.maxPoints}</TableCell>
                 <TableCell>
-                  {attempt.totalPoints && data.maxPoints
-                    ? ((attempt.totalPoints / data.maxPoints) * 100).toFixed(
-                        2
-                      ) + '%'
+                  {attempt.totalPoints && maxPoints
+                    ? ((attempt.totalPoints / maxPoints) * 100).toFixed(2) + '%'
                     : '-'}
                 </TableCell>
               </TableRow>

@@ -25,12 +25,6 @@ export const HomePageBanner = () => {
                 {t('buttons.getStarted')}
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              size="lg"
-            >
-              {t('buttons.learnMore')}
-            </Button>
           </div>
         </div>
       </div>

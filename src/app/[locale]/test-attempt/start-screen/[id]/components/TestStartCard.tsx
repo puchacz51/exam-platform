@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Calendar, Timer } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -33,6 +34,7 @@ export const TestStartCard = ({
   startDate,
   testId,
 }: TestStartCardProps) => {
+  const t = useTranslations('testAttempt');
   const [isStarting, setIsStarting] = useState(false);
   const router = useRouter();
   const handleStart = async () => {
@@ -62,7 +64,9 @@ export const TestStartCard = ({
               {timeLimit && (
                 <div className="flex items-center gap-2">
                   <Timer className="h-4 w-4" />
-                  <span>Time limit: {timeLimit} minutes</span>
+                  <span>
+                    {t('timeLimit')}: {timeLimit} {t('minutes')}
+                  </span>
                 </div>
               )}
             </div>
@@ -71,9 +75,7 @@ export const TestStartCard = ({
             {hasStarted ? (
               <div className="space-y-4">
                 <div className="rounded-lg bg-green-50 p-4">
-                  <p className="text-sm text-green-700">
-                    The test is now available. Good luck!
-                  </p>
+                  <p className="text-sm text-green-700">{t('testAvailable')}</p>
                 </div>
                 <Button
                   onClick={handleStart}
@@ -81,21 +83,21 @@ export const TestStartCard = ({
                   className="w-full sm:w-auto"
                   size="lg"
                 >
-                  Start Test
+                  {t('startTest')}
                 </Button>
               </div>
             ) : (
               <Alert className="border-2">
                 <Calendar className="h-4 w-4" />
                 <AlertTitle className="font-semibold">
-                  Test Not Started
+                  {t('testNotStarted')}
                 </AlertTitle>
                 <AlertDescription className="mt-2">
                   <p className="font-medium">
-                    Scheduled start: {startDate?.toLocaleString()}
+                    {t('scheduledStart')}: {startDate?.toLocaleString()}
                   </p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Please come back at the scheduled time to begin the test.
+                    {t('comeBackLater')}
                   </p>
                 </AlertDescription>
               </Alert>

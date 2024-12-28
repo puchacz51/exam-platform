@@ -5,10 +5,17 @@ import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/compon
 import { redirect } from '@/i18n/routing';
 import { auth } from '@/next-auth/auth';
 
-const TestStartScreen = async ({ params }: { params: { id: string } }) => {
+const TestStartScreen = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) => {
+  const accessCode = searchParams?.accessCode as string;
   const [session, hasAccess, testAssignment] = await Promise.all([
     auth(),
-    isUserAssignedToTest(params.id),
+    isUserAssignedToTest(params.id, accessCode),
     getTestAssignment(params.id),
   ]);
 

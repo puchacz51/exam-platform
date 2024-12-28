@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 import ProfileDropdown from '@/app/[locale]/components/header/ProfileDropdown';
 
@@ -18,28 +19,16 @@ const Header = ({ children }: HeaderProps) => {
               href="/"
               className="text-2xl font-bold text-gray-900"
             >
-              Logo
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/test.png"
+                  alt="QuizSow"
+                  width={32}
+                  height={32}
+                />
+                QuizSow
+              </div>
             </Link>
-            <nav className="hidden md:ml-6 md:flex md:space-x-8">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-gray-900"
-              >
-                Strona główna
-              </Link>
-              <Link
-                href="/about"
-                className="text-gray-500 hover:text-gray-900"
-              >
-                O nas
-              </Link>
-              <Link
-                href="/contact"
-                className="text-gray-500 hover:text-gray-900"
-              >
-                Kontakt
-              </Link>
-            </nav>
           </div>
           <div className="flex items-center gap-4">
             {children}
