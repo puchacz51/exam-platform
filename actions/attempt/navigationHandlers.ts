@@ -39,9 +39,8 @@ export const handleGroupNavigation = (
     userId as string
   );
 
-  const nextGroupId = allowGoBack
-    ? questionsGroups[selectedGroupIndex + 1]?.id || null
-    : null;
+  const nextGroupId = questionsGroups[selectedGroupIndex + 1]?.id || null;
+
   const previousGroupId = allowGoBack
     ? questionsGroups[selectedGroupIndex - 1]?.id || null
     : null;

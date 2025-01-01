@@ -9,7 +9,6 @@ import {
   choiceAnswersTable,
   matchingAnswersTable,
   numericAnswersTable,
-  openAnswersTable,
   orderAnswersTable,
 } from '@schema/attemptAnswerDetails';
 import { attemptAnswersTable } from '@schema/attemptAnswers';

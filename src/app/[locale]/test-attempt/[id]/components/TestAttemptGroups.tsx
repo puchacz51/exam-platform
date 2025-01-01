@@ -85,7 +85,6 @@ const TestAttemptGroups: FC<TestAttemptGroupsProps> = ({ userAttemptFlow }) => {
         });
       }
       if (answeredQuestions) {
-        console.log(answeredQuestions);
         answeredQuestions.forEach((questionId) => {
           setValue(`questions.${questionId}.answered`, true);
         });

@@ -17,7 +17,6 @@ export async function submitAnswers(answers: AnswerInput[]) {
       const filteredAnswers = answers.filter(Boolean).filter((answer) => {
         return answer.questionId && typeof answer.points === 'number';
       });
-
       const results = await Promise.all(
         filteredAnswers.map((answer) => submitAnswer(answer, trx))
       );

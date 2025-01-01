@@ -30,28 +30,32 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
 }) => {
   const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
-  const { control, setValue } =
-    useFormContext<TestAttemptFormDataNumericGroup>();
-  const { fields } = useFieldArray({
+  const { control } = useFormContext<TestAttemptFormDataNumericGroup>();
+  const { fields, update, append, remove } = useFieldArray({
     control,
     name: fieldKey,
   });
-
+  console.log(fields);
   const handleInputChange = (subQuestionId: string, value: string) => {
     const index = fields.findIndex(
       (field) => field.subQuestionId === subQuestionId
     );
-
     if (index !== -1) {
-      setValue(`${fieldKey}.${index}.value`, Number(value));
+      if (!value) return remove(index);
+
+      update(index, { subQuestionId, value: Number(value) });
     } else {
-      setValue(fieldKey, [...fields, { subQuestionId, value: Number(value) }]);
+      append({ subQuestionId, value: Number(value) });
     }
   };
 
   return (
     <div className="grid gap-4">
       {GSQ?.map((subQuestion) => {
+        const fieldsAnswer = fields.find(
+          (field) => field.subQuestionId === subQuestion.id
+        );
+
         return (
           <Card
             key={subQuestion.id}
@@ -68,6 +72,9 @@ const NumericGroupQuestion: FC<NumericGroupQuestionProps> = ({
                   <Input
                     type="number"
                     className="w-[100px] text-center"
+                    defaultValue={
+                      !!fieldsAnswer?.value ? fieldsAnswer.value.toString() : ''
+                    }
                     value={
                       'numericAnswer' in subQuestion
                         ? !!subQuestion.numericAnswer

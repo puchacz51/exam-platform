@@ -33,6 +33,7 @@ export const calculatePoints = ({
     }
 
     const accuracy = calculateQuestionAccuracy(question, answer);
+    console.log(accuracy, question.text);
     if (!accuracy) {
       return {
         questionId: question.id,
@@ -143,9 +144,8 @@ const calculateMatchingAccuracy = (
   const total = question.matchingPairs?.length || 0;
   const correctCount =
     question.matchingPairs?.filter((pair) => {
-      const userPair = answer.pairs.find(
-        (p) => p.key === pair.key && p.value === pair.value
-      );
+      const userPair = answer.pairs.find((p) => p.key === pair.key);
+      console.log(userPair, pair);
       return userPair?.key === pair.key && userPair?.value === pair.value;
     }).length || 0;
 
@@ -162,7 +162,10 @@ const calculateOrderAccuracy = (
 ) => {
   if (answer.items.length === 0) return null;
 
-  const correctOrder = question.orderItems?.map((item) => item.id) || [];
+  const correctOrder =
+    question.orderItems
+      ?.sort((a, b) => a?.order - b?.order)
+      ?.map((item) => item.id) || [];
   const userOrder = answer.items
     .sort((a, b) => a?.position - b?.position)
     .map((item) => item.itemId);

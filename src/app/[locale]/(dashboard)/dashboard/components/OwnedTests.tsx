@@ -8,7 +8,7 @@ import { Link } from '@/i18n/routing';
 import { TestOwnerAssignment } from '@actions/test-assigment/getTestOwnerAssignments';
 
 interface OwnedTestsProps {
-  ownedTests: TestOwnerAssignment['items'];
+  ownedTests: TestOwnerAssignment;
 }
 
 export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
@@ -21,13 +21,13 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             {t('title')}
           </h2>
-          {ownedTests.length > 0 && (
+          {ownedTests.items.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              {t('subTitle', { count: ownedTests.length })}
+              {t('subTitle', { count: ownedTests.metadata.totalCount || 0 })}
             </p>
           )}
         </div>
-        {!!ownedTests.length && (
+        {!!ownedTests.items && (
           <Button
             variant="ghost"
             className="hidden sm:flex"
@@ -43,7 +43,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
         )}
       </div>
       <Separator className="my-4" />
-      {ownedTests.length === 0 ? (
+      {!ownedTests.items ? (
         <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <Share2 className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
@@ -52,7 +52,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {ownedTests.map((assignment) => (
+          {ownedTests.items.map((assignment) => (
             <div
               key={assignment.testId}
               className="flex items-center justify-between rounded-lg border p-4"
@@ -60,9 +60,7 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
               <div>
                 <h3 className="font-medium">{assignment.testTitle}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {assignment.groupName
-                    ? t('assignedTo', { group: assignment.groupName })
-                    : t('accessType', { type: assignment.accessType })}
+                  {t('accessType', { type: assignment.accessType })}
                 </p>
               </div>
               <Button

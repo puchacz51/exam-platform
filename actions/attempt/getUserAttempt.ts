@@ -32,7 +32,6 @@ export const getUserAttemptWithTestSettings = async (
                         question: {
                           with: {
                             GSQ: {
-                              orderBy: sql`Random()`,
                               columns: {
                                 id: true,
                                 text: true,
@@ -47,7 +46,6 @@ export const getUserAttemptWithTestSettings = async (
                             },
                             matchingPairs: true,
                             answers: {
-                              orderBy: sql`Random()`,
                               columns: {
                                 id: true,
                                 text: true,
@@ -57,7 +55,6 @@ export const getUserAttemptWithTestSettings = async (
                               },
                             },
                             orderItems: {
-                              orderBy: sql`Random()`,
                               columns: {
                                 id: true,
                                 text: true,
@@ -93,6 +90,10 @@ export const getUserAttemptWithTestSettings = async (
       return { data: userAttempt, error: 'Attempt not found' };
     }
 
+    const shouldShuffleAnswers = showAnswer
+      ? false
+      : !!userAttempt.testAccess.test.settings.shuffleAnswers;
+
     const QGWithRandomizedQuestions = userAttempt.testAccess.test.QG.map(
       (qg) => ({
         ...qg,
@@ -100,20 +101,28 @@ export const getUserAttemptWithTestSettings = async (
           ...qOnQG,
           question: {
             ...qOnQG.question,
-            GSQ: qOnQG.question.GSQ.sort(() => Math.random() - 0.5),
-            matchingPairs: (() => {
-              if (!qOnQG.question.matchingPairs) return [];
-              const shuffledValues = [...qOnQG.question.matchingPairs]
-                .map((mp) => mp.value)
-                .sort(() => Math.random() - 0.5);
+            GSQ: !shouldShuffleAnswers
+              ? qOnQG.question.GSQ
+              : qOnQG.question.GSQ.sort(() => Math.random() - 0.5),
+            matchingPairs: !shouldShuffleAnswers
+              ? qOnQG.question.matchingPairs
+              : (() => {
+                  if (!qOnQG.question.matchingPairs) return [];
+                  const shuffledValues = [...qOnQG.question.matchingPairs]
+                    .map((mp) => mp.value)
+                    .sort(() => Math.random() - 0.5);
 
-              return qOnQG.question.matchingPairs.map((mp, index) => ({
-                id: mp.id,
-                questionId: mp.questionId,
-                key: mp.key,
-                value: shuffledValues[index],
-              }));
-            })(),
+                  return qOnQG.question.matchingPairs.map((mp, index) => ({
+                    id: mp.id,
+                    questionId: mp.questionId,
+                    key: mp.key,
+                    value: shuffledValues[index],
+                  }));
+                })(),
+            answers: !shouldShuffleAnswers
+              ? qOnQG.question.answers
+              : qOnQG.question.answers.sort(() => Math.random() - 0.5),
+            orderItems: qOnQG.question.orderItems.sort(() => Math.random() - 0.5),
           },
         })),
       })

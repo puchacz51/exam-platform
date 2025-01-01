@@ -62,9 +62,12 @@ export async function createAnswer(
 
   const { allowGoBack, showPointsPerQuestion } =
     userAttempt.testAccess.test.settings;
-
   if (!allowGoBack) {
-    await submitAnswers(answers);
+    const {  newAnswers } = getGroupedAnswers(
+      answersWithPoints,
+      userAttempt
+    );
+    await submitAnswers(newAnswers);
 
     return {
       data: {

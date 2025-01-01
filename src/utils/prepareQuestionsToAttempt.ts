@@ -79,7 +79,6 @@ export const prepareQuestionToAttempt = (
         question.questionType === 'NUMERIC' ||
         question.questionType === 'NUMERIC_GROUP'
       ) {
-        console.log(answer);
         const answers =
           (answer &&
             (answer.type === 'NUMERIC' || answer.type === 'NUMERIC_GROUP') &&
@@ -89,6 +88,9 @@ export const prepareQuestionToAttempt = (
               value: a.value,
             }))) ||
           [];
+        answers.forEach((a) => {
+          console.log(a);
+        });
 
         acc[question.id] = {
           type: question.questionType,

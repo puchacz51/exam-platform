@@ -33,22 +33,12 @@ export async function getTestOwnerAssignments(
           testDescription: testsTable.description,
           accessType: testAccessConfigTable.accessType,
           accessCode: testAccessConfigTable.accessCode,
-          groupId: groupsTable.id,
-          groupName: groupsTable.name,
           assignedBy: testAccessConfigTable.assignedBy,
           startAt: testAccessConfigTable.startsAt,
           endAt: testAccessConfigTable.endsAt,
         })
         .from(testAccessConfigTable)
         .innerJoin(testsTable, eq(testAccessConfigTable.testId, testsTable.id))
-        .leftJoin(
-          testAccessGroupsTable,
-          eq(testAccessGroupsTable.testAccessConfigId, testAccessConfigTable.id)
-        )
-        .leftJoin(
-          groupsTable,
-          eq(testAccessGroupsTable.groupId, groupsTable.id)
-        )
         .where(eq(testAccessConfigTable.assignedBy, userId))
         .limit(limit)
         .offset(offset)
