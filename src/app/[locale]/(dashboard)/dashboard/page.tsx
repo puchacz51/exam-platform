@@ -13,14 +13,12 @@ import { getUserFinishedAttempts } from '@actions/attempt/getUserFinishedAttempt
 import { OwnedTests } from '@/app/[locale]/(dashboard)/dashboard/components/OwnedTests';
 import { FinishedAttempts } from '@/app/[locale]/(dashboard)/dashboard/components/FinishedAttempts';
 
-
 const DashboardPage: NextPage = async () => {
   const session = await auth();
   const user = session?.user;
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
+
   const [
     tests,
     assignedTestsResponse,
@@ -34,7 +32,6 @@ const DashboardPage: NextPage = async () => {
     getUserGroups(8),
     getUserFinishedAttempts(),
   ]);
-
   const ownedTests = ownedTestsAssignmentsResponse.items;
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
@@ -46,28 +43,20 @@ const DashboardPage: NextPage = async () => {
       <DashboardHeader />
       <div className="grid gap-6 sm:gap-8">
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
-          <section>
-            <AssignedTests assignedTests={assignedTests} />
-          </section>
-          <section>
-            <OwnedTests ownedTests={ownedTests} />
-          </section>
+          <AssignedTests assignedTests={assignedTests} />
+          <OwnedTests ownedTests={ownedTests} />
         </div>
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-3">
           <section className="lg:col-span-2">
             <RecentTests tests={tests.items} />
           </section>
-          <section>
-            <GroupsList
-              groups={groups}
-              totalCount={totalGroups}
-            />
-          </section>
+          <GroupsList
+            groups={groups}
+            totalCount={totalGroups}
+          />
         </div>
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-1">
-          <section>
-            <FinishedAttempts attempts={finishedAttempts} />
-          </section>
+          <FinishedAttempts attempts={finishedAttempts} />
         </div>
       </div>
     </div>

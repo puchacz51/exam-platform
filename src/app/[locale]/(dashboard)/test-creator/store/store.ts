@@ -41,7 +41,7 @@ export interface TestState extends TestProps {
   updateQuestion: (
     groupId: string,
     questionId: string,
-    question: TestCreatorQuestion
+    question: TestCreatorQuestion | null
   ) => void;
   resetTest: () => void;
   setIsAddedGeneralConfiguration: (isAdded: Updater<boolean>) => void;
@@ -168,9 +168,15 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
           g.id === groupId
             ? {
                 ...g,
-                questions: g.questions.map((q) =>
-                  q.id === questionId ? { ...q, ...question } : q
-                ),
+                questions: g.questions
+                  .map((q) =>
+                    q.id === questionId
+                      ? question
+                        ? { ...q, ...question }
+                        : null
+                      : q
+                  )
+                  .filter((q) => !!q),
               }
             : g
         ),

@@ -13,30 +13,22 @@ export const setAttemptPoints = async (attemptId: string) => {
     return {
       error: 'User not authenticated',
     };
-
+  console.log(attemptId, 'xxx');
   const { data, error } = await getUserPoints(attemptId);
-
   if (error || !data) {
     return { error };
   }
 
-  const { receivedPoints, attempt } = data;
+  const { receivedPoints } = data;
 
-  await db
+  const attempt = await db
     ?.update(testAttemptsTable)
     .set({ totalPoints: receivedPoints, finishedAt: new Date() })
     .where(eq(testAttemptsTable.id, attemptId))
-    .execute();
-
-  if (!attempt.finishedAt) {
-    await db
-      ?.update(testAttemptsTable)
-      .set({ finishedAt: new Date() })
-      .where(eq(testAttemptsTable.id, attemptId))
-      .execute();
-  }
+    .returning();
+  console.log(attempt);
 
   return {
-    data: { points: receivedPoints },
+    data: { points: attempt },
   };
 };

@@ -386,7 +386,33 @@
         "startTest": "Start Test",
         "testNotStarted": "Test Not Started",
         "scheduledStart": "Scheduled start",
-        "comeBackLater": "Please come back at the scheduled time to begin the test."
+        "comeBackLater": "Please come back at the scheduled time to begin the test.",
+        "score": {
+            "title": "Test Results",
+            "unauthorized": "Unauthorized",
+            "error": "An error occurred while fetching results",
+            "notFound": "Test results not found",
+            "totalScore": "Total Score",
+            "percentage": "Percentage Score",
+            "grade": "Grade",
+            "grades": {
+                "excellent": "Excellent",
+                "veryGood": "Very Good",
+                "good": "Good",
+                "satisfactory": "Satisfactory",
+                "needsImprovement": "Needs Improvement"
+            },
+            "statistics": {
+                "category": "Category",
+                "value": "Value",
+                "questionsAnswered": "Questions Answered",
+                "totalTime": "Total Time"
+            },
+            "buttons": {
+                "backToDashboard": "Back to Dashboard"
+            },
+            "reviewAnswers": "Review Answers"
+        }
     },
     "aiGenerator": {
         "title": "AI Question Generator",
@@ -575,7 +601,8 @@
                 "save": "Save",
                 "namePlaceholder": "Enter group name",
                 "order": "Order"
-            }
+            },
+            "deleteQuestion": "Delete question"
         },
         "actions": {
             "addGroup": "Add Group",

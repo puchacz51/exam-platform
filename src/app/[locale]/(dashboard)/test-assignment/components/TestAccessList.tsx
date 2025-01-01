@@ -26,7 +26,7 @@ export const TestAccessList: FC<TestAccessListProps> = ({ className }) => {
       </Card>
     );
   }
-
+  console.log(data);
   return (
     <Card className={cn('p-4 sm:p-6', className)}>
       <TestAccessListHeader />

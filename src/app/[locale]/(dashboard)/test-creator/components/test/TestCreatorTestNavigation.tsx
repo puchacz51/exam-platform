@@ -19,6 +19,14 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 const TestCreatorTestNavigation: FC = () => {
   const form = useFormContext<TestCreatorTest>();
   const t = useTranslations('testCreator.settings.navigation');
+  const { setValue } = form;
+
+  const onAllowGoBackChange = (value: boolean) => {
+    setValue('settings.allowGoBack', value);
+    if (value) {
+      setValue('settings.showQuestionPoints', false);
+    }
+  };
 
   return (
     <TabsContent
@@ -39,7 +47,7 @@ const TestCreatorTestNavigation: FC = () => {
             <FormControl>
               <Switch
                 checked={field.value}
-                onCheckedChange={field.onChange}
+                onCheckedChange={onAllowGoBackChange}
               />
             </FormControl>
           </FormItem>

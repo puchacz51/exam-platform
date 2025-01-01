@@ -25,7 +25,7 @@ export const useGetTestAttempts = ({
   return useQuery<TestAttemptsResponse>({
     queryKey: ['testAttempts', testAccessId, page, limit, userId],
     queryFn: async () => await getTestAttempts(testAccessId, page, limit),
-    enabled: !!testAccessId && !!userId,
+    enabled: false,
     ...options,
   });
 };

@@ -37,16 +37,14 @@ const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = async ({
   return (
     <div className="space-y-6 p-6">
       <div>
-        <h3 className="text-lg font-medium">Test Attempts</h3>
-        <p className="text-sm text-muted-foreground">
-          View all attempts for this test assignment.
-        </p>
+        <h3 className="text-lg font-medium">Podejścia użytkowników do testu</h3>
+
         <CopyButton text={link} />
       </div>
       <Separator />
       <Card>
         <CardContent className="p-6">
-          {testAttempts.attempts.length > 0 ? (
+          {testAttempts.attempts.length == 0 ? (
             <TestAssignmentAttemptList
               maxPoints={maxPoints}
               initialData={testAttempts}

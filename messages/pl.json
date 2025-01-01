@@ -276,7 +276,7 @@
                 "end": "Zakończenie"
             },
             "attemptList": {
-                "student": "Student",
+                "student": "Użytkownik",
                 "email": "Email",
                 "startedAt": "Rozpoczęto",
                 "finishedAt": "Zakończono",
@@ -389,7 +389,33 @@
         "startTest": "Rozpocznij test",
         "testNotStarted": "Test nie rozpoczął się",
         "scheduledStart": "Planowany start",
-        "comeBackLater": "Proszę wrócić o zaplanowanej godzinie, aby rozpocząć test."
+        "comeBackLater": "Proszę wrócić o zaplanowanej godzinie, aby rozpocząć test.",
+        "score": {
+            "title": "Wyniki Testu",
+            "unauthorized": "Brak autoryzacji",
+            "error": "Wystąpił błąd podczas pobierania wyników",
+            "notFound": "Nie znaleziono wyników testu",
+            "totalScore": "Zdobyte Punkty",
+            "percentage": "Wynik Procentowy",
+            "grade": "Ocena",
+            "grades": {
+                "excellent": "Celujący",
+                "veryGood": "Bardzo Dobry",
+                "good": "Dobry",
+                "satisfactory": "Dostateczny",
+                "needsImprovement": "Wymaga Poprawy"
+            },
+            "statistics": {
+                "category": "Kategoria",
+                "value": "Wartość",
+                "questionsAnswered": "Liczba Pytań",
+                "totalTime": "Całkowity Czas"
+            },
+            "buttons": {
+                "backToDashboard": "Powrót do Panelu"
+            },
+            "reviewAnswers": "Przegląd Odpowiedzi"
+        }
     },
     "aiGenerator": {
         "title": "Generator Pytań AI",
@@ -578,7 +604,8 @@
                 "save": "Zapisz",
                 "namePlaceholder": "Wprowadź nazwę grupy",
                 "order": "Kolejność"
-            }
+            },
+            "deleteQuestion": "Usuń pytanie"
         },
         "actions": {
             "addGroup": "Dodaj Grupę",

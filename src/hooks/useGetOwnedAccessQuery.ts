@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { usePagination } from '@/hooks/navigation/usePagination';
 import { TestOwnerAssignment } from '@actions/test-assigment/getTestOwnerAssignments';
 
-const getTestOwnerAssignments = async (userId: string, page: number) => {
+const getTestOwnerAssignments = async (page: number) => {
   const response = await fetch(`/api/test-access/owned?page=${page}`);
 
   return response.json() as unknown as TestOwnerAssignment;
@@ -23,7 +23,7 @@ export const useOwnedAccessQuery = () => {
         throw new Error('Unauthorized');
       }
 
-      const result = getTestOwnerAssignments(userId, currentPage);
+      const result = getTestOwnerAssignments(currentPage);
       return result;
     },
   });

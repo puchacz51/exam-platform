@@ -40,12 +40,6 @@ export async function createAnswer(
     qg.qOnQG.map((q) => q.question)
   ) as unknown as CompleteQuestion[];
 
-  console.log(
-    'questions',
-    questions
-      .filter((q) => q.questionType === 'BOOLEAN_GROUP')
-      .map((q) => q.GSQ)
-  );
   const calculatedPoints = calculatePoints({
     questions,
     answers,
@@ -70,7 +64,15 @@ export async function createAnswer(
     userAttempt.testAccess.test.settings;
 
   if (!allowGoBack) {
-    return submitAnswers(answers);
+    await submitAnswers(answers);
+
+    return {
+      data: {
+        points: showPointsPerQuestion ? calculatedPoints : [],
+        answeredQuestions: calculatedPoints.map((p) => p.questionId),
+      },
+      error: null,
+    };
   }
 
   try {
@@ -82,7 +84,7 @@ export async function createAnswer(
     if (!existing.length && !newAnswers.length) {
       return {
         data: {
-          points: showPointsPerQuestion ? calculatedPoints : [],
+          points: showPointsPerQuestion && !allowGoBack ? calculatedPoints : [],
           answeredQuestions: calculatedPoints.map((p) => p.questionId),
         },
         error: null,
@@ -103,7 +105,7 @@ export async function createAnswer(
 
     return {
       data: {
-        points: showPointsPerQuestion ? calculatedPoints : [],
+        points: showPointsPerQuestion && !allowGoBack ? calculatedPoints : [],
         answeredQuestions: calculatedPoints.map((p) => p.questionId),
       },
       error: null,

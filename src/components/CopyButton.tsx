@@ -24,7 +24,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ text }) => {
       onClick={handleCopy}
       className="text-sm text-blue-500"
     >
-      {copied ? 'Copied!' : 'Copy link to start screen'}
+      {copied ? 'Copied!' : 'Link dostępu do testu'}
     </button>
   );
 };

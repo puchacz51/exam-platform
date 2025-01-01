@@ -29,6 +29,8 @@ import { TestCreatorTest } from '@/types/test-creator/test';
 const TestCreatorTestDisplay: FC = () => {
   const t = useTranslations('testCreator.settings.display');
   const form = useFormContext<TestCreatorTest>();
+  const { watch } = form;
+  const allowGoBack = watch('settings.allowGoBack');
 
   return (
     <TabsContent
@@ -119,6 +121,7 @@ const TestCreatorTestDisplay: FC = () => {
 
       <div className="space-y-4">
         <FormField
+          disabled={allowGoBack}
           control={form.control}
           name="settings.showQuestionPoints"
           render={({ field }) => (
@@ -131,7 +134,7 @@ const TestCreatorTestDisplay: FC = () => {
               </div>
               <FormControl>
                 <Switch
-                  checked={field.value}
+                  checked={!allowGoBack && field.value}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
