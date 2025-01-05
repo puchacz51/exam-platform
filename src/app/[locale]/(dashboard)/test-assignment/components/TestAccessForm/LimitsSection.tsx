@@ -1,4 +1,5 @@
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   FormControl,
@@ -10,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
 
 export const LimitsSection = () => {
+  const t = useTranslations('dashboard.testAssignment');
   const { control } = useFormContext<TestAccessFormValues>();
 
   return (
@@ -19,7 +21,7 @@ export const LimitsSection = () => {
         name="timeLimit"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Time Limit (minutes)</FormLabel>
+            <FormLabel>{t('timeLimit')}</FormLabel>
             <FormControl>
               <Input
                 type="number"

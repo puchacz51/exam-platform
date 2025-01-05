@@ -21,12 +21,9 @@ export const authMiddleware: Middleware = async (context) => {
       res: NextResponse.redirect(loginUrl.toString()),
     };
   }
-
   const authPaths = [
-    pathnames['/login'].en,
     pathnames['/register'].en,
     pathnames['/verify-email'].en,
-    pathnames['/login'].pl,
     pathnames['/register'].pl,
     pathnames['/verify-email'].pl,
   ] as string[];

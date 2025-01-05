@@ -17,8 +17,9 @@ export const usersTable = pgTable('users', {
   lastname: varchar('lastname', { length: 256 }),
   email: varchar('email', { length: 256 }).notNull().unique(),
   passwordHash: varchar('password_hash', { length: 256 }).notNull(),
+  salt: varchar('salt', { length: 256 }).notNull().default(''),
   authProvider: varchar('auth_provider', { length: 256 }),
-  createdAt: timestamp('created_at'),
+  createdAt: timestamp('created_at').defaultNow(),
   emailConfirmed: timestamp('email_confirmed'),
   profileNeedsCompletion: boolean('profile_needs_completion')
     .notNull()

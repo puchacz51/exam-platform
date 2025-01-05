@@ -1,12 +1,13 @@
 'use server';
 
+import { createHash, randomBytes } from 'node:crypto';
+
 import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
 import { InsertUser, usersTable } from '@schema/users';
-import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 import db from '@/lib/db';
+import { sendConfirmationEmail } from '@actions/account/sendConfirmationEmail';
 
 const registrationSchema = z.object({
   firstname: z.string().min(2, 'Imię musi mieć co najmniej 2 znaki'),
@@ -40,30 +41,36 @@ export async function registerUser(formData: FormData) {
       return { error: 'Użytkownik o podanym adresie email już istnieje' };
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const salt = randomBytes(16).toString('hex');
+    const passwordHash = createHash('sha256')
+      .update(password + salt)
+      .digest('hex');
 
     const newUser: InsertUser = {
       firstname,
       lastname,
       email,
       passwordHash,
+      salt,
       authProvider: 'local',
       createdAt: new Date(),
     };
 
-    const [insertedUser] = await db
-      .insert(usersTable)
-      .values(newUser)
-      .returning();
+    return await db.transaction(async (tx) => {
+      const [insertedUser] = await tx
+        .insert(usersTable)
+        .values(newUser)
+        .returning();
 
-    sendConfirmationEmail({
-      ...insertedUser,
-      locale: 'pl',
+      await sendConfirmationEmail({
+        ...insertedUser,
+        locale: 'pl',
+        tx,
+      });
+
+      return { success: true, userId: insertedUser.id };
     });
-
-    return { success: true, userId: insertedUser.id };
   } catch (error) {
-    console.error('Błąd podczas rejestracji użytkownika:', error);
     return {
       error: 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.',
     };

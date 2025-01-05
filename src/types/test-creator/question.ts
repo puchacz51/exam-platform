@@ -62,7 +62,7 @@ export type NumericGroupQuestion = BaseQuestion<'NUMERIC_GROUP'> & {
 };
 
 export type Question =
-  | OpenQuestion
+  // | OpenQuestion
   | SingleChoiceQuestion
   | MultipleChoiceQuestion
   | OrderQuestion

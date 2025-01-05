@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import {
-  navigationModeEnum,
   questionDisplayModeEnum,
   scoringSystemEnum,
 } from '@schema/testSettings';
@@ -14,12 +13,9 @@ export const testSchema = z.object({
   description: z.string().optional(),
 
   settings: z.object({
-    navigationMode: z.enum(navigationModeEnum.enumValues).default('FREE'),
-    allowGoBack: z.boolean().default(true),
-    confirmBeforeGroupChange: z.boolean().default(true),
-
     scoringSystem: z.enum(scoringSystemEnum.enumValues).default('STANDARD'),
     allowPartialPoints: z.boolean().default(true),
+    allowGoBack: z.boolean().default(true),
 
     questionDisplayMode: z
       .enum(questionDisplayModeEnum.enumValues)
@@ -27,10 +23,7 @@ export const testSchema = z.object({
     shuffleQuestionsInGroup: z.boolean().default(false),
     shuffleAnswers: z.boolean().default(false),
 
-    showProgressBar: z.boolean().default(true),
-    showTimeRemaining: z.boolean().default(true),
     showQuestionPoints: z.boolean().default(true),
-    allowQuestionFlagging: z.boolean().default(true),
 
     showCorrectAnswers: z.boolean().default(false),
     showPointsPerQuestion: z.boolean().default(true),

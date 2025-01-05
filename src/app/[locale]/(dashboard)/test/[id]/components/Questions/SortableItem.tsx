@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -12,7 +12,7 @@ interface SortableItemProps {
   index: number;
 }
 
-const SortableItem: React.FC<SortableItemProps> = ({ id, text, index }) => {
+const SortableItem: FC<SortableItemProps> = ({ id, text, index }) => {
   const {
     attributes,
     listeners,

@@ -1,4 +1,5 @@
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   FormControl,
@@ -14,6 +15,7 @@ import { NumericQuestion } from '@/types/test-creator/question';
 
 export const NumericQuestionForm = () => {
   const form = useFormContext<NumericQuestion>();
+  const t = useTranslations('testCreator.questions.numeric');
 
   return (
     <>
@@ -24,11 +26,11 @@ export const NumericQuestionForm = () => {
             name="text"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Treść pytania</FormLabel>
+                <FormLabel>{t('questionContent')}</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder="Wprowadź treść pytania"
+                    placeholder={t('questionPlaceholder')}
                     className="min-h-[100px]"
                   />
                 </FormControl>
@@ -45,12 +47,12 @@ export const NumericQuestionForm = () => {
             name="correctAnswer"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Poprawna odpowiedź</FormLabel>
+                <FormLabel>{t('correctAnswer')}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="number"
-                    placeholder="Wprowadź poprawną odpowiedź numeryczną"
+                    placeholder={t('correctAnswerPlaceholder')}
                     onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   />
                 </FormControl>
@@ -64,12 +66,12 @@ export const NumericQuestionForm = () => {
             name="tolerance"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tolerancja</FormLabel>
+                <FormLabel>{t('tolerance')}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="number"
-                    placeholder="Wprowadź tolerancję (np. 0.1)"
+                    placeholder={t('tolerancePlaceholder')}
                     onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   />
                 </FormControl>

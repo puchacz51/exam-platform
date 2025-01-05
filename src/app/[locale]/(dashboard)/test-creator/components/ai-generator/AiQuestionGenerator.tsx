@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 
 import { questionTypeEnum } from '@schema/questions';
 import { generateQuestions } from '@actions/test/ai/model';
@@ -92,7 +93,10 @@ export const AiQuestionGenerator = () => {
     try {
       const { data: questions, error } = await generateQuestions(data);
       if (!!questions) {
-        setAiQuestions(questions as Question[]);
+        setAiQuestions((prev) => [
+          ...(questions as Question[]),
+          ...(prev || []),
+        ]);
         setValue('step', 'configure');
       }
 
@@ -113,6 +117,8 @@ export const AiQuestionGenerator = () => {
   const isOpen = useTestContext((state) => state.isAiGeneratorOpen);
   const setIsOpen = useTestContext((state) => state.setIsAiGeneratorOpen);
 
+  const t = useTranslations('aiGenerator');
+
   return (
     <Dialog
       open={isOpen}
@@ -120,7 +126,7 @@ export const AiQuestionGenerator = () => {
     >
       <DialogContent className="flex h-[90vh] max-w-4xl flex-col gap-0 p-0">
         <DialogHeader className="border-b px-6 py-4">
-          <DialogTitle>AI Question Generator</DialogTitle>
+          <DialogTitle>{t('dialog.title')}</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto">
           <FormProvider {...methods}>
@@ -139,14 +145,14 @@ export const AiQuestionGenerator = () => {
                           type="button"
                           value="select"
                         >
-                          1. Select Types
+                          {t('steps.selectTypes')}
                         </TabsTrigger>
                         <TabsTrigger
                           type="button"
                           value="configure"
                           disabled={selectedTypes.length === 0}
                         >
-                          2. Configure Questions
+                          {t('steps.configureQuestions')}
                         </TabsTrigger>
                       </TabsList>
 
@@ -183,7 +189,7 @@ export const AiQuestionGenerator = () => {
                         onClick={() => setValue('step', 'select')}
                         className="hover:bg-slate-100"
                       >
-                        ← Back
+                        {t('buttons.back')}
                       </Button>
                     )}
                     <div className="ml-auto">
@@ -198,11 +204,10 @@ export const AiQuestionGenerator = () => {
                       >
                         {isLoading ? (
                           <span className="flex items-center gap-2">
-                            <span className="animate-spin">⚪</span>{' '}
-                            Generating...
+                            <span className="animate-spin">⚪</span> {t('buttons.generating')}
                           </span>
                         ) : (
-                          'Generate Questions'
+                          t('buttons.generate')
                         )}
                       </Button>
                     </div>

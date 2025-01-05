@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Form,
@@ -18,6 +19,7 @@ import { BooleanQuestion } from '@/types/test-creator/question';
 export const BooleanQuestionForm = () => {
   const form = useFormContext<BooleanQuestion>();
   const { control } = form;
+  const t = useTranslations('testCreator.questions.boolean');
 
   return (
     <Form {...form}>
@@ -27,11 +29,11 @@ export const BooleanQuestionForm = () => {
           name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Treść pytania</FormLabel>
+              <FormLabel>{t('questionContent')}</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="Wprowadź treść pytania"
+                  placeholder={t('questionPlaceholder')}
                   className="min-h-[100px]"
                 />
               </FormControl>
@@ -46,7 +48,7 @@ export const BooleanQuestionForm = () => {
               name="correctAnswer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Poprawna odpowiedź</FormLabel>
+                  <FormLabel>{t('correctAnswer')}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       defaultValue={String(field.value)}
@@ -64,7 +66,7 @@ export const BooleanQuestionForm = () => {
                           htmlFor="true"
                           className="cursor-pointer"
                         >
-                          Prawda
+                          {t('true')}
                         </FormLabel>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -76,7 +78,7 @@ export const BooleanQuestionForm = () => {
                           htmlFor="false"
                           className="cursor-pointer"
                         >
-                          Fałsz
+                          {t('false')}
                         </FormLabel>
                       </div>
                     </RadioGroup>

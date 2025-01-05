@@ -1,5 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import { questionTypeEnum } from '@schema/questions';
@@ -11,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -27,7 +27,7 @@ import { MultipleChoiceQuestionForm } from '@/app/[locale]/(dashboard)/test-crea
 import { BooleanQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanQuestionForm';
 import { OrderQuestionForm } from '@/app/[locale]/(dashboard)/test-creator/components/questions/OrderQuestionForm';
 import MatchingQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/MatchingQuestionForm';
-import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
+// import OpenEndedQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/OpenQuestionForm';
 import BooleanGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/BooleanGroupQuestionForm';
 import NumericGroupQuestionForm from '@/app/[locale]/(dashboard)/test-creator/components/questions/NumericGroupQuestionForm';
 import { cn } from '@/lib/utils';
@@ -43,6 +43,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
   className,
   ...props
 }) => {
+  const t = useTranslations('testCreator.questions');
   const { categories } = useTestContext((state) => state.testConfiguration);
 
   const form = useFormContext<QuestionType>();
@@ -53,8 +54,8 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
     switch (questionType) {
       case 'SINGLE_CHOICE':
         return SingleChoiceQuestionForm;
-      case 'OPEN':
-        return OpenEndedQuestionForm;
+      // case 'OPEN':
+      //   return OpenEndedQuestionForm;
       case 'NUMERIC':
         return NumericQuestionForm;
       case 'MULTIPLE_CHOICE':
@@ -87,7 +88,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700">
-                Question Type
+                {t('questionType')}
               </FormLabel>
               <Select
                 key={`${!!field.value}`}
@@ -97,7 +98,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
               >
                 <FormControl>
                   <SelectTrigger className="bg-white">
-                    <SelectValue placeholder="Select question type" />
+                    <SelectValue placeholder={t('selectQuestionType')} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -106,7 +107,9 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                       key={type}
                       value={type}
                     >
-                      {type}
+                      {t(
+                        `types.${type.toLowerCase()}` as 'types.single_choice'
+                      )}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -122,7 +125,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700">
-                Points
+                {t('points')}
               </FormLabel>
               <FormControl>
                 <Input
@@ -131,12 +134,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   min={0}
                   step={1}
-                  placeholder="Enter points"
+                  placeholder={t('enterPoints')}
                   className="bg-white"
                 />
               </FormControl>
               <FormDescription className="text-xs text-gray-500">
-                Specify points for correct answer
+                {t('pointsDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -145,37 +148,12 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
       </div>
 
       <FormField
-        control={control}
-        name="isPublic"
-        render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100">
-            <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-                className="data-[state=checked]:bg-blue-500"
-              />
-            </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabel className="text-sm font-medium text-gray-700">
-                Public Question
-              </FormLabel>
-              <FormDescription className="text-xs text-gray-500">
-                Check if this question should be publicly available
-              </FormDescription>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
         control={form.control}
         name="categoryId"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-sm font-medium text-gray-700">
-              Category
+              {t('category')}
             </FormLabel>
             <Select
               key={`${!!field.value}`}
@@ -185,7 +163,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
             >
               <FormControl>
                 <SelectTrigger className="bg-white">
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={t('categoryDescription')} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -200,7 +178,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
               </SelectContent>
             </Select>
             <FormDescription className="text-xs text-gray-500">
-              Choose a category for your test
+              {t('categoryDescription')}
             </FormDescription>
             <FormMessage />
           </FormItem>
@@ -217,7 +195,7 @@ const TestCreatorQuestionsForm: FC<TestCreatorQuestionsFormProps> = ({
         type="submit"
         className="w-full bg-blue-500 text-white hover:bg-blue-600"
       >
-        Create Question
+        {t('createQuestion')}
       </Button>
     </form>
   );

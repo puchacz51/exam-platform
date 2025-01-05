@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { List, ListX } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { useTestContext } from '@/app/[locale]/(dashboard)/test-creator/store/st
 import QuestionBullet from '@/app/[locale]/(dashboard)/test-creator/components/navigation/QuestionBullet';
 
 const QuestionList: FC = () => {
+  const t = useTranslations('testCreator.navigation');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     currentQuestionGroupId,
@@ -26,10 +28,8 @@ const QuestionList: FC = () => {
       {!hasQuestions ? (
         <div className="flex w-full flex-col items-center justify-center gap-2 text-gray-500">
           <ListX className="h-8 w-8" />
-          <p>Lista pytań jest pusta</p>
-          <p className="text-sm">
-            Kliknij &quot;Dodaj pytanie&quot; aby rozpocząć
-          </p>
+          <p>{t('emptyList')}</p>
+          <p className="text-sm">{t('addFirstQuestion')}</p>
         </div>
       ) : (
         currentQuestionGroup?.questions?.map((question, index) => (
@@ -57,7 +57,7 @@ const QuestionList: FC = () => {
               className="w-full"
             >
               <List className="mr-2 h-4 w-4" />
-              Lista pytań
+              {t('questionList')}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[90vh] w-[95vw] p-4 sm:max-w-[425px]">

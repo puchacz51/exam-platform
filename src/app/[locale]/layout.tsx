@@ -1,13 +1,17 @@
 import { ToastCustomProvider } from '@/components/ui/toaster';
-import ReactQueryProvider from '@/providers/ReactQueryProvider';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="icon"
+          href="/favicon.ico"
+          sizes="any"
+        />
+      </head>
       <body>
-        <ReactQueryProvider>
-          <ToastCustomProvider>{children}</ToastCustomProvider>
-        </ReactQueryProvider>
+        <ToastCustomProvider>{children}</ToastCustomProvider>
       </body>
     </html>
   );

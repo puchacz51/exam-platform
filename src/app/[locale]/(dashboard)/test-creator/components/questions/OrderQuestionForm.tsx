@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { GripVertical, Plus, Trash2 } from 'lucide-react';
 
@@ -18,6 +19,7 @@ import { QuestionType } from '@/types/test-creator/answers';
 import { generateId } from '@/utils/generateId';
 
 export const OrderQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.order');
   const form = useFormContext<QuestionType>();
   const { control } = form;
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -98,14 +100,12 @@ export const OrderQuestionForm = () => {
         name="text"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-lg font-semibold">
-              Treść pytania
-            </FormLabel>
+            <FormLabel>{t('questionContent')}</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Wprowadź treść pytania"
-                className="min-h-[100px] rounded-lg border border-gray-300 shadow-sm focus:border-blue-500"
+                placeholder={t('questionPlaceholder')}
+                className="min-h-[100px]"
               />
             </FormControl>
             <FormMessage />
@@ -115,7 +115,7 @@ export const OrderQuestionForm = () => {
       <Card className="rounded-md border shadow-lg">
         <CardContent className="pb-4 pt-6">
           <FormLabel className="mb-4 block text-base font-semibold">
-            Elementy do uporządkowania
+            {t('items')}
           </FormLabel>
           <div className="space-y-4">
             {fields.map((field, index) => (
@@ -142,12 +142,12 @@ export const OrderQuestionForm = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-600">
-                            Element {index + 1}
+                            {t('itemLabel', { number: index + 1 })}
                           </FormLabel>
                           <FormControl>
                             <Input
                               {...field}
-                              placeholder="Wprowadź element..."
+                              placeholder={t('itemPlaceholder')}
                               className="rounded-lg border border-gray-300 transition-colors focus:border-blue-500"
                             />
                           </FormControl>
@@ -167,7 +167,7 @@ export const OrderQuestionForm = () => {
                     className="absolute -right-2 -top-2 h-8 w-8 border bg-white opacity-0 shadow-sm transition-opacity hover:bg-red-100 group-hover:opacity-100"
                   >
                     <Trash2 className="h-4 w-4 text-red-600" />
-                    <span className="sr-only">Usuń element</span>
+                    <span className="sr-only">{t('deleteItem')}</span>
                   </Button>
                 )}
               </div>
@@ -192,7 +192,7 @@ export const OrderQuestionForm = () => {
             }
             className="mt-6 w-full border-blue-300 bg-blue-50 text-blue-700 transition-colors hover:border-blue-400 hover:bg-blue-100"
           >
-            <Plus className="mr-2 h-4 w-4" /> Dodaj element
+            <Plus className="mr-2 h-4 w-4" /> {t('addItem')}
           </Button>
         </CardContent>
       </Card>

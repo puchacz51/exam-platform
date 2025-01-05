@@ -25,7 +25,7 @@ const AuthHeader = ({ children }: AuthHeaderProps) => {
               href="/"
               className="text-2xl font-bold text-gray-900"
             >
-              Logo
+              QuizSow
             </Link>
           </div>
 

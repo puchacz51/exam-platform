@@ -15,8 +15,10 @@ interface GroupPageProps {
 }
 
 const GroupPage = async ({ params }: GroupPageProps) => {
-  const t = await getTranslations('dashboard.groups');
-  const response = await getGroupById(params.id);
+  const [t, response] = await Promise.all([
+    getTranslations('dashboard.groups'),
+    getGroupById(params.id),
+  ]);
 
   if (!response.success || !response.data) {
     notFound();
@@ -24,7 +26,7 @@ const GroupPage = async ({ params }: GroupPageProps) => {
 
   return (
     <ReactQueryProvider>
-      <div className="container mx-auto max-w-7xl space-y-8">
+      <div className="xs:px-2 container mx-auto max-w-7xl px-2 py-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold tracking-tight">
             {response.data.name}
@@ -41,7 +43,7 @@ const GroupPage = async ({ params }: GroupPageProps) => {
           </section>
 
           <section>
-            <Card className="p-6">
+            <Card className="p-2 sm:p-6">
               <GroupMembers
                 groupId={params.id}
                 isOwner={response.data.isOwner}

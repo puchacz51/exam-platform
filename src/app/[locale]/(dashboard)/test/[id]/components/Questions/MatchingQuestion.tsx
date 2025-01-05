@@ -44,7 +44,6 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
   const handlePairChange = (key: string, value: string) => {
     const index = fields.findIndex((field) => field.key === key);
     if (index === -1) {
-      // Add new pair at the end of the array
       setValue(fieldKey, [
         ...fields,
         {
@@ -53,7 +52,6 @@ const MatchingQuestion: FC<MatchingPairProps> = ({
         },
       ]);
     } else {
-      // Update existing pair
       setValue(`${fieldKey}.${index}`, {
         key,
         value,

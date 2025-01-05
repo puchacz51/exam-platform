@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { AlertCircle } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Card,
@@ -21,10 +22,10 @@ interface TestViewerProps {
 }
 
 const TestViewer = ({ testId }: TestViewerProps) => {
+  const t = useTranslations('dashboard.testViewer');
   const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
-
   const testSettings = {
     changeable: true,
     timeLimit: 30,
@@ -35,10 +36,8 @@ const TestViewer = ({ testId }: TestViewerProps) => {
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>
-          Test not found. Please check the test ID and try again.
-        </AlertDescription>
+        <AlertTitle>{t('error.title')}</AlertTitle>
+        <AlertDescription>{t('error.description')}</AlertDescription>
       </Alert>
     );
   }
@@ -49,26 +48,22 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   const progress = ((currentGroupIndex + 1) / totalGroups) * 100;
 
   const handleNextGroup = () => {
-    if (testSettings.requireAllAnswers) {
-    }
-
     if (currentGroupIndex < totalGroups - 1) {
       setCurrentGroupIndex((prev) => prev + 1);
     }
   };
 
   const handlePreviousGroup = () => {
-    if (!testSettings.changeable && currentGroupIndex > 0) {
+    if (currentGroupIndex > 0) {
       setCurrentGroupIndex((prev) => prev - 1);
     }
   };
 
   return (
     <FormProvider {...form}>
-      <div className="mx-auto max-w-4xl p-4">
+      <div className="mx-auto max-w-4xl p-1 md:p-4">
         <Card className="shadow-lg">
-          <CardHeader className="border-b"></CardHeader>
-
+          <CardHeader className="border-b" />
           <TestProgress
             timeLimit={testSettings.timeLimit}
             currentGroupIndex={currentGroupIndex}
@@ -87,7 +82,6 @@ const TestViewer = ({ testId }: TestViewerProps) => {
             <TestNavigation
               currentGroupIndex={currentGroupIndex}
               totalGroups={totalGroups}
-              isChangeable={testSettings.changeable}
               onPrevious={handlePreviousGroup}
               onNext={handleNextGroup}
             />

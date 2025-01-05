@@ -1,8 +1,8 @@
 'use client';
 
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, UseFormGetValues } from 'react-hook-form';
 import {
   closestCenter,
   DndContext,
@@ -36,26 +36,45 @@ interface OrderQuestionSolveProps {
 
 type OrderQuestionProps = OrderQuestionViewProps | OrderQuestionSolveProps;
 
+const getInitialOrderedItems = (
+  mode: 'view' | 'solve',
+  getValues: UseFormGetValues<TestAttemptFormDataOrder>,
+  id: string,
+  orderItems: OrderQuestionWithoutAnswer[]
+) => {
+  if (mode === 'solve') {
+    const savedOrder = getValues(`questions.${id}.items`) as {
+      itemId: string;
+      position: number;
+    }[];
+
+    const savedOrderSorted = savedOrder
+      ? (savedOrder
+          .sort((a, b) => a.position - b.position)
+          .map((item) =>
+            orderItems.find((orderItem) => orderItem.id === item.itemId)
+          ) as OrderQuestionWithoutAnswer[])
+      : orderItems;
+
+    return savedOrderSorted.length === orderItems.length
+      ? savedOrderSorted
+      : orderItems;
+  }
+  return orderItems;
+};
+
 const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
   const { id } = question;
-  const { setValue } = useFormContext<TestAttemptFormDataOrder>();
+  const { setValue, getValues, watch } =
+    useFormContext<TestAttemptFormDataOrder>();
 
-  // Track the current order of items in component state
-  const [orderedItems, setOrderedItems] = React.useState(question.orderItems);
-
-  // Initialize form on first render for 'solve' mode
-  React.useEffect(() => {
-    if (mode === 'solve') {
-      setValue(
-        `questions.${id}.items`,
-        question.orderItems.map((item, index) => ({
-          itemId: item.id,
-          position: index + 1,
-        }))
-      );
-      setOrderedItems(question.orderItems);
-    }
-  }, [id, mode, question.orderItems, setValue]);
+  const initialOrderedItems = getInitialOrderedItems(
+    mode,
+    getValues,
+    id,
+    question.orderItems as unknown as OrderQuestionWithoutAnswer[]
+  );
+  const [orderedItems, setOrderedItems] = useState(initialOrderedItems);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -72,11 +91,8 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
       const oldIndex = orderedItems.findIndex((item) => item.id === active.id);
       const newIndex = orderedItems.findIndex((item) => item.id === over.id);
 
-      // Update the ordered items state
       const newOrderedItems = arrayMove(orderedItems, oldIndex, newIndex);
       setOrderedItems(newOrderedItems);
-
-      // Update form values with new positions
       setValue(
         `questions.${id}.items`,
         newOrderedItems.map((item, index) => ({
@@ -87,29 +103,57 @@ const OrderQuestion: FC<OrderQuestionProps> = ({ question, mode = 'view' }) => {
     }
   };
 
+  const questionFormItems = watch(`questions.${id}.items`) || [];
+  const hasFormValues = questionFormItems.length > 0;
+
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        disabled={mode === 'view'}
-        items={orderedItems.map((item) => item.id)}
-        strategy={verticalListSortingStrategy}
-      >
-        <div className="space-y-2">
-          {orderedItems.map((item, index) => (
-            <SortableItem
-              key={item.id}
-              id={item.id}
-              text={item.text}
-              index={index}
-            />
-          ))}
+    <div>
+      {mode === 'solve'}
+      {!hasFormValues && mode === 'solve' && (
+        <div className="mt-4">
+          <button
+            type="button"
+            className="mb-2 rounded bg-green-400 px-3 py-2 text-white"
+            onClick={() => {
+              setOrderedItems(
+                question.orderItems as unknown as OrderQuestionWithoutAnswer[]
+              );
+              setValue(
+                `questions.${id}.items`,
+                question.orderItems.map((item, index) => ({
+                  itemId: item.id,
+                  position: index + 1,
+                }))
+              );
+            }}
+          >
+            set current order
+          </button>
         </div>
-      </SortableContext>
-    </DndContext>
+      )}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          disabled={mode === 'view'}
+          items={orderedItems.map((item) => item.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-2">
+            {orderedItems.map((item, index) => (
+              <SortableItem
+                key={item.id}
+                id={item.id}
+                text={item.text}
+                index={index}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
+    </div>
   );
 };
 

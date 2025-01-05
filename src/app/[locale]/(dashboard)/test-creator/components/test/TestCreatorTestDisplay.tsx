@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -26,7 +27,10 @@ import { Separator } from '@/components/ui/separator';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestDisplay: FC = () => {
+  const t = useTranslations('testCreator.settings.display');
   const form = useFormContext<TestCreatorTest>();
+  const { watch } = form;
+  const allowGoBack = watch('settings.allowGoBack');
 
   return (
     <TabsContent
@@ -38,16 +42,14 @@ const TestCreatorTestDisplay: FC = () => {
         name="settings.questionDisplayMode"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-semibold">
-              Tryb wyświetlania pytań
-            </FormLabel>
+            <FormLabel className="font-semibold">{t('questionMode')}</FormLabel>
             <Select
               onValueChange={field.onChange}
               defaultValue={field.value}
             >
               <FormControl>
                 <SelectTrigger className="border-gray-200">
-                  <SelectValue placeholder="Wybierz tryb wyświetlania" />
+                  <SelectValue placeholder={t('questionModePlaceholder')} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -61,9 +63,7 @@ const TestCreatorTestDisplay: FC = () => {
                 ))}
               </SelectContent>
             </Select>
-            <FormDescription>
-              Sposób wyświetlania pytań w teście
-            </FormDescription>
+            <FormDescription>{t('questionModeDescription')}</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -77,10 +77,10 @@ const TestCreatorTestDisplay: FC = () => {
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
                 <FormLabel className="font-semibold">
-                  Losowa kolejność pytań
+                  {t('shuffleQuestions')}
                 </FormLabel>
                 <FormDescription>
-                  Pytania będą wyświetlane w losowej kolejności
+                  {t('shuffleQuestionsDescription')}
                 </FormDescription>
               </div>
               <FormControl>
@@ -100,10 +100,10 @@ const TestCreatorTestDisplay: FC = () => {
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
                 <FormLabel className="font-semibold">
-                  Losowa kolejność odpowiedzi
+                  {t('shuffleAnswers')}
                 </FormLabel>
                 <FormDescription>
-                  Odpowiedzi będą wyświetlane w losowej kolejności
+                  {t('shuffleAnswersDescription')}
                 </FormDescription>
               </div>
               <FormControl>
@@ -121,67 +121,20 @@ const TestCreatorTestDisplay: FC = () => {
 
       <div className="space-y-4">
         <FormField
-          control={form.control}
-          name="settings.showProgressBar"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż pasek postępu
-                </FormLabel>
-                <FormDescription>
-                  Wyświetlaj postęp rozwiązywania testu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="settings.showTimeRemaining"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="font-semibold">
-                  Pokaż pozostały czas
-                </FormLabel>
-                <FormDescription>
-                  Wyświetlaj licznik pozostałego czasu
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
+          disabled={allowGoBack}
           control={form.control}
           name="settings.showQuestionPoints"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
                 <FormLabel className="font-semibold">
-                  Pokaż punkty za pytanie
+                  {t('showPoints')}
                 </FormLabel>
-                <FormDescription>
-                  Wyświetlaj możliwą do zdobycia liczbę punktów
-                </FormDescription>
+                <FormDescription>{t('showPointsDescription')}</FormDescription>
               </div>
               <FormControl>
                 <Switch
-                  checked={field.value}
+                  checked={!allowGoBack && field.value}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>

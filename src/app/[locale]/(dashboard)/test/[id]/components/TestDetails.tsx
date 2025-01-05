@@ -1,4 +1,5 @@
 import { Check, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type SelectTestSettings } from '@schema/testSettings';
@@ -15,46 +16,35 @@ const BooleanIndicator = ({ value }: { value: boolean }) =>
   );
 
 export const TestDetails = ({ settings }: TestDetailsProps) => {
+  const t = useTranslations('test.details');
+
   const settingGroups = [
     {
-      title: 'Navigation Settings',
+      title: t('scoringSettings'),
       settings: [
-        { label: 'Navigation Mode', value: settings.navigationMode },
+        { label: t('scoringSystem'), value: settings.scoringSystem },
         {
-          label: 'Allow Going Back',
-          value: <BooleanIndicator value={!!settings.allowGoBack} />,
-        },
-        {
-          label: 'Confirm Group Change',
-          value: (
-            <BooleanIndicator value={!!settings.confirmBeforeGroupChange} />
-          ),
-        },
-      ],
-    },
-    {
-      title: 'Scoring Settings',
-      settings: [
-        { label: 'Scoring System', value: settings.scoringSystem },
-        {
-          label: 'Allow Partial Points',
+          label: t('allowPartialPoints'),
           value: <BooleanIndicator value={!!settings.allowPartialPoints} />,
         },
       ],
     },
     {
-      title: 'Display Settings',
+      title: t('displaySettings'),
       settings: [
-        { label: 'Question Display Mode', value: settings.questionDisplayMode },
+        {
+          label: t('questionDisplayMode'),
+          value: settings.questionDisplayMode,
+        },
 
         {
-          label: 'Shuffle Questions',
+          label: t('shuffleQuestions'),
           value: (
             <BooleanIndicator value={!!settings.shuffleQuestionsInGroup} />
           ),
         },
         {
-          label: 'Shuffle Answers',
+          label: t('shuffleAnswers'),
           value: <BooleanIndicator value={!!settings.shuffleAnswers} />,
         },
       ],

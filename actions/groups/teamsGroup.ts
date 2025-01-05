@@ -4,7 +4,7 @@ import { Client } from '@microsoft/microsoft-graph-client';
 
 import { auth } from '@/next-auth/auth';
 
-interface TeamsGroup {
+export interface TeamsGroup {
   id: string;
   displayName: string;
 }
@@ -46,3 +46,7 @@ export async function getUserTeamsGroups(): Promise<TeamsGroup[]> {
     return [];
   }
 }
+
+export type TeamsGroupsResponse = Awaited<
+  ReturnType<typeof getUserTeamsGroups>
+>;

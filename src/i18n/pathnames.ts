@@ -42,17 +42,13 @@ export const protectedPathnames = {
   },
   '/test': '/test',
   '/test/[id]': '/test/[id]',
-  '/test/assign/[id]/': {
-    en: '/test/assign/[id]/',
-    pl: '/test/przypisanie/[id]/',
+  '/test/[id]/assign': {
+    en: '/test/[id]/assign',
+    pl: '/test/[id]/przypisanie',
   },
   '/test/assign': {
     en: '/test-assignment',
     pl: '/przypisanie-testu',
-  },
-  'test-assignment': {
-    en: '/assigned-tests',
-    pl: '/przypisane-testy',
   },
   '/test-attempt/start-screen/[id]': {
     en: '/test-attempt/start-screen/[id]',
@@ -61,6 +57,18 @@ export const protectedPathnames = {
   '/test-attempt/[id]': {
     en: '/test-attempt/[id]',
     pl: '/podejscie-do-testu/[id]',
+  },
+  '/test-attempt/[id]/score': {
+    en: '/score/[id]',
+    pl: '/wynik-testu/[id]',
+  },
+  '/test-assignment': {
+    en: '/test-assignment',
+    pl: '/przypisanie-testu',
+  },
+  '/test-assignment/[id]': {
+    en: '/test-assignment-view/[id]',
+    pl: '/podglad-przypisania-testu/[id]',
   },
 } as const;
 

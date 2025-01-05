@@ -26,7 +26,7 @@ export const booleanAnswerRelations = relations(
       fields: [booleanAnswersTable.attemptAnswerId],
       references: [attemptAnswersTable.id],
     }),
-    subQuestion: one(groupSubQuestionsTable, {
+    GSQ: one(groupSubQuestionsTable, {
       fields: [booleanAnswersTable.subQuestionId],
       references: [groupSubQuestionsTable.id],
     }),

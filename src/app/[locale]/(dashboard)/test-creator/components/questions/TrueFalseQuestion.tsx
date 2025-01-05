@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 import { QuestionProps } from '../types';
@@ -9,6 +11,8 @@ const TrueFalseQuestion: FC<QuestionProps> = ({
   answers,
   onAnswerChange,
 }) => {
+  const t = useTranslations('testCreator.questions.boolean');
+
   return (
     <div className="space-y-4">
       <p className="text-lg font-medium">{question.content}</p>
@@ -21,14 +25,14 @@ const TrueFalseQuestion: FC<QuestionProps> = ({
             value="true"
             id="true"
           />
-          <label htmlFor="true">Prawda</label>
+          <label htmlFor="true">{t('true')}</label>
         </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem
             value="false"
             id="false"
           />
-          <label htmlFor="false">Fałsz</label>
+          <label htmlFor="false">{t('false')}</label>
         </div>
       </RadioGroup>
     </div>

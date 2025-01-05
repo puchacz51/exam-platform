@@ -1,40 +1,68 @@
-import { eq } from 'drizzle-orm';
+'use server';
+
+import { desc, eq, sql } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/testAccesss';
 import { testsTable } from '@schema/test';
-import { testAccessGroupsTable } from '@schema/testAccessGroups';
-import { groupsTable } from '@schema/groups';
 import { auth } from '@/next-auth/auth';
 
-export async function getTestOwnerAssignments() {
-  const sessions = await auth();
+export async function getTestOwnerAssignments(
+  page: number = 1,
+  limit: number = 10
+) {
+  const data = await auth();
+  const userID = data?.user?.userID;
 
-  if (!sessions?.user?.userID) {
+  if (!userID) {
     throw new Error('Unauthorized');
   }
 
-  const userId = sessions.user.userID;
+  const userId = userID;
+  const offset = (page - 1) * limit;
 
-  const assignments = await db
-    .select({
-      testId: testsTable.id,
-      testTitle: testsTable.title,
-      testDescription: testsTable.description,
-      accessType: testAccessConfigTable.accessType,
-      accessCode: testAccessConfigTable.accessCode,
-      groupId: groupsTable.id,
-      groupName: groupsTable.name,
-      assignedBy: testAccessConfigTable.assignedBy,
-    })
-    .from(testAccessConfigTable)
-    .innerJoin(testsTable, eq(testAccessConfigTable.testId, testsTable.id))
-    .leftJoin(
-      testAccessGroupsTable,
-      eq(testAccessGroupsTable.testAccessConfigId, testAccessConfigTable.id)
-    )
-    .leftJoin(groupsTable, eq(testAccessGroupsTable.groupId, groupsTable.id))
-    .where(eq(testAccessConfigTable.assignedBy, userId));
+  try {
+    const [assignments, totalCountResult] = await Promise.all([
+      db
+        .select({
+          id: testAccessConfigTable.id,
+          testId: testsTable.id,
+          testTitle: testsTable.title,
+          testDescription: testsTable.description,
+          accessType: testAccessConfigTable.accessType,
+          accessCode: testAccessConfigTable.accessCode,
+          assignedBy: testAccessConfigTable.assignedBy,
+          startAt: testAccessConfigTable.startsAt,
+          endAt: testAccessConfigTable.endsAt,
+        })
+        .from(testAccessConfigTable)
+        .innerJoin(testsTable, eq(testAccessConfigTable.testId, testsTable.id))
+        .where(eq(testAccessConfigTable.assignedBy, userId))
+        .limit(limit)
+        .offset(offset)
+        .orderBy(desc(testAccessConfigTable.startsAt)),
 
-  return assignments;
+      db
+        .select({ count: sql<number>`count(*)` })
+        .from(testAccessConfigTable)
+        .where(eq(testAccessConfigTable.assignedBy, userId)),
+    ]);
+
+    return {
+      items: assignments,
+      metadata: {
+        totalCount: totalCountResult[0].count,
+        currentPage: page,
+        totalPages: Math.ceil(totalCountResult[0].count / limit),
+        limit,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching assignments:', error);
+    throw new Error('Failed to fetch assignments data');
+  }
 }
+
+export type TestOwnerAssignment = Awaited<
+  ReturnType<typeof getTestOwnerAssignments>
+>;

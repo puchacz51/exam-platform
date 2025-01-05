@@ -26,40 +26,58 @@ export const calculatePoints = ({
     const answer = answers.find((a) => a.questionId === question.id);
 
     if (!answer) {
-      return null;
+      return {
+        questionId: question.id,
+        points: null,
+      };
     }
 
     const accuracy = calculateQuestionAccuracy(question, answer);
+    console.log(accuracy, question.text);
     if (!accuracy) {
-      return null;
-    }
-
-    const [correct, total] = accuracy;
-
-    if (scoringSystem === 'STANDARD' && !allowPartialPoints) {
       return {
         questionId: question.id,
-        points: correct >= total ? points : 0,
+        points: null,
       };
     }
 
-    if (scoringSystem === 'STANDARD' && allowPartialPoints) {
+    const scoreRatio =
+      Math.max(accuracy.correct - accuracy.incorrect, 0) / accuracy.total;
+
+    if (scoringSystem === 'STANDARD') {
+      if (!allowPartialPoints) {
+        return {
+          questionId: question.id,
+          points: scoreRatio === 1 ? points : 0,
+        };
+      }
       return {
         questionId: question.id,
-        points: (correct / total) * points,
+        points: Math.round(scoreRatio * points * 100) / 100,
       };
     }
 
-    if (allowPartialPoints) {
+    const negativeScoreRatio = scoreRatio - accuracy.incorrect / accuracy.total;
+
+    if (scoringSystem === 'NEGATIVE') {
+      if (!allowPartialPoints) {
+        return {
+          questionId: question.id,
+          points: negativeScoreRatio === 1 ? points : 0,
+        };
+      }
       return {
         questionId: question.id,
-        points: 2,
+        points:
+          negativeScoreRatio === 1
+            ? points
+            : Math.round(negativeScoreRatio * points * 100) / 100,
       };
     }
 
     return {
       questionId: question.id,
-      points,
+      points: 0,
     };
   });
 
@@ -99,63 +117,140 @@ const calculateChoiceAccuracy = (
   const correctAnswers = question.answers?.filter((a) => a.isCorrect) || [];
   const correctAnswerIds = correctAnswers.map((a) => a.id);
   const userAnswerIds = answer.answers.map((a) => a.answerId);
-  const correct = correctAnswerIds.filter((id) => userAnswerIds.includes(id));
+  if (userAnswerIds.length === 0) return null;
 
-  return [correct.length, correctAnswers.length];
+  const correctCount = correctAnswerIds.filter((id) =>
+    userAnswerIds.includes(id)
+  ).length;
+  const incorrectCount = userAnswerIds.filter(
+    (id) => !correctAnswerIds.includes(id || '')
+  ).length;
+
+  const totalCorrectCount = question.answers?.filter((a) => a.isCorrect).length;
+
+  return {
+    correct: correctCount,
+    incorrect: incorrectCount,
+    total: totalCorrectCount || 0,
+  };
 };
 
 const calculateMatchingAccuracy = (
   question: CompleteQuestion,
   answer: MatchingAnswerInput
 ) => {
-  const correctPairs =
-    question.matchingPairs?.filter((pair) => {
-      const userPair = answer.pairs.find(
-        (p) => p.key === pair.key && p.value === pair.value
-      );
-      return userPair?.key === pair.key && userPair?.value === pair.value;
-    }) || [];
+  if (answer.pairs.length === 0) return null;
 
-  return [correctPairs.length, question.matchingPairs?.length || 0];
+  const total = question.matchingPairs?.length || 0;
+  const correctCount =
+    question.matchingPairs?.filter((pair) => {
+      const userPair = answer.pairs.find((p) => p.key === pair.key);
+      console.log(userPair, pair);
+      return userPair?.key === pair.key && userPair?.value === pair.value;
+    }).length || 0;
+
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateOrderAccuracy = (
   question: CompleteQuestion,
   answer: OrderAnswerInput
 ) => {
-  const correctOrder = question.orderItems?.map((item) => item.id) || [];
+  if (answer.items.length === 0) return null;
+
+  const correctOrder =
+    question.orderItems
+      ?.sort((a, b) => a?.order - b?.order)
+      ?.map((item) => item.id) || [];
   const userOrder = answer.items
     .sort((a, b) => a?.position - b?.position)
     .map((item) => item.itemId);
-  const correct = correctOrder.filter((id, index) => id === userOrder[index]);
+  const correctCount = correctOrder.filter(
+    (id, index) => id === userOrder[index]
+  ).length;
+  const total = correctOrder.length;
 
-  return [correct.length, correctOrder.length];
+  return {
+    correct: correctCount,
+    incorrect: total - correctCount,
+    total,
+  };
 };
 
 const calculateNumericAccuracy = (
   question: CompleteQuestion,
   answer: NumericGroupAnswerInput
 ) => {
-  const correctAnswers = question.groupSubQuestions || [];
-  const correct = correctAnswers.filter((a) => {
+  if (!answer.answers.length) return null;
+  const correctAnswers = question.GSQ || [];
+  const correctCount = correctAnswers.filter((a) => {
     const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
     return (
-      (userAnswer?.value || 0) - (a?.numericAnswer || 0) < (a.tolerance || 0)
+      Math.abs((userAnswer?.value || 0) - (a?.numericAnswer || 0)) <=
+      (a.tolerance || 0)
     );
-  });
+  }).length;
 
-  return [correct.length, correctAnswers.length];
+  const incorrectCount = answer.answers.length - correctCount;
+
+  const total = question.GSQ?.length || 0;
+  return {
+    correct: correctCount,
+    incorrect: incorrectCount,
+    total,
+  };
 };
 
 const calculateBooleanAccuracy = (
   question: CompleteQuestion,
   answer: BooleanGroupAnswerInput
 ) => {
-  const correctAnswers = question.groupSubQuestions || [];
-  const correct = correctAnswers.filter((a) => {
-    const userAnswer = answer.answers.find((ua) => ua.subQuestionId === a.id);
-    return userAnswer?.value === a.booleanAnswer;
+  if (!answer.answers.length) return null;
+
+  if (question.questionType === 'BOOLEAN') {
+    const correctAnswer = !!question?.answers?.[0]?.isCorrect;
+    const userAnswer = !!answer.answers[0]?.value;
+
+    const correctCount = correctAnswer === userAnswer ? 1 : 0;
+    const total = 1;
+
+    return {
+      correct: correctCount,
+      incorrect: total - correctCount,
+      total,
+    };
+  }
+
+  if (!question.GSQ) return null;
+
+  const subQuestions = question.GSQ;
+  const total = subQuestions.length || 1;
+  let correctCount = 0;
+  let incorrectCount = 0;
+
+  subQuestions.forEach((subQuestion) => {
+    const userAnswer = answer.answers.find(
+      (ua) => ua.subQuestionId === subQuestion.id
+    );
+
+    if (userAnswer) {
+      if (userAnswer.value === subQuestion.booleanAnswer) {
+        correctCount += 1;
+      } else {
+        incorrectCount += 1;
+      }
+    } else {
+      incorrectCount += 1;
+    }
   });
 
-  return [correct.length, correctAnswers.length];
+  return {
+    correct: correctCount,
+    incorrect: incorrectCount,
+    total,
+  };
 };

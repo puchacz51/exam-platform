@@ -1,5 +1,6 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Trash2 } from 'lucide-react';
@@ -47,6 +48,7 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const t = useTranslations('testCreator.modals.groupSettings');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const {
     currentQuestionGroupId,
@@ -93,7 +95,7 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Ustawienia grupy pytań</DialogTitle>
+            <DialogTitle>{t('title')}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form
@@ -105,7 +107,7 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nazwa grupy</FormLabel>
+                    <FormLabel>{t('groupName')}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -121,7 +123,7 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
                   className="flex items-center gap-2"
                 >
                   <Trash2 className="h-4 w-4" />
-                  Usuń grupę
+                  {t('deleteGroup')}
                 </Button>
                 <div className="flex gap-2">
                   <Button
@@ -129,9 +131,9 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
                     variant="outline"
                     onClick={onClose}
                   >
-                    Anuluj
+                    {t('cancel')}
                   </Button>
-                  <Button type="submit">Zapisz</Button>
+                  <Button type="submit">{t('save')}</Button>
                 </div>
               </div>
             </form>
@@ -145,21 +147,18 @@ const QuestionGroupSettingsModal: FC<QuestionGroupSettingsModalProps> = ({
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Czy na pewno chcesz usunąć tę grupę?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t('deleteConfirm.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Ta akcja spowoduje usunięcie grupy wraz ze wszystkimi pytaniami.
-              Tej operacji nie można cofnąć.
+              {t('deleteConfirm.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Anuluj</AlertDialogCancel>
+            <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Usuń
+              {t('deleteGroup')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

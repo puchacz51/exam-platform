@@ -1,11 +1,9 @@
 import { Metadata, NextPage } from 'next';
 import { notFound } from 'next/navigation';
 import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
-import { eq } from 'drizzle-orm';
+import { getTranslations } from 'next-intl/server';
 
 import { Button } from '@/components/ui/button';
-import db from '@/lib/db';
-import { testsTable } from '@schema/test';
 import TestViewer from '@/app/[locale]/(dashboard)/test/[id]/components/TestViewer';
 import { getTest } from '@actions/test/getTest';
 import { TestHeader } from '@/app/[locale]/(dashboard)/test/[id]/components/TestHeader';
@@ -23,27 +21,13 @@ interface TestPageProps {
 export async function generateMetadata({
   params,
 }: TestPageProps): Promise<Metadata> {
-  const result = await db
-    .select()
-    .from(testsTable)
-    .where(eq(testsTable.id, params.id))
-    .limit(1);
-
-  const test = result[0];
-
-  if (!test) {
-    return {
-      title: 'Test not found',
-    };
-  }
-
   return {
-    title: `Test: ${test.title}`,
-    description: test.description || 'View test details',
+    title: `Test: ${params.id}`,
   };
 }
 
 const TestPage: NextPage<TestPageProps> = async ({ params }) => {
+  const t = await getTranslations('dashboard.testPage');
   const test = await getTest(params.id);
 
   if (!test) {
@@ -51,7 +35,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="container mx-auto space-y-6 py-8">
+    <div className="xs:px-2 container space-y-6 px-2 py-8">
       <div className="flex items-center justify-between">
         <Button
           variant="ghost"
@@ -60,7 +44,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
         >
           <Link href="/test">
             <ChevronLeft className="h-4 w-4" />
-            Back to tests
+            {t('backToTests')}
           </Link>
         </Button>
 
@@ -70,10 +54,13 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
           asChild
         >
           <Link
-            href={{ pathname: '/test/assign/[id]/', params: { id: params.id } }}
+            href={{
+              pathname: '/test/[id]/assign',
+              params: { id: params.id },
+            }}
           >
             <LinkIcon className="h-4 w-4" />
-            Assign test
+            {t('assignTest')}
           </Link>
         </Button>
       </div>

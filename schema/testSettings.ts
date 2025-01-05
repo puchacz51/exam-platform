@@ -2,14 +2,6 @@ import { boolean, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { testsTable } from '@schema/test';
-import { groupSettingsTable } from '@schema/groupSettings';
-
-export const navigationModeEnum = pgEnum('navigation_mode', [
-  'FREE',
-  'SEQUENTIAL',
-  'GROUP_LOCK',
-  'ANSWER_LOCK',
-]);
 
 export const scoringSystemEnum = pgEnum('scoring_system', [
   'STANDARD',
@@ -17,7 +9,6 @@ export const scoringSystemEnum = pgEnum('scoring_system', [
 ]);
 
 export const questionDisplayModeEnum = pgEnum('question_display_mode', [
-  'ALL',
   'GROUP',
   'SINGLE',
 ]);
@@ -28,25 +19,18 @@ export const testSettingsTable = pgTable('test_settings', {
     onDelete: 'cascade',
   }),
 
-  navigationMode: navigationModeEnum('navigation_mode').notNull(),
   allowGoBack: boolean('allow_go_back').default(true),
-  confirmBeforeGroupChange: boolean('confirm_before_group_change').default(
-    true
-  ),
 
   scoringSystem: scoringSystemEnum('scoring_system').notNull(),
   allowPartialPoints: boolean('allow_partial_points').default(true),
-
   questionDisplayMode: questionDisplayModeEnum(
     'question_display_mode'
   ).notNull(),
+
   shuffleQuestionsInGroup: boolean('shuffle_questions_in_group').default(false),
   shuffleAnswers: boolean('shuffle_answers').default(true),
 
-  showProgressBar: boolean('show_progress_bar').default(true),
-  showTimeRemaining: boolean('show_time_remaining').default(true),
   showQuestionPoints: boolean('show_question_points').default(true),
-  allowQuestionFlagging: boolean('allow_question_flagging').default(true),
 
   showCorrectAnswers: boolean('show_correct_answers').default(false),
   showPointsPerQuestion: boolean('show_points_per_question').default(true),
@@ -58,12 +42,11 @@ export const testSettingsTable = pgTable('test_settings', {
 
 export const testSettingsRelations = relations(
   testSettingsTable,
-  ({ one, many }) => ({
+  ({ one }) => ({
     test: one(testsTable, {
       fields: [testSettingsTable.testId],
       references: [testsTable.id],
     }),
-    groupSettings: many(groupSettingsTable),
   })
 );
 

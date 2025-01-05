@@ -1,10 +1,6 @@
-import { getAssignmentWithTest } from '@actions/test/getAssignmentWithTest';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
-
-import {
-  AttemptQuestionGroup,
-  TestAttemptContent,
-} from './components/TestAttemptContent';
+import { TestAttemptContent } from '@/app/[locale]/test-attempt/[id]/components/TestAttemptContent';
+import { getUserAttemptFlow } from '@actions/attempt/getUsetAttemptFlow';
 
 interface PageProps {
   params: {
@@ -13,16 +9,11 @@ interface PageProps {
 }
 
 const TestAttemptPage = async ({ params }: PageProps) => {
-  const assignment = await getAssignmentWithTest(params.id);
-  const { questionGroups, attempts } = assignment;
+  const test = await getUserAttemptFlow(params.id);
 
   return (
     <ReactQueryProvider>
-      <TestAttemptContent
-        attemptId={attempts[0].id}
-        testAssignmentId={params.id}
-        questionGroups={questionGroups as AttemptQuestionGroup[]}
-      />
+      <TestAttemptContent assignmentWithTest={test.data} />
     </ReactQueryProvider>
   );
 };

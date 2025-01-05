@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { QuestionProps } from '../types';
@@ -9,6 +11,8 @@ const MultipleChoiceQuestion: FC<QuestionProps> = ({
   answers,
   onAnswerChange,
 }) => {
+  const t = useTranslations('testCreator.questions.multipleChoice');
+
   return (
     <div className="space-y-4">
       <p className="text-lg font-medium">{question.content}</p>
@@ -29,7 +33,9 @@ const MultipleChoiceQuestion: FC<QuestionProps> = ({
                 }
               }}
             />
-            <label htmlFor={`option-${index}`}>{option}</label>
+            <label htmlFor={`option-${index}`}>
+              {t('answerPlaceholder', { number: index + 1 })}
+            </label>
           </div>
         ))}
       </div>

@@ -27,24 +27,21 @@ const NumericQuestion: FC<NumericQuestionProps> = ({
   question,
   mode = 'view',
 }) => {
-  const { id, groupSubQuestions } = question;
+  const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { setValue, watch } = useFormContext<TestAttemptFormDataNumeric>();
-
   const handleInputChange = (value: string) => {
-    setValue(fieldKey, [
-      { subQuestionId: groupSubQuestions[0].id, value: Number(value) },
-    ]);
+    setValue(fieldKey, [{ subQuestionId: GSQ[0].id, value: Number(value) }]);
   };
 
   const answerValue =
     mode === 'solve'
       ? watch(fieldKey)?.[0]?.value || ''
-      : 'numericAnswer' in groupSubQuestions[0]
-        ? groupSubQuestions[0].numericAnswer?.toString() || ''
+      : 'numericAnswer' in GSQ[0]
+        ? GSQ[0].numericAnswer?.toString() || ''
         : '';
 
-  const { tolerance } = groupSubQuestions[0];
+  const { tolerance } = GSQ[0];
 
   return (
     <div className="space-y-3">

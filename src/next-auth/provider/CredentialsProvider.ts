@@ -1,6 +1,7 @@
+import { createHash } from 'node:crypto';
+
 import Credentials from 'next-auth/providers/credentials';
 import { eq } from 'drizzle-orm';
-import bcrypt from 'bcryptjs';
 
 import { usersTable } from '@schema/users';
 import db from '@/lib/db';
@@ -15,7 +16,6 @@ export const CredentialsProvider = Credentials({
       email: string;
       password: string;
     };
-
     try {
       const [user] = await db
         .select()
@@ -26,8 +26,13 @@ export const CredentialsProvider = Credentials({
       if (!user) {
         throw new Error('Invalid credentials');
       }
+      const correctUserPasswordHash = user.passwordHash;
+      const userSalt = user.salt;
 
-      const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+      const passwordMatch =
+        createHash('sha256')
+          .update(password + userSalt)
+          .digest('hex') === correctUserPasswordHash;
 
       if (!passwordMatch) {
         throw new Error('Invalid credentials');

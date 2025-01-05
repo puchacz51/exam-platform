@@ -26,7 +26,9 @@ const TestAttemptLayout = async ({
         locale={locale}
       >
         <div className="flex min-h-screen flex-col">
-          <main className="flex-grow">{children}</main>
+          <main className="flex flex-grow items-center justify-center">
+            {children}
+          </main>
         </div>
       </NextIntlClientProvider>
     </SessionProvider>

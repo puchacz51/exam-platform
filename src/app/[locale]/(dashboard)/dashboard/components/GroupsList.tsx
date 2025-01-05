@@ -5,10 +5,10 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import type { Group } from '@/types/group/group';
+import { UserGroups } from '@actions/groups/getGroup';
 
 interface GroupsListProps {
-  groups: Group[];
+  groups: NonNullable<UserGroups['data']>;
   totalCount: number;
 }
 
@@ -66,7 +66,7 @@ export const GroupsList = ({ groups, totalCount }: GroupsListProps) => {
               <div>
                 <h3 className="font-medium">{group.name}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {t('card.member', { count: group.memberCount.value })}
+                  {t('card.member', { count: group.count })}
                 </p>
               </div>
               <Button

@@ -80,7 +80,7 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
     <div className="space-y-6">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold tracking-tight">{t('title')}</h2>
-        <div className="space-x-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             variant="outline"
             onClick={() => setIsEditing(!isEditing)}
@@ -99,9 +99,9 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete}>
-                  Delete
+                  {t('deleteGroup')}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -120,7 +120,7 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Group Name</FormLabel>
+                  <FormLabel>{t('groupName')}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -134,7 +134,7 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t('description')}</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
@@ -143,19 +143,19 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
               )}
             />
 
-            <Button type="submit">Save Changes</Button>
+            <Button type="submit">{t('save')}</Button>
           </form>
         </Form>
       ) : (
         <div className="space-y-4">
           <div>
-            <h3 className="font-medium">Group Name</h3>
+            <h3 className="font-medium">{t('groupName')}</h3>
             <p className="text-muted-foreground">{initialGroup.name}</p>
           </div>
           <div>
-            <h3 className="font-medium">Description</h3>
+            <h3 className="font-medium">{t('description')}</h3>
             <p className="text-muted-foreground">
-              {initialGroup.description || 'No description provided'}
+              {initialGroup.description || t('noDescription')}
             </p>
           </div>
         </div>

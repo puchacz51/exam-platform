@@ -5,16 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@/i18n/routing';
-
-interface OwnedTest {
-  testId: string;
-  testTitle: string;
-  accessType: string;
-  groupName?: string | null;
-}
+import { TestOwnerAssignment } from '@actions/test-assigment/getTestOwnerAssignments';
 
 interface OwnedTestsProps {
-  ownedTests: OwnedTest[];
+  ownedTests: TestOwnerAssignment;
 }
 
 export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
@@ -27,27 +21,29 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             {t('title')}
           </h2>
-          {ownedTests.length > 0 && (
+          {ownedTests.items.length > 0 && (
             <p className="text-sm text-muted-foreground">
-              {t('subTitle', { count: ownedTests.length })}
+              {t('subTitle', { count: ownedTests.metadata.totalCount || 0 })}
             </p>
           )}
         </div>
-        <Button
-          variant="ghost"
-          className="hidden sm:flex"
-          asChild
-        >
-          <Link
-            href="/test/assign"
-            className="gap-2"
+        {!!ownedTests.items && (
+          <Button
+            variant="ghost"
+            className="hidden sm:flex"
+            asChild
           >
-            {t('assignTest')} <ChevronRight className="h-4 w-4" />
-          </Link>
-        </Button>
+            <Link
+              href="/test-assignment"
+              className="gap-2"
+            >
+              {t('viewList')} <ChevronRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        )}
       </div>
       <Separator className="my-4" />
-      {ownedTests.length === 0 ? (
+      {!ownedTests.items ? (
         <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed">
           <Share2 className="h-8 w-8 text-muted-foreground" />
           <p className="text-center text-sm text-muted-foreground">
@@ -56,17 +52,15 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {ownedTests.map((test) => (
+          {ownedTests.items.map((assignment) => (
             <div
-              key={test.testId}
+              key={assignment.testId}
               className="flex items-center justify-between rounded-lg border p-4"
             >
               <div>
-                <h3 className="font-medium">{test.testTitle}</h3>
+                <h3 className="font-medium">{assignment.testTitle}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {test.groupName
-                    ? t('assignedTo', { group: test.groupName })
-                    : t('accessType', { type: test.accessType })}
+                  {t('accessType', { type: assignment.accessType })}
                 </p>
               </div>
               <Button
@@ -74,8 +68,14 @@ export const OwnedTests = ({ ownedTests }: OwnedTestsProps) => {
                 size="sm"
                 asChild
               >
-                <Link href="/test/assign">
-                  {t('viewList')} <ChevronRight className="ml-2 h-4 w-4" />
+                <Link
+                  href={{
+                    pathname: '/test-assignment/[id]',
+                    params: { id: assignment.id },
+                  }}
+                >
+                  {t('viewAssignment')}{' '}
+                  <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>

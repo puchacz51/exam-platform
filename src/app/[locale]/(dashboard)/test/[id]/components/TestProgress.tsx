@@ -19,7 +19,7 @@ export const TestProgress = ({
     <div className="mb-2 flex items-center justify-between text-sm text-gray-500">
       <div className="flex items-center gap-2">
         <Clock className="h-4 w-4" />
-        <span>{timeLimit} minutes per group</span>
+        <span>{timeLimit} minutes </span>
       </div>
       <span>
         Group {currentGroupIndex + 1} of {totalGroups}

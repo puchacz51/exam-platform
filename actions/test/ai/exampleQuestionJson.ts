@@ -96,6 +96,7 @@ const NUMERIC = {
   questionType: 'NUMERIC',
   points: 1,
   correctAnswer: 4,
+  tolerance: 0.1,
 };
 
 const BOOLEAN_GROUP = {
@@ -130,18 +131,23 @@ const NUMERIC_GROUP = {
     {
       text: '2 + 2',
       correctAnswer: 4,
+      tolerance: 0.1,
     },
     {
       text: '3 + 3',
       correctAnswer: 6,
+      tolerance: 0.1,
+
     },
     {
       text: '4 + 4',
       correctAnswer: 8,
+      tolerance: 0.1,
     },
     {
       text: '5 + 5',
       correctAnswer: 10,
+      tolerance: 0.1,
     },
   ],
 };

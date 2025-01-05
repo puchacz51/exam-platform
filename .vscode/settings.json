@@ -10,5 +10,10 @@
   "liveServer.settings.port": 5501,
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "cSpell.words": [
+    "firstname",
+    "initl",
+    "lastname"
+  ]
 }

@@ -13,6 +13,7 @@ export interface BaseAnswerInput {
   points?: number | null;
   questionId: string;
   attemptId: string;
+  answered?: boolean;
 }
 
 export type OpenAnswerInput = Omit<BaseAnswerInput, 'type'> & {
@@ -46,7 +47,6 @@ export type BooleanGroupAnswerInput = Omit<BaseAnswerInput, 'type'> & {
 };
 
 export type AnswerInput =
-  | OpenAnswerInput
   | ChoiceAnswerInput
   | MatchingAnswerInput
   | OrderAnswerInput

@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
+import { AlertCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,19 +20,27 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LoginForm: FC = () => {
+  const returnUrl = (new URLSearchParams(window.location.search).get(
+    'returnUrl'
+  ) || '/dashboard') as unknown as Location;
+  const session = useSession();
   const t = useTranslations('auth');
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState({
     credentials: false,
     microsoft: false,
-    usos: false,
+    google: false,
   });
+  const [error, setError] = useState<string | null>(null);
 
   const loginSchema = z.object({
     email: z.string().email(t('validation.email')),
-    password: z.string().min(1, t('validation.required')),
+    password: z
+      .string()
+      .min(8, t('validation.minLength', { length: 8 }))
+      .regex(/[A-Z]/, t('validation.passwordRequirements')),
   });
 
   type LoginForm = z.infer<typeof loginSchema>;
@@ -47,8 +55,15 @@ const LoginForm: FC = () => {
     defaultValues,
   });
 
+  useEffect(() => {
+    if (session?.data?.user) {
+      window.location = returnUrl;
+    }
+  }, [session]);
+
   const onSubmit = async (data: LoginForm) => {
     try {
+      setError(null);
       setIsLoading((prev) => ({ ...prev, credentials: true }));
       const result = await signIn('credentials', {
         email: data.email,
@@ -57,45 +72,37 @@ const LoginForm: FC = () => {
       });
 
       if (result?.error) {
-        console.error(result.error);
+        setError(t('login.invalidCredentials'));
         return;
       }
+      if (typeof window !== 'undefined') {
+        const returnUrl =
+          new URLSearchParams(window.location.search).get('returnUrl') ||
+          '/dashboard';
 
-      const returnUrl =
-        new URLSearchParams(window.location.search).get('returnUrl') ||
-        '/dashboard';
-      router.replace(returnUrl);
+        window.location = returnUrl as unknown as Location;
+      }
     } catch (error) {
       console.error(error);
+      setError(t('login.error'));
     } finally {
       setIsLoading((prev) => ({ ...prev, credentials: false }));
     }
   };
 
-  const handleMicrosoftSignIn = async () => {
+  const handleSignIn = async (provider: 'azure-ad' | 'Google') => {
     try {
-      setIsLoading((prev) => ({ ...prev, microsoft: true }));
-      const returnUrl =
-        new URLSearchParams(window.location.search).get('returnUrl') ||
-        '/dashboard';
-      await signIn('azure-ad', { redirect: true, callbackUrl: returnUrl });
+      setIsLoading((prev) => ({
+        ...prev,
+        [provider]: true,
+      }));
 
-      router.replace(returnUrl);
+      await signIn(provider);
     } finally {
-      setIsLoading((prev) => ({ ...prev, microsoft: false }));
-    }
-  };
-
-  const handleUSOSSignIn = async () => {
-    try {
-      setIsLoading((prev) => ({ ...prev, usos: true }));
-      await signIn('USOS');
-      const returnUrl =
-        new URLSearchParams(window.location.search).get('returnUrl') ||
-        '/dashboard';
-      router.replace(returnUrl);
-    } finally {
-      setIsLoading((prev) => ({ ...prev, usos: false }));
+      setIsLoading((prev) => ({
+        ...prev,
+        [provider === 'azure-ad' ? 'microsoft' : 'Google']: false,
+      }));
     }
   };
 
@@ -112,6 +119,15 @@ const LoginForm: FC = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4"
           >
+            {error && (
+              <Alert
+                variant="destructive"
+                className="mb-4"
+              >
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="ml-2">{error}</AlertDescription>
+              </Alert>
+            )}
             <FormField
               control={form.control}
               name="email"
@@ -170,17 +186,17 @@ const LoginForm: FC = () => {
         <div className="mt-6 grid grid-cols-2 gap-3">
           <Button
             variant="outline"
-            onClick={handleMicrosoftSignIn}
+            onClick={() => handleSignIn('azure-ad')}
             disabled={isLoading.microsoft}
           >
             {isLoading.microsoft ? t('login.loading') : t('login.microsoft')}
           </Button>
           <Button
             variant="outline"
-            onClick={handleUSOSSignIn}
-            disabled={isLoading.usos}
+            onClick={() => signIn('google')}
+            disabled={isLoading.google}
           >
-            {isLoading.usos ? t('login.loading') : t('login.usos')}
+            {isLoading.google ? t('login.loading') : t('login.google')}
           </Button>
         </div>
       </CardContent>

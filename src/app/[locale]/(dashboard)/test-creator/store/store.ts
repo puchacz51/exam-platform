@@ -6,7 +6,6 @@ import { TestConfiguration } from '@actions/test/getTestConfiguration';
 import { TestCreatorQuestion } from '@/types/test-creator/question';
 import { TestCreatorQuestionGroup } from '@/types/test-creator/questionGroup';
 import { testSchema } from '@/app/[locale]/(dashboard)/test-creator/schemas/testSchema';
-import { mathTest } from '@/app/[locale]/(dashboard)/test-creator/store/samples';
 import { Question } from '@/types/questions';
 
 export type TestCreatorAnswer = {
@@ -30,6 +29,7 @@ export interface TestProps {
   aiQuestions: Question[] | null;
   isAiGeneratorOpen: boolean;
 }
+
 type Updater<T> = T | ((prev: T) => T);
 
 export interface TestState extends TestProps {
@@ -41,7 +41,7 @@ export interface TestState extends TestProps {
   updateQuestion: (
     groupId: string,
     questionId: string,
-    question: TestCreatorQuestion
+    question: TestCreatorQuestion | null
   ) => void;
   resetTest: () => void;
   setIsAddedGeneralConfiguration: (isAdded: Updater<boolean>) => void;
@@ -59,7 +59,7 @@ export interface TestState extends TestProps {
     questionGroups: Updater<TestCreatorQuestionGroup[]>
   ) => void;
   setIsSortFormOpen: (isOpen: Updater<boolean>) => void;
-  setAiQuestions: (questions: Question[] | null) => void;
+  setAiQuestions: (questions: Updater<Question[] | null>) => void;
   clearAiQuestions: () => void;
   setIsAiGeneratorOpen: (isOpen: Updater<boolean>) => void;
 }
@@ -70,31 +70,19 @@ const DEFAULT_PROPS: TestProps = {
     title: '',
     description: '',
     settings: {
-      navigationMode: 'FREE',
       allowGoBack: true,
-      confirmBeforeGroupChange: true,
       scoringSystem: 'STANDARD',
       allowPartialPoints: true,
       shuffleQuestionsInGroup: false,
       shuffleAnswers: false,
-      showProgressBar: true,
-      showTimeRemaining: true,
       showQuestionPoints: true,
-      allowQuestionFlagging: true,
       showCorrectAnswers: false,
       showPointsPerQuestion: true,
       showFinalScore: true,
       questionDisplayMode: 'GROUP',
     },
   },
-  questionGroups: [
-    {
-      id: 'group-1',
-      name: 'test',
-      order: 1,
-      questions: [...mathTest],
-    },
-  ],
+  questionGroups: [],
   currentQuestion: null,
   currentQuestionGroupId: null,
   isTestConfiguratorOpen: false,
@@ -180,9 +168,15 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
           g.id === groupId
             ? {
                 ...g,
-                questions: g.questions.map((q) =>
-                  q.id === questionId ? { ...q, ...question } : q
-                ),
+                questions: g.questions
+                  .map((q) =>
+                    q.id === questionId
+                      ? question
+                        ? { ...q, ...question }
+                        : null
+                      : q
+                  )
+                  .filter((q) => !!q),
               }
             : g
         ),
@@ -264,7 +258,7 @@ const createTestStore = (initProps: Partial<TestProps> = {}) =>
     setAiQuestions: (questions) =>
       set((prev) => ({
         ...prev,
-        aiQuestions: questions,
+        aiQuestions: applyUpdater(prev.aiQuestions, questions),
       })),
 
     clearAiQuestions: () =>

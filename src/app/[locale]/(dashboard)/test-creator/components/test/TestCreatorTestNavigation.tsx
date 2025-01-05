@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -10,22 +11,22 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { navigationModeEnum } from '@schema/testSettings';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestNavigation: FC = () => {
   const form = useFormContext<TestCreatorTest>();
+  const t = useTranslations('testCreator.settings.navigation');
+  const { setValue } = form;
+
+  const onAllowGoBackChange = (value: boolean) => {
+    setValue('settings.allowGoBack', value);
+    if (value) {
+      setValue('settings.showQuestionPoints', false);
+    }
+  };
 
   return (
     <TabsContent
@@ -34,78 +35,19 @@ const TestCreatorTestNavigation: FC = () => {
     >
       <FormField
         control={form.control}
-        name="settings.navigationMode"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-semibold">Tryb nawigacji</FormLabel>
-            <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-            >
-              <FormControl>
-                <SelectTrigger className="border-gray-200">
-                  <SelectValue placeholder="Wybierz tryb nawigacji" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {navigationModeEnum.enumValues.map((mode) => (
-                  <SelectItem
-                    key={mode}
-                    value={mode}
-                  >
-                    {mode}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormDescription>
-              Określ sposób poruszania się po teście
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
         name="settings.allowGoBack"
         render={({ field }) => (
           <FormItem className="flex items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <FormLabel className="font-semibold">
-                Pozwól na powrót do poprzednich pytań
+                {t('allowGoBack')}
               </FormLabel>
-              <FormDescription>
-                Uczestnik może wracać do wcześniejszych pytań
-              </FormDescription>
+              <FormDescription>{t('allowGoBackDescription')}</FormDescription>
             </div>
             <FormControl>
               <Switch
                 checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="settings.confirmBeforeGroupChange"
-        render={({ field }) => (
-          <FormItem className="flex items-center justify-between rounded-lg border p-4">
-            <div className="space-y-0.5">
-              <FormLabel className="font-semibold">
-                Potwierdzaj zmianę grupy
-              </FormLabel>
-              <FormDescription>
-                Wymagaj potwierdzenia przed przejściem do następnej grupy pytań
-              </FormDescription>
-            </div>
-            <FormControl>
-              <Switch
-                checked={field.value}
-                onCheckedChange={field.onChange}
+                onCheckedChange={onAllowGoBackChange}
               />
             </FormControl>
           </FormItem>

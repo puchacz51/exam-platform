@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes, useEffect } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -25,6 +26,7 @@ interface TestCreatorQuestionGroupFormProps
 export const TestCreatorQuestionGroupForm: FC<
   TestCreatorQuestionGroupFormProps
 > = ({ className }) => {
+  const t = useTranslations('testCreator.modals.groupSettings');
   const currentQuestionGroupId = useTestContext(
     (state) => state.currentQuestionGroupId
   );
@@ -64,12 +66,12 @@ export const TestCreatorQuestionGroupForm: FC<
   return (
     <Card className={cn('relative w-full', className)}>
       <CardHeader>
-        <CardTitle>Ustawienia grupy pytań</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
         <Button
           className="absolute right-2 top-2"
           onClick={() => setIsQuestionGroupConfiguratorOpen(false)}
         >
-          Zamknij
+          {t('cancel')}
         </Button>
       </CardHeader>
       <CardContent>
@@ -83,11 +85,11 @@ export const TestCreatorQuestionGroupForm: FC<
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nazwa grupy</FormLabel>
+                  <FormLabel>{t('groupName')}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Wprowadź nazwę grupy pytań"
+                      placeholder={t('namePlaceholder')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,7 +102,7 @@ export const TestCreatorQuestionGroupForm: FC<
               name="order"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Kolejność</FormLabel>
+                  <FormLabel>{t('order')}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -118,7 +120,7 @@ export const TestCreatorQuestionGroupForm: FC<
               type="submit"
               className="w-full"
             >
-              Zapisz grupę pytań
+              {t('save')}
             </Button>
           </form>
         </Form>

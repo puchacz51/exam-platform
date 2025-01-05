@@ -28,7 +28,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
   mode = 'view',
 }) => {
   const t = useTranslations('test.questions.booleanGroup');
-  const { id, groupSubQuestions } = question;
+  const { id, GSQ } = question;
   const fieldKey = `questions.${id}.answers` as const;
   const { control, setValue, watch } =
     useFormContext<TestAttemptFormDataBooleanGroup>();
@@ -56,7 +56,7 @@ const BooleanGroupQuestion: FC<BooleanGroupQuestionProps> = ({
 
   return (
     <div className="grid gap-4">
-      {groupSubQuestions?.map((subQuestion) => {
+      {GSQ?.map((subQuestion) => {
         const answer = answers.find(
           (ans) => ans.subQuestionId === subQuestion.id
         );

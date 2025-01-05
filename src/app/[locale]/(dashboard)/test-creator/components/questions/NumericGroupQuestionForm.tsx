@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AlertCircle, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +21,7 @@ import { NumericGroupQuestion } from '@/types/test-creator/question';
 import { generateId } from '@/utils/generateId';
 
 const NumericGroupQuestionForm = () => {
+  const t = useTranslations('testCreator.questions.numericGroup');
   const form = useFormContext<NumericGroupQuestion>();
   const { control } = form;
 
@@ -52,13 +54,11 @@ const NumericGroupQuestionForm = () => {
         name="text"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-lg font-semibold">
-              Treść głównego pytania
-            </FormLabel>
+            <FormLabel>{t('mainQuestion')}</FormLabel>
             <FormControl>
               <Textarea
                 {...field}
-                placeholder="Wprowadź treść głównego pytania..."
+                placeholder={t('mainQuestionPlaceholder')}
                 className="min-h-[120px] text-base"
               />
             </FormControl>
@@ -69,8 +69,8 @@ const NumericGroupQuestionForm = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>Podpytania numeryczne</span>
+          <CardTitle className="flex flex-wrap items-center justify-between gap-2">
+            <span>{t('subQuestions')}</span>
             <Button
               type="button"
               onClick={() =>
@@ -84,15 +84,13 @@ const NumericGroupQuestionForm = () => {
               className="ml-auto"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Dodaj podpytanie
+              {t('addSubQuestion')}
             </Button>
           </CardTitle>
           {fields.length < 2 && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                Wymagane są co najmniej dwa podpytania
-              </AlertDescription>
+              <AlertDescription>{t('minSubQuestionsWarning')}</AlertDescription>
             </Alert>
           )}
         </CardHeader>
@@ -112,7 +110,7 @@ const NumericGroupQuestionForm = () => {
                         <FormControl>
                           <Input
                             {...field}
-                            placeholder="Wprowadź treść podpytania..."
+                            placeholder={t('subQuestionPlaceholder')}
                             className="text-base"
                           />
                         </FormControl>
@@ -129,7 +127,7 @@ const NumericGroupQuestionForm = () => {
                       className="flex-shrink-0"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="sr-only">Usuń podpytanie</span>
+                      <span className="sr-only">{t('deleteSubQuestion')}</span>
                     </Button>
                   )}
                 </div>
@@ -140,7 +138,7 @@ const NumericGroupQuestionForm = () => {
                     name={`subQuestions.${index}.correctAnswer`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Poprawna odpowiedź</FormLabel>
+                        <FormLabel>{t('correctAnswer')}</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -161,13 +159,13 @@ const NumericGroupQuestionForm = () => {
                     name={`subQuestions.${index}.numericTolerance`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tolerancja błędu</FormLabel>
+                        <FormLabel>{t('tolerance')}</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
                             type="number"
                             step="0.1"
-                            placeholder="np. 0.1"
+                            placeholder={t('tolerancePlaceholder')}
                             onChange={(e) =>
                               field.onChange(parseFloat(e.target.value))
                             }

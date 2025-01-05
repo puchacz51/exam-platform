@@ -1,5 +1,6 @@
 import { Dice5 } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 import {
   Select,
@@ -27,6 +28,7 @@ export const TypeSelectionSection = ({
 }: TypeSelectionSectionProps) => {
   const form = useFormContext<AiGeneratorFormData>();
   const language = form.watch('language');
+  const t = useTranslations('aiGenerator');
 
   return (
     <>
@@ -38,11 +40,11 @@ export const TypeSelectionSection = ({
           }
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select language" />
+            <SelectValue placeholder={t('typeSelection.selectLanguage')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="en">English</SelectItem>
-            <SelectItem value="pl">Polish</SelectItem>
+            <SelectItem value="en">{t('typeSelection.languages.en')}</SelectItem>
+            <SelectItem value="pl">{t('typeSelection.languages.pl')}</SelectItem>
           </SelectContent>
         </Select>
         <div className="flex-1" />
@@ -52,7 +54,7 @@ export const TypeSelectionSection = ({
           onClick={onRandomSelect}
         >
           <Dice5 className="mr-2 h-4 w-4" />
-          Random Selection
+          {t('buttons.randomSelection')}
         </Button>
       </div>
 

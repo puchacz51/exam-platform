@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 
+import { useTranslations } from 'next-intl';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -16,8 +17,9 @@ import { Switch } from '@/components/ui/switch';
 import { TestCreatorTest } from '@/types/test-creator/test';
 
 const TestCreatorTestResults: FC = () => {
+  const t = useTranslations('testCreator.settings.results');
   const form = useFormContext<TestCreatorTest>();
-
+  // const watch = form.watch;
   return (
     <TabsContent
       value="results"
@@ -31,10 +33,10 @@ const TestCreatorTestResults: FC = () => {
             <FormItem className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
                 <FormLabel className="font-semibold">
-                  Pokaż poprawne odpowiedzi
+                  {t('showCorrectAnswers')}
                 </FormLabel>
                 <FormDescription>
-                  Wyświetl poprawne odpowiedzi po zakończeniu testu
+                  {t('showCorrectAnswersDescription')}
                 </FormDescription>
               </div>
               <FormControl>

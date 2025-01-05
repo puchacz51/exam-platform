@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
 
 import { getTestConfiguration } from '@actions/test/getTestConfiguration';
+import TestContextProvider from '@/app/[locale]/(dashboard)/test-creator/store/storeContext';
+import TestCreator from '@/app/[locale]/(dashboard)/test-creator/components/TestCreator';
 
-import TestContextProvider from './store/storeContext';
-import TestCreator from './components/TestCreator';
 
 const TestCreatorPage: NextPage = async () => {
   const testConfigurationData = await getTestConfiguration();

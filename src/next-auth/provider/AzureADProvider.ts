@@ -10,7 +10,7 @@ export const AzureADProvider = AzureAD({
   tenantId: process.env.AZURE_AD_TENANT_ID,
   authorization: {
     params: {
-      scope: 'openid profile email offline_access Team.ReadBasic.All',
+      scope: 'openid profile email offline_access Team.ReadBasic.All ',
     },
   },
   profile: async (profile, tokens) => {

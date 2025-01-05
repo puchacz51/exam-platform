@@ -3,9 +3,10 @@ import { TestStats } from '@/app/[locale]/(dashboard)/test/[id]/components/TestS
 import { TestDetails } from '@/app/[locale]/(dashboard)/test/[id]/components/TestDetails';
 import { Card } from '@/components/ui/card';
 import { CompleteTest } from '@/types/test/test';
+import { OwnedTest } from '@actions/test/getAllTests';
 
 interface TestPreviewProps {
-  test: CompleteTest;
+  test: CompleteTest | OwnedTest;
 }
 
 export const TestPreview = ({ test }: TestPreviewProps) => {

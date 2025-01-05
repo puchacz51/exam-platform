@@ -9,7 +9,6 @@ import {
   choiceAnswersTable,
   matchingAnswersTable,
   numericAnswersTable,
-  openAnswersTable,
   orderAnswersTable,
 } from '@schema/attemptAnswerDetails';
 import { attemptAnswersTable } from '@schema/attemptAnswers';
@@ -27,16 +26,17 @@ export async function editAnswer(
         attemptId: input.attemptId,
         questionId: input.questionId,
         type: input.type,
+        points: input.points,
       })
       .where(eq(attemptAnswersTable.id, answerId));
 
     const deleteDetails = async () => {
       switch (input.type) {
-        case 'OPEN':
-          await tx
-            .delete(openAnswersTable)
-            .where(eq(openAnswersTable.attemptAnswerId, answerId));
-          break;
+        // case 'OPEN':
+        //   await tx
+        //     .delete(openAnswersTable)
+        //     .where(eq(openAnswersTable.attemptAnswerId, answerId));
+        //   break;
         case 'SINGLE_CHOICE':
         case 'MULTIPLE_CHOICE':
           await tx
@@ -74,15 +74,17 @@ export async function editAnswer(
     await deleteDetails();
 
     switch (input.type) {
-      case 'OPEN':
-        await tx.insert(openAnswersTable).values({
-          attemptAnswerId: answerId,
-          text: input.answer.text,
-        });
-        break;
+      // case 'OPEN':
+      //   if (!input.answer) break;
+      //   await tx.insert(openAnswersTable).values({
+      //     attemptAnswerId: answerId,
+      //     text: input.answer.text,
+      //   });
+      //   break;
 
       case 'SINGLE_CHOICE':
       case 'MULTIPLE_CHOICE':
+        if (!input.answers.length) break;
         await tx.insert(choiceAnswersTable).values(
           input.answers.map(({ answerId: choiceId }) => ({
             attemptAnswerId: answerId,
@@ -92,6 +94,7 @@ export async function editAnswer(
         break;
 
       case 'MATCHING':
+        if (!input.pairs.length) break;
         await tx.insert(matchingAnswersTable).values(
           input.pairs.map((pair) => ({
             attemptAnswerId: answerId,
@@ -102,6 +105,7 @@ export async function editAnswer(
         break;
 
       case 'ORDER':
+        if (!input.items.length) break;
         await tx.insert(orderAnswersTable).values(
           input.items.map((item) => ({
             attemptAnswerId: answerId,
@@ -112,15 +116,17 @@ export async function editAnswer(
         break;
 
       case 'NUMERIC':
-        await tx.insert(numericAnswersTable).values(
-          input.answers.map((answer) => ({
+        if (!input.answers.length) break;
+        await tx.insert(numericAnswersTable)?.values(
+          input.answers?.map((answer) => ({
             attemptAnswerId: answerId,
             value: answer.value,
-          }))
+          })) || []
         );
         break;
 
       case 'NUMERIC_GROUP':
+        if (!input.answers.length) break;
         await tx.insert(numericAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
@@ -131,14 +137,24 @@ export async function editAnswer(
         break;
 
       case 'BOOLEAN_GROUP':
+      case 'BOOLEAN':
+        if (!input.answers.length) break;
         await tx.insert(booleanAnswersTable).values(
           input.answers.map((answer) => ({
             attemptAnswerId: answerId,
-            subQuestionId: answer.subQuestionId,
             value: answer.value,
+            ...((input.type === 'BOOLEAN_GROUP' && {
+              subQuestionId: answer.subQuestionId,
+            }) ||
+              {}),
           }))
         );
         break;
+      default:
+        return {
+          data: null,
+          error: 'Invalid answer type',
+        };
     }
 
     return { data: { id: answerId }, error: null };

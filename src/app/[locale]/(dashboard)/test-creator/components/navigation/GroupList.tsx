@@ -28,7 +28,7 @@ const GroupList: FC = () => {
           isQuestionGroupConfiguratorOpen && 'col-start-1'
         )}
       >
-        <div className="flex items-center gap-4 overflow-x-auto">
+        <div className="flex min-w-min flex-wrap items-center gap-4 overflow-x-auto">
           <TestConfigurationBullet />
           {questionGroups.map((group) => (
             <QuestionGroupBullet
@@ -38,7 +38,7 @@ const GroupList: FC = () => {
           ))}
         </div>
         {isAddedGeneralConfiguration && (
-          <div className="ml-auto flex shrink-0 gap-2">
+          <div className="ml-auto flex flex-wrap gap-2 md:shrink-0 justify-end">
             <Button
               variant="outline"
               className="flex items-center gap-2 bg-white hover:bg-gray-50"
