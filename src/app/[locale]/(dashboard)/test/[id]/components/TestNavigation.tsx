@@ -19,7 +19,7 @@ export const TestNavigation = ({
   const t = useTranslations('dashboard.testViewer');
 
   return (
-    <div className="flex w-full justify-between border-t p-6">
+    <div className="flex w-full flex-wrap justify-center gap-2 border-t p-6 sm:justify-between">
       <Button
         variant="outline"
         onClick={onPrevious}

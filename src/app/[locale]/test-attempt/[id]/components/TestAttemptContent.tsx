@@ -36,7 +36,7 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
 
   return (
     <>
-      <main className="container">
+      <main className="container px-3 sm:px-4">
         <TestAttemptHeader attemptData={data} />
         {data.type === 'QUESTION' ? (
           <TestAttemptQuestion

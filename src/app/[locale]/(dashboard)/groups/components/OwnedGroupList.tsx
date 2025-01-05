@@ -4,19 +4,11 @@ import { Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { useUserGroups } from '@/hooks/useUserGroups';
-
-import { GroupItem } from './GroupItem';
-
-interface Group {
-  id: string;
-  name: string;
-  description?: string | null;
-  createdAt: Date;
-  memberCount: { value: number };
-}
+import { UserGroups } from '@actions/groups/getGroup';
+import { GroupItem } from '@/app/[locale]/(dashboard)/groups/components/GroupItem';
 
 interface OwnedGroupListProps {
-  initialGroups: Group[];
+  initialGroups: NonNullable<UserGroups['data']>;
 }
 
 const OwnedGroupList = ({ initialGroups }: OwnedGroupListProps) => {

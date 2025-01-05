@@ -6,6 +6,7 @@ import { UserAttemptFlowResponse } from '@actions/attempt/getUsetAttemptFlow';
 import { Button } from '@/components/ui/button';
 import { useRouter } from '@/i18n/routing';
 import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
+import { cn } from '@/lib/utils';
 
 interface TestAttemptHeaderProps {
   attemptData: NonNullable<UserAttemptFlowResponse['data']>;
@@ -50,7 +51,7 @@ const TestAttemptHeader: FC<TestAttemptHeaderProps> = ({ attemptData }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -62,75 +63,86 @@ const TestAttemptHeader: FC<TestAttemptHeaderProps> = ({ attemptData }) => {
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
-
   const timeColor = timeLeft < 120 ? 'text-red-500' : 'text-zinc-800';
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-200 ${
-        isScrolled
-          ? 'h-14 bg-white/95 shadow-sm'
-          : 'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60'
-      }`}
-    >
-      <div
-        className={`mx-auto flex max-w-6xl transition-all duration-200 ${
+    <>
+      <div className={cn('h-0', isScrolled && 'h-[210px] sm:h-[100px]')} />
+      <header
+        className={cn(
+          'top-0 z-50 transition-all duration-200',
           isScrolled
-            ? 'h-14 flex-row items-center justify-between px-4'
-            : 'flex-col p-5 md:flex-row md:items-center md:justify-between'
-        }`}
+            ? 'fixed h-14 bg-white/95 shadow-sm'
+            : 'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60'
+        )}
       >
         <div
-          className={`transition-all duration-200 ${
-            isScrolled ? 'flex items-center gap-4' : 'mb-4 md:mb-0'
-          }`}
-        >
-          <h1
-            className={`font-bold tracking-tight text-zinc-900 transition-all ${
-              isScrolled ? 'text-lg' : 'text-2xl'
-            }`}
-          >
-            {t('testAttempt.title')}
-          </h1>
-          <p
-            className={`text-zinc-500 transition-all ${
-              isScrolled ? 'hidden' : 'mt-1.5 text-sm'
-            }`}
-          >
-            {t('testAttempt.startAt', {
-              date: new Date(startAt).toLocaleString(),
-            })}
-          </p>
-        </div>
-
-        <div
-          className={`flex items-center gap-3 transition-all ${
+          className={cn(
+            'mx-auto flex max-w-6xl transition-all duration-200',
             isScrolled
-              ? 'text-sm'
-              : 'flex-col md:flex-row md:items-center md:gap-4'
-          }`}
+              ? 'h-14 flex-row items-center justify-between px-4'
+              : 'flex-col p-5 md:flex-row md:items-center md:justify-between'
+          )}
         >
           <div
-            className={`rounded-lg font-medium ${timeColor} ${
-              isScrolled
-                ? 'flex items-center px-2 py-1'
-                : 'bg-gray-50 px-4 py-2 text-lg'
-            }`}
+            className={cn(
+              'transition-all duration-200',
+              isScrolled ? 'flex items-center gap-4' : 'mb-4 md:mb-0'
+            )}
           >
-            {t('testAttempt.timeLeft')}: {formatTime(timeLeft)}
+            <h1
+              className={cn(
+                'font-bold tracking-tight text-zinc-900 transition-all',
+                isScrolled ? 'text-lg' : 'text-2xl'
+              )}
+            >
+              {t('testAttempt.title')}
+            </h1>
+            <p
+              className={cn(
+                'text-zinc-500 transition-all',
+                isScrolled ? 'hidden' : 'mt-1.5 text-sm'
+              )}
+            >
+              {t('testAttempt.startAt', {
+                date: new Date(startAt).toLocaleString(),
+              })}
+            </p>
           </div>
-          <Button
-            onClick={endTest}
-            className={`transition-all hover:scale-105 ${
-              isScrolled ? 'h-8 px-3 text-sm' : 'w-full md:w-auto'
-            }`}
-            variant="destructive"
+
+          <div
+            className={cn(
+              'flex items-center gap-3 transition-all',
+              isScrolled
+                ? 'text-sm'
+                : 'flex-col md:flex-row md:items-center md:gap-4'
+            )}
           >
-            {t('testAttempt.finishTest')}
-          </Button>
+            <div
+              className={cn(
+                'rounded-lg font-medium',
+                timeColor,
+                isScrolled
+                  ? 'flex items-center px-2 py-1'
+                  : 'bg-gray-50 px-4 py-2 text-lg'
+              )}
+            >
+              {t('testAttempt.timeLeft')}: {formatTime(timeLeft)}
+            </div>
+            <Button
+              onClick={endTest}
+              className={cn(
+                'transition-all hover:scale-105',
+                isScrolled ? 'h-8 px-3 text-sm' : 'w-full md:w-auto'
+              )}
+              variant="destructive"
+            >
+              {t('testAttempt.finishTest')}
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 

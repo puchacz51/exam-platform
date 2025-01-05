@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Group } from '@/types/group/group';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTeamsGroups } from '@/hooks/useTeamsGroups';
 import { Spinner } from '@/components/ui/spinner';
@@ -15,9 +14,10 @@ import TeamsGrupList from '@/app/[locale]/(dashboard)/test-assignment/components
 import GroupList from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/GroupList';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
 import { ViewMembersModal } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/ViewMembersModal';
+import { UserGroups } from '@actions/groups/getGroup';
 
 interface MultiGroupSelectionProps {
-  initialGroups?: Group[];
+  initialGroups?: NonNullable<UserGroups['data']>;
 }
 
 export const MultiGroupSelection = ({

@@ -1,18 +1,13 @@
 'use server';
 
-import { count, eq } from 'drizzle-orm';
+import { count, desc, eq } from 'drizzle-orm';
 
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { groupsTable } from '@schema/groups';
 import { userGroupsTable } from '@schema/userGroups';
 import { usersTable } from '@schema/users';
-import type {
-  Group,
-  GroupMember,
-  GroupMembersResponse,
-  GroupsResponse,
-} from '@/types/group/group';
+import type { GroupMember, GroupMembersResponse } from '@/types/group/group';
 
 async function getGroupMemberCount(groupId: string) {
   const [result] = await db
@@ -34,7 +29,7 @@ async function getGroupsCount(userId: string) {
   return result.count;
 }
 
-export async function getUserGroups(limit?: number): Promise<GroupsResponse> {
+export async function getUserGroups(limit?: number) {
   try {
     const session = await auth();
     if (!session?.user?.userID) {
@@ -48,9 +43,19 @@ export async function getUserGroups(limit?: number): Promise<GroupsResponse> {
         description: groupsTable.description,
         createdAt: groupsTable.createdAt,
         isOwner: eq(groupsTable.ownerId, session.user.userID),
+        count: count(userGroupsTable.userId),
       })
       .from(groupsTable)
+      .innerJoin(userGroupsTable, eq(groupsTable.id, userGroupsTable.groupId))
       .where(eq(groupsTable.ownerId, session.user.userID))
+      .groupBy(
+        groupsTable.id,
+        groupsTable.name,
+        groupsTable.description,
+        groupsTable.createdAt,
+        groupsTable.ownerId
+      )
+      .orderBy(desc(groupsTable.createdAt))
       .limit(limit || -10);
 
     const groups = await query;
@@ -65,7 +70,7 @@ export async function getUserGroups(limit?: number): Promise<GroupsResponse> {
 
     return {
       success: true,
-      data: groupsWithCounts as Group[],
+      data: groupsWithCounts,
       totalCount,
     };
   } catch (error) {
@@ -105,21 +110,7 @@ export async function getGroupMembers(
   }
 }
 
-export type GroupResponse = {
-  success: boolean;
-  data?: {
-    id: string;
-    name: string;
-    description: string | null;
-    createdAt: Date | null;
-    ownerId: string;
-    memberCount: { value: number };
-    isOwner: boolean;
-  };
-  error?: string;
-};
-
-export async function getGroupById(groupId: string): Promise<GroupResponse> {
+export async function getGroupById(groupId: string) {
   try {
     const session = await auth();
     if (!session?.user?.userID) {
@@ -159,3 +150,10 @@ export async function getGroupById(groupId: string): Promise<GroupResponse> {
     };
   }
 }
+
+export type GroupResponse = Awaited<ReturnType<typeof getGroupById>>;
+export type GroupMembers = Awaited<ReturnType<typeof getGroupMembers>>;
+export type GroupsResponse = Awaited<ReturnType<typeof getUserGroups>>;
+export type GroupMemberCount = Awaited<ReturnType<typeof getGroupMemberCount>>;
+export type GroupsCount = Awaited<ReturnType<typeof getGroupsCount>>;
+export type UserGroups = Awaited<ReturnType<typeof getUserGroups>>;

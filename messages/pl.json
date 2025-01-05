@@ -25,12 +25,12 @@
                 "description": "Wykorzystanie API Gemini do generowania pytań testowych i wsparcia procesu nauczania"
             },
             "msIntegration": {
-                "title": "Integracja z Microsoft",
-                "description": "Wykorzystanie Azure AD do uwierzytelniania oraz integracja z Microsoft Teams"
+                "title": "Integracja z Microsoft i Google",
+                "description": "Wykorzystanie Azure AD oraz Google OAuth do uwierzytelniania oraz integracja z Microsoft Teams"
             },
             "academic": {
                 "title": "Projekt Akademicki",
-                "description": "Praca inżynierska realizowana pod kierunkiem promotora na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
+                "description": "Praca inżynierska na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
             }
         }
     },
@@ -50,7 +50,7 @@
             "register": "Rejestracja"
         },
         "register": {
-            "title": "Zarejestruj nowe konto",
+            "title": "Zarejestruj się",
             "firstName": "Imię",
             "lastName": "Nazwisko",
             "email": "Email",
@@ -162,7 +162,7 @@
                 "showAll": "Pokaż wszystkie"
             },
             "card": {
-                "member": "Członek"
+                "member": "Członków {count}"
             },
             "create": {
                 "name": "Nazwa grupy",
@@ -343,9 +343,7 @@
                 "order": "Kolejność",
                 "open": "Otwarte"
             },
-            "groups":{
-                
-            }
+            "groups": {}
         }
     },
     "testAssignment": {

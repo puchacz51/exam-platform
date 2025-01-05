@@ -80,7 +80,7 @@ export const GroupDetails = ({ initialGroup }: GroupDetailsProps) => {
     <div className="space-y-6">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold tracking-tight">{t('title')}</h2>
-        <div className="space-x-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             variant="outline"
             onClick={() => setIsEditing(!isEditing)}

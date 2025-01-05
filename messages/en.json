@@ -25,12 +25,12 @@
                 "description": "Using the Gemini API to generate test questions and support the learning process"
             },
             "msIntegration": {
-                "title": "Microsoft Integration",
-                "description": "Using Azure AD for authentication and integration with Microsoft Teams"
+                "title": "Microsoft and Google Integration",
+                "description": "Using Azure AD and Google OAuth for authentication and integration with Microsoft Teams"
             },
             "academic": {
                 "title": "Academic Project",
-                "description": "An engineering thesis carried out under the supervision of a promoter at the Faculty of Telecommunications, Informatics and Electrical Engineering"
+                "description": "An engineering thesis at the Faculty of Telecommunications, Informatics and Electrical Engineering"
             }
         }
     },
@@ -50,7 +50,7 @@
             "register": "Register"
         },
         "register": {
-            "title": "Register a new account",
+            "title": "Register",
             "firstName": "First Name",
             "lastName": "Last Name",
             "email": "Email",
@@ -162,7 +162,7 @@
                 "showAll": "Show All"
             },
             "card": {
-                "member": "Member"
+                "member": "Members {count}"
             },
             "create": {
                 "name": "Group Name",

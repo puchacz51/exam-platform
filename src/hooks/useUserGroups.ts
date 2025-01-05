@@ -1,22 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getUserGroups } from '@actions/groups/getGroup';
+import { getUserGroups, UserGroups } from '@actions/groups/getGroup';
 
-interface Group {
-  id: string;
-  name: string;
-  description?: string | null;
-  createdAt: Date;
-  memberCount: { value: number };
-}
 
-export function useUserGroups(initialGroups?: Group[]) {
-  return useQuery<Group[]>({
+export function useUserGroups(initialGroups?: NonNullable<UserGroups['data']>) {
+  return useQuery<NonNullable<UserGroups['data']>>({
     queryKey: ['userGroups'],
     queryFn: () =>
       getUserGroups().then((response) => {
         if (response.success) {
-          return response.data as Group[];
+          return response.data as NonNullable<UserGroups['data']>;
         }
         throw new Error(response.error);
       }),

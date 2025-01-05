@@ -61,7 +61,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
 
   return (
     <FormProvider {...form}>
-      <div className="mx-auto max-w-4xl p-4">
+      <div className="mx-auto max-w-4xl p-1 md:p-4">
         <Card className="shadow-lg">
           <CardHeader className="border-b" />
           <TestProgress

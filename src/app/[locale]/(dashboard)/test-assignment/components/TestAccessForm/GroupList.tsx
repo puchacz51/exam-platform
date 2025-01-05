@@ -5,20 +5,20 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Group } from '@/types/group/group';
+import { UserGroups } from '@actions/groups/getGroup';
 
 interface GroupListProps {
-  groups: Group[];
+  groups: NonNullable<UserGroups['data']>;
   selectedGroups: string[];
   onGroupSelect: (groupId: string) => void;
   onViewMembers?: (group: { id: string; name: string }) => void;
 }
 
-const GroupList = ({ 
-  groups, 
-  selectedGroups, 
-  onGroupSelect, 
-  onViewMembers 
+const GroupList = ({
+  groups,
+  selectedGroups,
+  onGroupSelect,
+  onViewMembers,
 }: GroupListProps) => {
   const t = useTranslations('dashboard.testAssignment');
 
@@ -40,7 +40,8 @@ const GroupList = ({
               key={group.id}
               className={cn(
                 'flex cursor-pointer items-start space-x-4 rounded-lg border p-4 transition-colors hover:bg-accent',
-                selectedGroups.includes(group.id) && 'border-primary bg-primary/5'
+                selectedGroups.includes(group.id) &&
+                  'border-primary bg-primary/5'
               )}
             >
               <div

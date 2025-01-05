@@ -35,7 +35,7 @@ const TestPage: NextPage<TestPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="container mx-auto space-y-6 py-8">
+    <div className="xs:px-2 container space-y-6 px-2 py-8">
       <div className="flex items-center justify-between">
         <Button
           variant="ghost"

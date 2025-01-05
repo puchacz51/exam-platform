@@ -14,6 +14,7 @@ interface TestAccessAttemptsPageProps {
     id: string;
   };
 }
+export const dynamic = 'force-dynamic';
 const APP_URL = process.env.NEXT_PUBLIC_URL;
 
 const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = async ({
@@ -44,10 +45,11 @@ const TestAccessAttemptsPage: NextPage<TestAccessAttemptsPageProps> = async ({
       <Separator />
       <Card>
         <CardContent className="p-6">
-          {testAttempts.attempts.length == 0 ? (
+          {testAttempts.attempts.length != 0 ? (
             <TestAssignmentAttemptList
               maxPoints={maxPoints}
               initialData={testAttempts}
+              testAccessId={params.id}
             />
           ) : (
             <div className="text-center text-muted-foreground">

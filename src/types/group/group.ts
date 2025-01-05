@@ -1,3 +1,5 @@
+import { UserGroups } from '@actions/groups/getGroup';
+
 export interface GroupMember {
   id: string;
   firstname: string;
@@ -5,20 +7,9 @@ export interface GroupMember {
   email: string;
 }
 
-export interface Group {
-  id: string;
-  name: string;
-  description: string | null;
-  createdAt: Date;
-  isOwner: boolean;
-  memberCount: {
-    value: number;
-  };
-}
-
 export interface GroupsResponse {
   success: boolean;
-  data: Group[];
+  data: NonNullable<UserGroups['data']>;
   totalCount: number;
   error?: string;
 }

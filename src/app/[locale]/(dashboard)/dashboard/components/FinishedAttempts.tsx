@@ -27,42 +27,36 @@ export const FinishedAttempts = ({ attempts }: FinishedAttemptsProps) => {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4 xl:grid-cols-2">
           {attempts.data?.map((attempt) => {
             const endsAt = attempt.testAccess.endsAt || attempt.finishedAt;
 
             return (
-              <div
+              <Link
                 key={attempt.id}
-                className="mb-4 rounded-lg bg-white p-4 shadow"
+                href={{
+                  pathname: '/test-attempt/[id]/score',
+                  params: { id: attempt.id },
+                }}
+                className="block rounded-lg bg-white transition-colors hover:bg-gray-50"
               >
-                <div
-                  key={attempt.id}
-                  className="flex items-center justify-between rounded-lg border p-4"
-                >
-                  <div>
-                    <h3 className="font-medium">
-                      {attempt.testAccess.test.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {endsAt && formatDate(endsAt)}
-                    </p>
+                <div className="rounded-lg border p-4">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
+                      <h3 className="font-medium">
+                        {attempt.testAccess.test.title}
+                      </h3>
+                      <span className="text-sm text-muted-foreground">
+                        {endsAt && formatDate(endsAt)}
+                      </span>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <span className="font-semibold">{t('points')}:</span>{' '}
+                      {attempt.totalPoints}
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className="font-semibold">{t('points')}:</span>{' '}
-                    {attempt.totalPoints}
-                  </div>
-                  <Link
-                    href={{
-                      pathname: '/test-attempt/[id]/score',
-                      params: { id: attempt.id },
-                    }}
-                    className="hover:underline"
-                  >
-                    {t('viewDetails')}
-                  </Link>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

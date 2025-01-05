@@ -1,12 +1,10 @@
 'use server';
 
-import { asc, eq, sql } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 
 import db from '@/lib/db';
 import { testAccessConfigTable } from '@schema/testAccesss';
 import { testsTable } from '@schema/test';
-import { testAccessGroupsTable } from '@schema/testAccessGroups';
-import { groupsTable } from '@schema/groups';
 import { auth } from '@/next-auth/auth';
 
 export async function getTestOwnerAssignments(
@@ -42,7 +40,7 @@ export async function getTestOwnerAssignments(
         .where(eq(testAccessConfigTable.assignedBy, userId))
         .limit(limit)
         .offset(offset)
-        .orderBy(asc(testAccessConfigTable.createdAt)),
+        .orderBy(desc(testAccessConfigTable.startsAt)),
 
       db
         .select({ count: sql<number>`count(*)` })

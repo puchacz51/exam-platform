@@ -26,14 +26,14 @@ import {
 import { AccessTypeSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/AccessTypeSection';
 import { DateTimeSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/DateTimeSection';
 import { LimitsSection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/LimitsSection';
-import { Group } from '@/types/group/group';
 import { TestPreview } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/TestPreview';
 import { createTestAssignmentAction } from '@actions/test-assigment/createTestAssignment';
 import { OwnedTest } from '@actions/test/getAllTests';
 import { CompleteTest } from '@/types/test/test';
+import { UserGroups } from '@actions/groups/getGroup';
 
 interface TestAccessFormProps {
-  initialGroups?: Group[];
+  initialGroups?: NonNullable<UserGroups['data']>;
   test?: OwnedTest | CompleteTest | null;
   hideTestSelection?: boolean;
 }
@@ -85,7 +85,7 @@ export const TestAccessForm = ({
         title: t('success'),
         description: t('testAssignmentCreated'),
       });
-      
+
       methods.reset();
       router.refresh();
     } else {

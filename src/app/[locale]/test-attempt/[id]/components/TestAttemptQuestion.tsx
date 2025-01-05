@@ -47,14 +47,17 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     },
     mode: 'onChange',
   });
-
   const {
     handleSubmit,
-    formState: { isSubmitting, isSubmitted },
+    formState: { isSubmitting },
     setValue,
+    watch,
   } = methods;
+  const { toast } = useToast();
+  const currentQuestionForm = watch(`questions.${currentQuestionId}`);
+  console.log(currentQuestionForm);
 
-  const { toast } = useToast(); // Initialize toast
+  const shouldBeDisabled = !allowGoBack && currentQuestionForm?.answered;
 
   const moveToQuestion = (questionId: string) => {
     console.log('moveToQuestion', questionId);
@@ -68,18 +71,24 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
       const formattedAnswers = prepareFormSubmission(data, attemptId);
       const result = await createAnswer(testAssignmentId, formattedAnswers);
 
-      const questionPoints =
+      const points =
+        !!result.data && 'points' in result.data && result.data.points;
+      const answeredQuestions =
         !!result.data &&
-        'points' in result.data &&
-        result.data.points.find(
-          (point) => point.questionId === currentQuestionId
-        );
+        'answeredQuestions' in result.data &&
+        result.data.answeredQuestions;
 
-      if (questionPoints) {
-        setValue(
-          `questions.${currentQuestionId}.points`,
-          questionPoints.points
-        );
+      if (points) {
+        points.forEach((point) => {
+          if (point.questionId === currentQuestionId) {
+            setValue(`questions.${point.questionId}.points`, point.points);
+          }
+        });
+      }
+      if (answeredQuestions) {
+        answeredQuestions.forEach((questionId) => {
+          setValue(`questions.${questionId}.answered`, true);
+        });
       }
     } catch (error) {
       toast({
@@ -93,7 +102,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <div className="container mx-auto max-w-6xl px-4 py-6">
+      <div className="container mx-auto max-w-6xl px-1 py-6">
         <h1 className="mb-6 text-2xl font-bold">Test Assignment</h1>
         <Card className="overflow-hidden">
           <form
@@ -111,6 +120,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                         mode="solve"
                         question={question as Question}
                         questionIndex={questionIndex}
+                        disableAnswers={!allowGoBack}
                       />
                     )
                   )}
@@ -118,8 +128,8 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
               </div>
             </div>
 
-            <div className="mt-8 flex items-center justify-between gap-4 border-t pt-6">
-              {allowGoBack && previousQuestionId && (
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+              {previousQuestionId && (
                 <Button
                   variant="secondary"
                   type="button"
@@ -129,23 +139,22 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                 </Button>
               )}
 
-              {!isSubmitted ? (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-6"
-                >
-                  {nextQuestionId ? 'Submit Question' : 'Submit Test'}
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => moveToQuestion(nextQuestionId as string)}
-                  disabled={isSubmitting}
-                  className="px-6"
-                >
-                  Next
-                </Button>
-              )}
+              <Button
+                type="submit"
+                disabled={isSubmitting || shouldBeDisabled}
+                className="px-6"
+              >
+               Submit
+              </Button>
+
+              <Button
+                onClick={() => moveToQuestion(nextQuestionId as string)}
+                disabled={isSubmitting}
+                className="px-6"
+                type="button"
+              >
+                Next
+              </Button>
             </div>
           </form>
         </Card>

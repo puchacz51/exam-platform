@@ -97,14 +97,13 @@ export const handleQuestionNavigation = (
   }
 
   const selectedQuestion = shuffledQuestions[selectedQuestionIndex];
-  const nextQuestionId = allowGoBack
-    ? shuffledQuestions[selectedQuestionIndex + 1]?.id || null
-    : null;
-  const previousQuestionId = allowGoBack
-    ? shuffledQuestions[selectedQuestionIndex - 1]?.id || null
-    : null;
+  const nextQuestionId = shuffledQuestions[selectedQuestionIndex + 1]?.id;
+  const previousQuestionId =
+    shuffledQuestions[selectedQuestionIndex - 1]?.id || null;
 
-  const userAttemptAnswers = attempt.answers;
+  const userAttemptAnswers = allowGoBack
+    ? attempt.answers.map((a) => ({ ...a, points: null }))
+    : attempt.answers;
 
   return {
     data: {

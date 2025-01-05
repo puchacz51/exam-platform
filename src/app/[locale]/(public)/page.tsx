@@ -19,7 +19,7 @@ export async function generateMetadata() {
 
 const Home: NextPage = async () => {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex-col flex grow">
       <HomePageBanner />
       <Features />
     </main>

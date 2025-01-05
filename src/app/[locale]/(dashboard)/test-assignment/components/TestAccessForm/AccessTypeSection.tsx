@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { TestAccessFormValues } from '@/app/[locale]/(dashboard)/test-assignment/schema/TestAccessSchema';
-import { Group } from '@/types/group/group';
 import { MultiGroupSelection } from '@/app/[locale]/(dashboard)/test-assignment/components/TestAccessForm/MultiGroupSelection';
+import { UserGroups } from '@actions/groups/getGroup';
 
 interface AccessTypeSectionProps {
-  initialGroups?: Group[];
+  initialGroups?: NonNullable<UserGroups['data']>
 }
 
 export const AccessTypeSection = ({
