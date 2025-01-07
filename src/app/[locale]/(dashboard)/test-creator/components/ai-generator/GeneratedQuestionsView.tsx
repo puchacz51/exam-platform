@@ -100,11 +100,11 @@ export const GeneratedQuestionsView = ({
 
   return (
     <Card className="mt-6">
-      <CardHeader className="flex-row items-center justify-between space-y-0 border-b bg-white pb-4">
+      <CardHeader className="flex-col items-center justify-between space-y-0 border-b bg-white pb-4 md:flex-row">
         <CardTitle className="text-lg font-medium">
           {t('generatedQuestions.title')}
         </CardTitle>
-        <div className="flex items-center gap-4">
+        <div className="flex flex flex-wrap items-center gap-4">
           <Select
             value={selectedGroupId}
             onValueChange={handleGroupChange}

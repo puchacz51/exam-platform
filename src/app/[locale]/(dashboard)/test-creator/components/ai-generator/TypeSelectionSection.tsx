@@ -43,8 +43,12 @@ export const TypeSelectionSection = ({
             <SelectValue placeholder={t('typeSelection.selectLanguage')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="en">{t('typeSelection.languages.en')}</SelectItem>
-            <SelectItem value="pl">{t('typeSelection.languages.pl')}</SelectItem>
+            <SelectItem value="en">
+              {t('typeSelection.languages.en')}
+            </SelectItem>
+            <SelectItem value="pl">
+              {t('typeSelection.languages.pl')}
+            </SelectItem>
           </SelectContent>
         </Select>
         <div className="flex-1" />
@@ -58,7 +62,7 @@ export const TypeSelectionSection = ({
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
         {questionTypeEnum.enumValues.map((type) => {
           const isSelected = selectedTypes.some((t) => t.type === type);
           return (
