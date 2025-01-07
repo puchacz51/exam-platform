@@ -24,8 +24,6 @@ export const TestAttemptContent: FC<TestAttemptContentProps> = ({
     initialData: assignmentWithTest,
   });
 
-  console.log(data);
-
   useEffect(() => {
     refetch();
   }, [params]);

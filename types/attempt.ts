@@ -29,6 +29,7 @@ export type GroupFlowResponse = {
 };
 
 export type QuestionFlowResponse = {
+  questionsIds: string[];
   type: 'QUESTION';
   attemptId: string;
   testSettings: SelectTestSettings;

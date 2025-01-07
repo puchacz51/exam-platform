@@ -4,6 +4,7 @@ import { TestStartCard } from '@/app/[locale]/test-attempt/start-screen/[id]/com
 import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/components/ErrorAlert';
 import { redirect } from '@/i18n/routing';
 import { auth } from '@/next-auth/auth';
+import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
 
 const TestStartScreen = async ({
   params,
@@ -43,6 +44,10 @@ const TestStartScreen = async ({
         now.getTime()) ||
     (testAssignment.endsAt && new Date(testAssignment.endsAt) < now)
   ) {
+    if (attempt.totalPoints === null) {
+      await setAttemptPoints(attempt.id);
+    }
+
     return (
       <ErrorAlert
         title="You exceeded the time limit"
@@ -59,6 +64,9 @@ const TestStartScreen = async ({
     (testAssignment.endsAt && new Date(testAssignment.endsAt) < now);
 
   if (hasEnded) {
+    if (attempt.totalPoints === null) {
+      await setAttemptPoints(attempt.id);
+    }
     return (
       <ErrorAlert
         title="Test Ended"

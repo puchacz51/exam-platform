@@ -29,7 +29,7 @@ export const FinishedAttempts = ({ attempts }: FinishedAttemptsProps) => {
       ) : (
         <div className="grid gap-4 xl:grid-cols-2">
           {attempts.data?.map((attempt) => {
-            const endsAt = attempt.testAccess.endsAt || attempt.finishedAt;
+            const endsAt = attempt.finishedAt || attempt.testAccess.endsAt;
 
             return (
               <Link

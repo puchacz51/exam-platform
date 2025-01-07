@@ -14,6 +14,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { prepareQuestionToAttempt } from '@/utils/prepareQuestionsToAttempt';
 import { useToast } from '@/hooks/useToast'; // Import useToast
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import { QuestionFlowResponse } from '../../../../../../types/attempt';
 
@@ -36,6 +43,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
     previousQuestionId,
     currentQuestionId,
     userAttemptAnswers,
+    questionsIds,
   } = userAttemptFlow;
   const methods = useForm<TestAttemptFormData>({
     defaultValues: {
@@ -55,7 +63,6 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
   } = methods;
   const { toast } = useToast();
   const currentQuestionForm = watch(`questions.${currentQuestionId}`);
-  console.log(currentQuestionForm);
 
   const shouldBeDisabled = !allowGoBack && currentQuestionForm?.answered;
 
@@ -126,8 +133,33 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                   )}
                 </div>
               </div>
+              <Select onValueChange={(val) => moveToQuestion(val)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a question" />
+                </SelectTrigger>
+                <SelectContent>
+                  {questionsIds.map((questionId, index) => {
+                    const answered = userAttemptAnswers.some(
+                      (answer) => answer.questionId === questionId
+                    );
+                    const current = questionId === currentQuestionId;
+                    return (
+                      <SelectItem
+                        key={questionId}
+                        value={questionId}
+                      >
+                        Question {index + 1} -{' '}
+                        {current
+                          ? 'current'
+                          : answered
+                            ? 'answered'
+                            : 'not answered'}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
             </div>
-
             <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
               {previousQuestionId && (
                 <Button
@@ -144,7 +176,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                 disabled={isSubmitting || shouldBeDisabled}
                 className="px-6"
               >
-               Submit
+                Submit
               </Button>
 
               <Button
@@ -156,6 +188,7 @@ const TestAttemptQuestion: FC<TestAttemptGroupsProps> = ({
                 Next
               </Button>
             </div>
+            <div className="mt-4 flex justify-center"></div>
           </form>
         </Card>
       </div>
