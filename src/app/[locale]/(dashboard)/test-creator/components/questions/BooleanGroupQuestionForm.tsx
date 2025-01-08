@@ -60,7 +60,7 @@ const BooleanGroupQuestionForm = () => {
         )}
       />
 
-      <Card>
+      <Card className="px-0">
         <CardHeader>
           <CardTitle className="flex flex-wrap items-center justify-between gap-2">
             <span>{t('subQuestions')}</span>
@@ -90,7 +90,7 @@ const BooleanGroupQuestionForm = () => {
           <div className="space-y-6">
             {fields.map((field, index) => (
               <div key={field.id}>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col items-center gap-4">
                   <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-muted font-medium">
                     {index + 1}
                   </span>

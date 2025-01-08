@@ -15,7 +15,7 @@ export const setAttemptPoints = async (attemptId: string) => {
       error: 'User not authenticated',
     };
 
-    const { data, error } = await getUserPoints(attemptId);
+  const { data, error } = await getUserPoints(attemptId);
   if (error || !data) {
     return { error };
   }
