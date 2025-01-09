@@ -58,8 +58,8 @@ const LoginForm: FC = () => {
   });
 
   useEffect(() => {
-    if (session?.data?.user) {
-      window.location = returnUrl;
+    if (session?.data?.user && typeof window !== 'undefined') {
+      window.location = returnUrl as Location;
     }
   }, [session]);
 
