@@ -1,0 +1,660 @@
+{
+    "email": {
+        "confirmation": {
+            "greeting": "Witaj {name}!",
+            "thankYou": "Dziękujemy za utworzenie konta w naszym serwisie.",
+            "activationInstructions": "Aby rozpocząć korzystanie z konta, prosimy o jego aktywację klikając w poniższy przycisk:",
+            "activateButton": "Aktywuj Swoje Konto",
+            "activationWarning": "Jeśli nie zakładałeś tego konta, prosimy zignorować tę wiadomość.",
+            "welcomeSubject": "Aktywuj Swoje Konto",
+            "accountCreated": "Konto utworzone i email aktywacyjny wysłany",
+            "error": "Wystąpił błąd podczas tworzenia konta lub wysyłania emaila"
+        }
+    },
+    "home": {
+        "title": "QuizSow - Projekt Inżynierski",
+        "description": "Projekt realizowany w ramach pracy inżynierskiej na Politechnice Bydgoskiej im. Jana i Jędrzeja Śniadeckich. System do zarządzania testami z wykorzystaniem sztucznej inteligencji.",
+        "buttons": {
+            "getStarted": "Rozpocznij",
+            "learnMore": "Dowiedz się więcej"
+        },
+        "features": {
+            "title": "O Projekcie",
+            "aiSupport": {
+                "title": "Wsparcie AI w Tworzeniu Testów",
+                "description": "Wykorzystanie API Gemini do generowania pytań testowych i wsparcia procesu nauczania"
+            },
+            "msIntegration": {
+                "title": "Integracja z Microsoft i Google",
+                "description": "Wykorzystanie Azure AD oraz Google OAuth do uwierzytelniania oraz integracja z Microsoft Teams"
+            },
+            "academic": {
+                "title": "Projekt Akademicki",
+                "description": "Praca inżynierska na Wydziale Telekomunikacji, Informatyki i Elektrotechniki"
+            }
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Zaloguj się do konta",
+            "email": "Email",
+            "password": "Hasło",
+            "submit": "Zaloguj się",
+            "loading": "Logowanie...",
+            "alternativeMethods": "Lub zaloguj się przez",
+            "microsoft": "Microsoft Teams",
+            "google": "Google",
+            "error": "Wystąpił błąd podczas logowania",
+            "invalidCredentials": "Nieprawidłowy email lub hasło",
+            "missingCredentials": "Brak danych logowania",
+            "register": "Rejestracja"
+        },
+        "register": {
+            "title": "Zarejestruj się",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "email": "Email",
+            "password": "Hasło",
+            "confirmPassword": "Potwierdź hasło",
+            "submit": "Zarejestruj się",
+            "alternativeMethods": "Lub zarejestruj się przez",
+            "login": "Logowanie",
+            "invalidFormData": "Nieprawidłowe dane formularza",
+            "emailAlreadyExists": "Użytkownik o podanym adresie email już istnieje",
+            "registrationFailed": "Wystąpił błąd podczas rejestracji. Spróbuj ponownie później."
+        },
+        "verification": {
+            "title": "Weryfikacja email",
+            "code": "Kod weryfikacyjny",
+            "submit": "Zweryfikuj"
+        },
+        "validation": {
+            "email": "Nieprawidłowy adres email",
+            "required": "To pole jest wymagane",
+            "minLength": "Minimum {length} znaków",
+            "passwordMatch": "Hasła nie są identyczne",
+            "passwordRequirements": "Hasło musi zawierać minimum 8 znaków i jedną wielką literę"
+        },
+        "alternativeMethods": {
+            "title": "Lub zarejestruj się przez",
+            "microsoft": "Microsoft Teams",
+            "usos": "USOS",
+            "google": "Google"
+        },
+        "completeProfile": {
+            "title": "Uzupełnij profil",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "submit": "Zaktualizuj profil",
+            "validation": {
+                "firstNameLength": "Imię musi mieć co najmniej 2 znaki",
+                "lastNameLength": "Nazwisko musi mieć co najmniej 2 znaki"
+            }
+        }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Panel",
+            "welcome": "Witaj w panelu zarządzania testami",
+            "createTest": "Utwórz nowy test"
+        },
+        "recentTests": {
+            "title": "Ostatnie testy",
+            "viewAll": "Zobacz wszystkie",
+            "viewAllTests": "Zobacz wszystkie testy",
+            "empty": {
+                "title": "Brak utworzonych testów",
+                "description": "Utwórz swój pierwszy test, aby rozpocząć",
+                "action": "Utwórz pierwszy test"
+            },
+            "item": {
+                "questions": "{count} pytania"
+            }
+        },
+        "assignedTests": {
+            "title": "Nadchodzące testy",
+            "subTitle": "{count} {count, plural, one {test przypisany} other {testy przypisane}} do Ciebie",
+            "empty": "Brak nadchodzących testów",
+            "startsIn": "Rozpoczyna się za {hours}h",
+            "endsIn": "Kończy się za {hours}h",
+            "startDate": "Rozpoczęcie: {date}",
+            "attemptTest": "Rozpocznij test"
+        },
+        "ownedTests": {
+            "title": "Przypisane przez Ciebie testy",
+            "subTitle": "{count} {count, plural, one {test przypisany} other {testy przypisane}} przez Ciebie",
+            "assignTest": "Przypisz test",
+            "empty": "Nie przypisałeś jeszcze żadnych testów",
+            "viewList": "Zobacz listę",
+            "assignedTo": "Przypisano do: {group}",
+            "accessType": "Typ dostępu: {type}",
+            "viewAssignment": "Zobacz przypisanie"
+        },
+        "groups": {
+            "title": "Twoje grupy",
+            "subTitle": "Łącznie {count} {count, plural, one {grupa} other {grup}}",
+            "viewAll": "Zobacz wszystkie",
+            "empty": {
+                "title": "Brak utworzonych grup",
+                "action": "Utwórz pierwszą grupę"
+            },
+            "view": "Zobacz",
+            "viewMembers": "Zobacz członków",
+            "hideMembers": "Ukryj członków",
+            "details": {
+                "title": "Szczegóły grupy",
+                "edit": "Edytuj",
+                "cancel": "Anuluj",
+                "deleteGroup": "Usuń grupę",
+                "deleteConfirm": {
+                    "title": "Czy jesteś pewien?",
+                    "description": "Tej akcji nie można cofnąć. Grupa zostanie trwale usunięta, a wszyscy członkowie zostaną usunięci."
+                },
+                "save": "Zapisz zmiany",
+                "groupName": "Nazwa grupy",
+                "description": "Opis",
+                "noDescription": "Brak opisu"
+            },
+            "list": {
+                "searchPlaceholder": "Szukaj grup...",
+                "noResults": "Nie znaleziono grup pasujących do wyszukiwania",
+                "noGroups": "Brak dostępnych grup",
+                "showAll": "Pokaż wszystkie"
+            },
+            "card": {
+                "member": "Członków {count}"
+            },
+            "create": {
+                "name": "Nazwa grupy",
+                "namePlaceholder": "Wprowadź nazwę grupy",
+                "description": "Opis",
+                "descriptionPlaceholder": "Wprowadź opis grupy",
+                "addUsers": "Dodaj użytkowników",
+                "searchUsers": "Szukaj użytkowników...",
+                "create": "Utwórz grupę",
+                "creating": "Tworzenie...",
+                "sectionTitle": "Utwórz Nową Grupę"
+            },
+            "management": {
+                "title": "Zarządzanie Grupami",
+                "description": "Twórz i zarządzaj swoimi grupami, dodawaj członków i organizuj swój zespół."
+            },
+            "members": {
+                "title": "Członkowie Grupy",
+                "delete": "Usuń",
+                "add": "Dodaj",
+                "close": "Zamknij",
+                "addButton": "Dodaj Członków",
+                "addDialog": {
+                    "title": "Dodaj członków",
+                    "description": "Wyszukaj i wybierz użytkowników, aby dodać do grupy.",
+                    "searchPlaceholder": "Szukaj użytkowników..."
+                }
+            },
+            "owned": {
+                "title": "Moje Grupy",
+                "description": "Grupy, które utworzyłeś i którymi zarządzasz",
+                "empty": {
+                    "title": "Nie znaleziono grup",
+                    "description": "Utwórz nową grupę, aby rozpocząć"
+                }
+            },
+            "teams": {
+                "title": "Grupy Teams",
+                "description": "Twoje zsynchronizowane grupy Microsoft Teams"
+            },
+            "selected": "Wybrane grupy",
+            "search": "Szukaj grup",
+            "types": {
+                "all": "Wszystkie",
+                "teams": "Teams"
+            }
+        },
+        "finishedAttempts": {
+            "title": "Zakończone próby",
+            "empty": "Brak zakończonych prób",
+            "viewDetails": "Zobacz szczegóły",
+            "pointsTooltip": "Liczba punktów uzyskanych w tej próbie",
+            "subtitle": "Historia Twoich wcześniejszych prób",
+            "points": "Punkty"
+        },
+        "testViewer": {
+            "error": {
+                "title": "Błąd",
+                "description": "Nie znaleziono testu. Sprawdź identyfikator testu i spróbuj ponownie."
+            },
+            "previousGroup": "Poprzednia Grupa",
+            "nextGroup": "Następna Grupa"
+        },
+        "testStats": {
+            "duration": "Czas trwania",
+            "questions": "Pytania",
+            "maxPoints": "Maksymalna liczba punktów",
+            "scoringSystem": "System punktacji"
+        },
+        "testList": {
+            "yourTests": "Twoje testy",
+            "noDescription": "Brak opisu",
+            "questions": "Pytania:",
+            "page": "Strona {currentPage} z {totalPages}"
+        },
+        "testAssignment": {
+            "assignTestAccess": "Przypisz dostęp do testu",
+            "viewMembers": "Zobacz członków",
+            "selectedGroups": "Wybrane grupy",
+            "searchGroups": "Szukaj grup...",
+            "noMatchingGroups": "Nie znaleziono pasujących grup",
+            "tryAdjustingSearch": "Spróbuj dostosować wyszukiwanie",
+            "timeLimit": "Limit czasu (minuty)",
+            "startDateTime": "Data i godzina rozpoczęcia",
+            "endDateTime": "Data i godzina zakończenia",
+            "accessType": "Typ dostępu",
+            "accessCode": "Kod dostępu",
+            "enterAccessCode": "Wprowadź kod dostępu",
+            "saveSettings": "Zapisz ustawienia",
+            "testAccessSettings": "Ustawienia dostępu do testu",
+            "selectTest": "Wybierz test",
+            "error": "Błąd",
+            "pleaseSelectTest": "Proszę najpierw wybrać test",
+            "success": "Sukces",
+            "testAssignmentCreated": "Przypisanie testu utworzone pomyślnie",
+            "failedToCreateTestAssignment": "Nie udało się utworzyć przypisania testu",
+            "pickDate": "Wybierz datę",
+            "selectAccessType": "Wybierz typ dostępu",
+            "accessCodeGroup": "Kod dostępu + Grupa",
+            "groupAccess": "Dostęp grupowy",
+            "teamsGroups": {
+                "title": "Grupy Teams",
+                "description": "Twoje grupy Microsoft Teams",
+                "noGroups": "Brak dostępnych grup Teams",
+                "tryAdjustingSearch": "Spróbuj dostosować wyszukiwanie"
+            },
+            "testAccessList": {
+                "title": "Lista dostępu do testu",
+                "noAccess": "Brak przyznanego dostępu",
+                "start": "Rozpoczęcie",
+                "end": "Zakończenie"
+            },
+            "attemptList": {
+                "student": "Użytkownik",
+                "email": "Email",
+                "startedAt": "Rozpoczęto",
+                "finishedAt": "Zakończono",
+                "points": "Punkty",
+                "maxPoints": "Maks. punktów",
+                "percents": "Procenty (%)"
+            }
+        },
+        "testPage": {
+            "backToTests": "Powrót do testów",
+            "assignTest": "Przypisz test"
+        }
+    },
+    "test": {
+        "header": {
+            "createdAt": "Utworzono dnia",
+            "questionsCount": "{count} pytań"
+        },
+        "details": {
+            "scoringSettings": "Ustawienia punktacji",
+            "displaySettings": "Ustawienia wyświetlania",
+            "scoringSystem": "System punktacji",
+            "allowPartialPoints": "Zezwól na częściowe punkty",
+            "questionDisplayMode": "Tryb wyświetlania pytań",
+            "shuffleQuestions": "Tasuj pytania",
+            "shuffleAnswers": "Tasuj odpowiedzi"
+        },
+        "questions": {
+            "matching": {
+                "selectPlaceholder": "Wybierz pasujący element..."
+            },
+            "boolean": {
+                "true": "Prawda",
+                "false": "Fałsz"
+            },
+            "booleanGroup": {
+                "true": "Prawda",
+                "false": "Fałsz"
+            },
+            "questions": "Pytania",
+            "addQuestion": "Dodaj pytanie",
+            "editQuestion": "Edytuj pytanie",
+            "group": "Grupa {index}",
+            "testCreatorQuestion": {
+                "title": "Tytuł pytania testowego",
+                "description": "Wprowadź opis pytania testowego"
+            },
+            "questionType": "Rodzaj pytania",
+            "selectQuestionType": "Wybierz rodzaj pytania",
+            "points": "Punkty",
+            "pointsDescription": "Liczba punktów za pytanie",
+            "enterPoints": "Wprowadź liczbę punktów",
+            "questionDetails": "Szczegóły pytania",
+            "questionDetailsHelp": "Wprowadź dodatkowe szczegóły pytania",
+            "createQuestion": "Utwórz pytanie",
+            "types": {
+                "single_choice": "Jednokrotnego wyboru",
+                "multiple_choice": "Wielokrotnego wyboru",
+                "boolean": "Prawda/Fałsz",
+                "boolean_group": "Grupa Prawda/Fałsz",
+                "numeric": "Numeryczne",
+                "numeric_group": "Grupa numeryczna",
+                "matching": "Dopasowanie",
+                "order": "Kolejność",
+                "open": "Otwarte"
+            },
+            "groups": {}
+        }
+    },
+    "testAssignment": {
+        "list": {
+            "title": "Zarządzanie Dostępem do Testów",
+            "newAssignment": "Nowe Przypisanie",
+            "searchPlaceholder": "Szukaj testów...",
+            "filterByAccess": "Filtruj po typie dostępu",
+            "allTypes": "Wszystkie typy",
+            "codeAccess": "Kod dostępu",
+            "groupAccess": "Dostęp grupowy",
+            "noAssignments": "Nie znaleziono przypisanych testów",
+            "accessCode": "Kod dostępu: {code}",
+            "groupName": "Grupa: {name}",
+            "manageAccess": "Zarządzaj Dostępem",
+            "previous": "Poprzednia",
+            "next": "Następna",
+            "pageInfo": "Strona {current} z {total}",
+            "loading": "Ładowanie...",
+            "failedToLoad": "Nie udało się załadować przypisań",
+            "view": "Zobacz"
+        }
+    },
+    "testAttempt": {
+        "title": "Próba Testowa",
+        "startAt": "Rozpoczęcie: {date}",
+        "timeLeft": "Pozostały czas",
+        "finishTest": "Zakończ Test",
+        "unauthorized": "Nieautoryzowany",
+        "notFoundTitle": "Nie znaleziono",
+        "notFoundDescription": "Żądany test nie istnieje.",
+        "timeLimitExceededTitle": "Przekroczono limit czasu",
+        "timeLimitExceededDescription": "Przekroczyłeś limit czasu na ten test.",
+        "testEndedTitle": "Test zakończony",
+        "testEndedDescription": "Limit czasu na ten test wygasł.",
+        "accessDeniedTitle": "Odmowa dostępu",
+        "accessDeniedDescription": "Nie masz uprawnień do dostępu do tego testu.",
+        "timeLimit": "Limit czasu",
+        "minutes": "minut",
+        "testAvailable": "Test jest teraz dostępny. Powodzenia!",
+        "startTest": "Rozpocznij test",
+        "testNotStarted": "Test nie rozpoczął się",
+        "scheduledStart": "Planowany start",
+        "comeBackLater": "Proszę wrócić o zaplanowanej godzinie, aby rozpocząć test.",
+        "score": {
+            "title": "Wyniki Testu",
+            "unauthorized": "Brak autoryzacji",
+            "error": "Wystąpił błąd podczas pobierania wyników",
+            "notFound": "Nie znaleziono wyników testu",
+            "totalScore": "Zdobyte Punkty",
+            "percentage": "Wynik Procentowy",
+            "grade": "Ocena",
+            "grades": {
+                "excellent": "Celujący",
+                "veryGood": "Bardzo Dobry",
+                "good": "Dobry",
+                "satisfactory": "Dostateczny",
+                "needsImprovement": "Wymaga Poprawy"
+            },
+            "statistics": {
+                "category": "Kategoria",
+                "value": "Wartość",
+                "questionsAnswered": "Liczba Pytań",
+                "totalTime": "Całkowity Czas"
+            },
+            "buttons": {
+                "backToDashboard": "Powrót do Panelu"
+            },
+            "reviewAnswers": "Przegląd Odpowiedzi"
+        }
+    },
+    "aiGenerator": {
+        "title": "Generator Pytań AI",
+        "steps": {
+            "selectTypes": "1. Wybierz Typy",
+            "configureQuestions": "2. Konfiguruj Pytania"
+        },
+        "language": {
+            "select": "Wybierz język",
+            "en": "Angielski",
+            "pl": "Polski"
+        },
+        "buttons": {
+            "randomSelection": "Losowy Wybór",
+            "back": "← Wstecz",
+            "generate": "Generuj Pytania",
+            "generating": "Generowanie...",
+            "reject": "Odrzuć",
+            "addSelected": "Dodaj Wybrane ({count})"
+        },
+        "configuration": {
+            "category": "Kategoria",
+            "selectCategory": "Wybierz kategorię",
+            "mainTopic": "Główny Temat",
+            "topicPlaceholder": "np., Podstawy JavaScript",
+            "topicDetails": "Szczegóły Tematu",
+            "detailsPlaceholder": "Dodaj szczegółowe wymagania lub kontekst dla pytań...",
+            "selectedTypes": "Wybrane Typy Pytań",
+            "totalQuestions": "Łączna liczba pytań: {count}/12",
+            "categoryDescription": "Opis kategorii",
+            "selectedTypesHeader": "Wybrane Typy Pytań",
+            "selectedTypesInfo": "Wybierz rodzaje pytań do wygenerowania",
+            "selectedCount": "Wybrano typów: {count}"
+        },
+        "generatedQuestions": {
+            "title": "Wygenerowane Pytania",
+            "selectGroup": "Wybierz grupę pytań",
+            "reject": "Odrzuć",
+            "addSelected": "Dodaj Wybrane ({count})",
+            "question": "Pytanie {number}"
+        },
+        "error": "Nie udało się wygenerować pytań. Spróbuj ponownie.",
+        "typeSelection": {
+            "questionType": "Typ Pytania",
+            "selectLanguage": "Wybierz język",
+            "languages": {
+                "en": "Angielski",
+                "pl": "Polski"
+            }
+        },
+        "selectedType": {
+            "remove": "Usuń typ pytania",
+            "decrease": "Zmniejsz liczbę pytań",
+            "increase": "Zwiększ liczbę pytań"
+        },
+        "dialog": {
+            "title": "Generator Pytań AI",
+            "tabs": {
+                "type": "Typ pytania",
+                "config": "Konfiguracja"
+            }
+        }
+    },
+    "testCreator": {
+        "questions": {
+            "boolean": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania",
+                "correctAnswer": "Poprawna odpowiedź",
+                "true": "Prawda",
+                "false": "Fałsz"
+            },
+            "booleanGroup": {
+                "mainQuestion": "Treść głównego pytania",
+                "mainQuestionPlaceholder": "Wprowadź treść głównego pytania...",
+                "subQuestions": "Podpytania prawda/fałsz",
+                "addSubQuestion": "Dodaj podpytanie",
+                "minSubQuestionsWarning": "Wymagane są co najmniej dwa podpytania",
+                "subQuestionPlaceholder": "Wprowadź treść podpytania...",
+                "deleteSubQuestion": "Usuń podpytanie"
+            },
+            "multipleChoice": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania",
+                "answers": "Odpowiedzi",
+                "answerPlaceholder": "Odpowiedź {number}",
+                "addAnswer": "Dodaj odpowiedź",
+                "deleteAnswer": "Usuń odpowiedź",
+                "minAnswersWarning": "Wymagane są co najmniej dwie odpowiedzi",
+                "selectOneCorrectAnswer": "Wybierz dokładnie jedną poprawną odpowiedź",
+                "correctAnswer": "Poprawna"
+            },
+            "matching": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania...",
+                "pairs": "Pary do dopasowania",
+                "addPair": "Dodaj parę",
+                "minPairsWarning": "Wymagane są co najmniej dwie pary do dopasowania",
+                "firstElement": "Element {number}",
+                "firstElementPlaceholder": "Wprowadź pierwszy element...",
+                "secondElement": "Dopasowanie {number}",
+                "secondElementPlaceholder": "Wprowadź element do dopasowania...",
+                "deletePair": "Usuń parę"
+            },
+            "numeric": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania",
+                "correctAnswer": "Poprawna odpowiedź",
+                "correctAnswerPlaceholder": "Wprowadź poprawną odpowiedź numeryczną",
+                "tolerance": "Tolerancja",
+                "tolerancePlaceholder": "Wprowadź tolerancję (np. 0.1)"
+            },
+            "numericGroup": {
+                "mainQuestion": "Treść głównego pytania",
+                "mainQuestionPlaceholder": "Wprowadź treść głównego pytania...",
+                "subQuestions": "Podpytania numeryczne",
+                "addSubQuestion": "Dodaj podpytanie",
+                "minSubQuestionsWarning": "Wymagane są co najmniej dwa podpytania",
+                "subQuestionPlaceholder": "Wprowadź treść podpytania...",
+                "correctAnswer": "Poprawna odpowiedź",
+                "tolerance": "Tolerancja błędu",
+                "tolerancePlaceholder": "np. 0.1",
+                "deleteSubQuestion": "Usuń podpytanie"
+            },
+            "order": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania",
+                "items": "Elementy do uporządkowania",
+                "itemLabel": "Element {number}",
+                "itemPlaceholder": "Wprowadź element do uporządkowania...",
+                "namePlaceholder": "Wprowadź nazwę elementu",
+                "addItem": "Dodaj element",
+                "deleteItem": "Usuń element",
+                "dragDescription": "Przeciągnij, aby zmienić kolejność"
+            },
+            "open": {
+                "questionContent": "Treść pytania",
+                "questionPlaceholder": "Wprowadź treść pytania",
+                "sampleAnswer": "Przykładowa poprawna odpowiedź",
+                "sampleAnswerPlaceholder": "Wprowadź przykładową poprawną odpowiedź"
+            },
+            "testCreatorQuestion": {
+                "title": "Tytuł pytania testowego",
+                "description": "Wprowadź opis pytania testowego"
+            },
+            "types": {
+                "single_choice": "Jednokrotny wybór",
+                "multiple_choice": "Wielokrotny wybór",
+                "boolean": "Prawda/Fałsz",
+                "boolean_group": "Grupa Prawda/Fałsz",
+                "numeric": "Numeryczne",
+                "numeric_group": "Grupa numeryczna",
+                "matching": "Dopasowanie",
+                "order": "Kolejność",
+                "open": "Otwarte"
+            },
+            "questionType": "Rodzaj pytania",
+            "selectQuestionType": "Wybierz rodzaj pytania",
+            "points": "Punkty",
+            "pointsDescription": "Liczba punktów za pytanie",
+            "enterPoints": "Wprowadź liczbę punktów",
+            "questionDetails": "Szczegóły pytania",
+            "questionDetailsHelp": "Wprowadź dodatkowe szczegóły pytania",
+            "createQuestion": "Utwórz pytanie",
+            "category": "Kategoria",
+            "categoryDescription": "Opis kategorii"
+        },
+        "navigation": {
+            "questionList": "Lista pytań",
+            "emptyList": "Lista pytań jest pusta",
+            "addFirstQuestion": "Kliknij \"Dodaj pytanie\" aby rozpocząć",
+            "dragHere": "Przeciągnij tutaj pytanie",
+            "title": "Nawigacja testu"
+        },
+        "modals": {
+            "editQuestion": "Edytuj Pytanie",
+            "groupSettings": {
+                "title": "Ustawienia grupy pytań",
+                "groupName": "Nazwa grupy",
+                "deleteGroup": "Usuń grupę",
+                "deleteConfirm": {
+                    "title": "Czy na pewno chcesz usunąć tę grupę?",
+                    "description": "Ta akcja spowoduje usunięcie grupy wraz ze wszystkimi pytaniami. Tej operacji nie można cofnąć."
+                },
+                "cancel": "Anuluj",
+                "save": "Zapisz",
+                "namePlaceholder": "Wprowadź nazwę grupy",
+                "order": "Kolejność"
+            },
+            "deleteQuestion": "Usuń pytanie"
+        },
+        "actions": {
+            "addGroup": "Dodaj Grupę",
+            "aiGenerator": "Generator AI"
+        },
+        "settings": {
+            "title": "Ustawienia Testu",
+            "basic": {
+                "title": "Tytuł testu",
+                "titlePlaceholder": "Wprowadź tytuł testu",
+                "titleDescription": "Nadaj swojemu testowi unikalny tytuł",
+                "description": "Opis",
+                "descriptionPlaceholder": "Wprowadź opis testu",
+                "descriptionHelp": "Opisz czego dotyczy test i jakie są jego cele"
+            },
+            "scoring": {
+                "scoringSystem": "System punktacji",
+                "scoringSystemPlaceholder": "Wybierz system punktacji",
+                "scoringDescription": "Wybierz sposób przyznawania punktów",
+                "partialPoints": "Częściowe punkty",
+                "partialPointsDescription": "Pozwalaj na częściowe przyznawanie punktów za częściowo poprawne odpowiedzi",
+                "title": "Punktacja"
+            },
+            "display": {
+                "questionMode": "Tryb wyświetlania pytań",
+                "questionModePlaceholder": "Wybierz tryb wyświetlania",
+                "questionModeDescription": "Określ w jaki sposób pytania będą wyświetlane w teście",
+                "shuffleQuestions": "Tasuj pytania",
+                "shuffleQuestionsDescription": "Pytania zostaną wyświetlone w losowej kolejności",
+                "shuffleAnswers": "Tasuj odpowiedzi",
+                "shuffleAnswersDescription": "Odpowiedzi zostaną wyświetlone w losowej kolejności",
+                "showPoints": "Pokaż liczbę punktów za pytanie",
+                "showPointsDescription": "Wyświetla dostępne punkty za każde pytanie",
+                "modes": {
+                    "one_by_one": "Jedno po drugim",
+                    "all_at_once": "Wszystkie naraz",
+                    "by_groups": "Grupami"
+                },
+                "title": "Wyświetlanie"
+            },
+            "navigation": {
+                "title": "Nawigacja",
+                "allowGoBack": "Zezwól na cofanie się do poprzednich pytań",
+                "allowGoBackDescription": "Uczestnik może wracać do wcześniejszych pytań"
+            },
+            "results": {
+                "showCorrectAnswers": "Pokaż poprawne odpowiedzi",
+                "showCorrectAnswersDescription": "Wyświetl poprawne odpowiedzi po zakończeniu testu",
+                "title": "Wyniki"
+            },
+            "saveConfiguration": "Zapisz konfigurację"
+        }
+    }
+}
