@@ -16,8 +16,7 @@ export const handleGroupNavigation = (
 ): { data: GroupFlowResponse | null; error?: string } => {
   const { userId, testAccess } = attempt;
   const { settings: testSettings } = testAccess.test;
-  const { shuffleQuestionsInGroup, allowGoBack, showPointsPerQuestion } =
-    testSettings;
+  const { shuffleQuestionsInGroup, showPointsPerQuestion } = testSettings;
 
   const questionsGroups = QG.map((qg) => ({
     id: qg.id,
@@ -41,10 +40,9 @@ export const handleGroupNavigation = (
 
   const nextGroupId = questionsGroups[selectedGroupIndex + 1]?.id || null;
 
-  const previousGroupId = allowGoBack
-    ? questionsGroups[selectedGroupIndex - 1]?.id || null
-    : null;
-  const userAttemptAnswers = allowGoBack
+  const previousGroupId = questionsGroups[selectedGroupIndex - 1]?.id || null;
+
+  const userAttemptAnswers = !showPointsPerQuestion
     ? attempt.answers.map((a) => ({ ...a, points: null }))
     : attempt.answers;
 
@@ -66,7 +64,7 @@ export const handleGroupNavigation = (
       currentQuestionId: null,
       nextGroupId,
       previousGroupId,
-      userAttemptAnswers: !showPointsPerQuestion ? [] : userAttemptAnswers,
+      userAttemptAnswers: userAttemptAnswers,
     },
   };
 };
@@ -78,8 +76,7 @@ export const handleQuestionNavigation = (
 ): { data: QuestionFlowResponse | null; error?: string } => {
   const { userId, testAccess } = attempt;
   const { settings: testSettings } = testAccess.test;
-  const { shuffleQuestionsInGroup, showPointsPerQuestion, allowGoBack } =
-    testSettings;
+  const { shuffleQuestionsInGroup, showPointsPerQuestion } = testSettings;
 
   const allQuestions = QG.flatMap((qg) => qg.qOnQG.map((q) => q.question));
   const shuffledQuestions = getShuffledQuestions(
@@ -88,10 +85,12 @@ export const handleQuestionNavigation = (
     userId as string
   );
 
-  let selectedQuestionIndex = shuffledQuestions.findIndex(
-    (question) => question.id === questionId
-  );
+  const getIsAnswered = (questionId: string) =>
+    attempt.answers.some((a) => a.questionId === questionId);
 
+  let selectedQuestionIndex =
+    shuffledQuestions.findIndex((question) => question.id === questionId) ||
+    shuffledQuestions.findIndex((question) => !getIsAnswered(question.id));
   if (selectedQuestionIndex === -1) {
     selectedQuestionIndex = 0;
   }
@@ -101,13 +100,14 @@ export const handleQuestionNavigation = (
   const previousQuestionId =
     shuffledQuestions[selectedQuestionIndex - 1]?.id || null;
 
-  const userAttemptAnswers = allowGoBack
+  const userAttemptAnswers = !showPointsPerQuestion
     ? attempt.answers.map((a) => ({ ...a, points: null }))
     : attempt.answers;
 
   return {
     data: {
       type: 'QUESTION',
+      questionsIds: shuffledQuestions.map((q) => q.id),
       attemptId: attempt.id,
       startAt: attempt.startedAt,
       duration: attempt.testAccess.timeLimit || 0,

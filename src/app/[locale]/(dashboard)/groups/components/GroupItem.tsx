@@ -106,12 +106,6 @@ export const GroupItem = ({ group }: GroupItemProps) => {
                         {member.email}
                       </p>
                     </div>
-                    <Badge
-                      variant="secondary"
-                      className="ml-auto"
-                    >
-                      {t('card.member')}
-                    </Badge>
                   </div>
                 ))}
               </div>

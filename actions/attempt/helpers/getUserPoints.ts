@@ -5,7 +5,6 @@ import { and, eq } from 'drizzle-orm';
 import { testAttemptsTable } from '@schema/testAttempt';
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
-import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
 
 export const getUserPoints = async (attemptId: string) => {
   const session = await auth();

@@ -125,15 +125,15 @@ export const AiQuestionGenerator = () => {
       onOpenChange={(open) => setIsOpen(open)}
     >
       <DialogContent className="flex h-[90vh] max-w-4xl flex-col gap-0 p-0">
-        <DialogHeader className="border-b px-6 py-4">
+        <DialogHeader className="border-b px-2 py-4 md:px-6">
           <DialogTitle>{t('dialog.title')}</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto">
           <FormProvider {...methods}>
-            <div className="space-y-6 p-6">
+            <div className="space-y-6 p-2 md:p-6">
               <Card className="w-full border-0 shadow-none">
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
-                  <CardContent>
+                  <CardContent className="p-2 md:p-6">
                     <Tabs
                       value={step}
                       onValueChange={(v) =>
@@ -204,7 +204,8 @@ export const AiQuestionGenerator = () => {
                       >
                         {isLoading ? (
                           <span className="flex items-center gap-2">
-                            <span className="animate-spin">⚪</span> {t('buttons.generating')}
+                            <span className="animate-spin">⚪</span>{' '}
+                            {t('buttons.generating')}
                           </span>
                         ) : (
                           t('buttons.generate')

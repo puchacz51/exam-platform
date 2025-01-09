@@ -22,7 +22,7 @@ const GroupsPage = async () => {
 
   return (
     <ReactQueryProvider>
-      <div className="container mx-auto max-w-7xl space-y-8">
+      <div className="container mx-auto mt-6 max-w-7xl space-y-8 px-2">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold tracking-tight">
             {t('management.title')}

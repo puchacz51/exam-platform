@@ -16,7 +16,7 @@ const ShortAnswerQuestion: FC<QuestionProps> = ({
         type="text"
         value={answers[0] || ''}
         onChange={(e) => onAnswerChange([e.target.value])}
-        placeholder="Wpisz krótk�� odpowiedź..."
+        placeholder="Wpisz krótką odpowiedź..."
         className="max-w-md"
       />
     </div>

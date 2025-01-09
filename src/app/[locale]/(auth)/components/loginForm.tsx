@@ -23,9 +23,11 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LoginForm: FC = () => {
-  const returnUrl = (new URLSearchParams(window.location.search).get(
-    'returnUrl'
-  ) || '/dashboard') as unknown as Location;
+  const returnUrl =
+    typeof window !== 'undefined'
+      ? ((new URLSearchParams(window.location.search).get('returnUrl') ||
+          '/dashboard') as unknown as Location)
+      : '';
   const session = useSession();
   const t = useTranslations('auth');
   const [isLoading, setIsLoading] = useState({
@@ -56,8 +58,8 @@ const LoginForm: FC = () => {
   });
 
   useEffect(() => {
-    if (session?.data?.user) {
-      window.location = returnUrl;
+    if (session?.data?.user && typeof window !== 'undefined') {
+      window.location = returnUrl as Location;
     }
   }, [session]);
 

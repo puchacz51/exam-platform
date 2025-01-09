@@ -52,29 +52,6 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              asChild
-              className="cursor-pointer hover:bg-accent focus:bg-accent"
-            >
-              <Link
-                href="/profile"
-                className="w-full"
-              >
-                Profil
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              asChild
-              className="cursor-pointer hover:bg-accent focus:bg-accent"
-            >
-              <Link
-                href="/settings"
-                className="w-full"
-              >
-                Ustawienia
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
               onClick={() => signOut()}
               className="cursor-pointer text-red-500 hover:bg-red-50 hover:text-red-600 focus:bg-red-50"
             >

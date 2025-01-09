@@ -18,10 +18,6 @@ export async function GET(
         ? searchParams.get('questionId')
         : undefined;
 
-    console.log('testAccessId', testAccessId);
-    console.log('groupId', groupId);
-    console.log('questionId', questionId);
-    console.log('searchParams', searchParams.toString());
 
     if (!testAccessId) {
       return NextResponse.json(

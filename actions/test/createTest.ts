@@ -145,6 +145,7 @@ export async function createTestAction(
     const userId = session.user.userID;
     const result = await createTest(test, questionGroups, userId);
     if ('errors' in result) {
+      console.error('Error creating test:', result.errors);
       return { success: false, errors: result.errors };
     }
 

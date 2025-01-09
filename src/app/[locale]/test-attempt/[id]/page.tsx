@@ -6,10 +6,23 @@ interface PageProps {
   params: {
     id: string;
   };
+  searchParams: Record<string, string>;
 }
 
-const TestAttemptPage = async ({ params }: PageProps) => {
-  const test = await getUserAttemptFlow(params.id);
+const TestAttemptPage = async ({ params, searchParams }: PageProps) => {
+  const groupId =
+    typeof searchParams.groupId === 'string' ? searchParams.groupId : undefined;
+  const questionId =
+    typeof searchParams.questionId === 'string'
+      ? searchParams.questionId
+      : undefined;
+  const navOptions =
+    questionId || groupId ? { groupId, questionId } : undefined;
+
+  const test = await getUserAttemptFlow(
+    params.id,
+    navOptions as unknown as undefined
+  );
 
   return (
     <ReactQueryProvider>

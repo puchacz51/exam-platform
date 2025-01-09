@@ -32,7 +32,7 @@ const DashboardPage: NextPage = async () => {
     getUserGroups(8),
     getUserFinishedAttempts(),
   ]);
-  
+
   const groups = groupsData.success ? groupsData.data : [];
   const totalGroups = groupsData.success ? groupsData.totalCount : 0;
   const assignedTests = assignedTestsResponse;
