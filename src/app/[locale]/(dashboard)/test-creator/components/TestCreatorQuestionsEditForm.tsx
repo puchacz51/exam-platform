@@ -27,6 +27,9 @@ const TestCreatorQuestionsEditForm: FC<TestCreatorQuestionsFormProps> = ({
   const currentQuestion = useTestContext((state) => state.currentQuestion);
 
   const updateQuestion = useTestContext((state) => state.updateQuestion);
+  const setCurrentQuestion = useTestContext(
+    (state) => state.setCurrentQuestion
+  );
 
   const form = useForm<QuestionType>({
     resolver: zodResolver(questionTypeSchema),
@@ -46,6 +49,7 @@ const TestCreatorQuestionsEditForm: FC<TestCreatorQuestionsFormProps> = ({
     if (!currentQuestionGroupId || !currentQuestion) return;
 
     updateQuestion(currentQuestionGroupId, currentQuestion.id, data);
+    setCurrentQuestion(null);
     form.reset({ ...initialQuestion });
     return;
   };
