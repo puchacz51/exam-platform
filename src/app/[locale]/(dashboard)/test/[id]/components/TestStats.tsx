@@ -53,11 +53,6 @@ export const TestStats = ({ test }: TestStatsProps) => {
 
   const mainStats = [
     {
-      icon: <Clock className="h-8 w-8 text-blue-500" />,
-      label: t('duration'),
-      value: formatDuration(30),
-    },
-    {
       icon: <Book className="h-8 w-8 text-green-500" />,
       label: t('questions'),
       value: questionCount,
