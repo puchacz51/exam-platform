@@ -1,4 +1,4 @@
-import { Book, Brain, Clock, Target } from 'lucide-react';
+import { Book, Brain, Target } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,15 +25,6 @@ const countQuestionTypes = (test: CompleteTest | OwnedTest) => {
     },
     {} as Record<string, number>
   );
-};
-
-const formatDuration = (duration: number) => {
-  if (duration >= 60) {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-    return `${hours}h ${minutes > 0 ? `${minutes}min` : ''}`;
-  }
-  return `${duration}min`;
 };
 
 export const TestStats = ({ test }: TestStatsProps) => {

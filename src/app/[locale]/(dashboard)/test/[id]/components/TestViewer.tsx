@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import useGetTest from '@/app/[locale]/(dashboard)/test-creator/hooks/test/useGetTest';
-import TestProgress from '@/app/[locale]/(dashboard)/test/[id]/components/TestProgress';
 import { TestNavigation } from '@/app/[locale]/(dashboard)/test/[id]/components/TestNavigation';
 import { QuestionGroup } from '@/app/[locale]/(dashboard)/test/[id]/components/Questions/QuestionGroup';
 
@@ -26,11 +25,7 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   const form = useForm();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const { test } = useGetTest(testId);
-  const testSettings = {
-    changeable: true,
-    timeLimit: 30,
-    requireAllAnswers: true,
-  };
+
 
   if (!test) {
     return (
@@ -45,7 +40,6 @@ const TestViewer = ({ testId }: TestViewerProps) => {
   const questionGroups = test.QG || [];
   const currentGroup = questionGroups[currentGroupIndex];
   const totalGroups = questionGroups.length;
-  const progress = ((currentGroupIndex + 1) / totalGroups) * 100;
 
   const handleNextGroup = () => {
     if (currentGroupIndex < totalGroups - 1) {
@@ -64,12 +58,6 @@ const TestViewer = ({ testId }: TestViewerProps) => {
       <div className="mx-auto max-w-4xl p-1 md:p-4">
         <Card className="shadow-lg">
           <CardHeader className="border-b" />
-          <TestProgress
-            timeLimit={testSettings.timeLimit}
-            currentGroupIndex={currentGroupIndex}
-            totalGroups={totalGroups}
-            progress={progress}
-          />
 
           <CardContent className="p-6">
             <QuestionGroup
