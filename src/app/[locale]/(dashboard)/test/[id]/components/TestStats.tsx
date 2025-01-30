@@ -1,4 +1,4 @@
-import { Book, Brain, Clock, Target } from 'lucide-react';
+import { Book, Brain, Target } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,15 +27,6 @@ const countQuestionTypes = (test: CompleteTest | OwnedTest) => {
   );
 };
 
-const formatDuration = (duration: number) => {
-  if (duration >= 60) {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-    return `${hours}h ${minutes > 0 ? `${minutes}min` : ''}`;
-  }
-  return `${duration}min`;
-};
-
 export const TestStats = ({ test }: TestStatsProps) => {
   const t = useTranslations('dashboard.testStats');
   const groups = 'questionGroups' in test ? test.questionGroups : test.QG;
@@ -52,11 +43,6 @@ export const TestStats = ({ test }: TestStatsProps) => {
   const questionTypes = countQuestionTypes(test);
 
   const mainStats = [
-    {
-      icon: <Clock className="h-8 w-8 text-blue-500" />,
-      label: t('duration'),
-      value: formatDuration(30),
-    },
     {
       icon: <Book className="h-8 w-8 text-green-500" />,
       label: t('questions'),

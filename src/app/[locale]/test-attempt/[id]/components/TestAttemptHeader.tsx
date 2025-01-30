@@ -72,7 +72,7 @@ const TestAttemptHeader: FC<TestAttemptHeaderProps> = ({ attemptData }) => {
         className={cn(
           'top-0 z-50 transition-all duration-200',
           isScrolled
-            ? 'fixed h-14 bg-white/95 shadow-sm'
+            ? 'fixed h-14 bg-white/95 shadow-sm left-1/2 -translate-x-1/2'
             : 'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60'
         )}
       >
