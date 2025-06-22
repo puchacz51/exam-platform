@@ -14,15 +14,21 @@ const TestStartScreen = async ({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
   const accessCode = searchParams?.accessCode as string;
-  const [session, hasAccess, testAssignment] = await Promise.all([
-    auth(),
+  const session = await auth();
+
+  if (!session?.user?.userID) {
+    return (
+      <ErrorAlert
+        title="Unauthorized"
+        description="You must be logged in to access this test."
+      />
+    );
+  }
+
+  const [hasAccess, testAssignment] = await Promise.all([
     isUserAssignedToTest(params.id, accessCode),
     getTestAssignment(params.id),
   ]);
-
-  if (!session?.user.userID) {
-    return <div>Unauthorized</div>;
-  }
 
   if (!testAssignment) {
     return (

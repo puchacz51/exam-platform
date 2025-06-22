@@ -23,12 +23,26 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LoginForm: FC = () => {
-  const returnUrl =
-    typeof window !== 'undefined'
-      ? ((new URLSearchParams(window.location.search).get('returnUrl') ||
-          '/dashboard') as unknown as Location)
-      : '';
-  const session = useSession();
+  const getReturnUrl = (): string => {
+    if (typeof window === 'undefined') return '/dashboard';
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const returnUrl = searchParams.get('returnUrl');
+
+    // Validate returnUrl to prevent open redirect vulnerabilities
+    if (
+      returnUrl &&
+      (returnUrl.startsWith('/') ||
+        returnUrl.startsWith(window.location.origin))
+    ) {
+      return returnUrl;
+    }
+
+    return '/dashboard';
+  };
+
+  const [returnUrl] = useState(getReturnUrl());
+  const { data: session, status } = useSession();
   const t = useTranslations('auth');
   const [isLoading, setIsLoading] = useState({
     credentials: false,
@@ -56,12 +70,41 @@ const LoginForm: FC = () => {
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
-
   useEffect(() => {
-    if (session?.data?.user && typeof window !== 'undefined') {
-      window.location = returnUrl as Location;
+    if (
+      status === 'authenticated' &&
+      session?.user &&
+      typeof window !== 'undefined'
+    ) {
+      window.location.href = returnUrl;
     }
-  }, [session]);
+  }, [session, status, returnUrl]);
+
+  // Handle loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <Card className="w-full max-w-md">
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-center p-8">
+            <div className="text-gray-500">{t('login.loading')}</div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // If user is already authenticated, show message while redirecting
+  if (status === 'authenticated') {
+    return (
+      <Card className="w-full max-w-md">
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-center p-8">
+            <div className="text-gray-500">Redirecting...</div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const onSubmit = async (data: LoginForm) => {
     try {
@@ -72,17 +115,14 @@ const LoginForm: FC = () => {
         password: data.password,
         redirect: false,
       });
-
       if (result?.error) {
         setError(t('login.invalidCredentials'));
         return;
       }
-      if (typeof window !== 'undefined') {
-        const returnUrl =
-          new URLSearchParams(window.location.search).get('returnUrl') ||
-          '/dashboard';
 
-        window.location = returnUrl as unknown as Location;
+      // Success - redirect will be handled by useEffect or directly
+      if (result?.ok && typeof window !== 'undefined') {
+        window.location.href = returnUrl;
       }
     } catch (error) {
       console.error(error);
@@ -91,20 +131,26 @@ const LoginForm: FC = () => {
       setIsLoading((prev) => ({ ...prev, credentials: false }));
     }
   };
-
-  const handleSignIn = async (provider: 'azure-ad' | 'Google') => {
+  const handleSignIn = async (provider: 'azure-ad' | 'google') => {
     try {
+      const loadingKey = provider === 'azure-ad' ? 'microsoft' : 'google';
       setIsLoading((prev) => ({
         ...prev,
-        [provider]: true,
+        [loadingKey]: true,
       }));
 
-      await signIn(provider);
-    } finally {
+      await signIn(provider, {
+        callbackUrl: returnUrl,
+        redirect: true,
+      });
+    } catch (error) {
+      console.error(`${provider} sign in error:`, error);
+      const loadingKey = provider === 'azure-ad' ? 'microsoft' : 'google';
       setIsLoading((prev) => ({
         ...prev,
-        [provider === 'azure-ad' ? 'microsoft' : 'Google']: false,
+        [loadingKey]: false,
       }));
+      setError(t('login.error'));
     }
   };
 
@@ -195,7 +241,7 @@ const LoginForm: FC = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => signIn('google')}
+            onClick={() => handleSignIn('google')}
             disabled={isLoading.google}
           >
             {isLoading.google ? t('login.loading') : t('login.google')}

@@ -11,9 +11,9 @@ import { CheckIfTeamMember } from '@actions/attempt/helpers/checkIIfTeamMember';
 
 export async function isUserAssignedToTest(id: string, code?: string) {
   const session = await auth();
-  if (!session) return false;
+  if (!session?.user?.userID) return false;
 
-  const userId = session.user.userID;
+  const userId = session?.user?.userID;
   try {
     const accessConfig = await db.query.testAccess.findFirst({
       where: eq(testAccessConfigTable.id, id),
@@ -45,7 +45,7 @@ export async function isUserAssignedToTest(id: string, code?: string) {
         },
       },
     });
-    
+
     if (code && accessConfig?.accessCode === code) return true;
 
     const hasUserAccessInGroup = accessConfig?.TAGroup.some((group) =>
