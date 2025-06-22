@@ -2,8 +2,8 @@
 
 import { FC, useState } from 'react';
 
-import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 import { useGetTestAttempts } from '@/hooks/useGetTestAttempts';
 import { useGetAttemptDetails } from '@/hooks/useGetAttemptDetails';
@@ -16,10 +16,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-import AttemptDetailsView from './AttemptDetailsView';
+import AttemptDetailsView from './AttemptDetailsViewSimple';
 
 interface TestAssignmentAttemptListProps {
   initialData: TestAttemptsResponse;

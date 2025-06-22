@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent } from '@/components/ui/card';
-import TestAssignmentAttemptList from '@/app/[locale]/(dashboard)/test-assignment/[id]/components/TestAssignmentAttemptList';
+import TestAssignmentAttemptList from '@/app/[locale]/(dashboard)/test-assignment/[id]/components/TestAssignmentAttemptListFixed';
 import { getTestAttempts } from '@actions/attempt/getTestAttempts';
 import { getTestAccessInfo } from '@actions/test-access/getTestAccessInfo';
 import CopyButton from '@/components/CopyButton';
