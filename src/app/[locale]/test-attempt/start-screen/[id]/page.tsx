@@ -1,10 +1,8 @@
 import { isUserAssignedToTest } from '@actions/test/isUserAssignedToTest';
 import { getTestAssignment } from '@actions/test/getTestAssignment';
 import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
-
 import { redirect } from '@/i18n/routing';
 import { auth } from '@/next-auth/auth';
-
 import { TestStartCard } from '@/app/[locale]/test-attempt/start-screen/[id]/components/TestStartCard';
 import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/components/ErrorAlert';
 
