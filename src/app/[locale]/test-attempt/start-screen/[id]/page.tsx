@@ -1,10 +1,14 @@
 import { isUserAssignedToTest } from '@actions/test/isUserAssignedToTest';
 import { getTestAssignment } from '@actions/test/getTestAssignment';
-import { TestStartCard } from '@/app/[locale]/test-attempt/start-screen/[id]/components/TestStartCard';
-import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/components/ErrorAlert';
+import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
+
 import { redirect } from '@/i18n/routing';
 import { auth } from '@/next-auth/auth';
-import { setAttemptPoints } from '@actions/attempt/helpers/setAttemptPoints';
+
+import { TestStartCard } from '@/app/[locale]/test-attempt/start-screen/[id]/components/TestStartCard';
+import { ErrorAlert } from '@/app/[locale]/test-attempt/start-screen/[id]/components/ErrorAlert';
+
+import { LoginPrompt } from './components/LoginPrompt';
 
 const TestStartScreen = async ({
   params,
@@ -16,13 +20,29 @@ const TestStartScreen = async ({
   const accessCode = searchParams?.accessCode as string;
   const session = await auth();
 
+  // If user is not logged in, show login prompt instead of error
   if (!session?.user?.userID) {
-    return (
-      <ErrorAlert
-        title="Unauthorized"
-        description="You must be logged in to access this test."
-      />
-    );
+    // Get basic test info for the login prompt (if possible without authentication)
+    try {
+      const testAssignment = await getTestAssignment(params.id);
+      const currentUrl = `/test-attempt/start-screen/${params.id}${
+        accessCode ? `?accessCode=${accessCode}` : ''
+      }`;
+
+      return (
+        <LoginPrompt
+          testTitle={testAssignment?.test.title}
+          returnUrl={currentUrl}
+        />
+      );
+    } catch {
+      // If we can't get test info, show generic login prompt
+      const currentUrl = `/test-attempt/start-screen/${params.id}${
+        accessCode ? `?accessCode=${accessCode}` : ''
+      }`;
+
+      return <LoginPrompt returnUrl={currentUrl} />;
+    }
   }
 
   const [hasAccess, testAssignment] = await Promise.all([

@@ -13,9 +13,14 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
 
   if (context.auth?.user?.profileNeedsCompletion) {
     if (!context.req.nextUrl.pathname.includes(completeProfileUrl)) {
-      const confirmUrl = APP_URL + completeProfileUrl;
-      console.log('confirmUrl', context.req.nextUrl.pathname);
-      return { ...context, res: NextResponse.redirect(confirmUrl) };
+      const confirmUrl = new URL(completeProfileUrl, APP_URL);
+
+      // Preserve the original URL for return after profile completion
+      const originalUrl =
+        context.req.nextUrl.pathname + context.req.nextUrl.search;
+      confirmUrl.searchParams.set('returnUrl', originalUrl);
+
+      return { ...context, res: NextResponse.redirect(confirmUrl.toString()) };
     }
 
     return context;
@@ -24,5 +29,12 @@ export const profileCompletionMiddleware: Middleware = async (context) => {
   if (!context.req.nextUrl.pathname.endsWith(completeProfileUrl))
     return context;
 
-  return { ...context, res: NextResponse.redirect('/dashboard') };
+  // After profile completion, check if there's a returnUrl
+  const returnUrl = context.req.nextUrl.searchParams.get('returnUrl');
+  const redirectUrl = returnUrl || '/dashboard';
+
+  return {
+    ...context,
+    res: NextResponse.redirect(new URL(redirectUrl, APP_URL).toString()),
+  };
 };

@@ -19,13 +19,30 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { completeProfile } from '@actions/account/completeProfile';
-import { useRouter } from '@/i18n/routing';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const CompleteProfileForm: FC = () => {
   const t = useTranslations('auth.completeProfile');
   const { data: session, update } = useSession();
-  const router = useRouter();
+
+  // Get returnUrl from search params
+  const getReturnUrl = (): string => {
+    if (typeof window === 'undefined') return '/dashboard';
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const returnUrl = searchParams.get('returnUrl');
+
+    // Validate returnUrl to prevent open redirect vulnerabilities
+    if (
+      returnUrl &&
+      (returnUrl.startsWith('/') ||
+        returnUrl.startsWith(window.location.origin))
+    ) {
+      return returnUrl;
+    }
+
+    return '/dashboard';
+  };
 
   const profileSchema = z.object({
     firstname: z.string().min(2, t('validation.firstNameLength')),
@@ -41,12 +58,14 @@ const CompleteProfileForm: FC = () => {
       lastname: session?.user?.firstname ?? '',
     },
   });
-
   const onSubmit = async (data: ProfileForm) => {
     try {
       await completeProfile(data);
       await update({ trigger: 'update' });
-      router.replace('/');
+
+      // Redirect to returnUrl or dashboard
+      const returnUrl = getReturnUrl();
+      window.location.href = returnUrl;
     } catch (error) {
       console.error('Error updating profile:', error);
     }

@@ -10,11 +10,14 @@ const { auth } = NextAuth(authConfigWithProviders);
 export const authMiddleware: Middleware = async (context) => {
   const session = await auth();
   const locale = context.req.nextUrl.locale || 'en';
-
   if (!session) {
     const loginPath = pathnames['/login'][locale as Locale];
     const loginUrl = new URL(loginPath, context.req.url);
-    loginUrl.searchParams.set('returnUrl', context.req.nextUrl.pathname);
+
+    // Preserve the full URL including search params for test access codes
+    const fullReturnUrl =
+      context.req.nextUrl.pathname + context.req.nextUrl.search;
+    loginUrl.searchParams.set('returnUrl', fullReturnUrl);
 
     return {
       ...context,
