@@ -25,14 +25,12 @@ const CompleteProfileForm: FC = () => {
   const t = useTranslations('auth.completeProfile');
   const { data: session, update } = useSession();
 
-  // Get returnUrl from search params
   const getReturnUrl = (): string => {
     if (typeof window === 'undefined') return '/dashboard';
 
     const searchParams = new URLSearchParams(window.location.search);
     const returnUrl = searchParams.get('returnUrl');
 
-    // Validate returnUrl to prevent open redirect vulnerabilities
     if (
       returnUrl &&
       (returnUrl.startsWith('/') ||

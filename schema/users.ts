@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import {
   boolean,
+  integer,
   pgTable,
   timestamp,
   uuid,
@@ -24,6 +25,7 @@ export const usersTable = pgTable('users', {
   profileNeedsCompletion: boolean('profile_needs_completion')
     .notNull()
     .default(false),
+  schoolIndex: integer('school_index').default(0),
 });
 
 export const usersRelations = relations(usersTable, ({ many }) => ({

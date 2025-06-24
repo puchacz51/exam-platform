@@ -280,9 +280,27 @@
                 "email": "Email",
                 "startedAt": "Rozpoczęto",
                 "finishedAt": "Zakończono",
-                "points": "Punkty",
-                "maxPoints": "Maks. punktów",
+                "points": "Punkty",                "maxPoints": "Maks. punktów",
                 "percents": "Procenty (%)"
+            }
+        },
+        "profile": {
+            "title": "Profil użytkownika",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "schoolIndex": "Numer indeksu",
+            "email": "Email",
+            "edit": "Edytuj profil",
+            "save": "Zapisz zmiany",
+            "cancel": "Anuluj",
+            "successMessage": "Profil został pomyślnie zaktualizowany",
+            "errorMessage": "Wystąpił błąd podczas aktualizacji profilu",
+            "validation": {
+                "firstNameRequired": "Imię jest wymagane",
+                "firstNameLength": "Imię musi mieć co najmniej 2 znaki",
+                "lastNameRequired": "Nazwisko jest wymagane",
+                "lastNameLength": "Nazwisko musi mieć co najmniej 2 znaki",
+                "schoolIndexPositive": "Numer indeksu musi być liczbą dodatnią"
             }
         },
         "testPage": {
@@ -653,8 +671,26 @@
                 "showCorrectAnswers": "Pokaż poprawne odpowiedzi",
                 "showCorrectAnswersDescription": "Wyświetl poprawne odpowiedzi po zakończeniu testu",
                 "title": "Wyniki"
-            },
-            "saveConfiguration": "Zapisz konfigurację"
+            },            "saveConfiguration": "Zapisz konfigurację"
+        },
+        "profile": {
+            "title": "Profil użytkownika",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "schoolIndex": "Numer indeksu",
+            "email": "Email",
+            "edit": "Edytuj profil",
+            "save": "Zapisz zmiany",
+            "cancel": "Anuluj",
+            "successMessage": "Profil został pomyślnie zaktualizowany",
+            "errorMessage": "Wystąpił błąd podczas aktualizacji profilu",
+            "validation": {
+                "firstNameRequired": "Imię jest wymagane",
+                "firstNameLength": "Imię musi mieć co najmniej 2 znaki",
+                "lastNameRequired": "Nazwisko jest wymagane",
+                "lastNameLength": "Nazwisko musi mieć co najmniej 2 znaki",
+                "schoolIndexPositive": "Numer indeksu musi być liczbą dodatnią"
+            }
         }
     }
 }

@@ -46,10 +46,15 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
           <DropdownMenuContent
             align="end"
             className="w-56 shadow-lg"
-          >
-            <DropdownMenuLabel className="line-clamp-1 px-2 py-1.5 text-sm font-medium">
+          >            <DropdownMenuLabel className="line-clamp-1 px-2 py-1.5 text-sm font-medium">
               {session?.user?.firstname} {session?.user?.lastname}
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/profile" className="cursor-pointer">
+                Profil użytkownika
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => signOut()}
