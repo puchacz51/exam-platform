@@ -54,7 +54,7 @@ const ProfileDropdown: FC<ProfileDropdownProps> = ({ className }) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link
-                href="/dashboard/profile"
+                href="/profile"
                 className="cursor-pointer"
               >
                 Profil użytkownika
