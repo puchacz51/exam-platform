@@ -18,9 +18,7 @@ const TestStartScreen = async ({
   const accessCode = searchParams?.accessCode as string;
   const session = await auth();
 
-  // If user is not logged in, show login prompt instead of error
   if (!session?.user?.userID) {
-    // Get basic test info for the login prompt (if possible without authentication)
     try {
       const testAssignment = await getTestAssignment(params.id);
       const currentUrl = `/test-attempt/start-screen/${params.id}${
@@ -68,7 +66,7 @@ const TestStartScreen = async ({
         now.getTime()) ||
     (testAssignment.endsAt && new Date(testAssignment.endsAt) < now)
   ) {
-    if (attempt.totalPoints === null) {
+    if (attempt?.totalPoints === null) {
       await setAttemptPoints(attempt.id);
     }
 
@@ -88,7 +86,7 @@ const TestStartScreen = async ({
     (testAssignment.endsAt && new Date(testAssignment.endsAt) < now);
 
   if (hasEnded) {
-    if (attempt.totalPoints === null) {
+    if (!attempt?.totalPoints || attempt?.totalPoints === null) {
       await setAttemptPoints(attempt.id);
     }
     return (
