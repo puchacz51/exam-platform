@@ -278,9 +278,11 @@
             "attemptList": {
                 "student": "Użytkownik",
                 "email": "Email",
+                "schoolIndex": "Numer indeksu",
                 "startedAt": "Rozpoczęto",
                 "finishedAt": "Zakończono",
-                "points": "Punkty",                "maxPoints": "Maks. punktów",
+                "points": "Punkty",
+                "maxPoints": "Maks. punktów",
                 "percents": "Procenty (%)"
             }
         },
@@ -671,7 +673,8 @@
                 "showCorrectAnswers": "Pokaż poprawne odpowiedzi",
                 "showCorrectAnswersDescription": "Wyświetl poprawne odpowiedzi po zakończeniu testu",
                 "title": "Wyniki"
-            },            "saveConfiguration": "Zapisz konfigurację"
+            },
+            "saveConfiguration": "Zapisz konfigurację"
         },
         "profile": {
             "title": "Profil użytkownika",

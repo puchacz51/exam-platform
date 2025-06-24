@@ -1,10 +1,11 @@
 'use server';
 
-import { eq, max, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 import { auth } from '@/next-auth/auth';
 import db from '@/lib/db';
 import { testAttemptsTable } from '@schema/testAttempt';
+
 import { getTestAccessInfo } from '../test-access/getTestAccessInfo';
 
 export const getTestAttempts = async (
@@ -32,11 +33,12 @@ export const getTestAttempts = async (
               email: true,
               firstname: true,
               lastname: true,
+              schoolIndex: true,
             },
           },
         },
       });
-      
+
     const getMaxPoints = async () => {
       const testAccess = await getTestAccessInfo(testAccessId);
       return testAccess?.test.QG.flatMap((qg) =>

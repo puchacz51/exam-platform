@@ -40,6 +40,10 @@ export const protectedPathnames = {
     en: '/groups',
     pl: '/grupy',
   },
+  '/profile': {
+    en: '/profile',
+    pl: '/profil',
+  },
   '/test': '/test',
   '/test/[id]': '/test/[id]',
   '/test/[id]/assign': {

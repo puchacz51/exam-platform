@@ -278,6 +278,7 @@
             "attemptList": {
                 "student": "Student",
                 "email": "Email",
+                "schoolIndex": "Student Index",
                 "startedAt": "Started At",
                 "finishedAt": "Finished At",
                 "points": "Points",
@@ -288,6 +289,25 @@
         "testPage": {
             "backToTests": "Back to Tests",
             "assignTest": "Assign Test"
+        },
+        "profile": {
+            "title": "User Profile",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "schoolIndex": "Student Index",
+            "email": "Email",
+            "edit": "Edit Profile",
+            "save": "Save Changes",
+            "cancel": "Cancel",
+            "successMessage": "Profile updated successfully",
+            "errorMessage": "An error occurred while updating the profile",
+            "validation": {
+                "firstNameRequired": "First name is required",
+                "firstNameLength": "First name must be at least 2 characters",
+                "lastNameRequired": "Last name is required",
+                "lastNameLength": "Last name must be at least 2 characters",
+                "schoolIndexPositive": "Student index must be a positive number"
+            }
         }
     },
     "test": {

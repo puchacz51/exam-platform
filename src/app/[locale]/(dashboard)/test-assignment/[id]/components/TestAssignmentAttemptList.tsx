@@ -90,6 +90,7 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
             <TableRow>
               <TableHead>{t('student')}</TableHead>
               <TableHead>{t('email')}</TableHead>
+              <TableHead>{t('schoolIndex')}</TableHead>
               <TableHead>{t('startedAt')}</TableHead>
               <TableHead>{t('finishedAt')}</TableHead>
               <TableHead>{t('points')}</TableHead>
@@ -106,10 +107,12 @@ const TestAssignmentAttemptList: FC<TestAssignmentAttemptListProps> = ({
                   key={attempt.id}
                   className={cn(getStatusStyles(status))}
                 >
+                  {' '}
                   <TableCell className="font-medium">
                     {attempt?.user?.firstname} {attempt?.user?.lastname}
                   </TableCell>
                   <TableCell>{attempt?.user?.email}</TableCell>
+                  <TableCell>{attempt?.user?.schoolIndex ?? '-'}</TableCell>
                   <TableCell>
                     {attempt.startedAt
                       ? format(new Date(attempt.startedAt), 'dd/MM/yyyy HH:mm')
